@@ -1,0 +1,10 @@
+eclipse.preferences.version=1
+encoding//opt/aai/keystore=UTF-8
+encoding//opt/etc/config=UTF-8
+encoding//opt/etc/keystore=UTF-8
+encoding//opt/etc/truststore=UTF-8
+encoding//src/main/java=UTF-8
+encoding//src/main/resources=UTF-8
+encoding//src/test/java=UTF-8
+encoding//src/test/resources=UTF-8
+encoding/<project>=UTF-8
