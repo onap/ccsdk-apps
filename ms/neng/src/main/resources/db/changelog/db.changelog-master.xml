@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+/*-
+ * ============LICENSE_START=======================================================
+ * ONAP : CCSDK.apps
+ * ================================================================================
+ * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * ================================================================================
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ * ============LICENSE_END=========================================================
+ */
+ 
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+ 
+    <include file="db/changelog/scripts/rel_18_10/create_base_tables.sql" />
+    <include file="db/changelog/scripts/rel_18_10/01_initial_ref_data_v1.sql" />
+    <include file="db/changelog/scripts/rel_18_10/02_create_indexes_ddl.sql" />
+    <include file="db/changelog/scripts/rel_18_10/03_ref_data_upd_dml.sql" />
+    <include file="db/changelog/scripts/rel_18_10/04_ref_data_extrn_int.sql" />
+    <include file="db/changelog/scripts/rel_18_10/05_ref_data_upd_dml.sql" />
+    <include file="db/changelog/scripts/rel_18_10/06_ref_data_upd_dml.sql" />
+    <include file="db/changelog/scripts/rel_18_10/07_ref_data_extrn_int_update_dml.sql" />
+    <include file="db/changelog/scripts/rel_18_10/08_ref_data_extrn_int_update_dml.sql" />
+    <include file="db/changelog/scripts/rel_18_10/09_table_upd_ddl.sql" />
+    <include file="db/changelog/scripts/rel_18_10/10_ref_data_upd_dml.sql" />
+</databaseChangeLog>
+
