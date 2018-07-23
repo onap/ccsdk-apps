@@ -1,0 +1,23 @@
+{  
+   "input":{  
+      "naming-model":{  
+         "policy-instance-name":"SDNC_Policy.Config_MS_VNFCNamingPolicy_no_seq",
+         "naming-models":[  
+            {  
+               "nf-role":"vPE",
+               "naming-type":"VNF",
+               "name-operation":"",
+               "naming-properties":[  
+                  {  
+                     "property-name":"COMPLEX"
+                  },
+                  {  
+                     "property-name":"NF-NAMING-CODE",
+                     "property-value":"xyz"
+                  }
+               ]
+            }
+         ]
+      }
+   }
+}

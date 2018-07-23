@@ -285,7 +285,7 @@ public abstract class PolicyReader implements PolicyFinder {
         if (policy != null) {
             @SuppressWarnings("unchecked")
             List<Map<String, ?>> listObj = (List<Map<String, ?>>) policy.get(name);
-            if (list instanceof List<?>) {
+            if (listObj instanceof List<?>) {
                 list = listObj;
             }
         }

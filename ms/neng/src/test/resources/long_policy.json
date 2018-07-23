@@ -1,0 +1,24 @@
+{  
+   "input":{  
+      "naming-model":{  
+         "policy-instance-name":"SDNC_Policy.Config_MS_VNFCNamingPolicy_no_seq",
+         "naming-models":[  
+            {  
+               "nf-role":"vPE",
+               "naming-type":"VNF",
+               "naming-recipe":"COMPLEX|NF-NAMING-CODE|Field2|Field3|Field4",
+               "name-operation":"",
+               "naming-properties":[  
+                  {  
+                     "property-name":"COMPLEX"
+                  },
+                  {  
+                     "property-name":"NF-NAMING-CODE",
+                     "property-value":"xyz"
+                  }
+               ]
+            }
+         ]
+      }
+   }
+}

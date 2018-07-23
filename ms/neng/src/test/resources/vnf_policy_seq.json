@@ -1,0 +1,36 @@
+{  
+   "input":{  
+      "naming-model":{  
+         "policy-instance-name":"SDNC_Policy.Config_MS_VNFNamingPolicy_seq",
+         "naming-models":[  
+            {  
+               "nf-role":"vPE",
+               "naming-type":"VNF",
+               "naming-recipe":"COMPLEX|SEQUENCE|NF-NAMING-CODE",
+               "name-operation":"",
+               "naming-properties":[  
+                  {  
+                     "property-name":"COMPLEX",
+                     "property-operation":"substr(0,5)"
+                  },
+                  {  
+                     "property-name":"SEQUENCE",
+                     "increment-sequence":{  
+                        "scope":"ENTIRETY",
+                        "start-value":"001",
+                        "max":"zzz",
+                        "increment":"1",
+                        "sequence-type":"alpha-numeric",
+                        "length":"3"
+                     }
+                  },
+                  {  
+                     "property-name":"NF-NAMING-CODE",
+                     "property-value":"ve1"
+                 }
+               ]
+            }
+         ]
+      }
+   }
+}
