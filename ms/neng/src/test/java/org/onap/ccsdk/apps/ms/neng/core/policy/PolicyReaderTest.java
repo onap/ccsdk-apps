@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+/*-
  * ============LICENSE_START=======================================================
  * ONAP : CCSDK.apps
  * ================================================================================
@@ -17,17 +16,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============LICENSE_END=========================================================
- -->
- 
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
- 
-    <include file="db/changelog/scripts/rel_18_10/create_base_tables.sql" />
-    <include file="db/changelog/scripts/rel_18_10/01_initial_ref_data_v1.sql" />
-    <include file="db/changelog/scripts/rel_18_10/02_create_indexes_ddl.sql" />
-    <include file="db/changelog/scripts/rel_18_10/04_ref_data_extrn_int.sql" />
-</databaseChangeLog>
+ */
 
+package org.onap.ccsdk.apps.ms.neng.core.policy;
+
+import static org.junit.Assert.assertEquals;
+import static org.onap.ccsdk.apps.ms.neng.core.policy.PolicyReader.namingModels;
+
+import java.util.Map;
+import org.junit.Test;
+
+public class PolicyReaderTest {
+    @Test
+    public void getPolicyFromFile() throws Exception {
+        Map<String, Object> policy = new FilePolicyReader("sample_policy.json").getPolicy();
+        assertEquals("VNF", namingModels(policy).get(0).get("naming-type"));
+        assertEquals("COMPLEX|SEQUENCE|NF_NAMING_CODE", namingModels(policy).get(0).get("naming-recipe"));
+    }
+
+    @Test
+    public void relaxedNamingType() throws Exception {
+        assertEquals("VNF", PolicyReader.relaxedNamingType("VNF_NAME"));
+        assertEquals("VNF", PolicyReader.relaxedNamingType("VNF-NAME"));
+        assertEquals("VNF", PolicyReader.relaxedNamingType("vnf-name"));
+        assertEquals("VNF", PolicyReader.relaxedNamingType("vnf_name"));
+    }
+}

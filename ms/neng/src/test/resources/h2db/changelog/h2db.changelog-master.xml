@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+ 
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
+ 
+    <include file="db/changelog/scripts/rel_18_10/create_base_tables.sql" />
+    <include file="db/changelog/scripts/rel_18_10/01_initial_ref_data_v1.sql" />
+    <include file="db/changelog/scripts/rel_18_10/02_create_indexes_ddl.sql" />
+    <include file="db/changelog/scripts/rel_18_10/04_ref_data_extrn_int.sql" />
+    
+    <include file="h2db/changelog/scripts/50_load_sim_data_dml.sql" />
+    <include file="h2db/changelog/scripts/51_ref_data_upd_dml.sql" />
+</databaseChangeLog>

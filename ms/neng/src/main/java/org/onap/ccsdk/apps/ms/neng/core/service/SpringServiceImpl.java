@@ -63,7 +63,7 @@ public class SpringServiceImpl implements SpringService {
     @Autowired AaiServiceImpl aaiService;
     @Autowired ExternalKeyValidator externalKeyValidator;
     @Autowired @Qualifier("policyFinderServiceImpl") PolicyFinder policyFinder;
-    @Autowired @Qualifier("policyFinderServiceDBImpl") PolicyFinder policyFinderDbImpl;
+    @Autowired @Qualifier("policyFinderServiceDbImpl") PolicyFinder policyFinderDbImpl;
     @Autowired PolicyParameters policyParameters;
     @Autowired SequenceGenerator sequenceGenerator;
     @Autowired DbNameValidator dbNameValidator;
