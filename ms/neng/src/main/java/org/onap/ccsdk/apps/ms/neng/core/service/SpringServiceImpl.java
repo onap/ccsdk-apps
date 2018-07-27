@@ -168,18 +168,15 @@ public class SpringServiceImpl implements SpringService {
      */
     @Override
     public void addPolicy(Object request) throws Exception {
-        try {
-            @SuppressWarnings("unchecked")
-            Map<String, Object> policyData = (Map<String, Object>)request;
-            PolicyDetails pd = new PolicyDetails();
-            pd.setPolicyName((String) policyData.get("policyName"));
-            ObjectMapper objectmapper = new ObjectMapper();
-            log.info(objectmapper.writeValueAsString(policyData.get("policyValue")));
-            pd.setPolicyResponse(objectmapper.writeValueAsString(policyData.get("policyValue")));
-            policyDetailsRepository.save(pd);
-        } catch (Exception e) {
-            log.warning(e.getMessage());
-        }
+        @SuppressWarnings("unchecked")
+        Map<String, Object> policyData = (Map<String, Object>)request;
+        PolicyDetails pd = new PolicyDetails();
+        String name = (String) policyData.get("policyName");
+        pd.setPolicyName(name);
+        ObjectMapper objectmapper = new ObjectMapper();
+        log.info(objectmapper.writeValueAsString(policyData.get("policyValue")));
+        pd.setPolicyResponse((String)policyData.get("policyValue"));
+        policyDetailsRepository.save(pd);
     }
     
     void buildUnAssignResponse(List<GeneratedName> generatedNames, NameGenResponse response) {

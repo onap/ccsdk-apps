@@ -20,10 +20,7 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.service.rs;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import javax.validation.Valid;
@@ -90,13 +87,11 @@ public class RestServiceImpl implements RestService {
      * API to return naming policy cached in this micro-service.
      */
     @Override
-    public List<Map<String, Object>> getPolicyResponse(String policyName) throws Exception {
+    public Response getPolicyResponse(String policyName) throws Exception {
+        log.info("get-policy: " + policyName);
+        
         PolicyDetails policyDetails = service.getPolicyDetails(policyName);
-        List<Map<String, Object>> policyResponse = null;
-        ObjectMapper mapper = new ObjectMapper();
-        policyResponse = mapper.readValue(policyDetails.getPolicyResponse(),
-                                          new TypeReference<List<Map<String, Object>>>() {});
-        return policyResponse;
+        return Response.ok().entity(policyDetails.getPolicyResponse()).build();
     }
 
     /**
@@ -109,6 +104,7 @@ public class RestServiceImpl implements RestService {
             service.addPolicy(request);
             respMap.put("status", "Policy added successfully");
         } catch (Exception e) {
+            log.warning(e.getMessage());
             respMap.put("status", "Failed");
         }
         return respMap;
