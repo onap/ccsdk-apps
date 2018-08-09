@@ -1,3 +1,5 @@
+/target/
+/logs/
 .classpath
 .settings/
 
@@ -13,6 +15,7 @@
 **/*.iml
 **/*.project
 **/.springBeans
+
 
 **/*versionsBackup
 **/blackDuckHub*
