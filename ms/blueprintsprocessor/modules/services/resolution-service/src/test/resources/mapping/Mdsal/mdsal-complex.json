@@ -1,0 +1,28 @@
+{
+	"location": {
+		"name": "location",
+		"data-type": "dt-location",
+		"source": {
+			"mdsal": {
+				"url-path": "/restconf/config/L3VNF-API/services/service-list/$profile_name/12345",
+				"path": "/locations",
+				"input-key-mapping": {
+					"profile_name": "profile_name"
+				},
+				"output-key-mapping": {
+					"mdsal-country": "country",
+					"mdsal-state": "state"
+				}
+			}
+		}
+	},
+	"profile_name": {
+		"name": "profile_name",
+		"data-type": "string",
+		"source": {
+			"input": {
+				
+			}
+		}
+	}
+}

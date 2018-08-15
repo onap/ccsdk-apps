@@ -1,0 +1,20 @@
+{
+	"location": {
+		"name": "location",
+		"data-type": "dt-location",
+		"source": {
+			"input": {
+				
+			}
+		}
+	},
+	"profile_name": {
+		"name": "profile_name",
+		"data-type": "string",
+		"source": {
+			"input": {
+				
+			}
+		}
+	}
+}
