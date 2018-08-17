@@ -49,6 +49,9 @@ public class PolicyFinderServiceDbImpl extends PolicyFinderServiceImpl {
         ObjectMapper objectmapper = new ObjectMapper();
         objectmapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         PolicyDetails policyDetails = policyDetailsRepo.findPolicyResponseByName(policyName);
+        if (policyDetails == null) {
+            throw new Exception("Unable to find the policy " + policyName);
+        }
         List<Map<Object, Object>> respObj = objectmapper.readValue(policyDetails.getPolicyResponse(),
                         new TypeReference<List<Map<Object, Object>>>() {});
         transformConfigObject(objectmapper, respObj);

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
  <!--
  * ============LICENSE_START=======================================================
  * ONAP : CCSDK.apps
@@ -18,17 +19,22 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
  -->
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
- 
-    <include file="db/changelog/scripts/rel_18_10/create_base_tables.sql" />
-    <include file="db/changelog/scripts/rel_18_10/01_initial_ref_data_v1.sql" />
-    <include file="db/changelog/scripts/rel_18_10/02_create_indexes_ddl.sql" />
-    <include file="db/changelog/scripts/rel_18_10/04_ref_data_extrn_int.sql" />
-    
-    <include file="h2db/changelog/scripts/50_load_sim_data_dml.sql" />
-    <include file="h2db/changelog/scripts/51_ref_data_upd_dml.sql" />
-</databaseChangeLog>
+
+<configuration scan="true" scanPeriod="3 seconds" debug="false">
+
+    <statusListener class="ch.qos.logback.core.status.NopStatusListener" />
+
+    <property name="namespace" value="${kubernetes.namespace}"></property>
+
+    <property name="defaultPattern"
+        value="%d{yyyy-MM-dd HH:mm:ss.SSS} $ thread:%X{threadId} %-5level NS:o.o.c.a.m.neng %logger{20} [ host:%X{hostname} serv:%X{serviceName} ver:%X{version} tx:%X{transactionId} conv:%X{conversationId} reqTime:%X{requestTimestamp}  respTime:%X{responseTimestamp} dur:%X{duration}] %m%n" />
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>${defaultPattern}</pattern>
+        </encoder>
+    </appender>
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+    </root>
+</configuration>

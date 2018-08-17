@@ -36,7 +36,7 @@ import org.onap.ccsdk.apps.ms.neng.persistence.repository.ServiceParameterReposi
 
 
 @RunWith(MockitoJUnitRunner.class)
-public class TestSequenceGenerator {
+public class SequenceGeneratorTest {
     @Mock
     private GeneratedNameRespository genNameRepo = mock(GeneratedNameRespository.class);
     @Mock

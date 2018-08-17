@@ -24,7 +24,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.util.List;
 import java.util.Map;
 import javax.validation.Valid;
 import javax.ws.rs.DELETE;
@@ -76,9 +75,9 @@ public interface RestService {
      * <p/>This is not used by clients -- it is here to help with diagnostics.
      */
     @GET
-    @Path("/v1/getpolicyresponse/{policyName}")
+    @Path("/v1/getpolicyresponse")
     @Produces({MediaType.APPLICATION_JSON})
-    public List<Map<String, Object>> getPolicyResponse(@QueryParam("policyName") String policyName) throws Exception;
+    public Response getPolicyResponse(@QueryParam("policyName") String policyName) throws Exception;
 
     /**
      * API to add a naming policy to the database cache in this micro-service.
