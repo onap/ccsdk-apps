@@ -44,7 +44,7 @@ import org.onap.ccsdk.apps.ms.neng.core.validator.AaiNameValidator;
 import org.onap.ccsdk.apps.ms.neng.core.validator.DbNameValidator;
 
 @RunWith(MockitoJUnitRunner.class)
-public class NameGeneratorExcMissingData {
+public class NameGeneratorExcMissingDataTest {
     @Mock
     private PolicyParameters policyParams = mock(PolicyParameters.class);
     @Mock
