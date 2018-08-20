@@ -21,10 +21,10 @@
 #================================================================================
 FROM onap/ccsdk-ubuntu-image:latest
 VOLUME /tmp
-ADD maven/NetworkElementNameGen.jar app.jar
+ADD NetworkElementNameGen.jar app.jar
 VOLUME /opt/etc
 #VOLUME /opt/aai
-ADD maven/opt/etc/ /opt/etc/
+ADD opt/etc/ /opt/etc/
 #ADD /opt/aai/ /opt/aai/
 ADD startService.sh /startService.sh
 RUN chmod 700 /startService.sh
