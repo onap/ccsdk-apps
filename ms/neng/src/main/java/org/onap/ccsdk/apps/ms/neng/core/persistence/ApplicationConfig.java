@@ -20,16 +20,23 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.persistence;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
+import java.util.stream.StreamSupport;
 import javax.sql.DataSource;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.env.AbstractEnvironment;
+import org.springframework.core.env.EnumerablePropertySource;
 import org.springframework.core.env.Environment;
+import org.springframework.core.env.MutablePropertySources;
 import org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -44,17 +51,32 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  */
 @Configuration
 @EnableJpaRepositories(basePackages = "org.onap.ccsdk.apps.ms.neng.persistence.repository")
+@EntityScan("org.onap.ccsdk.apps.ms.neng.persistence.entity")
 @EnableTransactionManagement
 public class ApplicationConfig {
 
     @Autowired
     private Environment environment;
 
+    @SuppressWarnings("rawtypes")
+    void debugProperties() {
+        Properties props = new Properties();
+        MutablePropertySources propSrcs = ((AbstractEnvironment)this.environment).getPropertySources();
+        StreamSupport.stream(propSrcs.spliterator(), false)
+                .filter(ps -> ps instanceof EnumerablePropertySource)
+                .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
+                .flatMap(Arrays::<String>stream)
+                .forEach(propName -> props.setProperty(propName, this.environment.getProperty(propName)));   
+        System.out.println("Properties: " + props);
+    }
+    
     /**
      * Builds and returns the DataSource used for persisting the data managed by this micro-service.
      */
     @Bean
     public DataSource dataSource() {
+        debugProperties();
+        
         DriverManagerDataSource dataSource = new DriverManagerDataSource();
         dataSource.setDriverClassName(environment.getProperty("datasource.db.driver-class-name"));
         dataSource.setUrl(environment.getProperty("datasource.db.url"));
@@ -133,9 +155,9 @@ public class ApplicationConfig {
                     JpaVendorAdapter jpaVendAdapter, 
                     Map<String, String> hibProps, 
                     DataSource dataSource) {
+        debugProperties();
         EntityManagerFactoryBuilder factBuilder = new EntityManagerFactoryBuilder(jpaVendAdapter, hibProps, null);
-        String pkgToScan = environment.getProperty("entitymanager.packagesToScan");
+        String pkgToScan = "org.onap.ccsdk.apps.ms.neng.persistence.entity";
         return factBuilder.dataSource(dataSource).packages(pkgToScan).build();
     }
-
 }

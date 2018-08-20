@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #============LICENSE_START=======================================================
 #  ONAP : CCSDK.apps
 #  ================================================================================
@@ -17,13 +17,22 @@
 #  limitations under the License.
 #============LICENSE_END=========================================================
 
-touch /app.jar
-APP_ARGS=-Dspring.profiles.active=${SPRING_PROFILE}
-APP_ARGS=${APP_ARGS}" -Dpolicymgr_url="${POLICYMGR_URL}" -Dinstar_aaf_enc_pass="${AAF_PASS_ENC}
-APP_ARGS=${APP_ARGS}" -Daai_cert_pass="${AAI_CERT_PASSWORD}" -Daai_uribase="${AAI_URI_BASE}
-APP_ARGS=${APP_ARGS}" -Dneng_db_user="${NENG_DB_USER}" -Dneng_db_pass="${NENG_DB_PASS}
-APP_ARGS=${APP_ARGS}" -Dneng_db_url="${NENG_DB_URL}
-APP_ARGS=${APP_ARGS}" -cp /opt/etc/config"
+#==================================================================================
+# This script does a sanity test on the micro-service, by sending the 'hello' message.
+#
+#==================================================================================
+. ./env.sh
+URL=web/service/hello
 
-echo "APP_ARGS ="${APP_ARGS}
-java -Djava.security.egd=file:/dev/./urandom  ${APP_ARGS} -Xms1024m -Xmx1024m -jar /app.jar --spring.config.location=/opt/etc/config/ > /tmp/app.out 2> /tmp/app.err
+echo "==================================================="
+echo "==================================================="
+echo 'This should show {"message":"Hello world!"}'
+echo "==================================================="
+curl -vi $PROTOCOL://$HOST:$PORT/$URL
+
+echo "==================================================="
+echo "==================================================="
+echo 'This should show {"message":"Hello you!"}'
+echo "==================================================="
+curl -vi $PROTOCOL://$HOST:$PORT/$URL?name=you
+echo "==================================================="

@@ -32,8 +32,8 @@
         <icd.package>org.onap.ccsdk.apps.ms.neng.service.rs</icd.package>
         <java.version>1.8</java.version>
         <spring.version>4.3.8.RELEASE</spring.version>
-        <springboot.version>1.5.3.RELEASE</springboot.version>
-        <docker.registry>TBD:5100</docker.registry>
+        <springboot.version>1.5.6.RELEASE</springboot.version>
+        <docker.registry>nexus3.onap.org:10003</docker.registry>
         <build.number>local</build.number>
         <kube.namespace>TBD</kube.namespace>
         <service.account>TBD</service.account>
@@ -52,6 +52,8 @@
         <sonar.jacoco.itReportPath>${basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.language>java</sonar.language>
         <serviceArtifactName>ms-networkelementnamegen</serviceArtifactName>
+        <project.version>0.3.0</project.version>
+        <ccsdk.distribution.version>0.2.4</ccsdk.distribution.version>
     </properties>
 
     <profiles>
@@ -74,6 +76,39 @@
                 <skip.unit.tests>true</skip.unit.tests>
             </properties>
         </profile>
+
+        <profile>
+            <id>blackduck</id>
+            <activation>
+                <property>
+                    <name>blackduck-scan</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.blackducksoftware.integration</groupId>
+                        <artifactId>hub-maven-plugin</artifactId>
+                        <version>1.4.0</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <hubProjectName>${project.name}</hubProjectName>
+                            <outputDirectory>${project.basedir}</outputDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>create-bdio-file</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>createHubOutput</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+
     </profiles>
 
     <developers>
@@ -189,12 +224,10 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-beans</artifactId>
-            <version>${spring.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -339,52 +372,68 @@
                 <groupId>org.codehaus.mojo</groupId>
             </plugin>
             <plugin>
-                <groupId>com.spotify</groupId>
+                <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.11</version>
+                <inherited>false</inherited>
                 <configuration>
-                    <imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <serverId>docker-hub</serverId>
-                    <registryUrl>https://${docker.registry}</registryUrl>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-                    <forceTags>true</forceTags>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/etc/config/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/etc/keystore/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/etc/truststore/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/aai/keystore/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>etc/*</include>
-                        </resource>
-                    </resources>
+                    <verbose>false</verbose>
+<!--
+                    <authConfig>
+                        <username></username>
+                        <password></password>
+                    </authConfig>
+-->
+                    <images>
+                        <image>
+                            <name>onap/ccsdk-apps-ms-neng</name>
+                            <build>
+                                <cleanup>try</cleanup>
+                                <dockerFileDir>${basedir}/src/main/docker</dockerFileDir>
+                                <dockerFile>Dockerfile</dockerFile>
+                                <tags>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                                <assembly>
+                                    <targetDir>/</targetDir>
+                                    <inline>
+                                        <files>
+                                            <file>
+                                                <source>${project.build.directory}/${build.finalName}.${project.packaging}</source>
+                                            </file>
+                                        </files>
+                                        <fileSet>
+                                            <directory>${basedir}/opt/etc</directory>
+                                            <outputDirectory>opt/etc</outputDirectory>
+                                            <includes>
+                                                <include>**</include>
+                                            </includes>
+                                        </fileSet>
+                                    </inline>
+                                </assembly>
+                            </build>
+                        </image>
+                    </images>
                 </configuration>
+<!--
+                <executions>
+                    <execution>
+                        <id>generate-images</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+
+                    <execution>
+                        <id>push-images</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>build</goal>
+                            <goal>push</goal>
+                        </goals>
+                    </execution>
+                </executions>
+-->
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -441,6 +490,62 @@
                 </includes>
             </resource>
         </resources>
+        <pluginManagement>
+            <plugins>
+                <!--This plugin's configuration is used to store Eclipse m2e settings only. It has no influence on the Maven build itself.-->
+                <plugin>
+                    <groupId>org.eclipse.m2e</groupId>
+                    <artifactId>lifecycle-mapping</artifactId>
+                    <version>1.0.0</version>
+                    <configuration>
+                        <lifecycleMappingMetadata>
+                            <pluginExecutions>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.apache.maven.plugins
+                                        </groupId>
+                                        <artifactId>
+                                            maven-checkstyle-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [2.17,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>check</goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                                <pluginExecution>
+                                    <pluginExecutionFilter>
+                                        <groupId>
+                                            org.codehaus.mojo
+                                        </groupId>
+                                        <artifactId>
+                                            properties-maven-plugin
+                                        </artifactId>
+                                        <versionRange>
+                                            [1.0.0,)
+                                        </versionRange>
+                                        <goals>
+                                            <goal>
+                                                set-system-properties
+                                            </goal>
+                                        </goals>
+                                    </pluginExecutionFilter>
+                                    <action>
+                                        <ignore></ignore>
+                                    </action>
+                                </pluginExecution>
+                            </pluginExecutions>
+                        </lifecycleMappingMetadata>
+                    </configuration>
+                </plugin>
+            </plugins>
+        </pluginManagement>
     </build>
 </project>
 

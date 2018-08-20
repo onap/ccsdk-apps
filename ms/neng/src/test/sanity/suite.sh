@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 #============LICENSE_START=======================================================
 #  ONAP : CCSDK.apps
 #  ================================================================================
@@ -17,13 +17,15 @@
 #  limitations under the License.
 #============LICENSE_END=========================================================
 
-touch /app.jar
-APP_ARGS=-Dspring.profiles.active=${SPRING_PROFILE}
-APP_ARGS=${APP_ARGS}" -Dpolicymgr_url="${POLICYMGR_URL}" -Dinstar_aaf_enc_pass="${AAF_PASS_ENC}
-APP_ARGS=${APP_ARGS}" -Daai_cert_pass="${AAI_CERT_PASSWORD}" -Daai_uribase="${AAI_URI_BASE}
-APP_ARGS=${APP_ARGS}" -Dneng_db_user="${NENG_DB_USER}" -Dneng_db_pass="${NENG_DB_PASS}
-APP_ARGS=${APP_ARGS}" -Dneng_db_url="${NENG_DB_URL}
-APP_ARGS=${APP_ARGS}" -cp /opt/etc/config"
+#==================================================================================
+# This script does a sanity test on the APIs of the micro-service.
+#==================================================================================
 
-echo "APP_ARGS ="${APP_ARGS}
-java -Djava.security.egd=file:/dev/./urandom  ${APP_ARGS} -Xms1024m -Xmx1024m -jar /app.jar --spring.config.location=/opt/etc/config/ > /tmp/app.out 2> /tmp/app.err
+EXTERNAL_KEY=$(date +%s)$RANDOM
+
+./hello.sh
+./add-policy.sh $EXTERNAL_KEY
+./get-policy.sh $EXTERNAL_KEY
+./gen-name.sh Y $EXTERNAL_KEY
+./release-name.sh Y $EXTERNAL_KEY
+

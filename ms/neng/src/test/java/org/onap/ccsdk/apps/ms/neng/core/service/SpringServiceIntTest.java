@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -195,18 +196,14 @@ public class SpringServiceIntTest {
     }
 
     @Test
-    public void testRestGetPolicyResponse() throws Exception {
-        List<Map<String, Object>> policyResponse =
-                        restServiceImpl.getPolicyResponse("JQINSRIOV.Config_MS_SriovBigJson.1.xml");
-        assertNotNull(policyResponse);
-    }
-
-    @Test
     public void testRestAddPolicyToDb() throws Exception {
         Map<String, Object> policy = new HashMap<>();
-        policy.put("policyName", "policyname");
-        policy.put("policyValue", "policyname");
+        policy.put("policyName", "JQINSRIOV.Config_MS_SriovBigJson.1.xml");
+        policy.put("policyValue", "some policy");
         restServiceImpl.addPolicyToDb(policy);
+        
+        Response policyResponse = restServiceImpl.getPolicyResponse("JQINSRIOV.Config_MS_SriovBigJson.1.xml");
+        assertNotNull(policyResponse);
     }
 
     @Test
