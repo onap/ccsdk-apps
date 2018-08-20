@@ -371,18 +371,13 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <groupId>org.codehaus.mojo</groupId>
             </plugin>
+            <!--
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
                 <inherited>false</inherited>
                 <configuration>
                     <verbose>false</verbose>
-<!--
-                    <authConfig>
-                        <username></username>
-                        <password></password>
-                    </authConfig>
--->
                     <images>
                         <image>
                             <name>onap/ccsdk-apps-ms-neng</name>
@@ -393,7 +388,8 @@
                                 <tags>
                                     <tag>${project.version}</tag>
                                 </tags>
-                                <assembly>
+
+                               <assembly>
                                     <targetDir>/</targetDir>
                                     <inline>
                                         <files>
@@ -410,11 +406,12 @@
                                         </fileSet>
                                     </inline>
                                 </assembly>
+
+
                             </build>
                         </image>
                     </images>
                 </configuration>
-<!--
                 <executions>
                     <execution>
                         <id>generate-images</id>
@@ -433,7 +430,56 @@
                         </goals>
                     </execution>
                 </executions>
--->
+            </plugin>
+            -->
+
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.11</version>
+                <configuration>
+                    <imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}:${project.version}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <serverId>docker-hub</serverId>
+                    <registryUrl>https://${docker.registry}</registryUrl>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <forceTags>true</forceTags>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>opt/etc/config/*</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>opt/etc/keystore/*</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>opt/etc/truststore/*</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>opt/aai/keystore/*</include>
+                        </resource>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>etc/*</include>
+                        </resource>
+                    </resources>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
