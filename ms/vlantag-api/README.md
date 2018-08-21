@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <!-- 
  * ============LICENSE_START=======================================================
  * ONAP : CCSDK.apps
@@ -17,29 +16,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============LICENSE_END=========================================================
- -->
+  -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-    <modelVersion>4.0.0</modelVersion>
+## ONAP-CCSDK.apps-Vlantag API
 
-    <parent>
-        <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>odlparent-lite</artifactId>
-        <version>1.1.0-SNAPSHOT</version>
-        <relativePath />
-    </parent>
+Micro-service to generate vlan tags for VNFs based on Vlan tag policies.
 
-    <groupId>org.onap.ccsdk.apps</groupId>
-    <artifactId>ccsdk-apps-ms</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
-    <name>ccsdk-apps-ms</name>
-    <description>Micro-services</description>
 
-    <modules>
-        <module>neng</module>
-	<module>vlantag-api</module>
-    </modules>
-</project>
+### Build and test
+
+````bash
+$ mvn clean install
+````
+
 
