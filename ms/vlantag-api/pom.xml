@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>org.onap.ccsdk.apps.ms.vlantagapi</groupId>
+	<artifactId>vlantag-api</artifactId>
+	<version>0.3.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>vlantag-api</name>
+	<description>Vlantag Api Service for Vlantag management of VNFs</description>
+
+	<properties>
+		<swagger.directory>${basedir}/target/main/resources/META-INF/resources/swagger-ui/dist</swagger.directory>
+		<swagger.annotations.version>1.5.8</swagger.annotations.version>
+		<java.version>1.8</java.version>
+		<springboot.version>2.0.4.RELEASE</springboot.version>
+		<mysql.connector.version>5.1.46</mysql.connector.version>
+		<ccsdk.sli.adaptors.version>0.3.0-SNAPSHOT</ccsdk.sli.adaptors.version>
+		<docker.registry>TBD:5100</docker.registry>
+		<serviceArtifactName>vlantagapi</serviceArtifactName>
+
+		<!-- Sonar -->
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.surefire.reportsPath>${basedir}/target/surefire-reports</sonar.surefire.reportsPath>
+		<sonar.failsafe.reportsPath>${basedir}/target/failsafe-reports</sonar.failsafe.reportsPath>
+		<jacoco.path>${basedir}/target/jacoco_report</jacoco.path>
+		<jacoco.itPath>${basedir}/target/jacoco_itReport</jacoco.itPath>
+		<sonar.jacoco.reportPath>${basedir}/target/jacoco-ut.exec</sonar.jacoco.reportPath>
+		<sonar.jacoco.itReportPath>${basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
+		<sonar.language>java</sonar.language>
+		<ilib.version>2.0.7</ilib.version>
+	</properties>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+		<relativePath />
+	</parent>
+
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-jersey</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-actuator</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>2.0.1.RELEASE</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.onap.ccsdk.sli.adaptors</groupId>
+			<artifactId>resource-assignment-provider</artifactId>
+			<version>${ccsdk.sli.adaptors.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.slf4j</groupId>
+					<artifactId>slf4j-simple</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.46</version>
+		</dependency>
+
+		<dependency>
+			<groupId>io.swagger</groupId>
+			<artifactId>swagger-annotations</artifactId>
+			<version>1.5.8</version>
+		</dependency>
+	</dependencies>
+
+
+
+	<build>
+		<plugins>
+		    <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <argLine>${surefireArgLine}</argLine>
+                    <skipTests>${skip.unit.tests}</skipTests>
+                    <excludes>
+                        <exclude>**/IT*.java</exclude>
+                    </excludes>
+                </configuration>
+            </plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.5.201505241946</version>
+				<executions>
+					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
+						is passed as VM argument when Maven the Surefire plugin is executed. -->
+					<execution>
+						<id>pre-unit-test</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<destFile>${sonar.jacoco.reportPath}</destFile>
+							<propertyName>surefireArgLine</propertyName>
+						</configuration>
+					</execution>
+					<!-- Ensures that the code coverage report for unit tests is created 
+						after unit tests have been run. -->
+					<execution>
+						<id>post-unit-test</id>
+						<phase>test</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+						<configuration>
+							<!-- Sets the path to the file which contains the execution data. -->
+							<dataFile>${sonar.jacoco.reportPath}</dataFile>
+							<!-- Sets the output directory for the code coverage report. -->
+							<outputDirectory>${jacoco.path}</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.github.kongchen</groupId>
+				<artifactId>swagger-maven-plugin</artifactId>
+				<version>3.1.7</version>
+				<configuration>
+					<apiSources>
+						<apiSource>
+							<schemes>
+								<scheme>http</scheme>
+								<scheme>https</scheme>
+							</schemes>
+							<host>localhost:9091</host>
+							<locations>
+								<location>org.onap.ccsdk.apps.ms.vlantagapi.core.service</location>
+								<location>org.onap.ccsdk.apps.ms.vlantagapi.core.model</location>
+							</locations>
+							<!-- <locations>org.onap.ccsdk.apps.ms.vlantagapi.core.service</locations> -->
+							<basePath>/vlantagapi</basePath>
+							<info>
+								<title>${project.artifactId} Service</title>
+								<version>${project.version}</version>
+							</info>
+							<securityDefinitions>
+								<securityDefinition>
+									<name>basicAuth</name>
+									<type>basic</type>
+								</securityDefinition>
+							</securityDefinitions>
+							<swaggerDirectory>${swagger.directory}</swaggerDirectory>
+						</apiSource>
+					</apiSources>
+				</configuration>
+				<executions>
+					<execution>
+						<!-- <phase>compile</phase> -->
+						<phase>package</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>docker-maven-plugin</artifactId>
+				<version>0.4.11</version>
+				<configuration>
+					<imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}</imageName>
+					<dockerDirectory>src/main/docker</dockerDirectory>
+					<serverId>docker-hub</serverId>
+					<registryUrl>https://${docker.registry}</registryUrl>
+					<imageTags>
+						<imageTag>${project.version}</imageTag>
+						<imageTag>latest</imageTag>
+					</imageTags>
+					<forceTags>true</forceTags>
+					<resources>
+						<resource>
+							<targetPath>/</targetPath>
+							<directory>${project.build.directory}</directory>
+							<include>${project.build.finalName}.jar</include>
+						</resource>
+					</resources>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<version>${springboot.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>repackage</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+
+</project>
