@@ -39,7 +39,6 @@
 
     <modules>
         <module>neng</module>
-	<module>vlantag-api</module>
     </modules>
 </project>
 
