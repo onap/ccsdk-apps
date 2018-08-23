@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Saurav Paira <sp694w@att.com>
+Code-Review+2: Dan Timoney <dt5972@att.com>
+Code-Review+2: Jun (Nicolas) Hu <jh245g@att.com>
+Submitted-by: Dan Timoney <dt5972@att.com>
+Submitted-at: Thu, 23 Aug 2018 15:06:24 +0000
+Reviewed-on: https://gerrit.onap.org/r/61857
+Project: ccsdk/apps
+Branch: refs/heads/master
