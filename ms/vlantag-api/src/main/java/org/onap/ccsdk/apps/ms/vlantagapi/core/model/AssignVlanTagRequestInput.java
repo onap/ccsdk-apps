@@ -32,7 +32,7 @@ public class AssignVlanTagRequestInput {
 	private @Valid String resourceName = null;
 	private @Valid String resourceValue = null;
 	private @Valid String scopeId = null;
-	private @Valid String key = null;
+	private @Valid String vlanTagKey = null;
 	private @Valid String vlanType = null;
 
 
@@ -104,19 +104,19 @@ public class AssignVlanTagRequestInput {
 
 	/**
 	 **/
-	public AssignVlanTagRequestInput key(String key) {
-		this.key = key;
+	public AssignVlanTagRequestInput vlanTagKey(String vlanTagKey) {
+		this.vlanTagKey = vlanTagKey;
 		return this;
 	}
 
 	@ApiModelProperty(value = "")
-	@JsonProperty("key")
-	public String getKey() {
-		return key;
+	@JsonProperty("vlan-tag-key")
+	public String getVlanTagKey() {
+		return vlanTagKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setVlanTagKey(String vlanTagKey) {
+		this.vlanTagKey = vlanTagKey;
 	}
 
 	/**
@@ -149,13 +149,13 @@ public class AssignVlanTagRequestInput {
 				&& Objects.equals(resourceName, assignVlanTagRequestInput.resourceName)
 				&& Objects.equals(resourceValue, assignVlanTagRequestInput.resourceValue)
 				&& Objects.equals(scopeId, assignVlanTagRequestInput.scopeId)
-				&& Objects.equals(key, assignVlanTagRequestInput.key)
+				&& Objects.equals(vlanTagKey, assignVlanTagRequestInput.vlanTagKey)
 				&& Objects.equals(vlanType, assignVlanTagRequestInput.vlanType);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(policyInstanceName, resourceName, resourceValue, scopeId, key, vlanType);
+		return Objects.hash(policyInstanceName, resourceName, resourceValue, scopeId, vlanTagKey, vlanType);
 	}
 
 	@Override
@@ -167,7 +167,7 @@ public class AssignVlanTagRequestInput {
 		sb.append("    resourceName: ").append(toIndentedString(resourceName)).append("\n");
 		sb.append("    resourceValue: ").append(toIndentedString(resourceValue)).append("\n");
 		sb.append("    scopeId: ").append(toIndentedString(scopeId)).append("\n");
-		sb.append("    key: ").append(toIndentedString(key)).append("\n");
+		sb.append("    vlanTagKey: ").append(toIndentedString(vlanTagKey)).append("\n");
 		sb.append("    vlanType: ").append(toIndentedString(vlanType)).append("\n");
 		sb.append("}");
 		return sb.toString();

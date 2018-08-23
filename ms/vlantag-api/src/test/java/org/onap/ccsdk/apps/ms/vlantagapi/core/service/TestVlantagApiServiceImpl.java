@@ -89,7 +89,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		input.setPolicyInstanceName("some-policy-instance");
 		input.setVlanType("vlan-id-outer");
 		input.setScopeId("some-scope-id");
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		
 		AssignVlanTagRequest request = new AssignVlanTagRequest();
 		List<AssignVlanTagRequestInput> inputs = new ArrayList<>();
@@ -108,7 +108,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
 		input.setPolicyInstanceName("some-policy-instance");
 		input.setVlanType("vlan-id-outer");
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		
 		UnassignVlanTagRequest request = new UnassignVlanTagRequest();
 		List<UnassignVlanTagRequestInput> inputs = new ArrayList<>();
@@ -167,7 +167,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	public void test_resolveResourceElementValue_001() throws VlantagApiException {
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123, 123, 234 ]");
@@ -214,7 +214,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	public void test_resolveResourceElementValue_002() throws VlantagApiException {
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123]");
@@ -263,7 +263,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("Vlantag Name missing for Element in Resource Model Policy for Vlan Type : vlan-id-outer");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123, 123, 234 ]");
@@ -288,7 +288,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("Allowed Ranges missing for Element in Resource Model Policy for Vlan Type : vlan-id-outer");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123, 123, 234 ]");
@@ -314,7 +314,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("No Vlantag Elements found in Resource Model Policy for Vlan Type : vlan-id-outer");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123, 123, 234 ]");
@@ -330,7 +330,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	public void test_validateElements_assign_Success_004() throws VlantagApiException {
 			
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123, 123, 234 ]");
@@ -363,7 +363,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("Vlantag Name missing for Element in Resource Model Policy for Vlan Type : vlan-id-outer");
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		
@@ -386,7 +386,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("No Vlantag Elements found in Resource Model Policy for Vlan Type : vlan-id-outer");
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		
@@ -401,7 +401,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	public void test_validateElements_unassign_Success_004() throws VlantagApiException {
 			
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		
@@ -432,7 +432,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("No Matching Policy Resource Model found for Vlan Type : vlan-id-outer");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123]");
@@ -448,7 +448,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("Resource Resolution Recipe is null in Resource Model for Vlan Type : vlan-id-outer");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123]");
@@ -467,7 +467,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("Scope is null in Resource Model for Vlan Type : vlan-id-outer");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123]");
@@ -484,7 +484,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	public void test_validateModel_assign_success_004() throws VlantagApiException {
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123]");
@@ -522,7 +522,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("No Matching Policy Resource Model found for Vlan Type : vlan-id-outer");
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		
@@ -536,7 +536,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("Resource Resolution Recipe is null in Resource Model for Vlan Type : vlan-id-outer");
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");		
 			
@@ -553,7 +553,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("Scope is null in Resource Model for Vlan Type : vlan-id-outer");
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");		
 			
@@ -568,7 +568,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	public void test_validateModel_unassign_success_004() throws VlantagApiException {
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance-name");
 		input.setVlanType("vlan-id-outer");
 		
@@ -625,7 +625,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("VlanTag Assign Request policy-instance-name is null.");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123]");
 		input.setScopeId("scope-id");
@@ -647,7 +647,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("VlanTag Assign Request vlan-type is null.");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance");
 		input.setResourceValue("[ 123]");
 		input.setScopeId("scope-id");
@@ -668,7 +668,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("VlanTag Assign Request scope-id is null.");
 		
 		AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance");
 		input.setVlanType("vlan-id-outer");
 		input.setResourceValue("[ 123]");
@@ -714,7 +714,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		input.setScopeId("scope-id");
 		input.setResourceValue("[ 123]");
 		input.setVlanType("vlan-type");
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		
 		AssignVlanTagRequest request = new AssignVlanTagRequest();
 		List<AssignVlanTagRequestInput> inputs = new ArrayList<>();
@@ -753,7 +753,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("VlanTag Unassign Request policy-instance-name is null.");
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setVlanType("vlan-id-outer");
 		
 		UnassignVlanTagRequest request = new UnassignVlanTagRequest();
@@ -772,7 +772,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		expectedEx.expectMessage("VlanTag Unassign Request resource-name is null.");
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance");
 		
 		UnassignVlanTagRequest request = new UnassignVlanTagRequest();
@@ -808,7 +808,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	public void test_validateRequest_unassign_success_006() throws VlantagApiException {
 		
 		UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
-		input.setKey("some-key");
+		input.setVlanTagKey("some-key");
 		input.setPolicyInstanceName("some-policy-instance");
 		input.setVlanType("vlan-id-outer");
 		

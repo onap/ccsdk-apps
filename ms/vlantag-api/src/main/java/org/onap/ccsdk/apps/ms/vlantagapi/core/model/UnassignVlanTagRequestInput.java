@@ -33,7 +33,7 @@ public class UnassignVlanTagRequestInput {
 
 	private @Valid String policyInstanceName = null;
 	private @Valid String vlanType = null;
-	private @Valid String key = null;
+	private @Valid String vlanTagKey = null;
 
 	/**
 	 **/
@@ -71,19 +71,19 @@ public class UnassignVlanTagRequestInput {
 
 	/**
 	 **/
-	public UnassignVlanTagRequestInput key(String key) {
-		this.key = key;
+	public UnassignVlanTagRequestInput vlanTagKey(String vlanTagKey) {
+		this.vlanTagKey = vlanTagKey;
 		return this;
 	}
 
 	@ApiModelProperty(value = "")
-	@JsonProperty("key")
-	public String getKey() {
-		return key;
+	@JsonProperty("vlan-tag-key")
+	public String getVlanTagKey() {
+		return vlanTagKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setVlanTagKey(String vlanTagKey) {
+		this.vlanTagKey = vlanTagKey;
 	}
 
 	@Override
@@ -97,12 +97,12 @@ public class UnassignVlanTagRequestInput {
 		UnassignVlanTagRequestInput unassignVlanTagRequestInput = (UnassignVlanTagRequestInput) o;
 		return Objects.equals(policyInstanceName, unassignVlanTagRequestInput.policyInstanceName)
 				&& Objects.equals(vlanType, unassignVlanTagRequestInput.vlanType)
-				&& Objects.equals(key, unassignVlanTagRequestInput.key);
+				&& Objects.equals(vlanTagKey, unassignVlanTagRequestInput.vlanTagKey);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(policyInstanceName, vlanType, key);
+		return Objects.hash(policyInstanceName, vlanType, vlanTagKey);
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class UnassignVlanTagRequestInput {
 
 		sb.append("    policyInstanceName: ").append(toIndentedString(policyInstanceName)).append("\n");
 		sb.append("    vlanType: ").append(toIndentedString(vlanType)).append("\n");
-		sb.append("    key: ").append(toIndentedString(key)).append("\n");
+		sb.append("    vlanTagKey: ").append(toIndentedString(vlanTagKey)).append("\n");
 		sb.append("}");
 		return sb.toString();
 	}
