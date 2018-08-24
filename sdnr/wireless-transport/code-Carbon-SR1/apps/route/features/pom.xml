@@ -13,7 +13,7 @@ and is available at http://www.eclipse.org/legal/epl-v10.html INTERNAL
         <groupId>org.opendaylight.odlparent</groupId>
         <artifactId>features-parent</artifactId>
         <version>1.8.1-Carbon</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
   <groupId>com.highstreet.technologies.odl.app</groupId>
