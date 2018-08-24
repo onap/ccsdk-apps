@@ -31,7 +31,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class UnassignVlanTagResponseOutput {
 	private @Valid String vlanType = null;
-	private @Valid String key = null;
+	private @Valid String vlanTagKey = null;
 	private @Valid String vlantagName = null;
 
 	/**
@@ -54,18 +54,18 @@ public class UnassignVlanTagResponseOutput {
 	/**
 	 **/
 	public UnassignVlanTagResponseOutput key(String key) {
-		this.key = key;
+		this.vlanTagKey = key;
 		return this;
 	}
 
 	@ApiModelProperty(value = "")
-	@JsonProperty("key")
-	public String getKey() {
-		return key;
+	@JsonProperty("vlan-tag-key")
+	public String getVlanTagKey() {
+		return vlanTagKey;
 	}
 
-	public void setKey(String key) {
-		this.key = key;
+	public void setVlanTagKey(String vlanTagKey) {
+		this.vlanTagKey = vlanTagKey;
 	}
 	
 	/**
@@ -97,13 +97,13 @@ public class UnassignVlanTagResponseOutput {
 		}
 		UnassignVlanTagResponseOutput unassignVlanTagResponseOutput = (UnassignVlanTagResponseOutput) o;
 		return Objects.equals(vlanType, unassignVlanTagResponseOutput.vlanType)
-				&& Objects.equals(key, unassignVlanTagResponseOutput.key)
+				&& Objects.equals(vlanTagKey, unassignVlanTagResponseOutput.vlanTagKey)
 				&& Objects.equals(vlantagName, unassignVlanTagResponseOutput.vlantagName);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(vlanType, key, vlantagName);
+		return Objects.hash(vlanType, vlanTagKey, vlantagName);
 	}
 
 	@Override
@@ -112,7 +112,7 @@ public class UnassignVlanTagResponseOutput {
 		sb.append("class UnassignVlanTagResponseOutput {\n");
 
 		sb.append("    vlanType: ").append(toIndentedString(vlanType)).append("\n");
-		sb.append("    key: ").append(toIndentedString(key)).append("\n");
+		sb.append("    vlanTagKey: ").append(toIndentedString(vlanTagKey)).append("\n");
 		sb.append("    vlantagName: ").append(toIndentedString(vlantagName)).append("\n");
 		sb.append("}");
 		return sb.toString();

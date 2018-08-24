@@ -151,7 +151,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 			ResourceEntity re, ResourceTarget rt, ResourceRequest rr) throws VlantagApiException {
 		log.info("Preparing RA Objects for Vlan Type : " + input.getVlanType() + " and Element : "
 				+ element.getVlantagName());
-		re.resourceEntityId = input.getKey();
+		re.resourceEntityId = input.getVlanTagKey();
 		re.resourceEntityType = model.getKeyType() == null ? "DEFAULT" : model.getKeyType();
 		re.resourceEntityVersion = "1";
 
@@ -306,7 +306,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 			if (input.getScopeId() == null || input.getScopeId().isEmpty())
 				throw new VlantagApiException("VlanTag Assign Request scope-id is null.");
 
-			if (input.getKey() == null || input.getKey().isEmpty())
+			if (input.getVlanTagKey() == null || input.getVlanTagKey().isEmpty())
 				throw new VlantagApiException("VlanTag Assign Request key is null.");
 		}
 
@@ -381,7 +381,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 
                 UnassignVlanTagRequestInput input = new UnassignVlanTagRequestInput();
                 input.setVlanType(assignReqInput.getVlanType());
-                input.setKey(assignReqInput.getKey());
+                input.setVlanTagKey(assignReqInput.getVlanTagKey());
                 input.setPolicyInstanceName(assignReqInput.getPolicyInstanceName());
                 inputList.add(input);
             });
@@ -414,7 +414,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 				for (Elements elements : model.getElements()) {
 
 					ResourceEntity re = new ResourceEntity();
-					re.resourceEntityId = input.getKey();
+					re.resourceEntityId = input.getVlanTagKey();
 					re.resourceEntityType = model.getKeyType() == null ? "DEFAULT" : model.getKeyType();
 					re.resourceEntityVersion = "1";
 
@@ -426,7 +426,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 
 						if (AllocationStatus.Success.equals(status)) {
 							UnassignVlanTagResponseOutput ro = new UnassignVlanTagResponseOutput();
-							ro.setKey(input.getKey());
+							ro.setVlanTagKey(input.getVlanTagKey());
 							ro.setVlanType(input.getVlanType());
 							ro.setVlantagName(elements.getVlantagName());
 							output.add(ro);
@@ -520,7 +520,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 			if (input.getVlanType() == null || input.getVlanType().isEmpty())
 				throw new VlantagApiException("VlanTag Unassign Request resource-name is null.");
 
-			if (input.getKey() == null || input.getKey().isEmpty())
+			if (input.getVlanTagKey() == null || input.getVlanTagKey().isEmpty())
 				throw new VlantagApiException("VlanTag Unassign Request key is null.");
 		}
 
