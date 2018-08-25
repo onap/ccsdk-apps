@@ -1,0 +1,11 @@
+{
+  "description": "This is Default Resource Source Node Type",
+  "version": "1.0.0",
+  "properties": {
+    "key": {
+      "required": false,
+      "type": "string"
+    }
+  },
+  "derived_from": "tosca.nodes.ResourceSource"
+}

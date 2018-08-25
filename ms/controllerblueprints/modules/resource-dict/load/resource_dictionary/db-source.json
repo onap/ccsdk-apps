@@ -4,17 +4,20 @@
   "resource-type": "ONAP",
   "resource-path": "vnf/bundle-id",
   "updated-by": "brindasanth@onap.com",
-  "data-type": "String",
+  "data-type": "string",
   "tags": "bundle-id, brindasanth@onap.com",
-  "source": {
+  "sources": {
     "db": {
-      "query": "SELECT db-country, db-state FROM DEVICE_PROFILE WHERE profile_name = :profile_name",
-      "input-key-mapping": {
-        "profile_name": "profile_name"
-      },
-      "output-key-mapping": {
-        "db-country": "country",
-        "db-state": "state"
+      "type": "source-db",
+      "properties": {
+        "query": "SELECT db-country, db-state FROM DEVICE_PROFILE WHERE profile_name = :profile_name",
+        "input-key-mapping": {
+          "profile_name": "profile_name"
+        },
+        "output-key-mapping": {
+          "db-country": "country",
+          "db-state": "state"
+        }
       }
     }
   },

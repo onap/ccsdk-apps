@@ -9,9 +9,12 @@
 	"tags": null,
 	"default": null,
 	"data-type": "string",
-	"source": {
+	"sources": {
 		"input": {
-			"key": "action-name"
+			"type": "source-input",
+			"properties": {
+				"key": "action-name"
+			}
 		}
 	}
 }
