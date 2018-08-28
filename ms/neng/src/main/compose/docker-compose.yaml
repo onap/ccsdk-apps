@@ -1,0 +1,29 @@
+
+nengdb:
+     image: mariadb
+     container_name: nengdb
+     ports:
+       - "${NENG_DB_PORT}:3306"
+     volumes:
+       - /var/lib/nengdb:/var/lib/mysql
+     restart: always
+     environment:
+       MYSQL_ROOT_PASSWORD: "${NENG_DB_ROOT}"
+       MYSQL_DATABASE: neng
+       MYSQL_USER: "${NENG_DB_USER}"
+       MYSQL_PASSWORD: "${NENG_DB_PASS}"
+
+neng:
+     #depends_on:
+       #- nengdb
+     image: onap/ccsdk-apps-ms-neng
+     container_name: neng
+     ports:
+       - "${NENG_SERV_PORT}:8080"
+     restart: always
+     environment:
+       SPRING_PROFILE: "${SPRING_PROFILE}"
+       NENG_DB_URL: "${NENG_DB_URL}"
+       NENG_DB_USER: "${NENG_DB_USER}"
+       NENG_DB_PASS: "${NENG_DB_PASS}"
+

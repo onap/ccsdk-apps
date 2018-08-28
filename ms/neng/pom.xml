@@ -438,7 +438,7 @@
                 <artifactId>docker-maven-plugin</artifactId>
                 <version>0.4.11</version>
                 <configuration>
-                    <imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}:${project.version}</imageName>
+                    <imageName>onap/ccsdk-apps-ms-neng:${project.version}</imageName>
                     <dockerDirectory>src/main/docker</dockerDirectory>
                     <serverId>docker-hub</serverId>
                     <registryUrl>https://${docker.registry}</registryUrl>
