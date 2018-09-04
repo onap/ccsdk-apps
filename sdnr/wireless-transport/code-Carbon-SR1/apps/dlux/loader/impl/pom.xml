@@ -79,7 +79,7 @@
 		              <include>dlux/</include>
 		              <include>index/</include>
 		            </includes>
-                <excludes></excludes>
+                <excludes/>
                 <followSymlinks>false</followSymlinks>
               </fileset>
             </filesets>
