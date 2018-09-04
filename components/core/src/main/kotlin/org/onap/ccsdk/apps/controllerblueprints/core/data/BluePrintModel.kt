@@ -40,8 +40,8 @@ open class EntityType {
 }
 
 /*
- 5.3.2 tosca.datatypes.org.onap.ccsdk.apps.controllerblueprints.core.data.Credential
- The org.onap.ccsdk.apps.controllerblueprints.core.data.Credential type is a complex TOSCA data Type used when describing
+ 5.3.2 tosca.datatypes.Credential
+ The Credential type is a complex TOSCA data Type used when describing
  authorization credentials used to access network accessible resources.
  */
 class Credential {
@@ -252,7 +252,7 @@ class TriggerDefinition {
 }
 
 /*
-    3.5.17 org.onap.ccsdk.apps.controllerblueprints.core.data.Workflow activity definition
+    3.5.17 Workflow activity definition
     A workflow activity defines an operation to be performed in a TOSCA workflow. Activities allows to:
     · Delegate the workflow for a node expected to be provided 	by the orchestrator
     · Set the state of a node
@@ -269,7 +269,7 @@ class Activity {
 }
 
 /*
-3.5.20 org.onap.ccsdk.apps.controllerblueprints.core.data.Workflow precondition definition
+3.5.20 Workflow precondition definition
 A workflow condition can be used as a filter or precondition to check if a workflow can be processed or not based on the state of the instances of a TOSCA topology deployment. When not met, the workflow will not be triggered.
  */
 class PreConditionDefinition {
@@ -282,7 +282,7 @@ class PreConditionDefinition {
 }
 
 /*
-3.5.21 org.onap.ccsdk.apps.controllerblueprints.core.data.Workflow step definition
+3.5.21 Workflow step definition
 A workflow step allows to define one or multiple sequenced activities in a workflow and how they are connected to other steps in the workflow. They are the building blocks of a declarative workflow.
  */
 class Step {

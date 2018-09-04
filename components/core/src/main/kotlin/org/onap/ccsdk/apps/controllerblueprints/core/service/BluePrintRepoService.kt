@@ -24,9 +24,7 @@ import com.att.eelf.configuration.EELFLogger
 import com.att.eelf.configuration.EELFManager
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonReactorUtils
 import reactor.core.publisher.Mono
-import java.io.File
 import java.io.Serializable
-import java.nio.charset.Charset
 
 /**
  * BluePrintRepoFileService
