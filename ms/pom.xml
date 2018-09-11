@@ -38,8 +38,9 @@
     <description>Micro-services</description>
 
     <modules>
+		<module>controllerblueprints</module>
         <module>neng</module>
-	<module>vlantag-api</module>
+		<module>vlantag-api</module>
     </modules>
 </project>
 
