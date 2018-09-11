@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -94,12 +96,12 @@ public class SpringServiceImpl implements SpringService {
     @Transactional(rollbackOn = Exception.class)
     public NameGenResponse genNetworkElementName(NameGenRequest request) throws Exception {
         try {
-            Map<String, Map<String, String>> earlierNames = new HashMap<String, Map<String, String>>();
-            List<Map<String, String>> allElements = new ArrayList<Map<String, String>>();
-            Map<String, Map<String, ?>> policyCache = new HashMap<String, Map<String, ?>>();
-            List<Map<String, String>> generatedNames = new ArrayList<Map<String, String>>();
+            Map<String, Map<String, String>> earlierNames = new HashMap<>();
+            List<Map<String, String>> allElements = new ArrayList<>();
+            Map<String, Map<String, ?>> policyCache = new HashMap<>();
+            List<Map<String, String>> generatedNames = new ArrayList<>();
             validateRequest(request);
-            if (request.getElements() != null && request.getElements().size() > 0) {
+            if (!request.getElements().isEmpty()) {
                 allElements.addAll(request.getElements());
             }
             PolicyFinder policyFinderImpl = findPolicyFinderImpl(request);
@@ -194,7 +196,7 @@ public class SpringServiceImpl implements SpringService {
 
     void validateRequest(NameGenRequest request) throws Exception {
         List<Map<String, String>> elems = request.getElements();
-        if (elems != null && elems.size() > 0) {
+        if (!elems.isEmpty()) {
             boolean error = false;
             Set<String> externalKeySet = elems.stream().map(s -> s.get("external-key")).collect(Collectors.toSet());
             if (externalKeySet.size() != request.getElements().size()) {
