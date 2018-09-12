@@ -40,6 +40,13 @@ import org.springframework.stereotype.Component;
 @Component
 @ApplicationPath("/")
 public class JerseyConfiguration extends ResourceConfig {
+
+    @Autowired
+    public JerseyConfiguration() {
+        register(RestServiceImpl.class);
+        property(ServletProperties.FILTER_FORWARD_ON_404, true);
+    }
+    
     /**
      * Builds the bean configuring Jackson for JSON serialization.
      */
@@ -52,11 +59,5 @@ public class JerseyConfiguration extends ResourceConfig {
         objectMapper.enable(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES);
         objectMapper.enable(DeserializationFeature.READ_ENUMS_USING_TO_STRING);
         return objectMapper;
-    }
-
-    @Autowired
-    public JerseyConfiguration() {
-        register(RestServiceImpl.class);
-        property(ServletProperties.FILTER_FORWARD_ON_404, true);
     }
 }
