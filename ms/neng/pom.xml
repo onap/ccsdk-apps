@@ -54,6 +54,10 @@
         <serviceArtifactName>ms-networkelementnamegen</serviceArtifactName>
         <project.version>0.3.0</project.version>
         <ccsdk.distribution.version>0.2.4</ccsdk.distribution.version>
+        <docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
+		<docker.push.phase>deploy</docker.push.phase>
+		<docker.verbose>true</docker.verbose>
+		<ccsdk.project.version>${project.version}</ccsdk.project.version>
     </properties>
 
     <profiles>
@@ -108,6 +112,63 @@
                 </plugins>
             </build>
         </profile>
+
+	<profile>
+		<id>docker</id>
+		<build>
+			<plugins>
+				<plugin>
+					<groupId>com.spotify</groupId>
+					<artifactId>docker-maven-plugin</artifactId>
+					<version>0.4.11</version>
+					<configuration>
+						<imageName>onap/ccsdk-apps-ms-neng:${project.version}</imageName>
+						<dockerDirectory>src/main/docker</dockerDirectory>
+						<serverId>docker-hub</serverId>
+						<registryUrl>https://${docker.registry}</registryUrl>
+						<imageTags>
+							<imageTag>${project.version}</imageTag>
+							<imageTag>${project.version}-STAGING-${maven.build.timestamp}</imageTag>
+							<imageTag>${project.docker.latesttag.version}</imageTag>
+						</imageTags>
+						<forceTags>true</forceTags>
+						<resources>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>${project.build.finalName}.jar</include>
+							</resource>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>opt/etc/config/*</include>
+							</resource>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>opt/etc/keystore/*</include>
+							</resource>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>opt/etc/truststore/*</include>
+							</resource>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>opt/aai/keystore/*</include>
+							</resource>
+							<resource>
+								<targetPath>/</targetPath>
+								<directory>${project.build.directory}</directory>
+								<include>etc/*</include>
+							</resource>
+						</resources>
+					</configuration>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
 
     </profiles>
 
@@ -259,6 +320,37 @@
     <build>
         <finalName>NetworkElementNameGen</finalName>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.groovy.maven</groupId>
+                <artifactId>gmaven-plugin</artifactId>
+                <version>1.0</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                println project.properties['ccsdk.project.version'];
+                                def versionArray;
+                                if (project.properties['ccsdk.project.version'] != null ) {
+                                    versionArray = project.properties['ccsdk.project.version'].split('\\.');
+                                }
+
+                                if (project.properties['ccsdk.project.version'].endsWith("-SNAPSHOT"))
+                                {
+                                    project.properties['project.docker.latesttag.version']=versionArray[0] + '.' + versionArray[1] + "-STAGING-latest";
+                                } else {
+                                    project.properties['project.docker.latesttag.version']=versionArray[0]+'.' + versionArray[1]+"-STAGING-latest";
+                                }
+
+                                println 'New Tag for docker:' + project.properties['project.docker.latesttag.version'];
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -433,54 +525,7 @@
             </plugin>
             -->
 
-            <plugin>
-                <groupId>com.spotify</groupId>
-                <artifactId>docker-maven-plugin</artifactId>
-                <version>0.4.11</version>
-                <configuration>
-                    <imageName>onap/ccsdk-apps-ms-neng:${project.version}</imageName>
-                    <dockerDirectory>src/main/docker</dockerDirectory>
-                    <serverId>docker-hub</serverId>
-                    <registryUrl>https://${docker.registry}</registryUrl>
-                    <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
-                    </imageTags>
-                    <forceTags>true</forceTags>
-                    <resources>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>${project.build.finalName}.jar</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/etc/config/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/etc/keystore/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/etc/truststore/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>opt/aai/keystore/*</include>
-                        </resource>
-                        <resource>
-                            <targetPath>/</targetPath>
-                            <directory>${project.build.directory}</directory>
-                            <include>etc/*</include>
-                        </resource>
-                    </resources>
-                </configuration>
-            </plugin>
+ 
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
@@ -593,5 +638,6 @@
             </plugins>
         </pluginManagement>
     </build>
+    
 </project>
 
