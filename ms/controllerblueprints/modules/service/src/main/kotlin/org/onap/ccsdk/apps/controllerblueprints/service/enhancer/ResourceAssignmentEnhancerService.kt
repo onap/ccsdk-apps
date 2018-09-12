@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.resource.dict.service
+package org.onap.ccsdk.apps.controllerblueprints.service.enhancer
 
 import com.att.eelf.configuration.EELFLogger
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
@@ -24,6 +24,8 @@ import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintEnhancerSe
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDefinition
 import com.att.eelf.configuration.EELFManager
+import org.onap.ccsdk.apps.controllerblueprints.resource.dict.service.ResourceAssignmentValidationDefaultService
+import org.onap.ccsdk.apps.controllerblueprints.resource.dict.service.ResourceDefinitionRepoService
 
 /**
  * ResourceAssignmentEnhancerService.
@@ -81,6 +83,6 @@ open class ResourceAssignmentEnhancerDefaultService(private val resourceDefiniti
     }
 
     private fun getResourceDefinition(name: String): ResourceDefinition {
-        return resourceDefinitionRepoService.getResourceDefinition(name)!!.block()!!
+        return resourceDefinitionRepoService.getResourceDefinition(name).block()!!
     }
 }

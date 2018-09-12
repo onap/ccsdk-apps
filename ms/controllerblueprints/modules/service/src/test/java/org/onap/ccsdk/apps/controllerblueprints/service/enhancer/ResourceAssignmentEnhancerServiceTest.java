@@ -14,7 +14,7 @@
  *  limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.resource.dict.service;
+package org.onap.ccsdk.apps.controllerblueprints.service.enhancer;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -22,6 +22,8 @@ import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
 import org.onap.ccsdk.apps.controllerblueprints.core.data.ServiceTemplate;
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonReactorUtils;
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment;
+import org.onap.ccsdk.apps.controllerblueprints.resource.dict.service.ResourceDefinitionFileRepoService;
+import org.onap.ccsdk.apps.controllerblueprints.resource.dict.service.ResourceDefinitionRepoService;
 
 import java.util.List;
 
@@ -36,9 +38,9 @@ public class ResourceAssignmentEnhancerServiceTest {
     public void testEnhanceBluePrint() throws BluePrintException {
 
         List<ResourceAssignment> resourceAssignments = JacksonReactorUtils
-                .getListFromClassPathFile("enrich/simple-enrich.json", ResourceAssignment.class).block();
+                .getListFromClassPathFile("enhance/simple-enrich.json", ResourceAssignment.class).block();
         Assert.assertNotNull("Failed to get Resource Assignment", resourceAssignments);
-        ResourceDefinitionRepoService resourceDefinitionRepoService = new ResourceDefinitionFileRepoService("load");
+        ResourceDefinitionRepoService resourceDefinitionRepoService = new ResourceDefinitionFileRepoService("./../../application/load");
         ResourceAssignmentEnhancerService resourceAssignmentEnhancerService =
                 new ResourceAssignmentEnhancerDefaultService(resourceDefinitionRepoService);
         ServiceTemplate serviceTemplate = resourceAssignmentEnhancerService.enhanceBluePrint(resourceAssignments);
