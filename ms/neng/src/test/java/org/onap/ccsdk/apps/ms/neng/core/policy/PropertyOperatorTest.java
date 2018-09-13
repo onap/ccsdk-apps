@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +23,7 @@
 package org.onap.ccsdk.apps.ms.neng.core.policy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -71,6 +74,12 @@ public class PropertyOperatorTest {
         props.put("property-operation", "to_upper_case()");
         PropertyOperator op = new PropertyOperator();
         assertEquals("ASDF", op.apply("asdf", props, params));
+    }
+    
+    @Test
+    public void testApply() throws Exception {
+        PropertyOperator op = new PropertyOperator();
+        assertNull("ASDF", op.apply("asdf", "", params));
     }
 
     @Test
