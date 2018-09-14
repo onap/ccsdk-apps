@@ -36,7 +36,7 @@ public class AssignVlanTagResponseOutput {
 	private @Valid String resourceName = null;
 	private @Valid String resourceValue = null;
 	private @Valid String resourceVlanRole = null;
-	private @Valid List<VlanTag> storedElements = new ArrayList<VlanTag>();
+	private @Valid List<VlanTag> storedElements = new ArrayList<>();
 
 	/**
 	 **/
