@@ -22,18 +22,18 @@ package org.onap.ccsdk.apps.ms.vlantagapi.core.model;
  * @version 1.0
  */
 public class PingResponse {
+
+    private String message;
+
+    public PingResponse() {
+    	// yet to implement
+    }
     public String getMessage() {
         return message;
     }
 
     public void setMessage(String message) {
         this.message = message;
-    }
-
-    private String message;
-
-    public PingResponse() {
-
     }
 
 }
