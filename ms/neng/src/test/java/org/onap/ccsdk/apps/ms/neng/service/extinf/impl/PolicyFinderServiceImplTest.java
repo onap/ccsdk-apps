@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +23,7 @@
 package org.onap.ccsdk.apps.ms.neng.service.extinf.impl;
 
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.when;
 
@@ -66,6 +69,12 @@ public class PolicyFinderServiceImplTest {
     public void testConfig() throws Exception {
         doReturn(new GetConfigResponse()).when(policyFinder).makeOutboundCall(Matchers.any(), Matchers.any());
         assertNotNull(policyFinder.getConfig("policy"));
+    }
+    
+    @Test
+    public void testFindPolicy() throws Exception {
+        doReturn(new GetConfigResponse()).when(policyFinder).makeOutboundCall(Matchers.any(), Matchers.any());
+        assertNull(policyFinder.findPolicy("policy"));
     }
 
     @SuppressWarnings("unchecked")
