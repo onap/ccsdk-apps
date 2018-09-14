@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -31,6 +33,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.ccsdk.apps.ms.neng.core.resource.model.HelloWorld;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
 import org.onap.ccsdk.apps.ms.neng.core.validator.ExternalKeyValidator;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.GeneratedName;
@@ -104,5 +107,17 @@ public class SpringServiceTest {
 
         Mockito.when(generatedNameRepository.findByExternalId(req.get("external-key"))).thenReturn(generatedNameList);
         Assert.assertNotNull(springserviceImpl.releaseNetworkElementName(request));
+    }
+    
+    @Test
+    public void testGetQuickHello()
+    {
+        Assert.assertTrue(springserviceImpl.getQuickHello("testMessage") instanceof HelloWorld);
+    }
+    
+    @Test
+    public void testGetQuickHelloForNullMessage()
+    {
+        Assert.assertTrue(springserviceImpl.getQuickHello("") instanceof HelloWorld);
     }
 }
