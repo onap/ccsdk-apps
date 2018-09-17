@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.doReturn;
@@ -44,8 +45,10 @@ import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenResponse;
 import org.onap.ccsdk.apps.ms.neng.core.service.rs.RestServiceImpl;
+import org.onap.ccsdk.apps.ms.neng.persistence.entity.ExternalInterface;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.GeneratedName;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.PolicyDetails;
+import org.onap.ccsdk.apps.ms.neng.persistence.repository.ExternalInterfaceRespository;
 import org.onap.ccsdk.apps.ms.neng.persistence.repository.PolicyDetailsRepository;
 import org.onap.ccsdk.apps.ms.neng.persistence.repository.ServiceParameterRepository;
 import org.onap.ccsdk.apps.ms.neng.service.extinf.impl.AaiServiceImpl;
@@ -85,6 +88,8 @@ public class SpringServiceIntTest {
     AaiServiceImpl aaiServiceImpl;
     @Autowired
     RestServiceImpl restServiceImpl;
+    @Autowired
+    ExternalInterfaceRespository extIntRepo;
 
     @Before
     public void setup() {
@@ -215,4 +220,23 @@ public class SpringServiceIntTest {
         doThrow(new NengException("")).when(springService).addPolicy(policy);
         restServiceImpl.addPolicyToDb(policy);
     }
+    
+    @Test
+    public void testExternalInterfaceRepo() throws Exception {
+        ExternalInterface extInt = new ExternalInterface();
+        extInt.setCreatedBy("user");
+        extInt.setCreatedTime(null);
+        extInt.setExternalInteraceId(100);
+        extInt.setLastUpdatedBy("user");
+        extInt.setParam("VNF");
+        extInt.setSystem("AAI");
+        extInt.setUrlSuffix("nodes/generic-vnfs?vnf-name=");
+        
+        extIntRepo.save(extInt);
+        ExternalInterface extIntDb = extIntRepo.findOne(100);
+        
+        assertNotNull(extIntDb);
+        assertEquals("nodes/generic-vnfs?vnf-name=",extIntDb.getUrlSuffix());
+    }
+    
 }

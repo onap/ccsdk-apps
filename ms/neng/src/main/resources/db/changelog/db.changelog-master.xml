@@ -29,5 +29,9 @@
     <include file="db/changelog/scripts/rel_18_10/01_initial_ref_data_v1.sql" />
     <include file="db/changelog/scripts/rel_18_10/02_create_indexes_ddl.sql" />
     <include file="db/changelog/scripts/rel_18_10/04_ref_data_extrn_int.sql" />
+
+    <include file="db/changelog/scripts/rel_18_10/create_message_table.sql" />
+    <include file="db/changelog/scripts/rel_18_10/10_identifier_map_upd_dml.sql" />
+    
 </databaseChangeLog>
 

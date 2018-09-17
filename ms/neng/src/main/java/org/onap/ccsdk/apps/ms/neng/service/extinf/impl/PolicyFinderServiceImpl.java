@@ -59,9 +59,7 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
     private static Logger log = Logger.getLogger(PolicyFinderServiceImpl.class.getName());
 
     @Autowired PolicyManagerProps policManProps;
-    @Autowired
-    @Qualifier("policyMgrRestTempBuilder")
-    RestTemplateBuilder policyMgrRestTempBuilder;
+    @Autowired @Qualifier("policyMgrRestTempBuilder") RestTemplateBuilder policyMgrRestTempBuilder;
     @Autowired PolicyManagerAuthorizationInterceptor authInt;
     RestTemplate restTemplate;
 
@@ -73,7 +71,7 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         Object response = getConfig(policyName).getResponse();
         if (response instanceof List) {
             @SuppressWarnings("unchecked")
-            List<Map<String, Object>> policyList = (List<Map<String, Object>>)response;
+            List<Map<String, Object>> policyList = (List<Map<String, Object>>) response;
             return ((policyList != null && policyList.size() > 0) ? policyList.get(0) : null);
         } else {
             return null;
@@ -98,7 +96,7 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
                 System.out.println(objectmapper.writeValueAsString(resp.getBody()));
                 List<Map<Object, Object>> respObj = objectmapper.readValue(
                                 objectmapper.writeValueAsString(resp.getBody()),
-                                new TypeReference<List<Map<Object, Object>>>() {});
+                                                new TypeReference<List<Map<Object, Object>>>() {});
                 transformConfigObject(objectmapper, respObj);
                 GetConfigResponse getConfigResp = new GetConfigResponse();
                 getConfigResp.setResponse(respObj);
@@ -113,6 +111,12 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
     void handleError(HttpStatusCodeException e) throws Exception {
         String respString = e.getResponseBodyAsString();
         log.info(respString);
+        if (e.getStatusText() != null) {
+            log.info(e.getStatusText());
+        }
+        if (e.getResponseHeaders() != null && e.getResponseHeaders().toSingleValueMap() != null) {
+            log.info(e.getResponseHeaders().toSingleValueMap().toString());
+        }
         if (HttpStatus.NOT_FOUND.equals(e.getStatusCode()) && (respString != null && respString.contains(""))) {
             throw new NengException("Policy not found in policy manager.");
         }

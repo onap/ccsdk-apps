@@ -110,14 +110,12 @@ public class SpringServiceTest {
     }
     
     @Test
-    public void testGetQuickHello()
-    {
+    public void testGetQuickHello() {
         Assert.assertTrue(springserviceImpl.getQuickHello("testMessage") instanceof HelloWorld);
     }
     
     @Test
-    public void testGetQuickHelloForNullMessage()
-    {
+    public void testGetQuickHelloForNullMessage() {
         Assert.assertTrue(springserviceImpl.getQuickHello("") instanceof HelloWorld);
     }
 }

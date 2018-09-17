@@ -196,7 +196,7 @@ public class SpringServiceImpl implements SpringService {
 
     void validateRequest(NameGenRequest request) throws Exception {
         List<Map<String, String>> elems = request.getElements();
-        if (!elems.isEmpty()) {
+        if (elems != null && !elems.isEmpty()) {
             boolean error = false;
             Set<String> externalKeySet = elems.stream().map(s -> s.get("external-key")).collect(Collectors.toSet());
             if (externalKeySet.size() != request.getElements().size()) {

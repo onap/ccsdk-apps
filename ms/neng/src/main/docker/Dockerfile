@@ -19,7 +19,7 @@
 #================================================================================
 # Docker setup for the micro-service
 #================================================================================
-FROM onap/ccsdk-ubuntu-image:latest
+FROM onap/ccsdk-ubuntu-image:0.3.0-SNAPSHOT
 VOLUME /tmp
 ADD NetworkElementNameGen.jar app.jar
 VOLUME /opt/etc

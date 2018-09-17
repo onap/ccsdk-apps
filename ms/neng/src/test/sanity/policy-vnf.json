@@ -1,0 +1,33 @@
+[
+    {
+        "config": {
+            "content": {
+                "naming-models":[
+                   { 
+                       "naming-properties":[
+                           { "property-name" : "COMPLEX", "property-operation" : "substr(5)" },
+                           { "property-name" : "SEQUENCE", "increment-sequence":{
+                                   "max" : "zzz" , "scope" : "ENTIRETY" , "start-value" : "001" , "length" : "3",
+                                   "increment" : "1" , "sequence-type" : "alpha-numeric"}
+                           },
+                           {"property-name" : "NF_NAMING_CODE"}
+                       ],
+                       "naming-type" : "VNF",
+                       "nfRole" : "vPE",
+                       "naming-recipe" : "COMPLEX|SEQUENCE|NF_NAMING_CODE"
+                   },
+                   { 
+                       "naming-properties":[
+                           {"property-name" : "NF_NAMING_CODE"}
+                       ],
+                       "naming-type" : "VNF",
+                       "nfRole" : "VNF",
+                       "naming-recipe" : "NF_NAMING_CODE"
+                   }
+                ]
+            }
+        },
+        "policyName": "vnf-policy-1"
+    }
+]
+

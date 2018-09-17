@@ -21,9 +21,15 @@
 package org.onap.ccsdk.apps.ms.neng.core.policy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.onap.ccsdk.apps.ms.neng.core.policy.PolicyReader.namingModels;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
 import org.junit.Test;
 
 public class PolicyReaderTest {
@@ -40,5 +46,58 @@ public class PolicyReaderTest {
         assertEquals("VNF", PolicyReader.relaxedNamingType("VNF-NAME"));
         assertEquals("VNF", PolicyReader.relaxedNamingType("vnf-name"));
         assertEquals("VNF", PolicyReader.relaxedNamingType("vnf_name"));
+    }
+
+    @Test
+    public void testNamingProperty() throws Exception {
+        List<Map<String, ?>> namingModels = PolicyReader.namingModels(buildPolicyResponse_withoutContent());
+        assertNotNull(namingModels);
+        assertNull(PolicyReader.namingProperty(namingModels.get(0), "TEST"));
+        namingModels = PolicyReader.namingModels(buildPolicyResponse_withoutContent());
+        assertNull(PolicyReader.namingProperty(namingModels.get(0), "TEST"));
+    }
+
+    @Test
+    public void testNamingModelRelaxed() throws Exception {
+        List<Map<String, ?>> namingModels = PolicyReader.namingModels(buildPolicyResponse_withoutContent());
+        assertNotNull(PolicyReader.namingModelRelaxed(namingModels, "VNF"));
+    }
+
+    @Test
+    public void testDependentNamingModel() throws Exception {
+        List<Map<String, ?>> namingModels = PolicyReader.namingModels(buildPolicyResponse_withoutContent());
+        assertNotNull(PolicyReader.dependentNamingModel(namingModels, "VNF"));
+        assertNotNull(PolicyReader.dependentNamingModel(namingModels, "VNF_NAME"));
+        assertNull(PolicyReader.dependentNamingModel(namingModels, "VNFC_NAME"));
+    }
+
+    @Test
+    public void testNumber() throws Exception {
+        assertEquals(100, PolicyReader.number("10G", 100L));
+    }
+
+    private Map<String, ?> buildPolicyResponse_withoutContent() {
+        Map<String, Object> policyDataMap = new HashMap<>();
+        policyDataMap.put("policy-instance-name", "SDNC_Policy.Config_MS_VNFCNamingPolicy");
+
+        Map<String, Object> namingModelMap = new HashMap<>();
+        namingModelMap.put("nf-role", "vPE");
+        namingModelMap.put("naming-type", "VNF");
+        namingModelMap.put("naming-recipe", "COMPLEX|NF-NAMING-CODE|Field2|Field3|Field4");
+
+        Map<String, Object> namingPropertyMap = new HashMap<>();
+        Map<String, Object> propertyMap1 = new HashMap<>();
+        propertyMap1.put("property-name", "COMPLEX");
+        Map<String, Object> propertyMap2 = new HashMap<>();
+        propertyMap2.put("property-name", "NF-NAMING-CODE");
+        namingPropertyMap.put("", Arrays.asList(new Object[] {propertyMap1, propertyMap2}));
+
+        namingModelMap.put("naming-properties", Arrays.asList(new Object[] {propertyMap1, propertyMap2}));
+
+        policyDataMap.put("naming-models", Arrays.asList(new Object[] {namingModelMap}));
+
+        Map<String, Object> configMap = new HashMap<>();
+        configMap.put("config", policyDataMap);
+        return configMap;
     }
 }
