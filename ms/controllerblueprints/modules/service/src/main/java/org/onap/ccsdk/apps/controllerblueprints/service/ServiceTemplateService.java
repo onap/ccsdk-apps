@@ -105,8 +105,7 @@ public class ServiceTemplateService {
      * @return List<ResourceAssignment>
      * @throws BluePrintException BluePrintException
      */
-    public List<ResourceAssignment> validateResourceAssignments(List<ResourceAssignment> resourceAssignments)
-            throws BluePrintException {
+    public List<ResourceAssignment> validateResourceAssignments(List<ResourceAssignment> resourceAssignments) {
         resourceAssignmentValidationService.validate(resourceAssignments);
         return resourceAssignments;
     }
