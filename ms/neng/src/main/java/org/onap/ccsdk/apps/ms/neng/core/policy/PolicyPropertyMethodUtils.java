@@ -20,13 +20,18 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.policy;
 
+import java.time.ZoneOffset;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.UUID;
+
 /**
  * Utility methods equivalent to the JavaScript like functions used in policies by the policy-manager.
  */
 public class PolicyPropertyMethodUtils {
 
     /**
-     * Equivalent to the substring function used by policy-manager (which works similar to JavaScript
+     * Equivalent to the substring function used by policy-manager (which works similar to JavaScript 
      * substring function).
      */
     public static String substring(String sourceStr, String startIndex, String endIndex) {
@@ -34,7 +39,7 @@ public class PolicyPropertyMethodUtils {
     }
 
     /**
-     * Equivalent to the substring function used by policy-manager (which works similar to JavaScript
+     * Equivalent to the substring function used by policy-manager (which works similar to JavaScript 
      * substring function).
      */
     public static String substring(String sourceStr, String length) {
@@ -65,5 +70,21 @@ public class PolicyPropertyMethodUtils {
      */
     public static String toLowerCase(String sourceStr) {
         return sourceStr.toLowerCase();
+    }
+
+    /**
+     * Generates a random UUID and returns it.
+     */
+    public static String genUuid() {
+        UUID uuid = UUID.randomUUID();
+        return uuid.toString();
+    }
+    
+    /**
+     * Generates a date timestamp. 
+     */
+    public static String getIsoDateString() {
+        String utcDate = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_INSTANT);
+        return utcDate.replaceAll("-", "").replaceAll(":", "").replaceAll("\\.", "");
     }
 }

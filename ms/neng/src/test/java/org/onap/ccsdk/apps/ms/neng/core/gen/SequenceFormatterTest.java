@@ -33,8 +33,7 @@ public class SequenceFormatterTest {
     private PolicySequence poly;
     
     @Before
-    public void setUp()
-    {
+    public void setUp() {
         poly = new PolicySequence();
     }
     
@@ -60,31 +59,27 @@ public class SequenceFormatterTest {
     }
     
     @Test
-    public void testGetSetIncrement()
-    {
+    public void testGetSetIncrement() {
         poly.setIncrement(1L);
         assertEquals(1L, poly.getIncrement());
     }
     
     @Test
-    public void testGetSetMaxValue()
-    {
+    public void testGetSetMaxValue() {
         poly.setMaxValue(1L);
         assertEquals(1L, poly.getMaxValue());
     }
     
     @Test
-    public void testGetSetKey()
-    {
+    public void testGetSetKey() {
         poly.setKey("testKey");
         assertEquals("testKey", poly.getKey());
     }
     
     @Test
-    public void testGetSetLastReleaseSeqNumTried()
-    {
+    public void testGetSetLastReleaseSeqNumTried() {
         poly.setLastReleaseSeqNumTried(1L);
-        Long expected=1L;
+        Long expected = 1L;
         assertEquals(expected, poly.getLastReleaseSeqNumTried());
     }
 }

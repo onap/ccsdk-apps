@@ -74,6 +74,15 @@ public class AaiServiceImpl {
         return !resp.isRecFound();
     }
 
+    
+    public void setAaiRestTempBuilder(RestTemplateBuilder aaiRestTempBuilder) {
+        this.aaiRestTempBuilder = aaiRestTempBuilder;
+    }
+
+    public void setRestTemplate(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }    
+    
     AaiResponse makeOutboundCall(String url, String name) throws Exception {
         String uri = aaiProps.getUriBase() + url + name;
         log.info("AAI URI - " + uri);
@@ -128,4 +137,5 @@ public class AaiServiceImpl {
         }
         return keyStore;
     }
+    
 }

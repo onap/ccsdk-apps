@@ -42,6 +42,7 @@ import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyFinder;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyParameters;
+import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyPropertyMethodUtils;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicySequence;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PropertyOperator;
 import org.onap.ccsdk.apps.ms.neng.core.policy.RecipeParser;
@@ -73,21 +74,21 @@ public class NameGenerator {
     /**
      * Constructor.
      * 
-     * @param policyFinder     a way to find policies
-     * @param policyParams     parameters related to policy
-     * @param seqGenerator     a way to generate sequences
-     * @param dbValidator      a way to validate generated names against DB
-     * @param aaiValidator     a way to validate generated names against A&AI
-     * @param namePersister    a way to persist names
-     * @param requestElement   the request element for which the name is generated, containing data such 
-     *     as policy name, naming-type, external-key and resource-name
-     * @param allElements      all the elements in the request (including the current request element for
-     *     which name is generated), as this is needed to re-use names generated from other request elements
-     *     within the same transaction
-     * @param earlierNames     names generated earlier in the same transaction, as a map from naming-type
-     *     to names (which is a map with keys "resource-name", "resource-value" and "external-key")
-     * @param policyCache      cache containing policies retrieved in this transaction, to avoid repeated
-     *     calls to policy manager within the same transaction
+     * @param policyFinder a way to find policies
+     * @param policyParams parameters related to policy
+     * @param seqGenerator a way to generate sequences
+     * @param dbValidator a way to validate generated names against DB
+     * @param aaiValidator a way to validate generated names against A&AI
+     * @param namePersister a way to persist names
+     * @param requestElement the request element for which the name is generated, containing data such 
+     *        as policy name, naming-type, external-key and resource-name
+     * @param allElements all the elements in the request (including the current request element for 
+     *        which name is generated), as this is needed to re-use names generated from other request elements 
+     *        within the same transaction
+     * @param earlierNames names generated earlier in the same transaction, as a map from naming-type 
+     *        to names (which is a map with keys "resource-name", "resource-value" and "external-key")
+     * @param policyCache cache containing policies retrieved in this transaction, to avoid repeated 
+     *        calls to policy manager within the same transaction
      */
     public NameGenerator(PolicyFinder policyFinder, PolicyParameters policyParams, SequenceGenerator seqGenerator,
                     DbNameValidator dbValidator, AaiNameValidator aaiValidator, NamePersister namePersister,
@@ -146,7 +147,7 @@ public class NameGenerator {
         response.put(RESOURCE_VALUE_ELEMENT_ITEM, value);
         return response;
     }
-    
+
     String buildSequenceSuffix(Map<String, Object> recipeValues, String recipeName, List<String> recipe)
                     throws Exception {
         StringBuffer buf = new StringBuffer();
@@ -184,7 +185,7 @@ public class NameGenerator {
             Map<String, ?> namingModel = namingModel(namingModels, namingType);
             if (namingModel == null) {
                 throw new NengException(
-                        "Could not find the policy data for " + policyName + " and naming-type " + namingType);
+                                "Could not find the policy data for " + policyName + " and naming-type " + namingType);
             }
             return generateNew(policyName, namingType, namingModels, namingModel);
         } else {
@@ -211,6 +212,12 @@ public class NameGenerator {
             if ("SEQUENCE".equals(recipeItem)) {
                 PolicySequence seq = seq(propMap);
                 recipeValues.put(recipeItem, seq);
+            } else if ("UUID".equals(recipeItem)) {
+                String uuid = PolicyPropertyMethodUtils.genUuid();
+                recipeValues.put(recipeItem, uuid);
+            } else if ("TIMESTAMP".equals(recipeItem)) {
+                String ts = PolicyPropertyMethodUtils.getIsoDateString();
+                recipeValues.put(recipeItem, ts);
             } else {
                 String val = generateNonSequenceValue(namingModels, policyName, namingType, namingModel, propMap,
                                 recipeItem);
@@ -311,8 +318,8 @@ public class NameGenerator {
             if (val instanceof PolicySequence) {
                 PolicySequence seq = (PolicySequence) val;
                 if (scope.equals(seq.getScope())) {
-                    SeqGenData seqVal = generateSequenceValue(
-                                    seq, policyName, namingType, recipeValues, item, lastSeq, attemptCount, recipe);
+                    SeqGenData seqVal = generateSequenceValue(seq, policyName, namingType, recipeValues, item, 
+                                    lastSeq, attemptCount, recipe);
                     String seqStr = SequenceFormatter.formatSequence(seqVal.getSeq(), seq);
                     seqVal.setSeqEncoded(seqStr);
                     seq.setKey(item);
@@ -434,7 +441,7 @@ public class NameGenerator {
         }
         return policy;
     }
-    
+
     void storeGeneratedName(String key, String name, String namingType, 
                     SeqGenData seqData) throws Exception {
         String prefix = null;
@@ -465,7 +472,7 @@ public class NameGenerator {
         record.setSequenceNumberEnc(seqEncoded);
         this.namePersister.persist(record);
     }
-    
+
     void validateAllItemsPresent(String policyName, String namingType, List<String> recipe,
                     Map<String, Object> recipeValues) throws Exception {
         List<String> missing = new ArrayList<>();
