@@ -25,6 +25,9 @@ package org.onap.ccsdk.apps.ms.neng.core.policy;
  */
 public class PolicyPropertyMethodUtils {
 
+	private PolicyPropertyMethodUtils() {
+	}
+	
     /**
      * Equivalent to the substring function used by policy-manager (which works similar to JavaScript
      * substring function).
