@@ -65,6 +65,8 @@ public class ControllerBluprintsApplicationTest {
 
     @Test
     public void testConfigModelFailure() {
+    	 entity = this.restTemplate
+                 .exchange("/api/v1/config-model-not-found/1", HttpMethod.GET, new HttpEntity<>(headers),ConfigModel.class);
         assertThat(entity.getStatusCode()).isEqualTo(HttpStatus.NOT_FOUND);
         Assert.assertNotNull("failed to get response Config model",entity.getBody());
     }
