@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 AT&T Intellectual Property.
+ * Modifications Copyright © 2018 IBM.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +17,7 @@
 
 package org.onap.ccsdk.apps.ms.vlantagapi.core.service;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import java.util.ArrayList;
 import java.util.List;
@@ -80,6 +82,22 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		peResponses[0] = peResponse;
 
 		Mockito.doReturn(peResponses).when(policyEngineSpy).getConfigUsingPost(any());
+	}
+	
+	@Test
+	public void testAssignVlanTagForNullRequest() throws Exception
+	{
+		AssignVlanTagResponse response = service.assignVlanTag(null);
+		Integer expectedErrorCode=500;
+		assertEquals(expectedErrorCode, response.getErrorCode());
+	}
+	
+	@Test
+	public void testUnAssignVlanTagForNullRequest() throws Exception
+	{
+		UnassignVlanTagResponse response = service.unassignVlanTag(null);
+		Integer expectedErrorCode=500;
+		assertEquals(expectedErrorCode, response.getErrorCode());
 	}
 	
 	@Test(expected = Test.None.class /* no exception expected */)
