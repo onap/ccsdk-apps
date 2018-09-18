@@ -19,7 +19,11 @@
 #================================================================================
 # Docker setup for the micro-service
 #================================================================================
-FROM onap/ccsdk-ubuntu-image:0.3.0-SNAPSHOT
+#FROM onap/ccsdk-ubuntu-image:0.3.0-SNAPSHOT
+FROM anapsix/alpine-java:8_jdk
+
+RUN apk add --no-cache curl
+
 VOLUME /tmp
 ADD NetworkElementNameGen.jar app.jar
 VOLUME /opt/etc

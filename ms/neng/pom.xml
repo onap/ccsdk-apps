@@ -56,6 +56,7 @@
         <ccsdk.distribution.version>0.2.4</ccsdk.distribution.version>
         <docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
 		<docker.push.phase>deploy</docker.push.phase>
+                <docker.build.phase>deploy</docker.build.phase>
 		<docker.verbose>true</docker.verbose>
 		<ccsdk.project.version>${project.version}</ccsdk.project.version>
     </properties>
@@ -121,6 +122,16 @@
 					<groupId>com.spotify</groupId>
 					<artifactId>docker-maven-plugin</artifactId>
 					<version>0.4.11</version>
+					<executions>
+						<execution>
+							<id>push-images</id>
+							<phase>${docker.build.phase}</phase>
+							<goals>
+								<goal>build</goal>
+								<goal>push</goal>
+							</goals>
+						</execution>
+					</executions>
 					<configuration>
 						<imageName>${docker.registry}/onap/ccsdk-apps-ms-neng:${project.version}</imageName>
 						<dockerDirectory>src/main/docker</dockerDirectory>
