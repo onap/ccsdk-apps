@@ -109,6 +109,11 @@ public class SpringServiceTest {
         Assert.assertNotNull(springserviceImpl.releaseNetworkElementName(request));
     }
     
+    @Test(expected=Exception.class)
+    public void releaseNetworkElementNameTestForNull() throws Exception {
+    	springserviceImpl.releaseNetworkElementName(null);
+    }
+    
     @Test
     public void testGetQuickHello() {
         Assert.assertTrue(springserviceImpl.getQuickHello("testMessage") instanceof HelloWorld);
