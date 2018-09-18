@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -21,6 +23,7 @@
 package org.onap.ccsdk.apps.ms.neng.core.policy;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
@@ -34,5 +37,7 @@ public class PolicyPropertyMethodUtilsTest {
         assertEquals("TRLAKDG", PolicyPropertyMethodUtils.substring("TRLAKDG", "-11"));
         assertEquals("XYSZ1NNN", PolicyPropertyMethodUtils.toUpperCase("XySz1NNN"));
         assertEquals("xysz1nnn", PolicyPropertyMethodUtils.toLowerCase("XySz1NNN"));
+        assertTrue(PolicyPropertyMethodUtils.genUuid() instanceof String);
+        assertTrue(PolicyPropertyMethodUtils.getIsoDateString() instanceof String);
     }
 }
