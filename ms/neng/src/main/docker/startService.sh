@@ -19,11 +19,18 @@
 
 touch /app.jar
 APP_ARGS=-Dspring.profiles.active=${SPRING_PROFILE}
-APP_ARGS=${APP_ARGS}" -Dpolicymgr_url="${POLICYMGR_URL}" -Dinstar_aaf_enc_pass="${AAF_PASS_ENC}
-APP_ARGS=${APP_ARGS}" -Daai_cert_pass="${AAI_CERT_PASSWORD}" -Daai_uribase="${AAI_URI_BASE}
-APP_ARGS=${APP_ARGS}" -Dneng_db_user="${NENG_DB_USER}" -Dneng_db_pass="${NENG_DB_PASS}
-APP_ARGS=${APP_ARGS}" -Dneng_db_url="${NENG_DB_URL}
+APP_ARGS=${APP_ARGS}" -Dneng_db_user="${NENG_DB_USER}" -Dneng_db_pass="${NENG_DB_PASS}         
+APP_ARGS=${APP_ARGS}" -Dneng_db_url="${NENG_DB_URL}                                        
+APP_ARGS=${APP_ARGS}" -Dpol_client_auth="${POL_CLIENT_AUTH}                           
+APP_ARGS=${APP_ARGS}" -Dpol_basic_auth="${POL_BASIC_AUTH}  
+APP_ARGS=${APP_ARGS}" -Dpol_url="${POL_URL}                
+APP_ARGS=${APP_ARGS}" -Dpol_env="${POL_ENV}              
+APP_ARGS=${APP_ARGS}" -Dpol_req_id="${POL_REQ_ID}
+APP_ARGS=${APP_ARGS}" -Daai_cert_pass="${AAI_CERT_PASS}
+APP_ARGS=${APP_ARGS}" -Daai_cert_path="${AAI_CERT_PATH}
+APP_ARGS=${APP_ARGS}" -Daai_uri="${AAI_URI}            
 APP_ARGS=${APP_ARGS}" -cp /opt/etc/config"
 
 echo "APP_ARGS ="${APP_ARGS}
 java -Djava.security.egd=file:/dev/./urandom  ${APP_ARGS} -Xms1024m -Xmx1024m -jar /app.jar --spring.config.location=/opt/etc/config/ > /tmp/app.out 2> /tmp/app.err
+
