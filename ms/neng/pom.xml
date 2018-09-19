@@ -134,7 +134,7 @@
 					</executions>
 					<configuration>
 						<imageName>${docker.registry}/onap/ccsdk-apps-ms-neng:${project.version}</imageName>
-						<dockerDirectory>target/docker</dockerDirectory>
+						<dockerDirectory>${basedir}/target/docker</dockerDirectory>
 						<serverId>docker-hub</serverId>
 						<registryUrl>https://${docker.registry}</registryUrl>
 						<imageTags>
