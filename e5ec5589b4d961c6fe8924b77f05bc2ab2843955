@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_391007a8",
+        "filename": "components/resource-dict/load/resource_dictionary/vnfc-model-version.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2018-09-21T18:57:03Z",
+      "side": 1,
+      "message": "vFW?",
+      "range": {
+        "startLine": 6,
+        "startChar": 44,
+        "endLine": 6,
+        "endChar": 54
+      },
+      "revId": "e5ec5589b4d961c6fe8924b77f05bc2ab2843955",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
