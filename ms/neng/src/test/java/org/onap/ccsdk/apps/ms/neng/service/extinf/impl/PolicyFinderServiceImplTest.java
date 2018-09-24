@@ -50,6 +50,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.HttpStatusCodeException;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PolicyFinderServiceImplTest {
@@ -106,6 +107,14 @@ public class PolicyFinderServiceImplTest {
         GetConfigRequest request = new GetConfigRequest();
         request.setPolicyName("policy");
         policyFinder.makeOutboundCall(request, GetConfigResponse.class);
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test(expected = NengException.class)
+    public void testHandleError_NOT_FOUND() throws Exception{
+        HttpStatusCodeException e= new HttpStatusCodeException(HttpStatus.NOT_FOUND,"","","");
+        policyFinder.handleError(e);
+
     }
 
     @Test
