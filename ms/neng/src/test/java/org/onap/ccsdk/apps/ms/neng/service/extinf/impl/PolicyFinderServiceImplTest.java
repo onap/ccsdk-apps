@@ -108,6 +108,14 @@ public class PolicyFinderServiceImplTest {
         policyFinder.makeOutboundCall(request, GetConfigResponse.class);
     }
 
+    @SuppressWarnings("unchecked")
+    @Test(expected = NengException.class)
+    public void testHandleError_NOT_FOUND() throws Exception{
+        HttpStatusCodeException e= new HttpStatusCodeException(HttpStatus.NOT_FOUND,"","","");
+        policyFinder.handleError(e);
+
+    }
+
     @Test
     public void testGetRestTemplate() throws Exception {
         PolicyFinderServiceImpl service = new PolicyFinderServiceImpl();
