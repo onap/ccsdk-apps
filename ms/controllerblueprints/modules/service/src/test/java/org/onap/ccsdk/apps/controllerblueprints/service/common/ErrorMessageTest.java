@@ -1,10 +1,9 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.common;
 
-import static org.junit.Assert.*;
-
 import org.junit.Assert;
 import org.junit.Test;
-import org.onap.ccsdk.apps.controllerblueprints.service.common.ErrorMessage;
+
+import static org.junit.Assert.*;
 
 public class ErrorMessageTest {
 

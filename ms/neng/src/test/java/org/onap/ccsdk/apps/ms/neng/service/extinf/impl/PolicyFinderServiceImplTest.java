@@ -22,17 +22,7 @@
 
 package org.onap.ccsdk.apps.ms.neng.service.extinf.impl;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -49,7 +39,17 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
+
+import java.nio.charset.StandardCharsets;
+import java.util.*;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PolicyFinderServiceImplTest {
@@ -111,7 +111,7 @@ public class PolicyFinderServiceImplTest {
     @SuppressWarnings("unchecked")
     @Test(expected = NengException.class)
     public void testHandleError_NOT_FOUND() throws Exception{
-        HttpStatusCodeException e= new HttpStatusCodeException(HttpStatus.NOT_FOUND,"","","");
+        HttpStatusCodeException e = new HttpClientErrorException(HttpStatus.NOT_FOUND,"",null,StandardCharsets.US_ASCII);
         policyFinder.handleError(e);
 
     }
