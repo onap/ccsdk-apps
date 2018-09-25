@@ -15,8 +15,8 @@ public class ErrorMessageTest {
     @Test
     public void testErrorMessage(){
         assertEquals("testMessage", errorMessage.getMessage());
-        assertEquals("404", errorMessage.getCode());
-        assertEquals("Check the code",errorMessage.getMessage());
+        assertEquals("404", errorMessage.getCode().toString());
+        assertEquals("Check the code",errorMessage.getDebugMessage());
     }
 
     @Test
