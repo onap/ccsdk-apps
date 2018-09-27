@@ -24,7 +24,7 @@
 
     <groupId>org.onap.ccsdk.apps</groupId>
     <artifactId>ccsdk-apps-ms-neng</artifactId>
-    <version>0.3.0-SNAPSHOT</version>
+    <version>0.3.1-SNAPSHOT</version>
 
     <properties>
         <swagger.directory>${basedir}/target/classes/META-INF/resources/swagger</swagger.directory>
@@ -52,7 +52,6 @@
         <sonar.jacoco.itReportPath>${basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
         <sonar.language>java</sonar.language>
         <serviceArtifactName>ms-networkelementnamegen</serviceArtifactName>
-        <project.version>0.3.0</project.version>
         <ccsdk.distribution.version>0.2.4</ccsdk.distribution.version>
         <docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
         <docker.push.phase>deploy</docker.push.phase>
@@ -242,7 +241,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
-        <version>1.1.0</version>
+        <version>1.1.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
