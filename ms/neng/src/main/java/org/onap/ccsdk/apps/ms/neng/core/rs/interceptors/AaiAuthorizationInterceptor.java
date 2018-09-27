@@ -46,6 +46,7 @@ public class AaiAuthorizationInterceptor implements ClientHttpRequestInterceptor
         httpRequest.getHeaders().clear();
         httpRequest.getHeaders().add("x-FromAppId", aaiProps.getFromAppId());
         httpRequest.getHeaders().add("x-TransactionId", aaiProps.getTransactionId());
+        httpRequest.getHeaders().add("Authorization", "Basic QUFJOkFBSQ==");
         httpRequest.getHeaders().add("Accept", "application/json");
         httpRequest.getHeaders().add("Content-Type", "application/json");
         return executionChain.execute(httpRequest, body);
