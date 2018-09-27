@@ -28,7 +28,8 @@ APP_ARGS=${APP_ARGS}" -Dpol_env="${POL_ENV}
 APP_ARGS=${APP_ARGS}" -Dpol_req_id="${POL_REQ_ID}
 APP_ARGS=${APP_ARGS}" -Daai_cert_pass="${AAI_CERT_PASS}
 APP_ARGS=${APP_ARGS}" -Daai_cert_path="${AAI_CERT_PATH}
-APP_ARGS=${APP_ARGS}" -Daai_uri="${AAI_URI}            
+APP_ARGS=${APP_ARGS}" -Daai_uri="${AAI_URI}
+APP_ARGS=${APP_ARGS}" -Daai_auth="${AAIC_AUTH}
 APP_ARGS=${APP_ARGS}" -cp /opt/etc/config"
 
 echo "APP_ARGS ="${APP_ARGS}

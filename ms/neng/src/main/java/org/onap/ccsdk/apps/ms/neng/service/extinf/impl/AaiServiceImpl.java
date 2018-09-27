@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,17 +21,14 @@
 package org.onap.ccsdk.apps.ms.neng.service.extinf.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
 import java.net.URI;
-import java.security.KeyStore;
 import java.util.logging.Logger;
-import javax.net.ssl.SSLContext;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
 import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ssl.TrustSelfSignedStrategy;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.http.ssl.SSLContextBuilder;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.AaiResponse;
 import org.onap.ccsdk.apps.ms.neng.core.rs.interceptors.AaiAuthorizationInterceptor;
@@ -44,7 +41,6 @@ import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -53,11 +49,14 @@ import org.springframework.web.client.RestTemplate;
  */
 @Service
 public class AaiServiceImpl {
+
     private static final Logger log = Logger.getLogger(AaiServiceImpl.class.getName());
 
-    @Autowired AaiProps aaiProps;
+    @Autowired
+    AaiProps aaiProps;
     RestTemplate restTemplate;
-    @Autowired AaiAuthorizationInterceptor authInt;
+    @Autowired
+    AaiAuthorizationInterceptor authInt;
 
     @Autowired
     @Qualifier("aaiRestTempBuilder")
@@ -65,24 +64,25 @@ public class AaiServiceImpl {
 
     /**
      * Validates the given network element name against A&AI, using the given URL.
-     * @param url   the URL for A&AI
-     * @param name  a generated network element name
-     * @return      true if the element name is valid
+     *
+     * @param url the URL for A&AI
+     * @param name a generated network element name
+     * @return true if the element name is valid
      */
     public boolean validate(String url, String name) throws Exception {
         AaiResponse resp = makeOutboundCall(url, name);
         return !resp.isRecFound();
     }
 
-    
+
     public void setAaiRestTempBuilder(RestTemplateBuilder aaiRestTempBuilder) {
         this.aaiRestTempBuilder = aaiRestTempBuilder;
     }
 
     public void setRestTemplate(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
-    }    
-    
+    }
+
     AaiResponse makeOutboundCall(String url, String name) throws Exception {
         String uri = aaiProps.getUriBase() + url + name;
         log.info("AAI URI - " + uri);
@@ -109,33 +109,23 @@ public class AaiServiceImpl {
             throw new NengException("Error while validating name with AAI");
         }
     }
-    
+
     AaiResponse buildResponse(boolean found) {
         AaiResponse aaiResp = new AaiResponse();
         aaiResp.setRecFound(found);
         return aaiResp;
     }
 
-    RestTemplate getRestTemplate() throws Exception {
+    RestTemplate getRestTemplate() {
         if (this.restTemplate == null) {
-            char[] password = aaiProps.getCertPassword().toCharArray();
-            KeyStore ks = keyStore(aaiProps.getCert(), password);
-            SSLContextBuilder builder = SSLContextBuilder.create().loadKeyMaterial(ks, password); 
-            SSLContext sslContext = builder.loadTrustMaterial(null, new TrustSelfSignedStrategy()).build();
-            HttpClient client = HttpClients.custom().setSSLContext(sslContext).build();
-            RestTemplateBuilder restBld = aaiRestTempBuilder.additionalInterceptors(authInt); 
+            System.setProperty("javax.net.ssl.trustStore", aaiProps.getCert());
+            System.setProperty("javax.net.ssl.trustStorePassword", aaiProps.getCertPassword());
+            RestTemplateBuilder restBld = aaiRestTempBuilder.additionalInterceptors(authInt);
+            HttpClient client = HttpClientBuilder.create()
+                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                .build();
             this.restTemplate = restBld.requestFactory(new HttpComponentsClientHttpRequestFactory(client)).build();
         }
         return this.restTemplate;
     }
-
-    KeyStore keyStore(String file, char[] password) throws Exception {
-        KeyStore keyStore = KeyStore.getInstance("PKCS12");
-        File key = ResourceUtils.getFile(file);
-        try (InputStream in = new FileInputStream(key)) {
-            keyStore.load(in, password);
-        }
-        return keyStore;
-    }
-    
 }
