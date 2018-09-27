@@ -13,7 +13,6 @@
         "type" : "JSON",
         "url-path" : "config/GENERIC-RESOURCE-API:services/service/$service-instance-id/service-data/vnfs/vnf/$vnf-id/vnf-data/vnf-topology/vnf-parameters-data/param/vnf_name",
         "path" : "/param/0/value",
-        "expression-type" : "JSON_POINTER",
         "input-key-mapping" : {
           "service-instance-id" : "service-instance-id",
           "vnf-id" : "vnf-id"
