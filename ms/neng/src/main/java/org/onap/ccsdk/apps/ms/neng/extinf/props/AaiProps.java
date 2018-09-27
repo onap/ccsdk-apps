@@ -35,6 +35,7 @@ public class AaiProps {
     String fromAppId;
     String transactionId;
     String accept;
+    String basicAuth;
 
     /**
      * The certificate password. 
@@ -100,5 +101,13 @@ public class AaiProps {
 
     public void setAccept(String accept) {
         this.accept = accept;
+    }
+
+    public String getBasicAuth() {
+        return basicAuth;
+    }
+
+    public void setBasicAuth(String basicAuth) {
+        this.basicAuth = basicAuth;
     }
 }
