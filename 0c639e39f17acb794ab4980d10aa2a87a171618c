@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1a76adc5_a2d5a9ba",
+        "filename": "ms/neng/src/main/java/org/onap/ccsdk/apps/ms/neng/core/rs/interceptors/AaiAuthorizationInterceptor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2018-09-27T21:17:23Z",
+      "side": 1,
+      "message": "parameterize",
+      "range": {
+        "startLine": 49,
+        "startChar": 55,
+        "endLine": 49,
+        "endChar": 73
+      },
+      "revId": "0c639e39f17acb794ab4980d10aa2a87a171618c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
