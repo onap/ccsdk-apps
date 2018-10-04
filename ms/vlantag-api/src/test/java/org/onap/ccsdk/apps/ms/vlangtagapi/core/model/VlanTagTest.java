@@ -56,6 +56,22 @@ public class VlanTagTest {
         assertTrue(vlanTag.equals(vlanTag1));
         assertTrue((Integer)vlanTag.hashCode() instanceof Integer);
     }
-    
+
+    @Test
+    public void testElementVlanRole() {
+        vlanTag.setElementVlanRole("role");
+        assertEquals("role", vlanTag.getElementVlanRole());
+    }
+
+    @Test
+    public void testToString() {
+        String value = vlanTag.toString();
+        assertEquals("class VlanTag {\n" +
+                "    vlanUuid: null\n" +
+                "    vlantagName: null\n" +
+                "    vlantagValue: null\n" +
+                "    elementVlanRole: null\n" +
+                "}", value);
+    }
     
 }
