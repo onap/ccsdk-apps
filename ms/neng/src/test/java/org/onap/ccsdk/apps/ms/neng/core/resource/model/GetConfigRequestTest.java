@@ -20,8 +20,6 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -35,25 +33,25 @@ public class GetConfigRequestTest {
     }
 
     @Test
-    public void TestGetSetConfigName() {
+    public void testGetSetConfigName() {
         getConfigRequest.setConfigName("configName");
         Assert.assertEquals("configName", getConfigRequest.getConfigName());
     }
 
     @Test
-    public void TestGetSetEcompName() {
+    public void testGetSetEcompName() {
         getConfigRequest.setEcompName("ecompName");
         Assert.assertEquals("ecompName", getConfigRequest.getEcompName());
     }
 
     @Test
-    public void TestGetSetPolicyName() {
+    public void testGetSetPolicyName() {
         getConfigRequest.setPolicyName("policy");
         Assert.assertEquals("policy", getConfigRequest.getPolicyName());
     }
 
     @Test
-    public void TestIsUniqueFunction() {
+    public void testIsUniqueFunction() {
         getConfigRequest.setUnique(true);
         Assert.assertTrue(getConfigRequest.isUnique());
     }

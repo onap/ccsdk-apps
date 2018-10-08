@@ -31,65 +31,66 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class ServiceParameterTest {
-	private ServiceParameter serviceParameter;
+    private ServiceParameter serviceParameter;
 
     @Before
     public void setUp() {
-    	serviceParameter = new ServiceParameter();
+        serviceParameter = new ServiceParameter();
     }
 
     @Test
     public void testGetSetServiceParameterId() {
-    	serviceParameter.setServiceParameterId(1);
+        serviceParameter.setServiceParameterId(1);
         Integer expected = 1;
         Assert.assertEquals(expected, serviceParameter.getServiceParameterId());
     }
     
     @Test
     public void testGetSetName() {
-    	serviceParameter.setName("Name");
+        serviceParameter.setName("Name");
         String expected = "Name";
         Assert.assertEquals(expected, serviceParameter.getName());
     }
     
     @Test
     public void testGetSetValue() {
-    	serviceParameter.setValue("Value");
+        serviceParameter.setValue("Value");
         String expected = "Value";
         Assert.assertEquals(expected, serviceParameter.getValue());
     }
     
     @Test
     public void testGetSetCreatedTime() throws ParseException {
-    	  DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-          Date date = dateFormat.parse("23/09/2007");
-          long time = date.getTime();
-          Timestamp timeStamp = new Timestamp(time);
-    	serviceParameter.setCreatedTime(timeStamp);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = dateFormat.parse("23/09/2007");
+        long time = date.getTime();
+        Timestamp timeStamp = new Timestamp(time);
+        serviceParameter.setCreatedTime(timeStamp);
         Assert.assertEquals(timeStamp, serviceParameter.getCreatedTime());
     }
     
     @Test
     public void testGetSetCreatedBy() {
-    	serviceParameter.setCreatedBy("CreatedBy");
+        serviceParameter.setCreatedBy("CreatedBy");
         String expected = "CreatedBy";
         Assert.assertEquals(expected, serviceParameter.getCreatedBy());
     }
     
     @Test
     public void testGetSetLastUpdatedBy() {
-    	serviceParameter.setLastUpdatedBy("LastUpdatedBy");
+        serviceParameter.setLastUpdatedBy("LastUpdatedBy");
         String expected = "LastUpdatedBy";
         Assert.assertEquals(expected, serviceParameter.getLastUpdatedBy());
     }
     
     @Test
     public void testGetSetLastUpdatedTime() throws ParseException {
-    	  DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-          Date date = dateFormat.parse("23/09/2007");
-          long time = date.getTime();
-          Timestamp timeStamp = new Timestamp(time);
-    	serviceParameter.setLastUpdatedTime(timeStamp);
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = dateFormat.parse("23/09/2007");
+        long time = date.getTime();
+        Timestamp timeStamp = new Timestamp(time);
+        serviceParameter.setLastUpdatedTime(timeStamp);
         Assert.assertEquals(timeStamp, serviceParameter.getLastUpdatedTime());
     }
 }
+

@@ -38,10 +38,12 @@ public class PropertyOperator {
      * @param propertyMap     a map representing the property, the key of which is "property-operation"
      *     and the value is the actual property
      * @param policyParams    parameters configuring policy 
+     * @param recipeItem      a special recipe item (such as TIMESTAMP, UUID)
      * @return                the result of applying the property
      * @throws Exception      all exceptions are propagated
      */
-    public String apply(String value, Map<String, ?> propertyMap, PolicyParameters policyParams) throws Exception {
+    public String apply(String value, Map<String, ?> propertyMap, PolicyParameters policyParams,
+                                      String recipeItem) throws Exception {
         String op = propertyOperation(propertyMap);
         String mapped = null;
         if (op != null) {
@@ -56,6 +58,8 @@ public class PropertyOperator {
                 }
             }
             value = applyJavaOperation(value, op, mapped);
+        } else if (recipeItem != null) {
+            value = applyOperationByRecipeName(recipeItem, policyParams);
         }
         return value;
     }
@@ -99,8 +103,11 @@ public class PropertyOperator {
                 argPart = op.substring(funcStartIndex + 1, funcEndIndex);
             }
 
-            argPart = inputString + "," + argPart;
-            String[] args = argPart.split(",");
+            String[] args = new String[0];
+            if (inputString != null) {
+                argPart = inputString + "," + argPart;
+                args = argPart.split(",");
+            }
 
             PolicyPropertyMethodUtils utils = new PolicyPropertyMethodUtils();
             for (Method m : PolicyPropertyMethodUtils.class.getDeclaredMethods()) {
@@ -114,6 +121,15 @@ public class PropertyOperator {
             throw e;
         }
         return postOp;
+    }
+
+    private String applyOperationByRecipeName(String recipeItem, PolicyParameters policyParams) throws Exception {
+        String mapped = policyParams.mapFunction(recipeItem);
+        if (mapped == null) {
+            mapped = camelConverted(recipeItem);
+        }
+        String value = applyJavaOperation(null, recipeItem, mapped);
+        return value;
     }
     
     static String operationFunction(String operation) throws Exception {
@@ -149,4 +165,6 @@ public class PropertyOperator {
         }
         return buf.toString();
     }
+
+
 }

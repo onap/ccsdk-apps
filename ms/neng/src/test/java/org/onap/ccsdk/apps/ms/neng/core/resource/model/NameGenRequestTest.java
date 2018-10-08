@@ -20,13 +20,13 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.Map;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.HashMap;
 
 public class NameGenRequestTest {
     private NameGenRequest nameGenRequest;
@@ -37,7 +37,7 @@ public class NameGenRequestTest {
     }
 
     @Test
-    public void TestGetSetElements() {
+    public void testGetSetElements() {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map = new HashMap<String, String>();
         map.put("el1", "el2");
@@ -47,7 +47,7 @@ public class NameGenRequestTest {
     }
 
     @Test
-    public void TestToStringFunction() {
+    public void testToStringFunction() {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map = new HashMap<String, String>();
         map.put("el1", "el2");
@@ -57,7 +57,7 @@ public class NameGenRequestTest {
     }
 
     @Test
-    public void TestGetSetUseDb() {
+    public void testGetSetUseDb() {
         nameGenRequest.setUseDb(true);
         Assert.assertTrue(nameGenRequest.getUseDb());
     }

@@ -28,15 +28,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.logging.Logger;
-import java.util.stream.Collectors;
+import java.util.regex.Pattern;
 import javax.transaction.Transactional;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.gen.NameGenerator;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyFinder;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyParameters;
+import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyReader;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.HelloWorld;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenResponse;
@@ -76,18 +76,33 @@ public class SpringServiceImpl implements SpringService {
     @Autowired GeneratedNameRespository generatedNameRepository;
 
     /**
-     * Heart-beat/ping API.
+     * API to add a naming policy to the database cache in this micro-service.
      */
     @Override
-    public HelloWorld getQuickHello(String name) {
-        if (name == null || name.isEmpty()) {
-            name = "world";
+    public void addPolicy(Object request) throws Exception {
+        @SuppressWarnings("unchecked")
+        Map<String, Object> policyData = (Map<String, Object>)request;
+        PolicyDetails pd = new PolicyDetails();
+        String name = (String) policyData.get("policyName");
+        pd.setPolicyName(name);
+        ObjectMapper objectmapper = new ObjectMapper();
+        log.info(objectmapper.writeValueAsString(policyData.get("policyValue")));
+        pd.setPolicyResponse((String)policyData.get("policyValue"));
+        policyDetailsRepository.save(pd);
+    }
+
+    /**
+     * Name generation API -- generates or updates the name.
+     */
+    @Transactional(rollbackOn = Exception.class)
+    public NameGenResponse generateOrUpdateName(NameGenRequest request) throws Exception {
+        if (isUpdateRequest(request)) {
+            NameGenResponse resp = new NameGenResponse();
+            resp.setElements(updateNetworkElementName(request));
+            return resp;
+        } else {
+            return genNetworkElementName(request);
         }
-        String message = "Hello " + name + "!";
-        log.info(message);
-        HelloWorld hello = new HelloWorld(message);
-        log.info(hello.toString());
-        return hello;
     }
 
     /**
@@ -100,8 +115,9 @@ public class SpringServiceImpl implements SpringService {
             List<Map<String, String>> allElements = new ArrayList<>();
             Map<String, Map<String, ?>> policyCache = new HashMap<>();
             List<Map<String, String>> generatedNames = new ArrayList<>();
+            List<String> earlierNamingTypes = new ArrayList<String>();
             validateRequest(request);
-            if (!request.getElements().isEmpty()) {
+            if (request.getElements() != null && !request.getElements().isEmpty()) {
                 allElements.addAll(request.getElements());
             }
             PolicyFinder policyFinderImpl = findPolicyFinderImpl(request);
@@ -109,7 +125,7 @@ public class SpringServiceImpl implements SpringService {
                 log.info("Processing " + requestElement.toString());
                 NameGenerator nameGen = new NameGenerator(policyFinderImpl, policyParameters, sequenceGenerator,
                                 dbNameValidator, aaiNameValidator, namePersister, requestElement, allElements,
-                                earlierNames, policyCache);
+                                earlierNames, policyCache, earlierNamingTypes);
                 generatedNames.add(nameGen.generate());
             }
             NameGenResponse resp = new NameGenResponse();
@@ -123,6 +139,33 @@ public class SpringServiceImpl implements SpringService {
                 throw new Exception("Internal error occurred while processing the request");
             }
         }
+    }
+
+    /**
+     * API to return naming policy cached in this micro-service.
+     */
+    @Override
+    public PolicyDetails getPolicyDetails(String policyName) {
+        try {
+            return policyDetailsRepository.findPolicyResponseByName(policyName);
+        } catch (Exception e) {
+            return new PolicyDetails();
+        }
+    }
+
+    /**
+     * Heart-beat/ping API.
+     */
+    @Override
+    public HelloWorld getQuickHello(String name) {
+        if (name == null || name.isEmpty()) {
+            name = "world";
+        }
+        String message = "Hello " + name + "!";
+        log.info(message);
+        HelloWorld hello = new HelloWorld(message);
+        log.info(hello.toString());
+        return hello;
     }
 
     /**
@@ -154,31 +197,19 @@ public class SpringServiceImpl implements SpringService {
     }
 
     /**
-     * API to return naming policy cached in this micro-service.
+     * Name update API.
      */
     @Override
-    public PolicyDetails getPolicyDetails(String policyName) {
-        try {
-            return policyDetailsRepository.findPolicyResponseByName(policyName);
-        } catch (Exception e) {
-            return new PolicyDetails();
+    @Transactional(rollbackOn = Exception.class)
+    public List<Map<String, String>> updateNetworkElementName(NameGenRequest request) throws Exception {
+        List<Map<String, String>> responseList = new ArrayList<>();
+        for (Map<String, String> reqElement :request.getElements()) {
+            NameGenerator nameGen = new NameGenerator(null, null,null, null, aaiNameValidator, namePersister, 
+                                                      reqElement, request.getElements(),null, null, null);
+            Map<String, String> resp = nameGen.updateGenerateName();
+            responseList.add(resp);
         }
-    }
-
-    /**
-     * API to add a naming policy to the database cache in this micro-service.
-     */
-    @Override
-    public void addPolicy(Object request) throws Exception {
-        @SuppressWarnings("unchecked")
-        Map<String, Object> policyData = (Map<String, Object>)request;
-        PolicyDetails pd = new PolicyDetails();
-        String name = (String) policyData.get("policyName");
-        pd.setPolicyName(name);
-        ObjectMapper objectmapper = new ObjectMapper();
-        log.info(objectmapper.writeValueAsString(policyData.get("policyValue")));
-        pd.setPolicyResponse((String)policyData.get("policyValue"));
-        policyDetailsRepository.save(pd);
+        return responseList;
     }
     
     void buildUnAssignResponse(List<GeneratedName> generatedNames, NameGenResponse response) {
@@ -195,22 +226,6 @@ public class SpringServiceImpl implements SpringService {
     }
 
     void validateRequest(NameGenRequest request) throws Exception {
-        List<Map<String, String>> elems = request.getElements();
-        if (elems != null && !elems.isEmpty()) {
-            boolean error = false;
-            Set<String> externalKeySet = elems.stream().map(s -> s.get("external-key")).collect(Collectors.toSet());
-            if (externalKeySet.size() != request.getElements().size()) {
-                error = true;
-            }
-            for (String externalKey : externalKeySet) {
-                if (externalKey == null || externalKeyValidator.isPresent(externalKey)) {
-                    error = true;
-                }
-            }
-            if (error) {
-                throw new NengException("External Key is required and must be unique");
-            }
-        }
     }
 
     private PolicyFinder findPolicyFinderImpl(NameGenRequest request) {
@@ -223,5 +238,15 @@ public class SpringServiceImpl implements SpringService {
             return policyFinderDbImpl;
         }
         return this.policyFinder;
+    }
+
+    private boolean isUpdateRequest(NameGenRequest request) throws Exception {
+        for (Map<String, String> reqElement : request.getElements()) {
+            String resourceValue = PolicyReader.value(reqElement, "resource-value");
+            if (resourceValue != null && !Pattern.matches("\\$\\{.*\\}.*", resourceValue)) {
+                return true;
+            }
+        }
+        return false;
     }
 }

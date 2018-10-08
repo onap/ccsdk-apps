@@ -103,7 +103,7 @@ public class NameGeneratorSequenceMultiTest {
         when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(4))).thenReturn(4L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         Map<String, String> resp = gen.generate();
         assertEquals("vnf-name", resp.get("resource-name"));

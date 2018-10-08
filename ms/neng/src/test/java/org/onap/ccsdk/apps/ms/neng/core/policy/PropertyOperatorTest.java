@@ -65,7 +65,7 @@ public class PropertyOperatorTest {
         Map<String, String> props = new HashMap<>();
         props.put("property-operation", "to_lower_case()");
         PropertyOperator op = new PropertyOperator();
-        assertEquals("asdf", op.apply("ASDF", props, params));
+        assertEquals("asdf", op.apply("ASDF", props, params, null));
     }
 
     @Test
@@ -73,7 +73,7 @@ public class PropertyOperatorTest {
         Map<String, String> props = new HashMap<>();
         props.put("property-operation", "to_upper_case()");
         PropertyOperator op = new PropertyOperator();
-        assertEquals("ASDF", op.apply("asdf", props, params));
+        assertEquals("ASDF", op.apply("asdf", props, params, null));
     }
     
     @Test
@@ -90,21 +90,31 @@ public class PropertyOperatorTest {
         Map<String, String> props = new HashMap<>();
 
         props.put("property-operation", "sub_str(0,5)");
-        assertEquals("01234", op.apply("0123456789", props, params));
+        assertEquals("01234", op.apply("0123456789", props, params, null));
 
         props.put("property-operation", "    sub_str(0,4)");
-        assertEquals("0123", op.apply("0123456789", props, params));
+        assertEquals("0123", op.apply("0123456789", props, params, null));
 
         props.put("property-operation", "sub_str(1,5)");
-        assertEquals("1234", op.apply("0123456789", props, params));
+        assertEquals("1234", op.apply("0123456789", props, params, null));
 
         props.put("property-operation", "sub_str(1)");
-        assertEquals("0", op.apply("0", props, params));
+        assertEquals("0", op.apply("0", props, params, null));
 
         props.put("property-operation", "sub_str(-2)");
-        assertEquals("89", op.apply("0123456789", props, params));
+        assertEquals("89", op.apply("0123456789", props, params, null));
 
         props.put("property-operation", "sub_str(-3)");
-        assertEquals("789", op.apply("0123456789", props, params));
+        assertEquals("789", op.apply("0123456789", props, params, null));
+    }
+    
+    @Test
+    public void testApply_non_mapped() throws Exception {
+        String operation = "to_upper_case";
+        PolicyParameters policyParams = mock(PolicyParameters.class);
+        when(policyParams.mapFunction("sub_str")).thenReturn("substring");
+        PropertyOperator op = new PropertyOperator();
+        String resp = op.apply("MyString", operation, policyParams);
+        assertEquals("MYSTRING", resp);
     }
 }

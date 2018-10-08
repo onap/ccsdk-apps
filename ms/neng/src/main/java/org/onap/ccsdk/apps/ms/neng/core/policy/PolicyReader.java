@@ -25,6 +25,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * Converts policy data to the structure expected by this micro-service.
@@ -163,7 +164,11 @@ public abstract class PolicyReader implements PolicyFinder {
      * Finds the property-value from the given property map. 
      */
     public static String propertyValue(Map<String, ?> properties) {
-        return value(properties, "property-value");
+        String value  = value(properties, "property-value");
+        if (value != null && !Pattern.matches("\\$\\{.*\\}.*", value)) {
+            return value;
+        }
+        return null;
     }
 
     /**
@@ -175,6 +180,9 @@ public abstract class PolicyReader implements PolicyFinder {
      *  @param type    the naming-type
      */
     public static String relaxedNamingType(String type) {
+        if (type == null) {
+            return type;
+        }
         type = type.toUpperCase();
         if (type.endsWith("NAME")) {
             type = type.substring(0, type.length() - 4);
@@ -221,6 +229,11 @@ public abstract class PolicyReader implements PolicyFinder {
             if (!(value instanceof String)) {
                 value = null;
             }
+            if (value != null && !Pattern.matches("\\$\\{.*\\}.*", value)) {
+                return value;
+            } else {
+                value = null;
+            }
         }
         return value;
     }
@@ -257,6 +270,11 @@ public abstract class PolicyReader implements PolicyFinder {
                     }
                 }
                 if (!(value instanceof String)) {
+                    value = null;
+                }
+                if (value != null && !Pattern.matches("\\$\\{.*\\}.*", value)) {
+                    return value;
+                } else {
                     value = null;
                 }
             }

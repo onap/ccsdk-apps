@@ -33,7 +33,7 @@ public class GetConfigResponseTest {
     }
 
     @Test
-    public void TestGetSetConfigName() {
+    public void testGetSetConfigName() {
         String obj = new String();
         getConfigResponse.setResponse(obj);
         Assert.assertEquals(obj, getConfigResponse.getResponse());

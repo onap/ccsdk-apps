@@ -20,7 +20,6 @@
 
 package org.onap.ccsdk.apps.ms.neng.persistence.entity;
 
-
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -32,44 +31,42 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class PolicyDetailsTest {
-	private PolicyDetails policyDetails;
+    private PolicyDetails policyDetails;
 
     @Before
     public void setUp() {
-    	policyDetails = new PolicyDetails();
+        policyDetails = new PolicyDetails();
     }
 
     @Test
     public void testGetSetPolicyId() {
-    	policyDetails.setPolicyId(1);
+        policyDetails.setPolicyId(1);
         Integer expected = 1;
         Assert.assertEquals(expected, policyDetails.getPolicyId());
     }
     
     @Test
     public void testGetSetPolicyName() {
-    	policyDetails.setPolicyName("PolicyName");
+        policyDetails.setPolicyName("PolicyName");
         String expected = "PolicyName";
         Assert.assertEquals(expected, policyDetails.getPolicyName());
     }
     
     @Test
     public void testGetSetPolicyResponse() {
-    	policyDetails.setPolicyResponse("PolicyResponse");
+        policyDetails.setPolicyResponse("PolicyResponse");
         String expected = "PolicyResponse";
         Assert.assertEquals(expected, policyDetails.getPolicyResponse());
     }
     
     @Test
     public void testGetSetCreatedTime() throws ParseException {
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = dateFormat.parse("23/09/2007");
         long time = date.getTime();
         Timestamp timeStamp = new Timestamp(time);
-    	policyDetails.setCreatedTime(timeStamp);
-        String expected = "PolicyResponse";
+        policyDetails.setCreatedTime(timeStamp);
         Assert.assertEquals(timeStamp, policyDetails.getCreatedTime());
     }
-    
-    
 }
+

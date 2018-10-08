@@ -42,7 +42,6 @@ import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyFinder;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyParameters;
-import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyPropertyMethodUtils;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicySequence;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PropertyOperator;
 import org.onap.ccsdk.apps.ms.neng.core.policy.RecipeParser;
@@ -70,6 +69,7 @@ public class NameGenerator {
     private final List<Map<String, String>> allElements;
     private final Map<String, Map<String, String>> earlierNames;
     private final Map<String, Map<String, ?>> policyCache;
+    private final List<String> earlierNamingTypes;
 
     /**
      * Constructor.
@@ -89,11 +89,13 @@ public class NameGenerator {
      *        to names (which is a map with keys "resource-name", "resource-value" and "external-key")
      * @param policyCache cache containing policies retrieved in this transaction, to avoid repeated 
      *        calls to policy manager within the same transaction
+     * @param earlierNamingTypes naming-types used earlier in the same transaction
      */
     public NameGenerator(PolicyFinder policyFinder, PolicyParameters policyParams, SequenceGenerator seqGenerator,
                     DbNameValidator dbValidator, AaiNameValidator aaiValidator, NamePersister namePersister,
                     Map<String, String> requestElement, List<Map<String, String>> allElements,
-                    Map<String, Map<String, String>> earlierNames, Map<String, Map<String, ?>> policyCache) {
+                    Map<String, Map<String, String>> earlierNames, Map<String, Map<String, ?>> policyCache,
+                    List<String> earlierNamingTypes) {
         this.policyFinder = policyFinder;
         this.policyParams = policyParams;
         this.seqGenerator = seqGenerator;
@@ -104,6 +106,7 @@ public class NameGenerator {
         this.allElements = allElements;
         this.earlierNames = earlierNames;
         this.policyCache = policyCache;
+        this.earlierNamingTypes = earlierNamingTypes;
     }
 
     /**
@@ -117,15 +120,64 @@ public class NameGenerator {
             throw new NengException("Could not find policy name in the request");
         }
         String namingType = findElementNamingType();
+        String relaxedNamingType = relaxedNamingType(namingType);
+        Map<String,String> generated = null;
         if (namingType != null) {
-            Map<String, String> generated = this.earlierNames.get(namingType);
+            if (!earlierNamingTypes.contains(namingType)) {
+                generated = this.earlierNames.get(namingType);
+                if (generated == null) {
+                    generated = this.earlierNames.get(relaxedNamingType);
+                }
+            }
             if (generated != null) {
                 return generated;
             }
+            earlierNamingTypes.add(namingType);
             return generateNew(policyName, namingType);
+
         } else {
             throw new NengException("Could not find naming type in the request for policy " + policyName);
         }
+    }
+
+    /**
+     * Updates a generated name.
+     * 
+     * @return the map (with keys "resource-name", "resource-value" and "external-key") containing the name.
+     */
+    public Map<String, String> updateGenerateName() throws Exception {
+        String externalKey = findElementExternalKey();
+        String resourceValue = value(this.requestElement, RESOURCE_VALUE_ELEMENT_ITEM);
+        String reqNamingType = findElementNamingType();
+        String reqResourceName = findElementResourceName();
+        String namingType = (reqNamingType == null) ? reqResourceName : reqNamingType;
+        String relaxedNamingType = relaxedNamingType(namingType);
+        
+        if (!aaiValidator.validate(namingType, resourceValue)) {
+            throw new NengException("Name already exists in AAI");
+        }
+        GeneratedName generatedName  = null;
+        if (relaxedNamingType != null) {
+            generatedName = namePersister.findByExternalIdAndElementType(externalKey, relaxedNamingType);
+        } else {
+            throw new NengException("Resource Name or naming type must be provided");
+        }
+        if (generatedName == null) {
+            generatedName = new GeneratedName();
+        } 
+        generatedName.setName(resourceValue);
+        generatedName.setExternalId(externalKey);
+        generatedName.setElementType(namingType);
+        generatedName.setSequenceNumber(null);
+        generatedName.setSequenceNumberEnc(null);
+        generatedName.setPrefix(null);
+        generatedName.setSuffix(null);
+        generatedName.setIsReleased(null);
+        namePersister.persist(generatedName);
+        Map<String, String> respMap = buildResponse(externalKey, reqResourceName, resourceValue);
+        respMap.put(externalKey, "Resource value updated successfully");
+
+        return respMap;
     }
 
     String applyNameOperation(Map<String, ?> namingModel, String name) throws Exception {
@@ -136,8 +188,8 @@ public class NameGenerator {
         return name;
     }
 
-    String applyPropertyOperation(String value, Map<String, ?> propertyMap) throws Exception {
-        return new PropertyOperator().apply(value, propertyMap, this.policyParams);
+    String applyPropertyOperation(String value, Map<String, ?> propertyMap, String recipeItem) throws Exception {
+        return new PropertyOperator().apply(value, propertyMap, this.policyParams, recipeItem);
     }
 
     static Map<String, String> buildResponse(String key, String name, String value) {
@@ -210,14 +262,13 @@ public class NameGenerator {
         for (String recipeItem : recipe) {
             Map<String, ?> propMap = namingProperty(namingModel, recipeItem);
             if ("SEQUENCE".equals(recipeItem)) {
-                PolicySequence seq = seq(propMap);
-                recipeValues.put(recipeItem, seq);
-            } else if ("UUID".equals(recipeItem)) {
-                String uuid = PolicyPropertyMethodUtils.genUuid();
-                recipeValues.put(recipeItem, uuid);
-            } else if ("TIMESTAMP".equals(recipeItem)) {
-                String ts = PolicyPropertyMethodUtils.getIsoDateString();
-                recipeValues.put(recipeItem, ts);
+                String propValue = value(this.requestElement,recipeItem);
+                if (propValue != null) {
+                    recipeValues.put(recipeItem, propValue);
+                } else {
+                    PolicySequence seq = seq(propMap);
+                    recipeValues.put(recipeItem, seq);
+                }
             } else {
                 String val = generateNonSequenceValue(namingModels, policyName, namingType, namingModel, propMap,
                                 recipeItem);
@@ -361,7 +412,13 @@ public class NameGenerator {
             val = generateValueRecursively(namingModels, policyName, recipeItem);
         }
         if (val != null) {
-            val = applyPropertyOperation(val, propMap);
+            val = applyPropertyOperation(val, propMap, null);
+        }
+        if (val == null) { 
+            val = applyPropertyOperation(val, propMap, recipeItem);
+        }
+        if (val == null) {
+            val = value(namingModel, recipeItem);
         }
         return val;
     }
@@ -389,7 +446,8 @@ public class NameGenerator {
             }
             if (relaxedElement != null) {
                 NameGenerator recursive = new NameGenerator(policyFinder, policyParams, seqGenerator, dbValidator,
-                                aaiValidator, namePersister, relaxedElement, allElements, earlierNames, policyCache);
+                                aaiValidator, namePersister, relaxedElement, allElements, earlierNames, policyCache,
+                                earlierNamingTypes);
                 Map<String, String> gen =
                                 recursive.generateNew(policyName, relaxedNamingType, namingModels, relaxedModel);
                 if (gen != null) {
@@ -455,7 +513,7 @@ public class NameGenerator {
             seqEncoded = seqData.getSeqEncoded();
         }
         GeneratedName record = new GeneratedName();
-        GeneratedName releasedName = namePersister.findBy(namingType, name, "Y");
+        GeneratedName releasedName = namePersister.findByElementTypeAndNameAndReleased(namingType, name, "Y");
         if (releasedName != null) {
             record = releasedName;
             record.setLastUpdatedTime(new Timestamp(System.currentTimeMillis()));

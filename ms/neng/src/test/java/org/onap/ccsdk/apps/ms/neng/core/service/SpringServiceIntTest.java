@@ -30,6 +30,7 @@ import static org.mockito.Mockito.when;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +50,7 @@ import org.onap.ccsdk.apps.ms.neng.persistence.entity.ExternalInterface;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.GeneratedName;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.PolicyDetails;
 import org.onap.ccsdk.apps.ms.neng.persistence.repository.ExternalInterfaceRespository;
+import org.onap.ccsdk.apps.ms.neng.persistence.repository.GeneratedNameRespository;
 import org.onap.ccsdk.apps.ms.neng.persistence.repository.PolicyDetailsRepository;
 import org.onap.ccsdk.apps.ms.neng.persistence.repository.ServiceParameterRepository;
 import org.onap.ccsdk.apps.ms.neng.service.extinf.impl.AaiServiceImpl;
@@ -90,6 +92,8 @@ public class SpringServiceIntTest {
     RestServiceImpl restServiceImpl;
     @Autowired
     ExternalInterfaceRespository extIntRepo;
+    @Autowired
+    GeneratedNameRespository repository;
 
     @Before
     public void setup() {
@@ -115,7 +119,7 @@ public class SpringServiceIntTest {
         name.setExternalId("EXT-11");
 
         namePersister.persist(name);
-        name = namePersister.findBy("VNF", "abcd6ytx", null);
+        name = namePersister.findByElementTypeAndNameAndReleased("VNF", "abcd6ytx", null);
         assertNotNull(name);
     }
 
@@ -237,6 +241,38 @@ public class SpringServiceIntTest {
         
         assertNotNull(extIntDb);
         assertEquals("nodes/generic-vnfs?vnf-name=",extIntDb.getUrlSuffix());
+    }
+
+    @Test
+    public void testUpdateNetworkElementName() throws Exception {
+        GeneratedName gn = new GeneratedName();
+        gn.setExternalId("VQA-UN81");
+        gn.setSequenceNumber(1L);
+        gn.setElementType("VNF");
+        gn.setName("DG001ESP");
+        gn.setPrefix("DG");
+        gn.setSuffix("ESP");
+        gn.setCreatedBy("test");
+        gn.setCreatedTime(new Timestamp(System.currentTimeMillis()));
+        
+        namePersister.persist(gn);
+        Map<String, String> reqMap = new HashMap<String, String>();
+        reqMap.put("external-key","VQA-UN81");
+        reqMap.put("resource-name", "vnf-name");
+        reqMap.put("resource-value", "DG001ESP1");
+        
+        when(aaiServiceImpl.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
+        
+        List<Map<String,String>> elList = new ArrayList<>();
+        elList.add(reqMap);
+        NameGenRequest request = new NameGenRequest();
+        request.setElements(elList);
+        restServiceImpl.generateNetworkElementName(request);
+        
+        List<GeneratedName> newGn = repository.findByExternalId("VQA-UN81");
+        assertTrue(newGn != null);
+        assertTrue(newGn.size() == 1);
+        assertEquals("DG001ESP1", newGn.get(0).getName());
     }
     
 }

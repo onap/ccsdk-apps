@@ -22,7 +22,18 @@
 
 package org.onap.ccsdk.apps.ms.neng.service.extinf.impl;
 
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+import static org.mockito.Mockito.doReturn;
+import static org.mockito.Mockito.when;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -42,14 +53,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestTemplate;
-
-import java.nio.charset.StandardCharsets;
-import java.util.*;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @RunWith(MockitoJUnitRunner.class)
 public class PolicyFinderServiceImplTest {
@@ -77,13 +80,13 @@ public class PolicyFinderServiceImplTest {
         assertNull(policyFinder.findPolicy("policy"));
     }
 
-    @SuppressWarnings("unchecked")
     @Test(expected = NengException.class)
-    public void testHandleError_NOT_FOUND() throws Exception{
-        HttpStatusCodeException e = new HttpClientErrorException(HttpStatus.NOT_FOUND,"",null,StandardCharsets.US_ASCII);
+    public void testHandleError_Not_Found() throws Exception {
+        HttpStatusCodeException e = new HttpClientErrorException(HttpStatus.NOT_FOUND,"",
+                        null,StandardCharsets.US_ASCII);
         policyFinder.handleError(e);
-
     }
+    
     @SuppressWarnings("unchecked")
     @Test
     public void testmakeOutboundCall() throws Exception {
@@ -213,4 +216,46 @@ public class PolicyFinderServiceImplTest {
         configMap.put("config", contentMap);
         return configMap;
     }
+
+    @SuppressWarnings("unchecked")
+    @Test(expected = NengException.class)
+    public void testmakeOutboundCall_500_statusExp() throws Exception {
+        HttpClientErrorException exp = new HttpClientErrorException(HttpStatus.METHOD_NOT_ALLOWED, "{error}");
+        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenThrow(exp);
+        policManProps.setUrl("http://policyManager.onap.org");
+        GetConfigRequest request = new GetConfigRequest();
+        request.setPolicyName("policy");
+        policyFinder.makeOutboundCall(request, GetConfigResponse.class);
+    }
+    
+    @SuppressWarnings("unchecked")
+    @Test(expected = NengException.class)
+    public void testmakeOutboundCall_500_statusExp_notFound() throws Exception {
+        HttpClientErrorException exp = new HttpClientErrorException(HttpStatus.NOT_FOUND, "{error}");
+        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenThrow(exp);
+        policManProps.setUrl("http://policyManager.onap.org");
+        GetConfigRequest request = new GetConfigRequest();
+        request.setPolicyName("policy");
+        policyFinder.makeOutboundCall(request, GetConfigResponse.class);
+    }
+
+    @Test
+    public void testmakeOutboundCall_err_policy() throws Exception {
+        Map<String, Object> configMap = buildPolicyResponse();      
+        Object resp = configMap;
+        GetConfigResponse configResp = new GetConfigResponse();
+        configResp.setResponse(resp);
+        doReturn(configResp).when(policyFinder).getConfig("policy");
+        assertNull(policyFinder.findPolicy("policy"));
+    }
+    
+    @Test
+    public void testmakeOutboundCall_err_policy_empty() throws Exception {
+        Object resp = Arrays.asList(new Object[]{});
+        GetConfigResponse configResp = new GetConfigResponse();
+        configResp.setResponse(resp);
+        doReturn(configResp).when(policyFinder).getConfig("policy");
+        assertNull(policyFinder.findPolicy("policy"));
+    }
+    
 }

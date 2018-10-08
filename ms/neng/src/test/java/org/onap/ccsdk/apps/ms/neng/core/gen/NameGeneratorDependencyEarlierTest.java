@@ -107,7 +107,7 @@ public class NameGeneratorDependencyEarlierTest {
         when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), anyInt())).thenReturn(1L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement1, allElements, earlierNames, policyCache);
+                        namePresister, requestElement1, allElements, earlierNames, policyCache, new ArrayList<>());
 
         Map<String, String> resp = gen.generate();
         assertEquals("vnf-name", resp.get("resource-name"));
@@ -115,7 +115,7 @@ public class NameGeneratorDependencyEarlierTest {
         assertEquals("abcde001ve1", resp.get("resource-value"));
 
         NameGenerator gen2 = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement2, allElements, earlierNames, policyCache);
+                        namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());
 
         Map<String, String> resp2 = gen2.generate();
         assertEquals("vm-name", resp2.get("resource-name"));

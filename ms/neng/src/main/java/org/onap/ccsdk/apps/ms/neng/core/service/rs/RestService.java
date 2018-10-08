@@ -24,7 +24,6 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
-import java.util.Map;
 import javax.validation.Valid;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -87,7 +86,7 @@ public interface RestService {
     @POST
     @Path("/v1/addPolicy")
     @Produces({MediaType.APPLICATION_JSON})
-    public Map<String, Object> addPolicyToDb(Object request) throws Exception;
+    public Response addPolicyToDb(Object request) throws Exception;
 
     /**
      * Heart-beat/ping API.

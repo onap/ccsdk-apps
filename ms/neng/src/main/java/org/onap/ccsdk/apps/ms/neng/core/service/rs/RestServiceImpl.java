@@ -25,6 +25,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 import javax.validation.Valid;
 import javax.ws.rs.core.Response;
+import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.HelloWorld;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenResponse;
@@ -40,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Component
 public class RestServiceImpl implements RestService {
     private static Logger log = Logger.getLogger(RestServiceImpl.class.getName());
+    private static final String INTERNAL_ERROR_MSG = "Internal error occured while processing the request.";
 
     @Autowired SpringService service;
 
@@ -59,12 +61,18 @@ public class RestServiceImpl implements RestService {
     @Override
     public Response generateNetworkElementName(@RequestBody @Valid NameGenRequest request) {
         log.info("Received request: " + request.toString());
+        Map<String, Object> response = new HashMap<>();
         try {
-            NameGenResponse resp = service.genNetworkElementName(request);
-            return Response.ok().entity(resp).build();
+            NameGenResponse resp = service.generateOrUpdateName(request);
+            return buildResponse(resp);
+        } catch (NengException e) {
+            log.warning(e.getMessage());
+            response.put("error", buildErrorResponse("NELGEN-0003", e.getMessage()));
+            return buildErrorResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            return Response.status(500).entity("{ \"error\": \"" + e.getMessage() + "\" }").build();
+            response.put("error", buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
+            return buildErrorResponse(response);
         }
     }
 
@@ -74,12 +82,18 @@ public class RestServiceImpl implements RestService {
     @Override
     public Response releaseNetworkElementName(NameGenRequest request) {
         NameGenResponse resp;
+        Map<String, Object> response = new HashMap<>();
         try {
             resp = service.releaseNetworkElementName(request);
-            return Response.ok().entity(resp).build();
+            return buildResponse(resp);
+        } catch (NengException e) {
+            log.warning(e.getMessage());
+            response.put("error", buildErrorResponse("NELGEN-0002", e.getMessage()));
+            return buildErrorResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            return Response.status(500).entity("{ \"error\": \"" + e.getMessage() + "\" }").build();
+            response.put("error", buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
+            return buildErrorResponse(response);
         }
     }
 
@@ -98,15 +112,31 @@ public class RestServiceImpl implements RestService {
      * API to add a naming policy to the database cache in this micro-service.
      */
     @Override
-    public Map<String, Object> addPolicyToDb(Object request) throws Exception {
-        Map<String, Object> respMap = new HashMap<>();
+    public Response addPolicyToDb(Object request) throws Exception {
+        Map<String, Object> response = new HashMap<>();
         try {
             service.addPolicy(request);
-            respMap.put("status", "Policy added successfully");
+            response.put("status", "Policy added successfully");
+            return buildResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            respMap.put("status", "Failed");
+            response.put("error", buildErrorResponse("err-0500", e.getMessage()));
+            return buildErrorResponse(response);
         }
-        return respMap;
+    }
+
+    Response buildResponse(Object response) {
+        return Response.ok().entity(response).build();
+    }
+
+    Response buildErrorResponse(Map<String, Object> response) {
+        return Response.status(500).entity(response).build();
+    }
+
+    Map<String,Object> buildErrorResponse(String errorCode, String message) {
+        Map<String,Object> error = new HashMap<>();
+        error.put("errorId", errorCode);
+        error.put("message", message);
+        return error;
     }
 }

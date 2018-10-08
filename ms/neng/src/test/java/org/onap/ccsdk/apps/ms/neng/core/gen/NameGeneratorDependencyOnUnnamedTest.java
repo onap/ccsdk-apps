@@ -107,7 +107,7 @@ public class NameGeneratorDependencyOnUnnamedTest {
         }).when(namePresister).persist(anyObject());
 
         NameGenerator gen2 = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement2, allElements, earlierNames, policyCache);
+                        namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());
 
         Map<String, String> resp2 = gen2.generate();
         assertEquals("vm-name", resp2.get("resource-name"));

@@ -21,21 +21,22 @@
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.Test;
 
 public class AaiResponseTest {
-	private AaiResponse aai;
+    private AaiResponse aai;
     
-	 @Before
-	 public void setup() {
-		 aai = new AaiResponse();
-	 }
-	 
-	@Test
-    public void isRecFound() {
-    	aai.setRecFound(true);
-    	assertEquals(true, aai.isRecFound());
+    @Before
+    public void setup() {
+        aai = new AaiResponse();
     }
-
+     
+    @Test
+    public void isRecFound() {
+        aai.setRecFound(true);
+        assertEquals(true, aai.isRecFound());
+    }
 }
+

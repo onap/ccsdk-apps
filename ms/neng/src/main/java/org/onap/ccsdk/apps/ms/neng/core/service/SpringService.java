@@ -20,6 +20,8 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.service;
 
+import java.util.List;
+import java.util.Map;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.HelloWorld;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenResponse;
@@ -30,15 +32,29 @@ import org.onap.ccsdk.apps.ms.neng.persistence.entity.PolicyDetails;
  */
 public interface SpringService {
     /**
+     * API to add a naming policy to the database cache in this micro-service.
+     * 
+     * <p/>This is not used by clients -- it is here to help with diagnostics.
+     */
+    public void addPolicy(Object request) throws Exception;
+
+    /**
      * Name generation API.
      */
     public NameGenResponse genNetworkElementName(NameGenRequest request) throws Exception;
+    
+    /**
+     * Name generation or update API.
+     */
+    public NameGenResponse generateOrUpdateName(NameGenRequest request) throws Exception;    
 
     /**
-     * Name removal API.
+     * Heart-beat/ping API.
+     * 
+     * <p/>This is not used by clients -- it is here to help with diagnostics.
      */
-    public NameGenResponse releaseNetworkElementName(NameGenRequest request) throws Exception;
-    
+    public HelloWorld getQuickHello(String name);
+
     /**
      * API to return naming policy cached in this micro-service.
      * 
@@ -47,16 +63,12 @@ public interface SpringService {
     public PolicyDetails getPolicyDetails(String policyName);
 
     /**
-     * API to add a naming policy to the database cache in this micro-service.
-     * 
-     * <p/>This is not used by clients -- it is here to help with diagnostics.
+     * Name removal API.
      */
-    public void addPolicy(Object request) throws Exception;
-
+    public NameGenResponse releaseNetworkElementName(NameGenRequest request) throws Exception;
+    
     /**
-     * Heart-beat/ping API.
-     * 
-     * <p/>This is not used by clients -- it is here to help with diagnostics.
+     * Name update API.
      */
-    public HelloWorld getQuickHello(String name);
+    public List<Map<String, String>> updateNetworkElementName(NameGenRequest request) throws Exception;
 }

@@ -20,16 +20,13 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 
 public class NameGenResponseTest {
     private NameGenResponse nameGenResponse;
@@ -40,7 +37,7 @@ public class NameGenResponseTest {
     }
 
     @Test
-    public void TestGetSetElements() {
+    public void testGetSetElements() {
         List<Map<String, String>> list = new ArrayList<Map<String, String>>();
         Map<String, String> map = new HashMap<String, String>();
         map.put("el1", "el2");

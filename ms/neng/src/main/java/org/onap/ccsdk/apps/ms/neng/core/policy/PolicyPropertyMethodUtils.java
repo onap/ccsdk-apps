@@ -77,7 +77,9 @@ public class PolicyPropertyMethodUtils {
      */
     public static String genUuid() {
         UUID uuid = UUID.randomUUID();
-        return uuid.toString();
+        String str = uuid.toString();
+        str = str.replaceAll("-", "");
+        return str;
     }
     
     /**

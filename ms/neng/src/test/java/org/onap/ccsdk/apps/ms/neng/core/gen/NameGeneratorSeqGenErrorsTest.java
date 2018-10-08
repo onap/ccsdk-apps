@@ -124,7 +124,7 @@ public class NameGeneratorSeqGenErrorsTest {
         }).when(namePresister).persist(anyObject());
 
         NameGenerator gen2 = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement2, allElements, earlierNames, policyCache);
+                        namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());
 
         Map<String, String> resp2 = gen2.generate();
         assertEquals("vm-name", resp2.get("resource-name"));
@@ -183,7 +183,7 @@ public class NameGeneratorSeqGenErrorsTest {
         when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(3))).thenReturn(3L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement2, allElements, earlierNames, policyCache);
+                        namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -210,7 +210,7 @@ public class NameGeneratorSeqGenErrorsTest {
         when(dbValidator.validate(anyObject(), anyObject())).thenReturn(false);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement2, allElements, earlierNames, policyCache);
+                        namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();

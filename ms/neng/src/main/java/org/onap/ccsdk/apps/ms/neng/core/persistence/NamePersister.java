@@ -47,7 +47,17 @@ public class NamePersister {
      * @param name           A name
      * @param isReleased     An Y/N flag indicating if the name is released or not
      */
-    public GeneratedName findBy(String elementType, String name, String isReleased) {
+    public GeneratedName findByElementTypeAndNameAndReleased(String elementType, String name, String isReleased) {
         return repository.findByElementTypeAndNameAndIsReleased(elementType, name, isReleased);
+    }
+
+    /**
+     * Finds a name stored in the DB of the given external ID and type.
+     * 
+     * @param externalId     The external ID
+     * @param elementType    The type of the name
+     */
+    public GeneratedName findByExternalIdAndElementType(String externalId, String elementType) {
+        return repository.findByExternalIdAndRelaxedElementType(externalId, elementType);
     }
 }

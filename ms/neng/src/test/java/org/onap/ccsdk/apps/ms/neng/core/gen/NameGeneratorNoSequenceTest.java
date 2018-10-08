@@ -82,7 +82,7 @@ public class NameGeneratorNoSequenceTest {
         when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         Map<String, String> resp = gen.generate();
         assertEquals("vnf-name", resp.get("resource-name"));

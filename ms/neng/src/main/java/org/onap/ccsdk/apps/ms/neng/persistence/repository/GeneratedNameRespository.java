@@ -42,6 +42,15 @@ public interface GeneratedNameRespository extends CrudRepository<GeneratedName, 
     public List<GeneratedName> findByExternalId(String externalId);
 
     /*
+     * Finds entities for a given external system ID and element type, ignoring any special characters in names.
+     */
+    @Query(value = "select * from Generated_Name g where g.external_Id=:externalId and "
+                 + "REPLACE(REPLACE(REPLACE(element_type,'NAME',''),'-',''),'_','')=:elementType", 
+                 nativeQuery = true)
+    public GeneratedName findByExternalIdAndRelaxedElementType(@Param("externalId")String externalId,  
+                                                               @Param("elementType")String elementType);
+
+    /*
      * Finds the maximum sequence number used for a given prefix and suffix.
      */
     @Query("select max(sequenceNumber) from GeneratedName where prefix=:prefix "
@@ -64,4 +73,6 @@ public interface GeneratedNameRespository extends CrudRepository<GeneratedName, 
     @Query("select g from GeneratedName g where g.elementType=:elementType "
                     + "and g.name=:name and (g.isReleased is null or g.isReleased ='N')")
     public GeneratedName findUnReleased(@Param("elementType") String elementType, @Param("name") String name);
+
+
 }

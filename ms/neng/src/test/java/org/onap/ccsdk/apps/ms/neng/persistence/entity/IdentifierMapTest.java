@@ -31,68 +31,69 @@ import org.junit.Before;
 import org.junit.Test;
 
 public class IdentifierMapTest {
-	private IdentifierMap identifierMap;
+    private IdentifierMap identifierMap;
 
     @Before
     public void setUp() {
-    	identifierMap = new IdentifierMap();
+        identifierMap = new IdentifierMap();
     }
 
     @Test
     public void testGetSetIdentifierMapId() {
-    	identifierMap.setIdentifierMapId(1);
+        identifierMap.setIdentifierMapId(1);
         Integer expected = 1;
         Assert.assertEquals(expected, identifierMap.getIdentifierMapId());
     }
     
     @Test
     public void testGetSetPolicyFnName() {
-    	identifierMap.setPolicyFnName("PolicyFnName");
+        identifierMap.setPolicyFnName("PolicyFnName");
         String expected = "PolicyFnName";
         Assert.assertEquals(expected, identifierMap.getPolicyFnName());
     }
     
     @Test
     public void testGetSetJsFnName() {
-    	identifierMap.setJsFnName("JsFnName");
+        identifierMap.setJsFnName("JsFnName");
         String expected = "JsFnName";
         Assert.assertEquals(expected, identifierMap.getJsFnName());
     }
     
     @Test
     public void testGetSetCreatedTime() throws ParseException {
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = dateFormat.parse("23/09/2007");
         long time = date.getTime();
         Timestamp timeStamp = new Timestamp(time);
-    	identifierMap.setCreatedTime(timeStamp);
-    	Timestamp expected = timeStamp;
+        identifierMap.setCreatedTime(timeStamp);
+        Timestamp expected = timeStamp;
         Assert.assertEquals(expected, identifierMap.getCreatedTime());
     }
     
     @Test
     public void testGetSetCreatedBy() {
-    	identifierMap.setCreatedBy("Name");
+        identifierMap.setCreatedBy("Name");
         String expected = "Name";
         Assert.assertEquals(expected, identifierMap.getCreatedBy());
     }
     
     @Test
     public void testGetSetLastUpdatedTime() throws ParseException {
-    	DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = dateFormat.parse("23/09/2007");
         long time = date.getTime();
         Timestamp timeStamp = new Timestamp(time);
-    	identifierMap.setLastUpdatedTime(timeStamp);
-    	Timestamp expected = timeStamp;
+        identifierMap.setLastUpdatedTime(timeStamp);
+        Timestamp expected = timeStamp;
         Assert.assertEquals(expected, identifierMap.getLastUpdatedTime());
     }
     
     @Test
     public void testGetSetLastUpdatedBy() {
-    	identifierMap.setLastUpdatedBy("Name");
+        identifierMap.setLastUpdatedBy("Name");
         String expected = "Name";
         Assert.assertEquals(expected, identifierMap.getLastUpdatedBy());
     }
     
 }
+

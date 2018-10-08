@@ -30,11 +30,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Matchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
+import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.HelloWorld;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
+import org.onap.ccsdk.apps.ms.neng.core.validator.AaiNameValidator;
 import org.onap.ccsdk.apps.ms.neng.core.validator.ExternalKeyValidator;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.GeneratedName;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.PolicyDetails;
@@ -58,6 +62,10 @@ public class SpringServiceTest {
     PolicyDetailsRepository policyDetailsRepository;
     @Mock
     GeneratedNameRespository generatedNameRepository;
+    @Mock
+    AaiNameValidator aaiNameValidator;
+    @Mock
+    NamePersister namePersister;
 
     @InjectMocks
     SpringServiceImpl springserviceImpl;
@@ -85,7 +93,30 @@ public class SpringServiceTest {
         Mockito.when(externalKeyValidator.isPresent(req.get("external-key"))).thenReturn(false);
         Mockito.when(serviceParamRepo.findByName("use_db_policy")).thenReturn(param);
         springserviceImpl.genNetworkElementName(request);
+    }
+    
+    @Test
+    public void genNetworkElementNameTest_empty_elements() throws Exception {
+        NameGenRequest request = new NameGenRequest();
+        request.setElements(new ArrayList<>());
+        springserviceImpl.genNetworkElementName(request);
 
+    }
+    
+    @Test
+    public void genNetworkElementNameTest_extkey_error_3() throws Exception {
+        NameGenRequest request = new NameGenRequest();
+        List<Map<String, String>> rsp = new ArrayList<>();
+        request.setElements(rsp);
+        springserviceImpl.genNetworkElementName(request);
+    }
+    
+    @Test(expected = Exception.class)
+    public void genNetworkElementNameTest_useDb() throws Exception {
+        Mockito.when(externalKeyValidator.isPresent(req.get("external-key"))).thenReturn(false);
+        Mockito.when(serviceParamRepo.findByName("use_db_policy")).thenReturn(param);
+        request.setUseDb(true);
+        springserviceImpl.genNetworkElementName(request);
     }
 
     @Test
@@ -109,9 +140,30 @@ public class SpringServiceTest {
         Assert.assertNotNull(springserviceImpl.releaseNetworkElementName(request));
     }
     
-    @Test(expected=Exception.class)
+    @Test(expected = Exception.class)
     public void releaseNetworkElementNameTestForNull() throws Exception {
-    	springserviceImpl.releaseNetworkElementName(null);
+        springserviceImpl.releaseNetworkElementName(null);
+    }
+    
+    @Test(expected = Exception.class)
+    public void releaseNetworkElementNameTest_exp() throws Exception {
+        GeneratedName gn = new GeneratedName();
+        List<GeneratedName> generatedNameList = new ArrayList<>();
+        generatedNameList.add(gn);
+
+        Mockito.when(generatedNameRepository.findByExternalId(req.get("external-key"))).thenThrow(new Exception());
+        springserviceImpl.releaseNetworkElementName(request);
+    }
+
+    @Test(expected = Exception.class)
+    public void releaseNetworkElementNameTest_exp_neng() throws Exception {
+        GeneratedName gn = new GeneratedName();
+        List<GeneratedName> generatedNameList = new ArrayList<>();
+        generatedNameList.add(gn);
+
+        Mockito.when(generatedNameRepository.findByExternalId(req.get("external-key"))).thenThrow(
+                        new NengException("Failed"));
+        springserviceImpl.releaseNetworkElementName(request);
     }
     
     @Test
@@ -122,5 +174,44 @@ public class SpringServiceTest {
     @Test
     public void testGetQuickHelloForNullMessage() {
         Assert.assertTrue(springserviceImpl.getQuickHello("") instanceof HelloWorld);
+    }
+    
+    @Test
+    public void updateNetworkElementName() throws Exception {
+        req.clear();
+        req.put("external-key", "TST-UV1");
+        req.put("resource-name", "vnf-name");
+        req.put("resource-value", "dst1000tv1");
+        req.put("naming-type", "vnf");
+        
+        GeneratedName gn = new GeneratedName();
+        gn.setExternalId("TST-UV1");
+        gn.setElementType("VNF");
+        gn.setName("dst1000tv1");
+        
+        List<GeneratedName> generatedNameList = new ArrayList<>();
+        generatedNameList.add(gn);
+        Mockito.when(namePersister.findByExternalIdAndElementType(req.get("external-key"), "VNF")).thenReturn(gn);
+        Mockito.when(aaiNameValidator.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
+        Assert.assertNotNull(springserviceImpl.updateNetworkElementName(request));
+        Mockito.verify(namePersister, Mockito.times(1)).persist(gn);
+    }
+    
+    @Test(expected = NengException.class)
+    public void updateNetworkElementName_Aai_Fail() throws Exception {
+        req.clear();
+        req.put("external-key", "TST-UV1");
+        req.put("resource-name", "vnf-name");
+        req.put("resource-value", "dst1000tv1");
+        req.put("naming-type", "vnf");
+        
+        GeneratedName gn = new GeneratedName();
+        gn.setExternalId("TST-UV1");
+        gn.setElementType("VNF");
+        gn.setName("dst1000tv1");
+        
+        Mockito.when(namePersister.findByExternalIdAndElementType(req.get("external-key"), "VNF")).thenReturn(null);
+        Mockito.when(aaiNameValidator.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(false);
+        springserviceImpl.updateNetworkElementName(request);
     }
 }

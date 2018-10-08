@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
+/*-
  * ============LICENSE_START=======================================================
  * ONAP : CCSDK.apps
  * ================================================================================
@@ -17,22 +16,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ============LICENSE_END=========================================================
- -->
- 
-<databaseChangeLog
-        xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.9"
-        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.9
-         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.9.xsd">
- 
-    <include file="db/changelog/scripts/rel_18_10/create_base_tables.sql" />
-    <include file="db/changelog/scripts/rel_18_10/01_initial_ref_data_v1.sql" />
-    <include file="db/changelog/scripts/rel_18_10/02_create_indexes_ddl.sql" />
-    <include file="db/changelog/scripts/rel_18_10/04_ref_data_extrn_int.sql" />
+ */
 
-    <include file="db/changelog/scripts/rel_18_10/create_message_table.sql" />
-    <include file="db/changelog/scripts/rel_18_10/10_identifier_map_upd_dml.sql" />
-    <include file="db/changelog/scripts/rel_18_10/11_identifier_map_upd_dml.sql" />
+package org.onap.ccsdk.apps.ms.neng.core.validator;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.when;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.InjectMocks;
+import org.mockito.Matchers;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
+import org.onap.ccsdk.apps.ms.neng.persistence.repository.ExternalInterfaceRespository;
+import org.onap.ccsdk.apps.ms.neng.service.extinf.impl.AaiServiceImpl;
+
+@RunWith(MockitoJUnitRunner.class)
+public class AaiNameValidatorTest {
+    @Mock
+    AaiServiceImpl aaiImpl;
     
-</databaseChangeLog>
+    @Mock
+    ExternalInterfaceRespository dbStuff;
+    
+    @InjectMocks
+    AaiNameValidator nameValidator;
+    
+    @Test
+    public void testValidate() throws Exception {
+        when(dbStuff.getUriByNameType(Matchers.anyString())).thenReturn(null);
+        assertTrue(nameValidator.validate("VNF", "xyz112uyv"));
+    }
+}
 

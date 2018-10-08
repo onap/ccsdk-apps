@@ -1,5 +1,5 @@
 --liquibase formatted sql
---changeset identifier_map_update_sql_recipefunction:18_10.identifier_map_upd_dml.sql
+--changeset 11_identifier_map_update_sql_recipefunction:18_10.identifier_map_upd_dml.sql
 
 delete from IDENTIFIER_MAP where POLICY_FN_NAME='UUID';
 

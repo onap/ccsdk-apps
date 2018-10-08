@@ -21,21 +21,20 @@
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 
 public class HelloWorldTest {
     private HelloWorld helloWorld;
 
     @Test
-    public void TestGetSetMessage() {
+    public void testGetSetMessage() {
         helloWorld = new HelloWorld();
         helloWorld.setMessage("new Message");
         Assert.assertEquals("new Message", helloWorld.getMessage());
     }
 
     @Test
-    public void TestToString() {
+    public void testToString() {
         helloWorld = new HelloWorld("new Message");
         Assert.assertEquals("message = new Message", helloWorld.toString());
     }

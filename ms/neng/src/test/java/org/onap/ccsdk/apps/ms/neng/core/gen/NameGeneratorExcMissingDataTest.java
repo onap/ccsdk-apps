@@ -81,7 +81,7 @@ public class NameGeneratorExcMissingDataTest {
         when(policyFinder.findPolicy(policyName)).thenReturn(null);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -102,7 +102,7 @@ public class NameGeneratorExcMissingDataTest {
         allElements.add(requestElement);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -124,7 +124,7 @@ public class NameGeneratorExcMissingDataTest {
         allElements.add(requestElement);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -145,7 +145,7 @@ public class NameGeneratorExcMissingDataTest {
         allElements.add(requestElement);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -173,7 +173,7 @@ public class NameGeneratorExcMissingDataTest {
         when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), anyInt())).thenReturn(1L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -199,7 +199,7 @@ public class NameGeneratorExcMissingDataTest {
         when(policyFinder.findPolicy(policyName)).thenReturn(policy);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -225,7 +225,7 @@ public class NameGeneratorExcMissingDataTest {
         when(policyFinder.findPolicy(policyName)).thenReturn(policy);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
@@ -251,7 +251,7 @@ public class NameGeneratorExcMissingDataTest {
         when(policyFinder.findPolicy(policyName)).thenReturn(policy);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
-                        namePresister, requestElement, allElements, earlierNames, policyCache);
+                        namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
 
         try {
             gen.generate();
