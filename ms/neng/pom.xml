@@ -31,8 +31,8 @@
         <icd.file>service.json</icd.file>
         <icd.package>org.onap.ccsdk.apps.ms.neng.service.rs</icd.package>
         <java.version>1.8</java.version>
-        <spring.version>4.3.8.RELEASE</spring.version>
-        <springboot.version>1.5.6.RELEASE</springboot.version>
+        <spring.version>4.3.17.RELEASE</spring.version>
+        <springboot.version>1.5.16.RELEASE</springboot.version>
         <docker.registry>nexus3.onap.org:10001</docker.registry>
         <build.number>local</build.number>
         <kube.namespace>TBD</kube.namespace>
