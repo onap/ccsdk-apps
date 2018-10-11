@@ -44,7 +44,7 @@ public interface GeneratedNameRespository extends CrudRepository<GeneratedName, 
     /*
      * Finds entities for a given external system ID and element type, ignoring any special characters in names.
      */
-    @Query(value = "select * from Generated_Name g where g.external_Id=:externalId and "
+    @Query(value = "select * from GENERATED_NAME g where g.external_Id=:externalId and "
                  + "REPLACE(REPLACE(REPLACE(element_type,'NAME',''),'-',''),'_','')=:elementType", 
                  nativeQuery = true)
     public GeneratedName findByExternalIdAndRelaxedElementType(@Param("externalId")String externalId,  
