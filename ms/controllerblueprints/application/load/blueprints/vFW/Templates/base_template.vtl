@@ -46,11 +46,11 @@
     },
     {
       "param-name": "protected_private_net_id",
-      "param-value": "${vnf-name}_protected_private_net_id"
+      "param-value": "${vnf-name}_protected"
     },
     {
       "param-name": "protected_private_subnet_id",
-      "param-value": "${vnf-name}_protected_private_subnet_id"
+      "param-value": "${vnf-name}_protected_sub"
     },
     {
       "param-name": "protected_private_net_cidr",
@@ -59,6 +59,27 @@
     {
       "param-name": "vf_module_name",
       "param-value": "${vnf-name}_base"
+    }
+  ],
+  "capability-data": [
+    {
+      "capability-name": "aai-vf-module-put",
+      "key-mapping": [
+        {
+          "payload": [
+            {
+              "param-name": "vf-module",
+              "param-value": "vf-module"
+            }
+          ],
+          "output-key-mapping": [
+            {
+              "resource-name": "aai-vf-module-put",
+              "resource-value": "${status}"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
