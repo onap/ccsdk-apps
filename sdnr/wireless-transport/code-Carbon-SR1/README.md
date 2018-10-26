@@ -3,7 +3,7 @@
 HINT1: Not all applications, available under code/apps are integrated into code-Carbon-SR1/apps.
 HINT2: Modify the code under the *code* subdirectory. Modify in a way that it can be used in Boron and Carbon.
 
-This *code-Carbon-SR1* folder does compile the sources from *code* in a Opendayligh Cabron SR1 context.
+This *code-Carbon-SR1* folder does compile the sources from *code* in a Opendayligh Carbon SR1 context.
 Mainly the pom.xml files are adapted. Sources are used from *code* referenced by a symbolic link.
 
 ##Recommended structure
