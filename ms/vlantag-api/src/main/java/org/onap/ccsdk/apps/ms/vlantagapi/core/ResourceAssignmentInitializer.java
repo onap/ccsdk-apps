@@ -16,7 +16,6 @@
 package org.onap.ccsdk.apps.ms.vlantagapi.core;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,15 +45,10 @@ import org.onap.ccsdk.sli.adaptors.rm.dao.jdbc.ResourceJdbcDao;
 import org.onap.ccsdk.sli.adaptors.rm.dao.jdbc.ResourceJdbcDaoImpl;
 import org.onap.ccsdk.sli.adaptors.rm.dao.jdbc.ResourceLoadJdbcDao;
 import org.onap.ccsdk.sli.adaptors.rm.dao.jdbc.ResourceLoadJdbcDaoImpl;
-import org.onap.ccsdk.sli.adaptors.util.db.CachedDataSourceWrap;
-import org.onap.ccsdk.sli.adaptors.util.db.DataSourceWrap;
 import org.onap.ccsdk.sli.adaptors.util.speed.SpeedUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -68,9 +62,6 @@ import org.springframework.stereotype.Component;
 @Component
 @Configuration
 public class ResourceAssignmentInitializer {
-
-	private static final Logger log = LoggerFactory.getLogger(ResourceAssignmentInitializer.class);
-	
 	
 	@Bean
     public JdbcTemplate getJdbcTemplate(DataSource dataSource) {
