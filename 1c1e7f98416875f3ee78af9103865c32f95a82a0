@@ -1,0 +1,9 @@
+Code-Review+1: James MacNider <James.MacNider@amdocs.com>
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Code-Review+2: Jun (Nicolas) Hu <jun.nicolas.hu@att.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Wed, 31 Oct 2018 15:00:56 +0000
+Reviewed-on: https://gerrit.onap.org/r/71461
+Project: ccsdk/apps
+Branch: refs/heads/master
