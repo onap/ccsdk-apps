@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-@Component
+@Component(value = "ApplicationRegistrationService")
 @SuppressWarnings("unused")
 public class ApplicationRegistrationService {
     private static EELFLogger log = EELFManager.getInstance().getLogger(ApplicationRegistrationService.class);
@@ -36,10 +36,6 @@ public class ApplicationRegistrationService {
     private List<String> resourceSourceMappings;
 
     @PostConstruct
-    public void register() {
-        registerDictionarySources();
-    }
-
     public void registerDictionarySources() {
         log.info("Registering Dictionary Sources : {}", resourceSourceMappings);
         if (CollectionUtils.isNotEmpty(resourceSourceMappings)) {
