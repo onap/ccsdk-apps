@@ -39,8 +39,7 @@ import com.att.eelf.configuration.EELFManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.ResourcePatternResolver;
 import org.springframework.stereotype.Component;
@@ -56,6 +55,7 @@ import java.util.List;
  */
 
 @Component
+@DependsOn(value = "ApplicationRegistrationService")
 @ConditionalOnProperty(name = "blueprints.load.initial-data", havingValue = "true")
 public class DataBaseInitService {
 
@@ -86,7 +86,7 @@ public class DataBaseInitService {
      * @param configModelService configModelService
      */
     public DataBaseInitService(ModelTypeService modelTypeService, ResourceDictionaryService resourceDictionaryService,
-                               ConfigModelService configModelService) {
+        ConfigModelService configModelService) {
         this.modelTypeService = modelTypeService;
         this.resourceDictionaryService = resourceDictionaryService;
         this.configModelService = configModelService;
@@ -113,28 +113,26 @@ public class DataBaseInitService {
         try {
             Resource[] dataTypefiles = getPathResources(dataTypePath, ".json");
             StrBuilder errorBuilder = new StrBuilder();
-                for (Resource file : dataTypefiles) {
-                    if (file != null) {
-                        loadDataType(file, errorBuilder);
-                    }
+            for (Resource file : dataTypefiles) {
+                if (file != null) {
+                    loadDataType(file, errorBuilder);
                 }
+            }
 
             Resource[] nodeTypefiles = getPathResources(nodeTypePath, ".json");
-                       for (Resource file : nodeTypefiles) {
-                    if (file != null) {
-                        loadNodeType(file, errorBuilder);
-                    }
+            for (Resource file : nodeTypefiles) {
+                if (file != null) {
+                    loadNodeType(file, errorBuilder);
                 }
-
+            }
 
             Resource[] artifactTypefiles = getPathResources(artifactTypePath, ".json");
 
-                for (Resource file : artifactTypefiles) {
-                    if (file != null) {
-                        loadArtifactType(file, errorBuilder);
-                    }
+            for (Resource file : artifactTypefiles) {
+                if (file != null) {
+                    loadArtifactType(file, errorBuilder);
                 }
-
+            }
 
             if (!errorBuilder.isEmpty()) {
                 log.error(errorBuilder.toString());
@@ -146,58 +144,60 @@ public class DataBaseInitService {
 
     private void loadResourceDictionary() {
         log.info(
-                " *************************** loadResourceDictionary **********************");
+            " *************************** loadResourceDictionary **********************");
         try {
             Resource[] dataTypefiles = getPathResources(resourceDictionaryPath, ".json");
 
-                StrBuilder errorBuilder = new StrBuilder();
-                String fileName;
-                for (Resource file : dataTypefiles) {
-                    try {
-                        fileName = file.getFilename();
-                        log.trace("Loading : {}", fileName);
-                        String definitionContent = getResourceContent(file);
-                        ResourceDefinition resourceDefinition =
-                                JacksonUtils.readValue(definitionContent, ResourceDefinition.class);
-                        if (resourceDefinition != null) {
-                            Preconditions.checkNotNull(resourceDefinition.getProperty(), "Failed to get Property Definition");
-                            ResourceDictionary resourceDictionary = new ResourceDictionary();
-                            resourceDictionary.setName(resourceDefinition.getName());
-                            resourceDictionary.setDefinition(resourceDefinition);
+            StrBuilder errorBuilder = new StrBuilder();
+            String fileName;
+            for (Resource file : dataTypefiles) {
+                try {
+                    fileName = file.getFilename();
+                    log.trace("Loading : {}", fileName);
+                    String definitionContent = getResourceContent(file);
+                    ResourceDefinition resourceDefinition =
+                        JacksonUtils.readValue(definitionContent, ResourceDefinition.class);
+                    if (resourceDefinition != null) {
+                        Preconditions
+                            .checkNotNull(resourceDefinition.getProperty(), "Failed to get Property Definition");
+                        ResourceDictionary resourceDictionary = new ResourceDictionary();
+                        resourceDictionary.setName(resourceDefinition.getName());
+                        resourceDictionary.setDefinition(resourceDefinition);
 
-                            Preconditions.checkNotNull(resourceDefinition.getProperty(), "Property field is missing");
-                            resourceDictionary.setDescription(resourceDefinition.getProperty().getDescription());
-                            resourceDictionary.setDataType(resourceDefinition.getProperty().getType());
-                            if(resourceDefinition.getProperty().getEntrySchema() != null){
-                                resourceDictionary.setEntrySchema(resourceDefinition.getProperty().getEntrySchema().getType());
-                            }
-                            resourceDictionary.setUpdatedBy(resourceDefinition.getUpdatedBy());
-                            if (StringUtils.isBlank(resourceDefinition.getTags())) {
-                                resourceDictionary.setTags(
-                                        resourceDefinition.getName() + ", " + resourceDefinition.getUpdatedBy()
-                                                + ", " + resourceDefinition.getUpdatedBy());
-
-                            } else {
-                                resourceDictionary.setTags(resourceDefinition.getTags());
-                            }
-                            resourceDictionaryService.saveResourceDictionary(resourceDictionary);
-
-                            log.trace(" Loaded successfully : {}", file.getFilename());
-                        } else {
-                            throw new BluePrintException("couldn't get dictionary from content information");
+                        Preconditions.checkNotNull(resourceDefinition.getProperty(), "Property field is missing");
+                        resourceDictionary.setDescription(resourceDefinition.getProperty().getDescription());
+                        resourceDictionary.setDataType(resourceDefinition.getProperty().getType());
+                        if (resourceDefinition.getProperty().getEntrySchema() != null) {
+                            resourceDictionary
+                                .setEntrySchema(resourceDefinition.getProperty().getEntrySchema().getType());
                         }
-                    } catch (Exception e) {
-                        errorBuilder.appendln("Dictionary loading Errors : " + file.getFilename() + ":" + e.getMessage());
+                        resourceDictionary.setUpdatedBy(resourceDefinition.getUpdatedBy());
+                        if (StringUtils.isBlank(resourceDefinition.getTags())) {
+                            resourceDictionary.setTags(
+                                resourceDefinition.getName() + ", " + resourceDefinition.getUpdatedBy()
+                                    + ", " + resourceDefinition.getUpdatedBy());
+
+                        } else {
+                            resourceDictionary.setTags(resourceDefinition.getTags());
+                        }
+                        resourceDictionaryService.saveResourceDictionary(resourceDictionary);
+
+                        log.trace(" Loaded successfully : {}", file.getFilename());
+                    } else {
+                        throw new BluePrintException("couldn't get dictionary from content information");
                     }
+                } catch (Exception e) {
+                    errorBuilder.appendln("Dictionary loading Errors : " + file.getFilename() + ":" + e.getMessage());
                 }
-                if (!errorBuilder.isEmpty()) {
-                    log.error(errorBuilder.toString());
-                }
+            }
+            if (!errorBuilder.isEmpty()) {
+                log.error(errorBuilder.toString());
+            }
 
 
         } catch (Exception e) {
             log.error(
-                    "Failed in Resource dictionary loading", e);
+                "Failed in Resource dictionary loading", e);
         }
     }
 
@@ -241,7 +241,8 @@ public class DataBaseInitService {
             String nodeKey = file.getFilename().replace(".json", "");
             String definitionContent = getResourceContent(file);
             NodeType nodeType = JacksonUtils.readValue(definitionContent, NodeType.class);
-            Preconditions.checkNotNull(nodeType, String.format("failed to get node type from file : %s", file.getFilename()));
+            Preconditions
+                .checkNotNull(nodeType, String.format("failed to get node type from file : %s", file.getFilename()));
             ModelType modelType = new ModelType();
             modelType.setDefinitionType(BluePrintConstants.MODEL_DEFINITION_TYPE_NODE_TYPE);
             modelType.setDerivedFrom(nodeType.getDerivedFrom());
@@ -251,7 +252,7 @@ public class DataBaseInitService {
             modelType.setVersion(nodeType.getVersion());
             modelType.setUpdatedBy("System");
             modelType.setTags(nodeKey + "," + BluePrintConstants.MODEL_DEFINITION_TYPE_NODE_TYPE + ","
-                    + nodeType.getDerivedFrom());
+                + nodeType.getDerivedFrom());
             modelTypeService.saveModel(modelType);
             log.trace("Loaded Node Type successfully : {}", file.getFilename());
         } catch (Exception e) {
@@ -265,7 +266,8 @@ public class DataBaseInitService {
             String dataKey = file.getFilename().replace(".json", "");
             String definitionContent = getResourceContent(file);
             DataType dataType = JacksonUtils.readValue(definitionContent, DataType.class);
-            Preconditions.checkNotNull(dataType, String.format("failed to get data type from file : %s", file.getFilename()));
+            Preconditions
+                .checkNotNull(dataType, String.format("failed to get data type from file : %s", file.getFilename()));
             ModelType modelType = new ModelType();
             modelType.setDefinitionType(BluePrintConstants.MODEL_DEFINITION_TYPE_DATA_TYPE);
             modelType.setDerivedFrom(dataType.getDerivedFrom());
@@ -275,7 +277,7 @@ public class DataBaseInitService {
             modelType.setVersion(dataType.getVersion());
             modelType.setUpdatedBy("System");
             modelType.setTags(dataKey + "," + dataType.getDerivedFrom() + ","
-                    + BluePrintConstants.MODEL_DEFINITION_TYPE_DATA_TYPE);
+                + BluePrintConstants.MODEL_DEFINITION_TYPE_DATA_TYPE);
             modelTypeService.saveModel(modelType);
             log.trace(" Loaded Data Type successfully : {}", file.getFilename());
         } catch (Exception e) {
@@ -289,7 +291,8 @@ public class DataBaseInitService {
             String dataKey = file.getFilename().replace(".json", "");
             String definitionContent = getResourceContent(file);
             ArtifactType artifactType = JacksonUtils.readValue(definitionContent, ArtifactType.class);
-            Preconditions.checkNotNull(artifactType, String.format("failed to get artifact type from file : %s", file.getFilename()));
+            Preconditions.checkNotNull(artifactType,
+                String.format("failed to get artifact type from file : %s", file.getFilename()));
             ModelType modelType = new ModelType();
             modelType.setDefinitionType(BluePrintConstants.MODEL_DEFINITION_TYPE_ARTIFACT_TYPE);
             modelType.setDerivedFrom(artifactType.getDerivedFrom());
@@ -299,7 +302,7 @@ public class DataBaseInitService {
             modelType.setVersion(artifactType.getVersion());
             modelType.setUpdatedBy("System");
             modelType.setTags(dataKey + "," + artifactType.getDerivedFrom() + ","
-                    + BluePrintConstants.MODEL_DEFINITION_TYPE_ARTIFACT_TYPE);
+                + BluePrintConstants.MODEL_DEFINITION_TYPE_ARTIFACT_TYPE);
             modelTypeService.saveModel(modelType);
             log.trace("Loaded Artifact Type successfully : {}", file.getFilename());
         } catch (Exception e) {
