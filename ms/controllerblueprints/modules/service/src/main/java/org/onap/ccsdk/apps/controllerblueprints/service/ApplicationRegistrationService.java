@@ -27,7 +27,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.util.List;
 
-@Component
+@Component(value = "ApplicationRegistrationService")
 @SuppressWarnings("unused")
 public class ApplicationRegistrationService {
     private static EELFLogger log = EELFManager.getInstance().getLogger(ApplicationRegistrationService.class);
