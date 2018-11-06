@@ -30,6 +30,7 @@ import org.onap.ccsdk.apps.controllerblueprints.core.data.DataType;
 import org.onap.ccsdk.apps.controllerblueprints.core.data.NodeType;
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils;
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDefinition;
+import org.onap.ccsdk.apps.controllerblueprints.resource.dict.factory.ResourceSourceMappingFactory;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ModelType;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ResourceDictionary;
@@ -63,6 +64,9 @@ public class DataBaseInitService {
     private ModelTypeService modelTypeService;
     private ResourceDictionaryService resourceDictionaryService;
     private ConfigModelService configModelService;
+
+    @Value("#{'${resourceSourceMappings}'.split(',')}")
+    private List<String> resourceSourceMappings;
 
     @Value("${load.dataTypePath}")
     private String dataTypePath;
@@ -103,9 +107,24 @@ public class DataBaseInitService {
         log.info("loading resourceDictionaryPath from DIR : {}", resourceDictionaryPath);
         log.info("loading bluePrintsPath from DIR : {}", bluePrintsPath);
 
+        registerDictionarySources();
         loadModelType();
         loadResourceDictionary();
         loadBlueprints();
+    }
+
+    private void registerDictionarySources() {
+        log.info("Registering Dictionary Sources : {}", resourceSourceMappings);
+        if (CollectionUtils.isNotEmpty(resourceSourceMappings)) {
+            resourceSourceMappings.forEach(resourceSourceMapping -> {
+                String[] mappingKeyValue = resourceSourceMapping.split("=");
+                if (mappingKeyValue.length == 2) {
+                    ResourceSourceMappingFactory.INSTANCE.registerSourceMapping(mappingKeyValue[0].trim(), mappingKeyValue[1].trim());
+                } else {
+                    log.warn("failed to get resource source mapping {}", resourceSourceMapping);
+                }
+            });
+        }
     }
 
     private void loadModelType() {
