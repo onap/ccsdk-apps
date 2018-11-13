@@ -35,10 +35,7 @@ public class ApplicationRegistrationService {
     @Value("#{'${resourceSourceMappings}'.split(',')}")
     private List<String> resourceSourceMappings;
 
-    public ApplicationRegistrationService() {
-        registerDictionarySources();
-    }
-
+    @PostConstruct
     public void registerDictionarySources() {
         log.info("Registering Dictionary Sources : {}", resourceSourceMappings);
         if (CollectionUtils.isNotEmpty(resourceSourceMappings)) {
