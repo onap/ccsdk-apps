@@ -73,6 +73,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>org.onap.ccsdk.sli.core</groupId>
+			<artifactId>sli-common</artifactId>
+			<version>${ccsdk.sli.core.version}</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>org.onap.ccsdk.sli.adaptors</groupId>
 			<artifactId>resource-assignment-provider</artifactId>
 			<version>${ccsdk.sli.adaptors.version}</version>
