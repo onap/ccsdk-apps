@@ -37,19 +37,23 @@ public abstract class PolicyReader implements PolicyFinder {
      * @param policy    the policy
      * @return          the list of naming-models found in the policy
      */
+    private static final String NAMING_MODELS = "naming-models";
+    private static final String NAMING_TYPE = "naming-type";
+
     public static List<Map<String, ?>> namingModels(Map<String, ?> policy) {
+
         Set<String> keys = policy.keySet();
         // TODO : retrieve naming-models at any level
         if (keys.contains("config")) {
             @SuppressWarnings("unchecked")
             Map<String, ?> config = (Map<String, ?>) policy.get("config");
-            List<Map<String, ?>> namingModels = list(map(config, "content"), "naming-models");
+            List<Map<String, ?>> namingModels = list(map(config, "content"), NAMING_MODELS);
             if (namingModels == null) {
-                namingModels = list(config, "naming-models");
+                namingModels = list(config, NAMING_MODELS);
             }
             return namingModels;
         } else {
-            return list(map(map(policy, "input"), "naming-model"), "naming-models");
+            return list(map(map(policy, "input"), "naming-model"), NAMING_MODELS);
         }
 
     }
@@ -65,7 +69,7 @@ public abstract class PolicyReader implements PolicyFinder {
         Map<String, ?> theModel = null;
         if (namingModels != null) {
             for (Map<String, ?> model : namingModels) {
-                Object val = model.get("naming-type");
+                Object val = model.get(NAMING_TYPE);
                 if (namingType.equals(val)) {
                     theModel = model;
                     break;
@@ -120,8 +124,9 @@ public abstract class PolicyReader implements PolicyFinder {
      * Finds the naming-operation from the given naming-model. 
      */
     public static String namingOperation(Map<String, ?> namimgModel) {
-        String propValue = value(namimgModel, "name-operation");
-        return propValue;
+        //String propValue = value(namimgModel, "name-operation");
+        //return propValue;
+        return value(namimgModel, "name-operation");
     }
 
     /**
@@ -294,8 +299,8 @@ public abstract class PolicyReader implements PolicyFinder {
 
     Map<String, Object> getPolicy(String jsonString) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, Object> jsonObject = mapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {});
-        return jsonObject;
+       // Map<String, Object> jsonObject = mapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {});
+        return mapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {});
     }
     
     static List<Map<String, ?>> list(Map<String, ?> policy, String name) {
