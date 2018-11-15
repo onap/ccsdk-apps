@@ -25,13 +25,13 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
-        <version>1.1.2</version>
+        <version>1.1.3-SNAPSHOT</version>
         <relativePath />
     </parent>
 
     <groupId>org.onap.ccsdk.apps</groupId>
     <artifactId>ccsdk-apps-ms</artifactId>
-    <version>0.3.2-SNAPSHOT</version>
+    <version>0.3.3-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>ccsdk-apps-ms</name>
