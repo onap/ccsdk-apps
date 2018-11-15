@@ -128,8 +128,8 @@ public class PropertyOperator {
         if (mapped == null) {
             mapped = camelConverted(recipeItem);
         }
-        String value = applyJavaOperation(null, recipeItem, mapped);
-        return value;
+        //String value = applyJavaOperation(null, recipeItem, mapped);
+        return applyJavaOperation(null, recipeItem, mapped);
     }
     
     static String operationFunction(String operation) throws Exception {
