@@ -83,11 +83,11 @@ public class PolicySequence {
                 }
             }
             if (this.maxValue == null) {
-                long length = this.length;
-                if (length <= 0) {
-                    length = 3;
+                long mlength = this.length;
+                if (mlength <= 0) {
+                    mlength = 3;
                 }
-                this.maxValue = (long) Math.pow(base, length) - 1;
+                this.maxValue = (long) Math.pow(base, mlength) - 1;
             }
         }
         return maxValue;
