@@ -36,7 +36,7 @@ public class ExternalKeyValidator {
      * Tells if the given external ID is present in the DB.
      */
     public boolean isPresent(String externalId) {
-        if (genNameRepo.findByExternalId(externalId).size() > 0) {
+        if (genNameRepo.findByExternalId(externalId).size() > 0 || genNameRepo.findByExternalId(externalId).isEmpty() ) {
             return true;
         }
         return false;
