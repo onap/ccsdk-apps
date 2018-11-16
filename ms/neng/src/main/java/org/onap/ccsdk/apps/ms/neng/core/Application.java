@@ -21,6 +21,9 @@
 package org.onap.ccsdk.apps.ms.neng.core;
 
 import java.util.Arrays;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -38,6 +41,9 @@ import org.springframework.scheduling.annotation.EnableAsync;
 @ComponentScan(basePackages = "org.onap.ccsdk")
 @EnableAsync
 public class Application extends SpringBootServletInitializer {
+
+    private Logger logger = LoggerFactory.getLogger(Application.class);
+
     /**
      * Configures the application.
      */
@@ -49,7 +55,7 @@ public class Application extends SpringBootServletInitializer {
     /**
      * Entry point for the application. 
      */
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) {
         SpringApplication.run(Application.class, args);
     }
 
@@ -59,14 +65,14 @@ public class Application extends SpringBootServletInitializer {
     @Bean
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
-            System.out.println("################################");
-            System.out.println("Inspecting the beans provided by Spring Boot:");
+            logger.info("################################");
+            logger.info("Inspecting the beans provided by Spring Boot:");
             String[] beanNames = ctx.getBeanDefinitionNames();
             Arrays.sort(beanNames);
             for (String beanName : beanNames) {
                 System.out.println(beanName);
             }
-            System.out.println("################################");
+            logger.info("################################");
         };
     }
 
