@@ -4,8 +4,6 @@
  * ================================================================================
  * Copyright (C) 2018 IBM.
  * ================================================================================
- * Modifications Copyright (C) 2018 IBM.
- * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -26,7 +24,9 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.AaiResponse;
+import org.onap.ccsdk.apps.ms.neng.extinf.props.AaiProps;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.web.client.RestTemplate;
 
 public class AaiServiceImplTest {
     private AaiServiceImpl aaiServiceImpl;
@@ -47,5 +47,15 @@ public class AaiServiceImplTest {
     public void testBuildResponse() throws Exception {
         AaiResponse aaiResponse = aaiServiceImpl.buildResponse(true);
         Assert.assertEquals(aaiResponse.isRecFound(), true);
+    }
+    
+    @Test(expected= Exception.class)
+    public void testValidate() throws Exception {
+        AaiProps aaiProps=new AaiProps();
+        aaiProps.setUriBase("http://");
+        aaiServiceImpl.setAaiProps(aaiProps);
+        aaiServiceImpl.setRestTemplate(new RestTemplate());
+        aaiServiceImpl.validate("testUrl/","testName");
+        
     }
 }
