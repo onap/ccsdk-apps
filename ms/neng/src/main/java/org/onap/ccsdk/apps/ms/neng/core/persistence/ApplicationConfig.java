@@ -4,6 +4,9 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * *================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -45,6 +48,8 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Manages the overall configuration of the application related to persistence.
@@ -57,6 +62,7 @@ public class ApplicationConfig {
 
     @Autowired
     private Environment environment;
+    private Logger logger = LoggerFactory.getLogger(Application.class);
 
     @SuppressWarnings("rawtypes")
     void debugProperties() {
@@ -66,8 +72,8 @@ public class ApplicationConfig {
                 .filter(ps -> ps instanceof EnumerablePropertySource)
                 .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
                 .flatMap(Arrays::<String>stream)
-                .forEach(propName -> props.setProperty(propName, this.environment.getProperty(propName)));   
-        System.out.println("Properties: " + props);
+                .forEach(propName -> props.setProperty(propName, this.environment.getProperty(propName)));
+        logger.info("Properties: " + props);
     }
     
     /**
