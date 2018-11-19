@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -29,7 +31,7 @@ import java.util.Map;
  */
 public class NameGenResponse implements Serializable {
     private static final long serialVersionUID = -8039686696076337053L;
-    List<Map<String, String>> elements;
+    private static List<Map<String, String>> elements;
 
     public List<Map<String, String>> getElements() {
         return elements;
