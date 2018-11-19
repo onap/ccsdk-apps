@@ -37,6 +37,9 @@ public class RecipeParser {
      * @return                a list containing the items in the recipe
      * @throws Exception      all exceptions are propagated
      */
+    private RecipeParser(){
+        
+    }
     public static List<String> parseRecipe(PolicyParameters policyParams, String recipe) throws Exception {
         String separatorAll = policyParams.getRecipeSeparator();
         if (separatorAll == null) {
