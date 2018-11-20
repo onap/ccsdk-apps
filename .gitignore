@@ -8,6 +8,8 @@
 **/tokens/*
 
 # Added for Intellij IDEA IDE
+**/*.ipr
+**/*.iws
 **/debug-logs/*
 **/.idea/*
 **/*.iml
@@ -19,11 +21,3 @@
 **/*.jsonld
 **/.checkstyle
 **/.gitignore
-**/.gitignore
-**/.gitignore
-**/.gitignore
-**/.gitignore
-**/.gitignore
-**/.gitignore
-**/.gitignore
-
