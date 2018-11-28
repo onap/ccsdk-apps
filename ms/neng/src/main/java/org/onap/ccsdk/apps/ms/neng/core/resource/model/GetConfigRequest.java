@@ -29,10 +29,10 @@ import java.util.Map;
 public class GetConfigRequest implements Serializable {
     private static final long serialVersionUID = -8039686696076337053L;
 
-    Map<String, Object> configAttributes;
-    String configName;
-    String ecompName;
-    String policyName;
+    private static Map<String, Object> configAttributes;
+    private static String configName;
+    private static String ecompName;
+    private static String policyName;
     boolean unique;
 
     public Map<String, Object> getConfigAttributes() {
