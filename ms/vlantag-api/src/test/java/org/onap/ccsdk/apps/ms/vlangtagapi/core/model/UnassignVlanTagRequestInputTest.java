@@ -64,4 +64,12 @@ public class UnassignVlanTagRequestInputTest {
         
     }
     
+    @Test
+    public void testVlanTagKey()
+    {
+    	unassignVlanTagRequestInput.vlanTagKey("testVlanTagKey");
+        assertEquals("testVlanTagKey",unassignVlanTagRequestInput.getVlanTagKey());
+        
+    }
+    
 }
