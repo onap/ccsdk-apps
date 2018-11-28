@@ -62,5 +62,12 @@ public class AssignVlanTagResponseTest {
         assertTrue((Integer)assignVlanTagResponse.hashCode() instanceof Integer);
     }
     
+    @Test
+    public void testErrorMessage()
+    {
+    	assignVlanTagResponse.errorMessage("test error message");
+    	assertEquals("test error message",assignVlanTagResponse.getErrorMessage());
+    }
+    
    
 }
