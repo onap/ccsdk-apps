@@ -27,7 +27,7 @@ import java.io.Serializable;
  */
 public class GetConfigResponse implements Serializable {
     private static final long serialVersionUID = -8039686696076337053L;
-    Object response;
+    private static Object response;
 
     public Object getResponse() {
         return response;
