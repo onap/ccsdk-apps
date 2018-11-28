@@ -19,14 +19,15 @@
  * ============LICENSE_END=========================================================
  -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
         <version>1.2.0-SNAPSHOT</version>
-        <relativePath />
+        <relativePath/>
     </parent>
 
     <groupId>org.onap.ccsdk.apps</groupId>
@@ -38,9 +39,10 @@
     <description>Micro-services</description>
 
     <modules>
-		<module>controllerblueprints</module>
+        <module>controllerblueprints</module>
+        <module>blueprintsprocessor</module>
         <module>neng</module>
-		<!--module>vlantag-api</module-->
+        <module>vlantag-api</module>
     </modules>
 </project>
 
