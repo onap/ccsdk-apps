@@ -46,6 +46,7 @@ public class PolicySequence {
     private Long lastReleaseSeqNumTried;
     private Logger logger = LoggerFactory.getLogger(PolicySequence.class);
 
+    
     public long getStartValue() {
         return startValue;
     }
