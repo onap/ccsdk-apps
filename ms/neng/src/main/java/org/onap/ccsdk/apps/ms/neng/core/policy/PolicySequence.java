@@ -46,6 +46,7 @@ public class PolicySequence {
     private Long lastReleaseSeqNumTried;
     private Logger logger = LoggerFactory.getLogger(PolicySequence.class);
 
+    
     public long getStartValue() {
         return startValue;
     }
@@ -83,7 +84,7 @@ public class PolicySequence {
                 try {
                     this.maxValue = Long.valueOf(this.maxValueString, base);
                 } catch (Exception e) {
-                    logger.error(EELFLoggerDelegate.errorLogger,e.getMessage());
+                    logger.error("Exception",e);
                     this.maxValue = null;
                 }
             }
