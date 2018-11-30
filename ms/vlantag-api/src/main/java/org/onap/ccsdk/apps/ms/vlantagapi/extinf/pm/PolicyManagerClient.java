@@ -93,6 +93,7 @@ public class PolicyManagerClient {
 			result = response.getBody();
 
 		} catch (RestClientException rce) {
+		    log.error(rce.getMessage());
 			throw new VlantagApiException(rce.getLocalizedMessage());
 		}
 		return result;
@@ -118,6 +119,7 @@ public class PolicyManagerClient {
             requestObject.setPolicyName(policyName);
             retVal = extractResourceModelsFromResponse(getConfigUsingPost(requestObject));
         } catch (IOException e) {
+            log.error(e.getMessage());
             throw new VlantagApiException(e);
         } 
         return retVal;
