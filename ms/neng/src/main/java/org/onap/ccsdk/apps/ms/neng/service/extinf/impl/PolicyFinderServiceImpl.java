@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -74,7 +76,7 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         if (response instanceof List) {
             @SuppressWarnings("unchecked")
             List<Map<String, Object>> policyList = (List<Map<String, Object>>) response;
-            return ((policyList != null && policyList.size() > 0) ? policyList.get(0) : null);
+            return ((!policyList.isEmpty()) ? policyList.get(0) : null);
         } else {
             return null;
         }
