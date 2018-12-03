@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -95,7 +97,7 @@ public abstract class PolicyReader implements PolicyFinder {
         Map<String, ?> theModel = null;
         if (namingModels != null) {
             for (Map<String, ?> model : namingModels) {
-                Object val = model.get("naming-type");
+                Object val = model.get(NAMING_TYPE);
                 if (val != null) {
                     if (namingType.equalsIgnoreCase(val.toString())) {
                         theModel = model;
@@ -106,7 +108,7 @@ public abstract class PolicyReader implements PolicyFinder {
             if (theModel == null) {
                 namingType = relaxedNamingType(namingType);
                 for (Map<String, ?> model : namingModels) {
-                    Object val = model.get("naming-type");
+                    Object val = model.get(NAMING_TYPE);
                     if (val != null) {
                         String relaxedVal = relaxedNamingType(val.toString());
                         if (namingType.equalsIgnoreCase(relaxedVal)) {
@@ -124,8 +126,6 @@ public abstract class PolicyReader implements PolicyFinder {
      * Finds the naming-operation from the given naming-model. 
      */
     public static String namingOperation(Map<String, ?> namimgModel) {
-        //String propValue = value(namimgModel, "name-operation");
-        //return propValue;
         return value(namimgModel, "name-operation");
     }
 
@@ -162,7 +162,7 @@ public abstract class PolicyReader implements PolicyFinder {
      * Finds the naming-type from the given naming-model. 
      */
     public static String namingType(Map<String, ?> namimgModelOrElement) {
-        return value(namimgModelOrElement, "naming-type");
+        return value(namimgModelOrElement, NAMING_TYPE);
     }
 
     /**
@@ -299,7 +299,6 @@ public abstract class PolicyReader implements PolicyFinder {
 
     Map<String, Object> getPolicy(String jsonString) throws Exception {
         ObjectMapper mapper = new ObjectMapper();
-       // Map<String, Object> jsonObject = mapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {});
         return mapper.readValue(jsonString, new TypeReference<Map<String, Object>>() {});
     }
     
