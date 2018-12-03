@@ -115,7 +115,7 @@ public class SpringServiceImpl implements SpringService {
             List<Map<String, String>> allElements = new ArrayList<>();
             Map<String, Map<String, ?>> policyCache = new HashMap<>();
             List<Map<String, String>> generatedNames = new ArrayList<>();
-            List<String> earlierNamingTypes = new ArrayList<String>();
+            List<String> earlierNamingTypes = new ArrayList<>();
             validateRequest(request);
             if (request.getElements() != null && !request.getElements().isEmpty()) {
                 allElements.addAll(request.getElements());
@@ -226,6 +226,7 @@ public class SpringServiceImpl implements SpringService {
     }
 
     void validateRequest(NameGenRequest request) throws Exception {
+    	// this method does nothing
     }
 
     private PolicyFinder findPolicyFinderImpl(NameGenRequest request) {
