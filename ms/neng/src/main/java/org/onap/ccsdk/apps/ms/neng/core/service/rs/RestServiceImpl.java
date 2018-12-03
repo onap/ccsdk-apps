@@ -42,7 +42,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class RestServiceImpl implements RestService {
     private static Logger log = Logger.getLogger(RestServiceImpl.class.getName());
     private static final String INTERNAL_ERROR_MSG = "Internal error occured while processing the request.";
-
+    private static final String ERROR="error";
+    
+    
     @Autowired SpringService service;
 
     /**
@@ -67,11 +69,11 @@ public class RestServiceImpl implements RestService {
             return buildResponse(resp);
         } catch (NengException e) {
             log.warning(e.getMessage());
-            response.put("error", buildErrorResponse("NELGEN-0003", e.getMessage()));
+            response.put(ERROR, buildErrorResponse("NELGEN-0003", e.getMessage()));
             return buildErrorResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            response.put("error", buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
+            response.put(ERROR, buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
             return buildErrorResponse(response);
         }
     }
@@ -88,11 +90,11 @@ public class RestServiceImpl implements RestService {
             return buildResponse(resp);
         } catch (NengException e) {
             log.warning(e.getMessage());
-            response.put("error", buildErrorResponse("NELGEN-0002", e.getMessage()));
+            response.put(ERROR, buildErrorResponse("NELGEN-0002", e.getMessage()));
             return buildErrorResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            response.put("error", buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
+            response.put(ERROR, buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
             return buildErrorResponse(response);
         }
     }
@@ -120,7 +122,7 @@ public class RestServiceImpl implements RestService {
             return buildResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            response.put("error", buildErrorResponse("err-0500", e.getMessage()));
+            response.put(ERROR, buildErrorResponse("err-0500", e.getMessage()));
             return buildErrorResponse(response);
         }
     }
