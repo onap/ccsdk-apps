@@ -25,7 +25,7 @@
                     </return>
                 </outcome>
                 <outcome value='success'>
-                    <execute plugin="resource-assignment-py" method="process">
+                    <execute plugin="activate-jython" method="process">
                         <outcome value='failure'>
                             <return status="failure">
                             </return>

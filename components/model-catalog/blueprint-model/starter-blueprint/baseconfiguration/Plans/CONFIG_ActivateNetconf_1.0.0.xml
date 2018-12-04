@@ -19,7 +19,7 @@
         xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='CONFIG' version='1.0.0'>
     <method rpc='ActivateNetconf' mode='sync'>
         <block atomic="true">
-            <execute plugin="resource-assignment" method="process">
+            <execute plugin="activate-jython" method="process">
                 <outcome value='failure'>
                     <return status="failure">
                     </return>
