@@ -36,7 +36,7 @@ public class NamePersister {
     /**
      * Persist the given name.
      */
-    public void persist(GeneratedName name) throws Exception {
+    public void persist(GeneratedName name) {
         repository.save(name);
     }
 
