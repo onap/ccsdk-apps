@@ -3,13 +3,14 @@
  * ONAP : CCSDK.apps
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018 IBM.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,15 +21,17 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.policy;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  * Represents a sequence object in the policy, as a POJO.
  */
 public class PolicySequence {
     /**
-     * The type of the policy sequence. 
+     * The type of the policy sequence.
      */
-    public enum Type { 
-        ALPHA, NUMERIC 
+    public enum Type {
+        ALPHA, NUMERIC
     }
 
     private long startValue;
@@ -41,6 +44,8 @@ public class PolicySequence {
     private String key;
     private String value;
     private Long lastReleaseSeqNumTried;
+    private Logger logger = LoggerFactory.getLogger(PolicySequence.class);
+
 
     public long getStartValue() {
         return startValue;
@@ -79,6 +84,7 @@ public class PolicySequence {
                 try {
                     this.maxValue = Long.valueOf(this.maxValueString, base);
                 } catch (Exception e) {
+                    logger.error("Exception",e);
                     this.maxValue = null;
                 }
             }
