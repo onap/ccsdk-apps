@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.lang3.StringUtils;
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
 import org.onap.ccsdk.apps.controllerblueprints.core.ConfigModelConstant;
 import org.onap.ccsdk.apps.controllerblueprints.core.data.ToscaMetaData;
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils;
@@ -29,12 +30,22 @@ import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModelContent;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.springframework.util.FileSystemUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.text.DateFormat;
+import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 @Deprecated
@@ -124,5 +135,60 @@ public class ConfigModelUtils {
         String[] dirs = blueprintDir.list(DirectoryFileFilter.INSTANCE);
         Preconditions.checkNotNull(dirs, "failed to find the blueprint directories" + blueprintDir.getAbsolutePath());
         return Arrays.asList(dirs);
+    }
+
+    /*
+     * Added
+     *
+     */
+    public static Path getCbaStorageDirectory(String path) throws IOException {
+        Preconditions.checkArgument(StringUtils.isNotBlank(path), "ConfigModel Path is missing");
+
+        Path fileStorageLocation = Paths.get(path).toAbsolutePath().normalize();
+
+        if(!Files.exists(fileStorageLocation))
+            Files.createDirectories(fileStorageLocation);
+
+        return fileStorageLocation;
+    }
+
+    public static String getCbaFileName(String filename, String prefix){
+
+        String date_prefix  =   Instant.now()
+                .truncatedTo( ChronoUnit.SECONDS )
+                .toString()
+                .replace( "-" , "" )
+                .replace( ":" , "" );
+
+        return MessageFormat.format(prefix, date_prefix, filename);
+    }
+
+    /**
+     * This is a deleteCBA method
+     *
+     * This method will remove a CBA zip file or a CBA directory from CCSDK repository
+     * Exemple :  deleteCBA(fileName, targetDirectory)  or  deleteCBA(directoryName, targetDirectory)
+     *
+     * @param name name
+     * @return
+     * @throws IOException IOException
+     */
+    public static void deleteCBA(String name, Path targetDirectory) throws IOException {
+        Path targetLocation = targetDirectory.resolve(name);
+
+        try {
+            if (Files.exists(targetLocation))
+                FileSystemUtils.deleteRecursively(targetLocation);
+        }
+        catch (IOException ex) {
+            throw new IOException("Could not delete file or directory " + name + ". Please try again!", ex);
+        }
+    }
+
+    public static String stripFileExtension(String fileName) {
+        int dotIndexe = fileName.lastIndexOf('.');
+
+        // In case dot is in first position, we are dealing with a hidden file rather than an extension
+        return (dotIndexe > 0) ? fileName.substring(0, dotIndexe) : fileName;
     }
 }
