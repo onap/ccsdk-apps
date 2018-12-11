@@ -109,7 +109,7 @@ public class PropertyOperator {
                 args = argPart.split(",");
             }
 
-            PolicyPropertyMethodUtils utils = new PolicyPropertyMethodUtils();
+            PolicyPropertyMethodUtils utils;
             for (Method m : PolicyPropertyMethodUtils.class.getDeclaredMethods()) {
                 if (m.getName().equals(methodName) && m.getParameterCount() == args.length) {
                     postOp = (String) m.invoke(utils, (Object[])args);
@@ -128,7 +128,6 @@ public class PropertyOperator {
         if (mapped == null) {
             mapped = camelConverted(recipeItem);
         }
-        //String value = applyJavaOperation(null, recipeItem, mapped);
         return applyJavaOperation(null, recipeItem, mapped);
     }
     
