@@ -15,28 +15,32 @@
  *  limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.resource.dict
+package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolutionprocessor
 
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BlueprintFunctionNode
 import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintRuntimeService
+import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
+import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDefinition
 import org.slf4j.LoggerFactory
 
 abstract class ResourceAssignmentProcessor : BlueprintFunctionNode<ResourceAssignment, ResourceAssignment> {
 
     private val log = LoggerFactory.getLogger(ResourceAssignmentProcessor::class.java)
 
-    private var bluePrintRuntimeService: BluePrintRuntimeService<*>? = null
+    var bluePrintRuntimeService: BluePrintRuntimeService<*>? = null
 
-    open fun setBlueprintRuntimeService(bluePrintRuntimeService: BluePrintRuntimeService<*>) {
-        this.bluePrintRuntimeService = bluePrintRuntimeService
-    }
+    var resourceDictionaries: Map<String, ResourceDefinition> = hashMapOf()
 
-    open fun getBlueprintRuntimeService(): BluePrintRuntimeService<*> {
-        return this.bluePrintRuntimeService!!
+
+    open fun resourceDefinition(name: String): ResourceDefinition {
+        return resourceDictionaries.get(name)
+                ?: throw BluePrintProcessorException("couldn't get resource definition($name)")
     }
 
     override fun prepareRequest(resourceAssignment: ResourceAssignment): ResourceAssignment {
-        log.info("prepareRequest...")
+        log.info("prepareRequest for ${resourceAssignment.name}, dictionary(${resourceAssignment.dictionaryName})," +
+                "source(${resourceAssignment.dictionarySource})")
         return resourceAssignment
     }
 
