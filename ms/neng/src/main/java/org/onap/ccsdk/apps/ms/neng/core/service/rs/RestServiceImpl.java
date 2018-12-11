@@ -4,6 +4,8 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
+ * Modifications Copyright (C) 2018 IBM.
+ * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -43,7 +45,7 @@ public class RestServiceImpl implements RestService {
     private static Logger log = Logger.getLogger(RestServiceImpl.class.getName());
     private static final String INTERNAL_ERROR_MSG = "Internal error occured while processing the request.";
     private static final String ERROR="error";
-    
+    private static final String ERROR_500="err-0500";
     
     @Autowired SpringService service;
 
@@ -73,7 +75,7 @@ public class RestServiceImpl implements RestService {
             return buildErrorResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            response.put(ERROR, buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
+            response.put(ERROR, buildErrorResponse(ERROR_500, INTERNAL_ERROR_MSG));
             return buildErrorResponse(response);
         }
     }
@@ -94,7 +96,7 @@ public class RestServiceImpl implements RestService {
             return buildErrorResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            response.put(ERROR, buildErrorResponse("err-0500", INTERNAL_ERROR_MSG));
+            response.put(ERROR, buildErrorResponse(ERROR_500, INTERNAL_ERROR_MSG));
             return buildErrorResponse(response);
         }
     }
@@ -122,7 +124,7 @@ public class RestServiceImpl implements RestService {
             return buildResponse(response);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            response.put(ERROR, buildErrorResponse("err-0500", e.getMessage()));
+            response.put(ERROR, buildErrorResponse(ERROR_500, e.getMessage()));
             return buildErrorResponse(response);
         }
     }
