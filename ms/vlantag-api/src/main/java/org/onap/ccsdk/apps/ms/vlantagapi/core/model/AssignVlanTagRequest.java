@@ -1,5 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 AT&T Intellectual Property.
+ * Modifications Copyright © 2017-2018 AT&T Intellectual Property.
  * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -33,7 +34,7 @@ import io.swagger.annotations.ApiModelProperty;
  */
 public class AssignVlanTagRequest {
 	
-	private @Valid List<AssignVlanTagRequestInput> input = new ArrayList<AssignVlanTagRequestInput>();
+	private @Valid List<AssignVlanTagRequestInput> input = new ArrayList<>();
 
 	  /**
 	   **/
