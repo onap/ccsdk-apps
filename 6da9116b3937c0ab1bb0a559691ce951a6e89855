@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Code-Review+1: Biju Thomas <bt2983@att.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Tue, 11 Dec 2018 14:51:57 +0000
+Reviewed-on: https://gerrit.onap.org/r/74181
+Project: ccsdk/apps
+Branch: refs/heads/master
