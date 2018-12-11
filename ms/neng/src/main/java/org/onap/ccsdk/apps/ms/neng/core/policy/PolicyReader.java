@@ -256,7 +256,8 @@ public abstract class PolicyReader implements PolicyFinder {
         if (relaxed) {
             String value = null;
             if (map != null) {
-                for (final String aKey : map.keySet()) {
+                for (Map.Entry<String, ?> entry : map.entrySet()) {
+                	final String aKey = entry.getKey();
                     if (aKey.equalsIgnoreCase(key)) {
                         value = (String) map.get(aKey);
                         break;
