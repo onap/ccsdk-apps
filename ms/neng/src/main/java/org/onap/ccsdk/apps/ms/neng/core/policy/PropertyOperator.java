@@ -3,6 +3,7 @@
  * ONAP : CCSDK.apps
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
+ * Modifications Copyright (C) 2018 IBM.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,11 +25,13 @@ import static org.onap.ccsdk.apps.ms.neng.core.policy.PolicyReader.propertyOpera
 
 import java.lang.reflect.Method;
 import java.util.Map;
+import java.util.logging.Logger;
 
 /**
  * Applies property operations while processing a policy.
  */
 public class PropertyOperator {
+    private static Logger logger = Logger.getLogger(PropertyOperator.class.getName());
     /**
      * Apply a property found in the policy.
      * 
@@ -117,7 +120,7 @@ public class PropertyOperator {
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.warning(e.getMessage());
             throw e;
         }
         return postOp;
