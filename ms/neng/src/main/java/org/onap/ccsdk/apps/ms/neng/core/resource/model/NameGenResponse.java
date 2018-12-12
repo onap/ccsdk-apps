@@ -31,7 +31,7 @@ import java.util.Map;
  */
 public class NameGenResponse implements Serializable {
     private static final long serialVersionUID = -8039686696076337053L;
-    private static List<Map<String, String>> elements;
+    private List<Map<String, String>> elements;
 
     public List<Map<String, String>> getElements() {
         return elements;
