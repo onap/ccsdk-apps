@@ -85,11 +85,10 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
     GetConfigResponse getConfig(String policyName) throws Exception {
         GetConfigRequest getConfigRequest = new GetConfigRequest();
         getConfigRequest.setPolicyName(policyName);
-        GetConfigResponse getConfigResponse = makeOutboundCall(getConfigRequest, GetConfigResponse.class);
-        return getConfigResponse;
+        return  makeOutboundCall(getConfigRequest, GetConfigResponse.class);;
     }
 
-    <T, R> GetConfigResponse makeOutboundCall(T request, Class<R> response) throws Exception {
+    <T, R> GetConfigResponse makeOutboundCall(T request, Class<R> response) throws NengException {
         log.info("Policy Manager  - " + policManProps.getUrl());
         RequestEntity<T> re = RequestEntity.post(new URI(policManProps.getUrl()))
                         .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).body(request);
@@ -97,7 +96,8 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
             ResponseEntity<Object> resp = getRestTemplate().exchange(re, Object.class);
             if (HttpStatus.OK.equals(resp.getStatusCode())) {
                 ObjectMapper objectmapper = new ObjectMapper();
-                System.out.println(objectmapper.writeValueAsString(resp.getBody()));
+                log.info(objectmapper.writeValueAsString(resp.getBody()));
+                //System.out.println(objectmapper.writeValueAsString(resp.getBody()));
                 List<Map<Object, Object>> respObj = objectmapper.readValue(
                                 objectmapper.writeValueAsString(resp.getBody()),
                                                 new TypeReference<List<Map<Object, Object>>>() {});
@@ -112,7 +112,7 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         throw new NengException("Error while retrieving policy from policy manager.");
     }
 
-    void handleError(HttpStatusCodeException e) throws Exception {
+    void handleError(HttpStatusCodeException e) throws NengException {
         String respString = e.getResponseBodyAsString();
         log.info(respString);
         if (e.getStatusText() != null) {
