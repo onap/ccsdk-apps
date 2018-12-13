@@ -165,6 +165,8 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 		rr.applicationId = "SDNC";
 		rr.rangeMaxOverride = -1;
 		rr.rangeMinOverride = -1;
+		if("TRUE".equalsIgnoreCase(element.getSharedRange()))
+		    rr.resourceShareGroup = input.getScopeId();
 
 		List<Range> rangeList = new ArrayList<>();
 		for (AllowedRanges allowedRange : element.getAllowedRanges()) {

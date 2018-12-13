@@ -40,6 +40,9 @@ public class Elements {
 	@JsonProperty("allowed-range")
 	private List<AllowedRanges> allowedRanges;
 	
+	@JsonProperty("shared-range")
+    private String sharedRange;
+	
 	@JsonProperty("element-vlan-role")
 	String elementVlanRole;
 	
@@ -76,7 +79,15 @@ public class Elements {
 		this.allowedRanges = allowedRanges;
 	}
 
-	public String getElementVlanRole() {
+	public String getSharedRange() {
+        return sharedRange;
+    }
+
+    public void setSharedRange(String sharedRange) {
+        this.sharedRange = sharedRange;
+    }
+
+    public String getElementVlanRole() {
 		return elementVlanRole;
 	}
 
@@ -84,12 +95,14 @@ public class Elements {
 		this.elementVlanRole = elementVlanRole;
 	}
 
-	@Override
-	public String toString() {
-		return "Elements [recycleVlantagRange=" + recycleVlantagRange + ", overwrite=" + overwrite + ", vlantagName="
-				+ vlantagName + ", allowedRanges=" + allowedRanges + ", elementVlanRole=" + elementVlanRole + "]";
-	}
+    @Override
+    public String toString() {
+        return "Elements [recycleVlantagRange=" + recycleVlantagRange + ", overwrite=" + overwrite + ", vlantagName="
+                + vlantagName + ", allowedRanges=" + allowedRanges + ", sharedRange=" + sharedRange
+                + ", elementVlanRole=" + elementVlanRole + "]";
+    }
 
+	
 
 	
 	

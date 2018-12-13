@@ -35,7 +35,6 @@ import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.exception.VlantagApiException;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.extinf.pm.model.AllowedRanges;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.extinf.pm.model.Elements;
-import org.onap.ccsdk.apps.ms.vlantagapi.core.extinf.pm.model.PolicyEngineResponse;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.extinf.pm.model.ResourceModel;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.model.AssignVlanTagRequest;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.model.AssignVlanTagRequestInput;
@@ -45,7 +44,7 @@ import org.onap.ccsdk.apps.ms.vlantagapi.core.model.UnassignVlanTagRequest;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.model.UnassignVlanTagRequestInput;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.model.UnassignVlanTagResponse;
 import org.onap.ccsdk.apps.ms.vlantagapi.core.service.VlantagApiServiceImpl;
-import org.onap.ccsdk.apps.ms.vlantagapi.extinf.pm.PolicyManagerClient;
+import org.onap.ccsdk.apps.ms.vlantagapi.util.MockPolicyClient;
 import org.onap.ccsdk.apps.ms.vlantagapi.util.MockResourceAllocator;
 import org.onap.ccsdk.sli.adaptors.ra.comp.ResourceResponse;
 import org.onap.ccsdk.sli.adaptors.util.str.StrUtil;
@@ -63,10 +62,10 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	VlantagApiServiceImpl serviceSpy;
 	
 	@Spy
-	private PolicyManagerClient policyEngineSpy;
-	
-	@Spy
 	protected static MockResourceAllocator mockRA2;
+	
+	@Spy 
+	protected static MockPolicyClient policyClient; 
 
 	
 	@Rule
@@ -75,13 +74,6 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	@Before
 	public void setup() throws Exception {
 		service = new VlantagApiServiceImpl();
-
-		PolicyEngineResponse peResponse = new PolicyEngineResponse();
-		peResponse.setConfig("{\"riskLevel\":\"4\",\"riskType\":\"test\",\"policyName\":\"Internet_VlanTag_1810_US_VPE\",\"service\":\"vlantagResourceModel\",\"guard\":\"False\",\"description\":\"Internet_VlanTag_1810_US_VPE\",\"templateVersion\":\"1607\",\"priority\":\"4\",\"version\":\"20180709\",\"content\":{\"policy-instance-name\":\"Internet_VlanTag_1810_US_VPE\",\"resource-models\":[{\"data-store\":\"FALSE\",\"elements\":[{\"allowed-range\":[{\"min\":\"3553\",\"max\":\"3562\"}],\"recycle-vlantag-range\":\"TRUE\",\"overwrite\":\"FALSE\",\"vlantag-name\":\"VPE-Cust\"}],\"scope\":\"SITE\",\"vlan-type\":\"vlan-id-outer\",\"resource-resolution-recipe\":\"#BSB# VPE-Cust #ESB#\",\"resource-vlan-role\":\"outer-tag\"},{\"data-store\":\"TRUE\",\"elements\":[{\"allowed-range\":[{\"min\":\"3503\",\"max\":\"3503\"}],\"element-vlan-role\":\"outer-tag\",\"recycle-vlantag-range\":\"TRUE\",\"overwrite\":\"FALSE\",\"vlantag-name\":\"VPE-Cust-Outer\"},{\"allowed-range\":[{\"min\":\"4001\",\"max\":\"4012\"}],\"element-vlan-role\":\"outer-tag\",\"recycle-vlantag-range\":\"TRUE\",\"overwrite\":\"FALSE\",\"vlantag-name\":\"VPE-Core1\"},{\"allowed-range\":[{\"min\":\"4001\",\"max\":\"4012\"}],\"element-vlan-role\":\"outer-tag\",\"recycle-vlantag-range\":\"TRUE\",\"overwrite\":\"FALSE\",\"vlantag-name\":\"VPE-Core2\"}],\"scope\":\"SITE\",\"vlan-type\":\"vlan-id-filter\",\"resource-resolution-recipe\":\"#BSB# VPE-Cust-Outer, VPE-Core1, VPE-Core2 #ESB#\"}]}}");
-		PolicyEngineResponse[] peResponses = new PolicyEngineResponse[1];
-		peResponses[0] = peResponse;
-
-		Mockito.doReturn(peResponses).when(policyEngineSpy).getConfigUsingPost(any());
 	}
 	
 	@Test
@@ -119,6 +111,26 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 		
 		StrUtil.info(log, response);
 	}
+	
+	@Test(expected = Test.None.class /* no exception expected */)
+    public void test_assign_sucess_002() throws Exception {
+        
+        AssignVlanTagRequestInput input = new AssignVlanTagRequestInput();
+        input.setPolicyInstanceName("some-policy-instance");
+        input.setVlanType("vlan-id-filter");
+        input.setScopeId("some-scope-id");
+        input.setVlanTagKey("some-key");
+        
+        AssignVlanTagRequest request = new AssignVlanTagRequest();
+        List<AssignVlanTagRequestInput> inputs = new ArrayList<>();
+        inputs.add(input);
+        request.setInput(inputs);
+        
+        //PowerMockito.doReturn(mockStatus.Success).when(mockRA).reserve(any(), any(), any(), any());       
+        AssignVlanTagResponse response = serviceSpy.assignVlanTag(request);
+        
+        StrUtil.info(log, response);
+    }
 	
 	@Test(expected = Test.None.class /* no exception expected */)
 	public void test_unassign_sucess_001() throws Exception {
@@ -943,7 +955,7 @@ private static final Logger log = LoggerFactory.getLogger(TestVlantagApiServiceI
 	
 	   @Test(expected = VlantagApiException.class)
 	    public void testGetPolicyFromPDPFailure() throws Exception {
-	        Mockito.doThrow(new VlantagApiException()).when(policyEngineSpy).getConfigUsingPost(any());
-	        policyEngineSpy.getPolicyFromPDP("sonme_random_policy_name");
+	        Mockito.doThrow(new VlantagApiException()).when(policyClient).getConfigUsingPost(any());
+	        policyClient.getPolicyFromPDP("sonme_random_policy_name");
 	    }
 }

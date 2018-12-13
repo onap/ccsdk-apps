@@ -48,6 +48,12 @@ public class ElementsTest {
 		elements.setElementVlanRole("elementVlanRole");
 		assertEquals("elementVlanRole", elements.getElementVlanRole());
 	}
+	
+	@Test
+    public void testGetSetSharedRange() {
+        elements.setSharedRange("TRUE");
+        assertEquals("TRUE", elements.getSharedRange());
+    }
 
 	@Test
 	public void testToString() {
