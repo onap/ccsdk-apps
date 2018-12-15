@@ -14,11 +14,21 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.blueprintsprocessor.core.interfaces
+package org.onap.ccsdk.apps.controllerblueprints.service.load
 
-interface BluePrintCatalogService {
-    /**
-     * Get the Blueprint from Data Base and Download it under working directory and return the path path
-     */
-    fun prepareBluePrint(name: String, version: String): String
+open class BluePrintLoadConfiguration {
+
+    lateinit var blueprintDeployPath: String
+    lateinit var blueprintArchivePath: String
+    lateinit var blueprintEnrichmentPath: String
+
+    var loadInitialData: Boolean = false
+    var loadBluePrint: Boolean = false
+    var loadBluePrintPaths: String? = null
+
+    var loadModelType: Boolean = false
+    var loadModeTypePaths: String? = null
+
+    var loadResourceDictionary: Boolean = false
+    var loadResourceDictionaryPaths: String? = null
 }
