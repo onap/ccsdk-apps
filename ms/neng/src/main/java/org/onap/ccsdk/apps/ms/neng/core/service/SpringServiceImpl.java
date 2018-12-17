@@ -135,7 +135,7 @@ public class SpringServiceImpl implements SpringService {
             if (e instanceof NengException) {
                 throw e;
             } else {
-                e.printStackTrace();
+                log.warning(e.getMessage());
                 throw new Exception("Internal error occurred while processing the request");
             }
         }
@@ -149,6 +149,7 @@ public class SpringServiceImpl implements SpringService {
         try {
             return policyDetailsRepository.findPolicyResponseByName(policyName);
         } catch (Exception e) {
+            log.warning(e.getMessage());
             return new PolicyDetails();
         }
     }
@@ -190,7 +191,7 @@ public class SpringServiceImpl implements SpringService {
             if (e instanceof NengException) {
                 throw e;
             } else {
-                e.printStackTrace();
+                log.warning(e.getMessage());
                 throw new Exception("Internal error occurred while processing the request");
             }
         }
