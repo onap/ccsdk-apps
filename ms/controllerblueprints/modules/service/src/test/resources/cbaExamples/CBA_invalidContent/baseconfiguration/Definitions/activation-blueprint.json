@@ -1,0 +1,198 @@
+{
+  "metadata": {
+    "template_author": "Brinda Santh Muthuramalingam",
+    "author-email": "brindasanth@in.ibm.com",
+    "user-groups": "ADMIN, OPERATION",
+    "template_name": "baseconfiguration",
+    "template_version": "1.0.0",
+    "template_tags": "brinda, tosca"
+  },
+  "imports": [
+    {
+      "file": "Definitions/types.json"
+    }
+  ],
+  "topology_template": {
+    "inputs": {
+      "request-id": {
+        "required": true,
+        "type": "string"
+      },
+      "action-name": {
+        "required": true,
+        "type": "string"
+      },
+      "scope-type": {
+        "required": true,
+        "type": "string"
+      },
+      "hostname": {
+        "required": true,
+        "type": "string"
+      }
+    },
+    "node_templates": {
+      "activate-process": {
+        "type": "dg-activate",
+        "properties": {
+          "process-name": {
+            "get_input": "action-name"
+          },
+          "version": {
+            "get_property": [
+              "SELF",
+              "process-name"
+            ]
+          },
+          "content": {
+            "get_artifact": [
+              "SELF",
+              "dg-activate-process"
+            ]
+          }
+        },
+        "artifacts": {
+          "dg-activate-process": {
+            "type": "artifact-directed-graph",
+            "file": "Plans/ActivateProcess.bpmn"
+          }
+        }
+      },
+      "resource-assignment": {
+        "type": "component-resource-assignment",
+        "properties": {
+          "request-id": "1234"
+        },
+        "interfaces": {
+          "DefaultComponentNode": {
+            "operations": {
+              "process": {
+                "inputs": {
+                  "action-name": {
+                    "get_input": "action-name"
+                  },
+                  "resource-type": "vnf-type",
+                  "request-id": {
+                    "get_input": "request-id"
+                  },
+                  "resource-id": {
+                    "get_input": "hostname"
+                  },
+                  "template-content": {
+                    "get_artifact": [
+                      "SELF",
+                      "baseconfig-template"
+                    ]
+                  },
+                  "mapping-content": {
+                    "get_artifact": [
+                      "SELF",
+                      "baseconfig-mapping"
+                    ]
+                  }
+                },
+                "outputs": {
+                  "resource-assignment-params": {
+                    "get_attribute": [
+                      "SELF",
+                      "assignment-params"
+                    ]
+                  },
+                  "status": "success"
+                }
+              }
+            }
+          }
+        },
+        "artifacts": {
+          "baseconfig-template": {
+            "type": "artifact-template-velocity",
+            "file": "Templates/baseconfig-template.vtl"
+          },
+          "baseconfig-mapping": {
+            "type": "artifact-mapping-resource",
+            "file": "Mappings/baseconfig-mapping.json"
+          }
+        }
+      },
+      "resource-assignment-py": {
+        "type": "component-resource-assignment",
+        "properties": {
+          "request-id": "1234"
+        },
+        "interfaces": {
+          "DefaultComponentNode": {
+            "operations": {
+              "process": {
+                "implementation": {
+                  "primary": "component-script"
+                },
+                "inputs": {
+                  "action-name": {
+                    "get_input": "action-name"
+                  }
+                },
+                "outputs": {
+                  "resource-assignment-params": "",
+                  "status": ""
+                }
+              }
+            }
+          }
+        },
+        "artifacts": {
+          "component-script": {
+            "type": "artifact-script-python",
+            "file": "Scripts/baseconfig-template.vtl"
+          }
+        }
+      }
+    },
+    "workflows": {
+      "resource-assignment": {
+        "inputs": {
+          "request-id": {
+            "required": true,
+            "type": "string"
+          },
+          "action-name": {
+            "required": true,
+            "type": "string"
+          },
+          "scope-type": {
+            "required": true,
+            "type": "string"
+          },
+          "hostname": {
+            "required": true,
+            "type": "string"
+          }
+        },
+        "steps": {
+          "call-resource-assignment": {
+            "description": "Resource Assignment Workflow",
+            "target": "resource-assignment",
+            "activities": [
+              {
+                "call_operation": "ResourceAssignmentNode.process"
+              }
+            ]
+          }
+        }
+      },
+      "activate": {
+        "steps": {
+          "call-resource-assignment": {
+            "description": "Netconf Activation Workflow",
+            "target": "resource-assignment",
+            "activities": [
+              {
+                "call_operation": "ResourceAssignmentNode.process"
+              }
+            ]
+          }
+        }
+      }
+    }
+  }
+}
