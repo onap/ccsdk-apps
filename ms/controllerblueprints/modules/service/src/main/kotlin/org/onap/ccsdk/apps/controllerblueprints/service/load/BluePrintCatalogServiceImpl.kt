@@ -16,40 +16,67 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service.load
 
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintFileResponse
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintValidatorService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintArchiveUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
+import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintFileUtils
+import org.onap.ccsdk.apps.controllerblueprints.service.BluePrintDatabaseService
 import org.springframework.stereotype.Service
 import java.io.File
-import java.util.*
+import java.nio.file.Paths
 
 @Service
 class BluePrintCatalogServiceImpl(private val bluePrintLoadConfiguration: BluePrintLoadConfiguration,
-                                  private val bluePrintValidatorService: BluePrintValidatorService) : BluePrintCatalogService {
+                                  private val bluePrintValidatorService: BluePrintValidatorService,
+                                  private val bluePrintDatabaseService: BluePrintDatabaseService) : BluePrintCatalogService {
 
-    override fun uploadToDataBase(file: String): String {
-        val id = UUID.randomUUID().toString()
+    override fun uploadToDataBase(file: String): BlueprintInfoResponse? {
+        // The file name provided here is unique as we transform to UUID before storing
+        var blueprintInfoResponse: BlueprintInfoResponse? = null
         val blueprintFile = File(file)
+        val fileName = blueprintFile.name
+        val id = BluePrintFileUtils.stripFileExtension(fileName)
         // If the file is directory
         if (blueprintFile.isDirectory) {
             val bluePrintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(id, blueprintFile.absolutePath)
             val valid = bluePrintValidatorService.validateBluePrints(bluePrintRuntimeService)
             if (valid) {
-                val zipFile = File("${bluePrintLoadConfiguration.blueprintArchivePath}/${id}.zip")
+                val zipFile = File("${bluePrintLoadConfiguration.blueprintArchivePath}/$fileName")
                 // zip the directory
                 BluePrintArchiveUtils.compress(blueprintFile, zipFile, true)
 
-                // TODO(Upload to the Data Base)
+                // Upload to the Data Base
+                blueprintInfoResponse = bluePrintDatabaseService.storeBluePrints(file, id, zipFile)
 
                 // After Upload to Database delete the zip file
-                zipFile.deleteOnExit()
+                zipFile.delete()
             }
         } else {
             // If the file is ZIP
-            // TODO(Upload to the Data Base)
+            // unzip the CBA file to validate before store in database
+            val targetDir = Paths.get("${bluePrintLoadConfiguration.blueprintArchivePath}/$id/")
+            val blueprintUnzipDir = BluePrintArchiveUtils.deCompress(blueprintFile, targetDir.toString())
+
+            val firstItem = BluePrintArchiveUtils.getFirstItemInDirectory(blueprintUnzipDir)
+
+            val blueprintBaseDirectory = blueprintUnzipDir.absolutePath + "/" + firstItem
+            // Validate Blueprint
+            val bluePrintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(id, blueprintBaseDirectory)
+            val valid = bluePrintValidatorService.validateBluePrints(bluePrintRuntimeService)
+            if (valid) {
+                // Upload to the Data Base
+                blueprintInfoResponse = bluePrintDatabaseService.storeBluePrints(blueprintBaseDirectory, id, blueprintFile)
+
+                // After Upload to Database delete the zip file
+                blueprintFile.delete()
+                blueprintUnzipDir.deleteRecursively()
+            }
         }
-        return id
+
+        return blueprintInfoResponse
     }
 
     override fun downloadFromDataBase(name: String, version: String, path: String): String {
@@ -62,5 +89,18 @@ class BluePrintCatalogServiceImpl(private val bluePrintLoadConfiguration: BluePr
         val preparedPath = "${bluePrintLoadConfiguration.blueprintDeployPath}/$name/$version"
         downloadFromDataBase(name, version, preparedPath)
         return preparedPath
+    }
+
+    override fun findBlueprintById(id: String): BlueprintInfoResponse {
+        return this.bluePrintDatabaseService.getBlueprintByUUID(id)
+    }
+
+    override fun findAllBlueprint(): List<BlueprintInfoResponse> {
+        return this.bluePrintDatabaseService.listAllBlueprintArchive()
+    }
+
+
+    override fun downloadBlueprintArchive(uuid: String): BlueprintFileResponse {
+        return this.bluePrintDatabaseService.getBlueprintArchiveByUUID(uuid)
     }
 }

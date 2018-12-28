@@ -51,6 +51,7 @@ public class CBAContentService {
 
     /**
      * Save the CBAContent into the CBA_CONTENT table
+     * @param uuid The generated uuid of the file
      * @param cbaName The name of the file
      * @param cbaVersion version number of the CBA archive
      * @param cbaState int that would represent the state. Refer to the CbaStateEnum
@@ -58,8 +59,9 @@ public class CBAContentService {
      * @param file the file
      * @return CbaContent the record saved into the table CBA_CONTENT
      */
-    public CbaContent saveCBAContent(String cbaName, String cbaVersion, int cbaState, String cbaDescription, byte[] file){
+    public CbaContent saveCBAContent(String uuid, String cbaName, String cbaVersion, int cbaState, String cbaDescription, byte[] file){
         CbaContent cbaContent = new CbaContent();
+        cbaContent.setCbaUUID(uuid);
         cbaContent.setCbaName(cbaName);
         cbaContent.setCbaVersion(cbaVersion);
         cbaContent.setCbaState(cbaState);

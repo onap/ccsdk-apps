@@ -24,7 +24,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * CbaContent.java Purpose: Provide Configuration Generator for CbaContent Entity
@@ -38,12 +37,7 @@ import java.util.UUID;
 @Table(name = "CBA_CONTENT")
 @Proxy(lazy=false)
 public class CbaContent implements Serializable {
-
     private static final long serialVersionUID = 1L;
-
-    public CbaContent() {
-        this.cbaUUID = UUID.randomUUID().toString();
-    }
 
     @Id
     @Column(name = "cba_uuid", nullable = false)

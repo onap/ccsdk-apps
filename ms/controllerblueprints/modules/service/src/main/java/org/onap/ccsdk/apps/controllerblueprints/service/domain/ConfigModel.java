@@ -117,10 +117,13 @@ public class ConfigModel implements Serializable {
 
     @OneToMany(mappedBy = "configModel", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
+    // TODO: transform into one to one relation with config Model content
+    // TODO: Streamline for storage of CBA file
     private List<ConfigModelContent> configModelContents = new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "cba_content_uuid")
+    // TODO: move into config Model content
     private CbaContent configModelCBA;
 
     public Long getId() {

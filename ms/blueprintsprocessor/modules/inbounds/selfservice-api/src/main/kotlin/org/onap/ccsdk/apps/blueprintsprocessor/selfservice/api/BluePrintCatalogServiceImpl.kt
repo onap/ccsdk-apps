@@ -17,6 +17,8 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintFileResponse
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
 import org.springframework.stereotype.Service
 import java.io.File
@@ -24,7 +26,7 @@ import java.io.File
 @Service
 class BluePrintCatalogServiceImpl(private val bluePrintCoreConfiguration: BluePrintCoreConfiguration) : BluePrintCatalogService {
 
-    override fun uploadToDataBase(file: String): String {
+    override fun uploadToDataBase(file: String): BlueprintInfoResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -37,5 +39,17 @@ class BluePrintCatalogServiceImpl(private val bluePrintCoreConfiguration: BluePr
         return bluePrintCoreConfiguration.deployPath.plus(File.separator)
                 .plus(name).plus(File.separator).plus(version)
 
+    }
+
+    override fun findAllBlueprint(): List<BlueprintInfoResponse> {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun findBlueprintById(id: String): BlueprintInfoResponse {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
+    override fun downloadBlueprintArchive(uuid: String): BlueprintFileResponse {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

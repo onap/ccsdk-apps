@@ -18,17 +18,15 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.rs;
 
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse;
 import org.onap.ccsdk.apps.controllerblueprints.service.CbaService;
-import org.onap.ccsdk.apps.controllerblueprints.service.model.BlueprintModelResponse;
-import org.onap.ccsdk.apps.controllerblueprints.service.model.ItemCbaResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.http.codec.multipart.Part;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
@@ -46,10 +44,9 @@ public class CbaRest {
     private CbaService cbaService;
 
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public  Flux<BlueprintModelResponse> uploadCBA(@RequestBody Flux<Part> parts) {
-        return parts.filter(part -> part instanceof FilePart) // only retain file parts
-            .ofType(FilePart.class) // convert the flux to FilePart
-            .flatMap(filePart -> cbaService.uploadCBAFile(filePart)); // save each file and flatmap it to a flux of results
+    public @ResponseBody
+    Mono<BlueprintInfoResponse> uploadCBA(@RequestPart("file") FilePart file) {
+        return cbaService.uploadCBAFile(file);
     }
 
     @DeleteMapping(path = "/{id}")
@@ -59,19 +56,19 @@ public class CbaRest {
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    ItemCbaResponse getCBA(@PathVariable(value = "id") String id) {
+    BlueprintInfoResponse getCBA(@PathVariable(value = "id") String id) {
         return this.cbaService.findCBAByID(id);
     }
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<ItemCbaResponse> getAllCBA() {
+    List<BlueprintInfoResponse> getAllCBA() {
         return this.cbaService.findAllCBA();
     }
 
     @GetMapping(path = "/by-name/{name}/version/{version}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    ItemCbaResponse getCBAByNameAndVersion(@PathVariable(value = "name") String name,
+    BlueprintInfoResponse getCBAByNameAndVersion(@PathVariable(value = "name") String name,
                                                           @PathVariable(value = "version") String version) throws BluePrintException {
         return this.cbaService.findCBAByNameAndVersion(name, version);
     }

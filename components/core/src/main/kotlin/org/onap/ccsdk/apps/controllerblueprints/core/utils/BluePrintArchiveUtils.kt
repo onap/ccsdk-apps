@@ -21,10 +21,13 @@ import kotlinx.coroutines.runBlocking
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream
 import org.apache.commons.io.IOUtils
+import org.apache.commons.io.filefilter.DirectoryFileFilter
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
+import reactor.core.publisher.zip
 import java.io.*
 import java.nio.charset.Charset
+import java.nio.file.Files
 import java.util.zip.ZipFile
 
 class BluePrintArchiveUtils {
@@ -139,8 +142,10 @@ class BluePrintArchiveUtils {
                 val entry = enumeration.nextElement()
                 val destFilePath = File(targetPath, entry.name)
                 destFilePath.parentFile.mkdirs()
+
                 if (entry.isDirectory)
                     continue
+
                 val bufferedIs = BufferedInputStream(zip.getInputStream(entry))
                 bufferedIs.use {
                     destFilePath.outputStream().buffered(1024).use { bos ->
@@ -153,7 +158,18 @@ class BluePrintArchiveUtils {
             check(destinationDir.isDirectory && destinationDir.exists()) {
                 throw BluePrintProcessorException("failed to decompress blueprint(${zipFile.absolutePath}) to ($targetPath) ")
             }
+
             return destinationDir
+        }
+
+        /**
+         * Get the first item in directory
+         *
+         * @param zipFile
+         * @return string
+         */
+        fun getFirstItemInDirectory(dir: File): String {
+            return dir.walk().map { it.name }.elementAt(1)
         }
     }
 
