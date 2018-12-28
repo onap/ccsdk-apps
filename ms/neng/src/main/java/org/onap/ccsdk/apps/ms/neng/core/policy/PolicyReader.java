@@ -4,7 +4,7 @@
  * ================================================================================
  * Copyright (C) 2018 AT&T Intellectual Property. All rights reserved.
  * ================================================================================
- * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2019 IBM.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,6 +28,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Converts policy data to the structure expected by this micro-service.
@@ -41,11 +43,12 @@ public abstract class PolicyReader implements PolicyFinder {
      */
     private static final String NAMING_MODELS = "naming-models";
     private static final String NAMING_TYPE = "naming-type";
+    private static final Logger LOG = LoggerFactory.getLogger(PolicyReader.class);
 
     public static List<Map<String, ?>> namingModels(Map<String, ?> policy) {
 
         Set<String> keys = policy.keySet();
-        // TODO : retrieve naming-models at any level
+        //  retrieve naming-models at any level
         if (keys.contains("config")) {
             @SuppressWarnings("unchecked")
             Map<String, ?> config = (Map<String, ?>) policy.get("config");
@@ -111,7 +114,7 @@ public abstract class PolicyReader implements PolicyFinder {
                     Object val = model.get(NAMING_TYPE);
                     if (val != null) {
                         String relaxedVal = relaxedNamingType(val.toString());
-                        if (namingType.equalsIgnoreCase(relaxedVal)) {
+                        if (namingType != null && namingType.equalsIgnoreCase(relaxedVal)) {
                             theModel = model;
                             break;
                         }
@@ -231,9 +234,6 @@ public abstract class PolicyReader implements PolicyFinder {
         String value = null;
         if (map != null) {
             value = (String) map.get(key);
-            if (!(value instanceof String)) {
-                value = null;
-            }
             if (value != null && !Pattern.matches("\\$\\{.*\\}.*", value)) {
                 return value;
             } else {
@@ -335,6 +335,7 @@ public abstract class PolicyReader implements PolicyFinder {
         try {
             value = Long.valueOf(str);
         } catch (Exception e) {
+            LOG.info("String parse error", e);
             value = defaultValue;
         }
         return value;
