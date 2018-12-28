@@ -17,28 +17,33 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants;
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
-import org.onap.ccsdk.apps.controllerblueprints.core.ConfigModelConstant;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.ServiceTemplate;
-import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils;
-import org.onap.ccsdk.apps.controllerblueprints.service.common.ApplicationConstants;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModelContent;
-import org.onap.ccsdk.apps.controllerblueprints.service.repository.ConfigModelContentRepository;
-import org.onap.ccsdk.apps.controllerblueprints.service.repository.ConfigModelRepository;
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import org.jetbrains.annotations.NotNull;
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintFileResponse;
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse;
+import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService;
+import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintFileUtils;
+import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
+import org.onap.ccsdk.apps.controllerblueprints.service.load.BluePrintLoadConfiguration;
+import org.onap.ccsdk.apps.controllerblueprints.service.repository.ConfigModelContentRepository;
+import org.onap.ccsdk.apps.controllerblueprints.service.repository.ConfigModelRepository;
+import org.springframework.core.io.ByteArrayResource;
+import org.springframework.core.io.Resource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import reactor.core.publisher.Mono;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * ConfigModelService.java Purpose: Provide Service Template Service processing ConfigModelService
@@ -52,64 +57,49 @@ public class ConfigModelService {
 
     private static EELFLogger log = EELFManager.getInstance().getLogger(ConfigModelService.class);
 
+    private BluePrintLoadConfiguration bluePrintLoadConfiguration;
+    private BluePrintCatalogService bluePrintCatalogService;
     private ConfigModelRepository configModelRepository;
     private ConfigModelContentRepository configModelContentRepository;
-    private ConfigModelCreateService configModelCreateService;
-    private static final String CONFIG_MODEL_ID_FAILURE_MSG= "failed to get config model id(%d) from repo";
+    private CbaFileManagementService cbaFileManagementService;
+    private static final String CONFIG_MODEL_ID_FAILURE_MSG = "failed to get config model id(%d) from repo";
 
     /**
      * This is a ConfigModelService constructor.
      *
      * @param configModelRepository        configModelRepository
      * @param configModelContentRepository configModelContentRepository
-     * @param configModelCreateService     configModelCreateService
      */
-    public ConfigModelService(ConfigModelRepository configModelRepository,
+    public ConfigModelService(BluePrintLoadConfiguration bluePrintLoadConfiguration,
+                              BluePrintCatalogService bluePrintCatalogService,
+                              ConfigModelRepository configModelRepository,
                               ConfigModelContentRepository configModelContentRepository,
-                              ConfigModelCreateService configModelCreateService) {
+                              CbaFileManagementService cbaFileManagementService) {
+        this.bluePrintLoadConfiguration = bluePrintLoadConfiguration;
+        this.bluePrintCatalogService = bluePrintCatalogService;
         this.configModelRepository = configModelRepository;
         this.configModelContentRepository = configModelContentRepository;
-        this.configModelCreateService = configModelCreateService;
+        this.cbaFileManagementService = cbaFileManagementService;
         log.info("Config Model Service Initiated...");
-    }
-
-    /**
-     * This is a getInitialConfigModel method
-     *
-     * @param templateName templateName
-     * @return ConfigModel
-     * @throws BluePrintException BluePrintException
-     */
-    public ConfigModel getInitialConfigModel(String templateName) throws BluePrintException {
-        ConfigModel configModel = null;
-        if (StringUtils.isNotBlank(templateName)) {
-            configModel = new ConfigModel();
-            configModel.setArtifactName(templateName);
-            configModel.setArtifactType(ApplicationConstants.ASDC_ARTIFACT_TYPE_SDNC_MODEL);
-            configModel.setUpdatedBy("xxxxx@xxx.com");
-            ConfigModelContent configModelContent = new ConfigModelContent();
-            configModelContent.setContentType(ConfigModelConstant.MODEL_CONTENT_TYPE_TOSCA_JSON);
-            configModelContent.setName(templateName);
-            String content = this.configModelCreateService.createInitialServiceTemplateContent(templateName);
-            configModelContent.setContent(content);
-
-            List<ConfigModelContent> configModelContents = new ArrayList<>();
-            configModelContents.add(configModelContent);
-
-            configModel.setConfigModelContents(configModelContents);
-        }
-        return configModel;
     }
 
     /**
      * This is a saveConfigModel method
      *
-     * @param configModel configModel
+     * @param filePart filePart
      * @return ConfigModel
      * @throws BluePrintException BluePrintException
      */
-    public ConfigModel saveConfigModel(ConfigModel configModel) throws BluePrintException {
-        return this.configModelCreateService.saveConfigModel(configModel);
+    public Mono<BlueprintInfoResponse> saveConfigModel(FilePart filePart) throws BluePrintException {
+        try {
+
+            Path cbaLocation = BluePrintFileUtils.Companion.getCbaStorageDirectory(bluePrintLoadConfiguration.blueprintArchivePath);
+            return this.cbaFileManagementService.saveCBAFile(filePart, cbaLocation).map(fileName ->
+                    bluePrintCatalogService.uploadToDataBase(cbaLocation.resolve(fileName).toString(), false));
+
+        } catch (IOException | BluePrintException e) {
+            return Mono.error(new BluePrintException("Error uploading the CBA file in channel.", e));
+        }
     }
 
     /**
@@ -120,7 +110,8 @@ public class ConfigModelService {
      * @throws BluePrintException BluePrintException
      */
     public ConfigModel publishConfigModel(Long id) throws BluePrintException {
-        return this.configModelCreateService.publishConfigModel(id);
+        // TODO Implement publish Functionality
+        return null;
     }
 
     /**
@@ -133,7 +124,7 @@ public class ConfigModelService {
         List<ConfigModel> models = configModelRepository.findByTagsContainingIgnoreCase(tags);
         if (models != null) {
             for (ConfigModel configModel : models) {
-                configModel.setConfigModelContents(null);
+                configModel.setConfigModelContent(null);
             }
         }
         return models;
@@ -146,20 +137,30 @@ public class ConfigModelService {
      * @param version version
      * @return ConfigModel
      */
-    public ConfigModel getConfigModelByNameAndVersion(@NotNull String name, String version) throws BluePrintException {
-        ConfigModel configModel;
-        Optional<ConfigModel> dbConfigModel;
-        if (StringUtils.isNotBlank(version)) {
-            dbConfigModel = configModelRepository.findByArtifactNameAndArtifactVersion(name, version);
-        } else {
-            dbConfigModel = configModelRepository.findTopByArtifactNameOrderByArtifactVersionDesc(name);
-        }
-        if (dbConfigModel.isPresent()) {
-            configModel = dbConfigModel.get();
-        } else {
-            throw new BluePrintException(String.format("failed to get config model name(%s), version(%s) from repo", name, version));
-        }
-        return configModel;
+    public ResponseEntity<Resource> getConfigModelByNameAndVersion(@NotNull String name, String version) throws BluePrintException {
+        BlueprintFileResponse blueprintFileResponse = this.bluePrintCatalogService.downloadFromDataBase(name, version);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("text/plain"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + blueprintFileResponse.getName() + "\"")
+                .body(new ByteArrayResource(blueprintFileResponse.getFile()));
+    }
+
+    /**
+     * This is a downloadCBAFile method to find the target file to download and return a file ressource using MONO
+     *
+     * @param (id)
+     * @return ResponseEntity<Resource>
+     */
+    public ResponseEntity<Resource> downloadCBAFile(@NotNull String id) {
+
+        String path = bluePrintLoadConfiguration.blueprintArchivePath + "/" + UUID.randomUUID().toString() + ".zip";
+        BlueprintFileResponse blueprintFileResponse = this.bluePrintCatalogService.downloadFromDataBase(id, path);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.parseMediaType("text/plain"))
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + blueprintFileResponse.getName() + "\"")
+                .body(new ByteArrayResource(blueprintFileResponse.getFile()));
     }
 
     /**
@@ -169,7 +170,7 @@ public class ConfigModelService {
      * @return ConfigModel
      * @throws BluePrintException BluePrintException
      */
-    public ConfigModel getConfigModel(@NotNull Long id) throws BluePrintException {
+    public ConfigModel getConfigModel(@NotNull String id) throws BluePrintException {
         ConfigModel configModel;
         Optional<ConfigModel> dbConfigModel = configModelRepository.findById(id);
         if (dbConfigModel.isPresent()) {
@@ -179,64 +180,6 @@ public class ConfigModelService {
         }
 
         return configModel;
-    }
-
-    /**
-     * This method returns clone of the given model id, by masking the other unrelated fields
-     *
-     * @param id id
-     * @return ConfigModel
-     * @throws BluePrintException BluePrintException
-     */
-
-    public ConfigModel getCloneConfigModel(@NotNull Long id) throws BluePrintException {
-
-        ConfigModel configModel;
-        ConfigModel cloneConfigModel;
-        Optional<ConfigModel> dbConfigModel = configModelRepository.findById(id);
-        if (dbConfigModel.isPresent()) {
-            configModel = dbConfigModel.get();
-            cloneConfigModel = configModel;
-            cloneConfigModel.setUpdatedBy("xxxxx@xxx.com");
-            cloneConfigModel.setArtifactName("XXXX");
-            cloneConfigModel.setPublished("XXXX");
-            cloneConfigModel.setPublished("XXXX");
-            cloneConfigModel.setUpdatedBy("XXXX");
-            cloneConfigModel.setId(null);
-            cloneConfigModel.setTags(null);
-            cloneConfigModel.setCreatedDate(new Date());
-            List<ConfigModelContent> configModelContents = cloneConfigModel.getConfigModelContents();
-
-            if (CollectionUtils.isNotEmpty(configModelContents)) {
-                for (ConfigModelContent configModelContent : configModelContents) {
-                    if (configModelContent != null && StringUtils.isNotBlank(configModelContent.getContentType())) {
-                        configModelContent.setId(null);
-                        configModelContent.setCreationDate(new Date());
-
-                        if (ConfigModelConstant.MODEL_CONTENT_TYPE_TOSCA_JSON
-                                .equalsIgnoreCase(configModelContent.getContentType())) {
-                            ServiceTemplate serviceTemplate = JacksonUtils
-                                    .readValue(configModelContent.getContent(), ServiceTemplate.class);
-                            if (serviceTemplate != null && serviceTemplate.getMetadata() != null) {
-                                serviceTemplate.getMetadata()
-                                        .put(BluePrintConstants.METADATA_TEMPLATE_AUTHOR, "XXXX");
-                                serviceTemplate.getMetadata()
-                                        .put(BluePrintConstants.METADATA_TEMPLATE_VERSION, "1.0.0");
-                                serviceTemplate.getMetadata()
-                                        .put(BluePrintConstants.METADATA_TEMPLATE_NAME, "XXXXXX");
-
-                                configModelContent.setContent(JacksonUtils.getJson(serviceTemplate));
-                            }
-                        }
-                    }
-
-                }
-            }
-        } else {
-            throw new BluePrintException(String.format(CONFIG_MODEL_ID_FAILURE_MSG, id));
-        }
-
-        return cloneConfigModel;
     }
 
     /**
@@ -247,7 +190,7 @@ public class ConfigModelService {
      */
 
     @Transactional
-    public void deleteConfigModel(@NotNull Long id) throws BluePrintException {
+    public void deleteConfigModel(@NotNull String id) throws BluePrintException {
         Optional<ConfigModel> dbConfigModel = configModelRepository.findById(id);
         if (dbConfigModel.isPresent()) {
             configModelContentRepository.deleteByConfigModel(dbConfigModel.get());

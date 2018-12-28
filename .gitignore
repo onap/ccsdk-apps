@@ -21,3 +21,6 @@
 **/*.jsonld
 **/.checkstyle
 **/.gitignore
+
+**/*py.class
+**/.DS_Store

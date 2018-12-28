@@ -22,7 +22,6 @@ import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
 import org.onap.ccsdk.apps.controllerblueprints.core.data.ServiceTemplate;
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment;
 import org.onap.ccsdk.apps.controllerblueprints.service.ServiceTemplateService;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModelContent;
 import org.onap.ccsdk.apps.controllerblueprints.service.model.AutoMapResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -54,12 +53,6 @@ public class ServiceTemplateRest {
         return serviceTemplateService.enrichServiceTemplate(serviceTemplate);
     }
 
-    @PostMapping(path = "/validate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ServiceTemplate validateServiceTemplate(@RequestBody ServiceTemplate serviceTemplate) throws BluePrintException {
-        return serviceTemplateService.validateServiceTemplate(serviceTemplate);
-    }
-
     @PostMapping(path = "/resource-assignment/auto-map", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     AutoMapResponse autoMap(@RequestBody List<ResourceAssignment> resourceAssignments) throws BluePrintException {
@@ -71,12 +64,6 @@ public class ServiceTemplateRest {
     List<ResourceAssignment> validateResourceAssignments(@RequestBody List<ResourceAssignment> resourceAssignments)
             throws BluePrintException {
         return serviceTemplateService.validateResourceAssignments(resourceAssignments);
-    }
-
-    @PostMapping(path = "/resource-assignment/generate", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    List<ResourceAssignment> generateResourceAssignments(@RequestBody ConfigModelContent templateContent) {
-        return serviceTemplateService.generateResourceAssignments(templateContent);
     }
 
 }

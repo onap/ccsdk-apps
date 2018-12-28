@@ -16,28 +16,10 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service.rs;
 
-import org.junit.*;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
-import org.onap.ccsdk.apps.controllerblueprints.TestApplication;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
-import org.onap.ccsdk.apps.controllerblueprints.service.utils.ConfigModelUtils;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.util.List;
-
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(classes = {TestApplication.class})
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Deprecated
 public class ConfigModelRestTest {
 
+    /*
     private static EELFLogger log = EELFManager.getInstance().getLogger(ConfigModelRestTest.class);
 
     @Autowired
@@ -58,18 +40,6 @@ public class ConfigModelRestTest {
     public void tearDown() {
     }
 
-
-    @Test
-    public void test01getInitialConfigModel() throws Exception {
-        log.info("** test01getInitialConfigModel  *****************");
-
-        String name = "default_netconf";
-        ConfigModel configModel = configModelRest.getInitialConfigModel(name);
-        Assert.assertNotNull("Failed to get Initial Config Model , Return object is Null", configModel);
-        Assert.assertNotNull("Failed to get Service Template Content ", configModel.getConfigModelContents());
-    }
-
-
     @Deprecated
     @Test
     public void test02SaveServiceTemplate() throws Exception {
@@ -82,25 +52,7 @@ public class ConfigModelRestTest {
         Assert.assertNotNull("Failed to ConfigModel, Return object is Null", configModel);
         Assert.assertNotNull("Failed to ConfigModel Id , Return ID object is Null", configModel.getId());
         Assert.assertNotNull("Failed to ConfigModel Content, Return object is Null",
-                configModel.getConfigModelContents());
-        Assert.assertEquals("Failed in validation of ConfigModel Content count,", 3,
-                configModel.getConfigModelContents().size());
-
-        ConfigModel dbconfigModel = configModelRest.getConfigModel(configModel.getId());
-
-        log.info("************************ test02SaveServiceTemplate-2  ******************");
-
-        dbconfigModel.getConfigModelContents().remove(2);
-        dbconfigModel = configModelRest.saveConfigModel(dbconfigModel);
-        log.info("Saved Config Model " + configModel.getId());
-        Assert.assertNotNull("Failed to ConfigModel, Return object is Null", dbconfigModel);
-        Assert.assertNotNull("Failed to ConfigModel Id ", dbconfigModel.getId());
-        Assert.assertNotNull("Failed to ConfigModel Content",
-                dbconfigModel.getConfigModelContents());
-        Assert.assertEquals("Failed to Remove the ConfigModel Content,", 2,
-                dbconfigModel.getConfigModelContents().size());
-
-
+                configModel.getConfigModelContent());
     }
 
 
@@ -113,7 +65,7 @@ public class ConfigModelRestTest {
         configModel = configModelRest.publishConfigModel(configModel.getId());
         Assert.assertNotNull("Failed to ConfigModel, Return object is Null", configModel);
         Assert.assertNotNull("Failed to ConfigModel Id ", configModel.getId());
-        Assert.assertNotNull("Failed to ConfigModel Content", configModel.getConfigModelContents());
+        Assert.assertNotNull("Failed to ConfigModel Content", configModel.getConfigModelContent());
         Assert.assertEquals("Failed to update the publish indicator", "Y", configModel.getPublished());
     }
 
@@ -132,22 +84,6 @@ public class ConfigModelRestTest {
         Assert.assertNotNull("Failed to get ConfigModel for the Id (" + configModel.getId() + ") ", configModel);
 
     }
-
-    @Deprecated
-    @Test
-    public void test05GetCloneConfigModel() throws Exception {
-        log.info("** test05GetCloneConfigModel  *****************");
-
-        ConfigModel configModel = configModelRest.getConfigModelByNameAndVersion(name, version);
-
-        Assert.assertNotNull("Failed to get ConfigModel for the Name (" + configModel.getArtifactName() + ") and ("
-                + configModel.getArtifactVersion() + ")", configModel);
-        Assert.assertNotNull("Failed to get ConfigModel Id", configModel.getId());
-
-        configModel = configModelRest.getCloneConfigModel(configModel.getId());
-        Assert.assertNotNull("Failed to get ConfigModel for the Id (" + configModel.getId() + ") ", configModel);
-    }
-
 
     @Test
     public void test07SearchConfigModels() throws Exception {
@@ -169,5 +105,5 @@ public class ConfigModelRestTest {
 
     }
 
-
+*/
 }
