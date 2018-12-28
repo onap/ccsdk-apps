@@ -1,6 +1,6 @@
 /*******************************************************************************
  * Copyright © 2017-2018 AT&T Intellectual Property.
- * 
+ * Modifications Copyright (C) 2018 IBM.
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -192,7 +192,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 			 * so it will ignore the current range min-max in the policy. Persist in the DB
 			 * if available else Fail.
 			 */
-			if (element.getOverwrite() != null && element.getOverwrite().equalsIgnoreCase("TRUE")) {
+			if (element.getOverwrite() != null && "TRUE".equalsIgnoreCase(element.getOverwrite())) {
 				Range range = new Range();
 				range.min = Integer.parseInt(resourceValue);
 				rangeList.add(range);
@@ -223,6 +223,7 @@ public class VlantagApiServiceImpl implements VlantagApiService {
 						return resourceValues[i].trim();
 				}
 			} catch (IndexOutOfBoundsException e) {
+				log.error("Exception : " + e.getMessage(), e);
 				throw new VlantagApiException("No Matching Resource Value found from Recipe : \""
 						+ model.getResourceResolutionRecipe() + "\" for Vlantag Name : " + element.getVlantagName());
 			}
