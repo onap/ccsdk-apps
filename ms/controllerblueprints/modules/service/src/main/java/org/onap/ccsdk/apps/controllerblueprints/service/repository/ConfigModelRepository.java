@@ -31,7 +31,7 @@ import java.util.Optional;
  * @version 1.0
  */
 @Repository
-public interface ConfigModelRepository extends JpaRepository<ConfigModel, Long> {
+public interface ConfigModelRepository extends JpaRepository<ConfigModel, String> {
     /**
      * This is a findById method
      * 
@@ -39,7 +39,7 @@ public interface ConfigModelRepository extends JpaRepository<ConfigModel, Long> 
      * @return Optional<AsdcArtifacts>
      */
     @NotNull
-    Optional<ConfigModel> findById(@NotNull Long id);
+    Optional<ConfigModel> findById(@NotNull String id);
 
     /**
      * This is a findByArtifactNameAndArtifactVersion method
@@ -90,6 +90,6 @@ public interface ConfigModelRepository extends JpaRepository<ConfigModel, Long> 
      * @param id id
      */
     @SuppressWarnings("unused")
-    void deleteById(@NotNull Long id);
+    void deleteById(@NotNull String id);
 
 }

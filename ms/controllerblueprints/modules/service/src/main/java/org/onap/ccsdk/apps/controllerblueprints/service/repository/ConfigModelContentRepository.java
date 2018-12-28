@@ -31,9 +31,8 @@ import java.util.Optional;
  * @author Brinda Santh
  * @version 1.0
  */
-@Deprecated
 @Repository
-public interface ConfigModelContentRepository extends JpaRepository<ConfigModelContent, Long> {
+public interface ConfigModelContentRepository extends JpaRepository<ConfigModelContent, String> {
 
     /**
      * This is a findById method
@@ -42,7 +41,7 @@ public interface ConfigModelContentRepository extends JpaRepository<ConfigModelC
      * @return Optional<AsdcArtifacts>
      */
     @NotNull
-    Optional<ConfigModelContent> findById(@NotNull Long id);
+    Optional<ConfigModelContent> findById(@NotNull String id);
 
     /**
      * This is a findTopByConfigModelAndContentType method
@@ -97,6 +96,6 @@ public interface ConfigModelContentRepository extends JpaRepository<ConfigModelC
      * 
      * @param  id id
      */
-    void deleteById(@NotNull Long id);
+    void deleteById(@NotNull String id);
 
 }

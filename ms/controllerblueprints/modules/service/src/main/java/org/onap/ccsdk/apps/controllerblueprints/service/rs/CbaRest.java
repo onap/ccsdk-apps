@@ -18,19 +18,15 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.rs;
 
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
-import org.onap.ccsdk.apps.controllerblueprints.service.CbaService;
-import org.onap.ccsdk.apps.controllerblueprints.service.model.BlueprintModelResponse;
-import org.onap.ccsdk.apps.controllerblueprints.service.model.ItemCbaResponse;
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse;
+import org.onap.ccsdk.apps.controllerblueprints.service.ConfigModelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
-import org.springframework.http.codec.multipart.Part;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Flux;
-
-import java.util.List;
+import reactor.core.publisher.Mono;
 
 /**
  * CbaRest.java Purpose: Provide a REST API to upload single and multiple CBA
@@ -39,46 +35,33 @@ import java.util.List;
  * @version 1.0
  */
 @RestController
-@RequestMapping(value = "/api/v1/cba")
+@RequestMapping(value = "/api/v1/blueprint")
 public class CbaRest {
 
     @Autowired
-    private CbaService cbaService;
+    private ConfigModelService configModelService;
 
     @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public  Flux<BlueprintModelResponse> uploadCBA(@RequestBody Flux<Part> parts) {
-        return parts.filter(part -> part instanceof FilePart) // only retain file parts
-            .ofType(FilePart.class) // convert the flux to FilePart
-            .flatMap(filePart -> cbaService.uploadCBAFile(filePart)); // save each file and flatmap it to a flux of results
+    public @ResponseBody
+    Mono<BlueprintInfoResponse> saveBluePrint(@RequestPart("file") FilePart file) throws BluePrintException{
+        return configModelService.saveConfigModel(file);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteCBA(@PathVariable(value = "id") Long id) throws BluePrintException {
-        this.cbaService.deleteCBA(id);
-    }
-
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ItemCbaResponse getCBA(@PathVariable(value = "id") String id) {
-        return this.cbaService.findCBAByID(id);
-    }
-
-    @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    List<ItemCbaResponse> getAllCBA() {
-        return this.cbaService.findAllCBA();
+    public void deleteBluePrint(@PathVariable(value = "id") String id) throws BluePrintException {
+        this.configModelService.deleteConfigModel(id);
     }
 
     @GetMapping(path = "/by-name/{name}/version/{version}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    ItemCbaResponse getCBAByNameAndVersion(@PathVariable(value = "name") String name,
-                                                          @PathVariable(value = "version") String version) throws BluePrintException {
-        return this.cbaService.findCBAByNameAndVersion(name, version);
+    ResponseEntity<Resource> getBluePrintByNameAndVersion(@PathVariable(value = "name") String name,
+                                       @PathVariable(value = "version") String version) throws BluePrintException {
+        return this.configModelService.getConfigModelByNameAndVersion(name, version);
     }
 
-    @GetMapping(path = "/download/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    ResponseEntity<Resource> downloadCBA(@PathVariable(value = "id") String id) {
-        return this.cbaService.downloadCBAFile(id);
+    ResponseEntity<Resource> downloadBluePrint(@PathVariable(value = "id") String id) {
+        return this.configModelService.downloadCBAFile(id);
     }
 }

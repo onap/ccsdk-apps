@@ -1,5 +1,6 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.utils;
 
+@Deprecated
 public enum CbaStateEnum {
 
     DRAFT(0), VALIDATED(1), APPROVED(2);

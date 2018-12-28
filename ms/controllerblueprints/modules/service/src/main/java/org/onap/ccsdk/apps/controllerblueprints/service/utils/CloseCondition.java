@@ -3,6 +3,7 @@ package org.onap.ccsdk.apps.controllerblueprints.service.utils;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+@Deprecated
 public class CloseCondition {
 
     AtomicInteger tasksSubmitted = new AtomicInteger(0);
