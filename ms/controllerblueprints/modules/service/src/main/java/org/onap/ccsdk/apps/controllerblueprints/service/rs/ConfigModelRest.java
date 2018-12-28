@@ -17,17 +17,21 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.rs;
 
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse;
 import org.onap.ccsdk.apps.controllerblueprints.service.ConfigModelService;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
+import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 
 /**
  * {@inheritDoc}
  */
-@Deprecated
 @RestController
 @RequestMapping(value = "/api/v1/config-model")
 public class ConfigModelRest {
@@ -41,24 +45,30 @@ public class ConfigModelRest {
      */
     public ConfigModelRest(ConfigModelService configModelService) {
         this.configModelService = configModelService;
-
     }
 
-    @GetMapping(path = "/initial/{name}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public @ResponseBody
-    ConfigModel getInitialConfigModel(@PathVariable(value = "name") String name) throws BluePrintException {
-        return this.configModelService.getInitialConfigModel(name);
-    }
-
-    @PostMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ConfigModel saveConfigModel(@RequestBody ConfigModel configModel) throws BluePrintException {
-        return this.configModelService.saveConfigModel(configModel);
+    Mono<BlueprintInfoResponse> saveBluePrint(@RequestPart("file") FilePart file) throws BluePrintException{
+        return configModelService.saveConfigModel(file);
     }
 
     @DeleteMapping(path = "/{id}")
-    public void deleteConfigModel(@PathVariable(value = "id") Long id) throws BluePrintException {
+    public void deleteBluePrint(@PathVariable(value = "id") String id) throws BluePrintException {
         this.configModelService.deleteConfigModel(id);
+    }
+
+    @GetMapping(path = "/by-name/{name}/version/{version}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    ResponseEntity<Resource> getBluePrintByNameAndVersion(@PathVariable(value = "name") String name,
+                                                          @PathVariable(value = "version") String version) throws BluePrintException {
+        return this.configModelService.getConfigModelByNameAndVersion(name, version);
+    }
+
+    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public @ResponseBody
+    ResponseEntity<Resource> downloadBluePrint(@PathVariable(value = "id") String id) {
+        return this.configModelService.downloadCBAFile(id);
     }
 
     @GetMapping(path = "/publish/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -67,29 +77,10 @@ public class ConfigModelRest {
         return this.configModelService.publishConfigModel(id);
     }
 
-    @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ConfigModel getConfigModel(@PathVariable(value = "id") Long id) throws BluePrintException {
-        return this.configModelService.getConfigModel(id);
-    }
-
-    @GetMapping(path = "/by-name/{name}/version/{version}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ConfigModel getConfigModelByNameAndVersion(@PathVariable(value = "name") String name,
-                                               @PathVariable(value = "version") String version) throws BluePrintException {
-        return this.configModelService.getConfigModelByNameAndVersion(name, version);
-    }
-
     @GetMapping(path = "/search/{tags}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
     List<ConfigModel> searchConfigModels(@PathVariable(value = "tags") String tags) {
         return this.configModelService.searchConfigModels(tags);
-    }
-
-    @GetMapping(path = "/clone/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public @ResponseBody
-    ConfigModel getCloneConfigModel(@PathVariable(value = "id") Long id) throws BluePrintException {
-        return this.configModelService.getCloneConfigModel(id);
     }
 
 }
