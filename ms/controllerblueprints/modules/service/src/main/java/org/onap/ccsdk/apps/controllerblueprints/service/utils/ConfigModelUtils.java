@@ -16,30 +16,9 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service.utils;
 
-import com.google.common.base.Preconditions;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.FilenameUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
-import org.apache.commons.lang3.StringUtils;
-import org.onap.ccsdk.apps.controllerblueprints.core.ConfigModelConstant;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.ToscaMetaData;
-import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModelContent;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
 @Deprecated
 public class ConfigModelUtils {
-
+/*
     private ConfigModelUtils() {
 
     }
@@ -125,4 +104,5 @@ public class ConfigModelUtils {
         Preconditions.checkNotNull(dirs, "failed to find the blueprint directories" + blueprintDir.getAbsolutePath());
         return Arrays.asList(dirs);
     }
+    */
 }

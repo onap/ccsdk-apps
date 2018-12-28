@@ -16,20 +16,28 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.core.interfaces
 
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintFileResponse
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse
+
 interface BluePrintCatalogService {
 
     /**
      * Upload the CBA Zip fle to data base and return the Database identifier
      */
-    fun uploadToDataBase(file: String): String
+    fun uploadToDataBase(file: String, validate : Boolean): BlueprintInfoResponse?
 
     /**
      * Download the CBA zip file from the data base and place it in a path and return the CBA zip absolute path
      */
-    fun downloadFromDataBase(name: String, version: String, path: String): String
+    fun downloadFromDataBase(name: String, version: String, path: String): BlueprintFileResponse
 
     /**
      * Get the Blueprint from Data Base and Download it under working directory and return the path path
      */
     fun prepareBluePrint(name: String, version: String): String
+
+    /**
+     * Get blueprint archive with zip file from Data Base
+     */
+    fun downloadFromDataBase(uuid: String, path: String): BlueprintFileResponse
 }

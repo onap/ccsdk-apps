@@ -17,40 +17,9 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service.rs;
 
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.FileUtils;
-import org.junit.Assert;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.MethodSorters;
-import org.onap.ccsdk.apps.controllerblueprints.TestApplication;
-import org.onap.ccsdk.apps.controllerblueprints.core.ConfigModelConstant;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.ServiceTemplate;
-import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils;
-import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment;
-import org.onap.ccsdk.apps.controllerblueprints.service.controller.ModelTypeController;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModelContent;
-import org.onap.ccsdk.apps.controllerblueprints.service.model.AutoMapResponse;
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringRunner;
-
-import java.io.File;
-import java.nio.charset.Charset;
-import java.util.List;
-
 @Deprecated
-@RunWith(SpringRunner.class)
-@SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT, properties = {"blueprints.load.initial-data=true"})
-@ContextConfiguration(classes = {TestApplication.class})
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ServiceTemplateRestTest {
-
+/*
     private static EELFLogger log = EELFManager.getInstance().getLogger(ServiceTemplateRestTest.class);
     @Autowired
     ModelTypeController modelTypeRest;
@@ -152,5 +121,5 @@ public class ServiceTemplateRestTest {
 
     }
 
-
+*/
 }
