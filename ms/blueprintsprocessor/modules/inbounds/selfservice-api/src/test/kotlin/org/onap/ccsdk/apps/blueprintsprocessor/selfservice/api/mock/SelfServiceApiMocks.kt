@@ -19,6 +19,8 @@ package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
 import org.onap.ccsdk.apps.blueprintsprocessor.services.workflow.BlueprintDGExecutionService
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintFileResponse
+import org.onap.ccsdk.apps.controllerblueprints.core.data.BlueprintInfoResponse
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
 import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintRuntimeService
 import org.springframework.stereotype.Service
@@ -39,11 +41,11 @@ class MockBlueprintDGExecutionService : BlueprintDGExecutionService {
 @Service
 class MockBluePrintCatalogService : BluePrintCatalogService {
 
-    override fun uploadToDataBase(file: String): String {
+    override fun uploadToDataBase(file: String, validate : Boolean): BlueprintInfoResponse? {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun downloadFromDataBase(name: String, version: String, path: String): String {
+    override fun downloadFromDataBase(name: String, version: String, path: String): BlueprintFileResponse {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
@@ -51,5 +53,9 @@ class MockBluePrintCatalogService : BluePrintCatalogService {
         assertNotNull(name, "failed to get blueprint Name")
         assertNotNull(version, "failed to get blueprint version")
         return "./../../../../../components/model-catalog/blueprint-model/starter-blueprint/baseconfiguration"
+    }
+
+    override fun downloadFromDataBase(uuid: String, path: String): BlueprintFileResponse {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 }

@@ -25,9 +25,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 /**
  * ConfigModel.java Purpose: Provide Configuration Generator ConfigModel Entity
@@ -43,9 +41,8 @@ import java.util.List;
 public class ConfigModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "config_model_id")
-    private Long id;
+    private String id;
 
     @Column(name = "service_uuid")
     private String serviceUUID;
@@ -115,19 +112,15 @@ public class ConfigModel implements Serializable {
     private String tags;
 
 
-    @OneToMany(mappedBy = "configModel", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "configModel", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<ConfigModelContent> configModelContents = new ArrayList<>();
+    private ConfigModelContent configModelContent;
 
-    @ManyToOne
-    @JoinColumn(name = "cba_content_uuid")
-    private CbaContent configModelCBA;
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -283,20 +276,12 @@ public class ConfigModel implements Serializable {
         this.tags = tags;
     }
 
-    public List<ConfigModelContent> getConfigModelContents() {
-        return configModelContents;
+    public ConfigModelContent getConfigModelContent() {
+        return configModelContent;
     }
 
-    public void setConfigModelContents(List<ConfigModelContent> configModelContents) {
-        this.configModelContents = configModelContents;
-    }
-
-    public CbaContent getConfigModelCBA() {
-        return configModelCBA;
-    }
-    
-    public void setConfigModelCBA(CbaContent configModelCBA) {
-        this.configModelCBA = configModelCBA;
+    public void setConfigModelContent(ConfigModelContent configModelContent) {
+        this.configModelContent = configModelContent;
     }
 
 }

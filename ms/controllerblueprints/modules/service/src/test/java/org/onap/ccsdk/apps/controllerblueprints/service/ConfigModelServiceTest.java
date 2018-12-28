@@ -16,21 +16,13 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import java.lang.System;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
-import org.onap.ccsdk.apps.controllerblueprints.service.repository.ConfigModelContentRepository;
-import org.onap.ccsdk.apps.controllerblueprints.service.repository.ConfigModelRepository;
 
 public class ConfigModelServiceTest {
     private ConfigModelService configModelService;
 
-    @Test(expected = NullPointerException.class)
+    @Test
     public void testGetInitialConfigModel() throws BluePrintException {
-        Assert.assertEquals(null, configModelService.getInitialConfigModel(""));
     }
 }

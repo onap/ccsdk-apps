@@ -23,7 +23,6 @@ import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException;
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintArchiveUtils;
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintFileUtils;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.stereotype.Service;
 import org.springframework.util.FileSystemUtils;
@@ -34,6 +33,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.UUID;
 
 /**
  * CbaFileManagementService.java Purpose: Provide Service processing CBA file management
@@ -41,15 +41,10 @@ import java.nio.file.Path;
  * @author Steve Siani
  * @version 1.0
  */
+@Deprecated
 @Service
 public class CbaFileManagementService {
     private static EELFLogger log = EELFManager.getInstance().getLogger(CbaFileManagementService.class);
-
-    @Value("${controllerblueprints.loadCbaExtension}")
-    private String cbaExtension;
-
-    private static final String CBA_FILE_NAME_PATTERN = "CBA_{0}_{1}";
-
 
     /**
      * cleanupSavedCBA: This method cleanup the Zip file and the unzip directory that was added.
@@ -84,12 +79,13 @@ public class CbaFileManagementService {
         final String fileName = StringUtils.cleanPath(filePart.filename());
 
         // Check if the file's extension is "CBA"
-        if(!StringUtils.getFilenameExtension(fileName).equals(cbaExtension)) {
-            throw new BluePrintException("Invalid file extension required " + cbaExtension);
+        if(!StringUtils.getFilenameExtension(fileName).equals("zip")) {
+            throw new BluePrintException("Invalid file extension required ZIP");
         }
 
         // Change file name to match a pattern
-        String changedFileName = BluePrintFileUtils.Companion.getCBAGeneratedFileName(fileName, this.CBA_FILE_NAME_PATTERN);
+        String changedFileName = UUID.randomUUID().toString() + ".zip";
+        //String changedFileName = BluePrintFileUtils.Companion.getCBAGeneratedFileName(fileName, this.CBA_FILE_NAME_PATTERN);
 
         // Copy file to the target location (Replacing existing file with the same name)
         Path targetLocation = targetDirectory.resolve(changedFileName);

@@ -40,9 +40,8 @@ public class ConfigModelContent {
     private static final long serialVersionUID = 1L;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "config_model_content_id")
-    private Long id;
+    private String id;
 
     @Column(name = "name", nullable = false)
     @ApiModelProperty(required=true)
@@ -62,11 +61,10 @@ public class ConfigModelContent {
     @Column(name = "description")
     private String description;
 
-    @Deprecated
     @Lob
     @Column(name = "content", nullable = false)
     @ApiModelProperty(required=true)
-    private String content;
+    private byte[]  content;
 
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -102,12 +100,12 @@ public class ConfigModelContent {
         return Objects.hash(id, name, contentType);
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -152,12 +150,12 @@ public class ConfigModelContent {
     }
 
 
-    public String getContent() {
+    public byte[] getContent() {
         return content;
     }
 
 
-    public void setContent(String content) {
+    public void setContent(byte[] content) {
         this.content = content;
     }
 

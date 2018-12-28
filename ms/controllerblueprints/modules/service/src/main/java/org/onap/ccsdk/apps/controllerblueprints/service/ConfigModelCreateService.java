@@ -17,31 +17,6 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
-import com.google.common.base.Preconditions;
-import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang3.StringUtils;
-import org.jetbrains.annotations.NotNull;
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants;
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
-import org.onap.ccsdk.apps.controllerblueprints.core.ConfigModelConstant;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.ServiceTemplate;
-import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils;
-import org.onap.ccsdk.apps.controllerblueprints.service.common.ApplicationConstants;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.CbaContent;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModel;
-import org.onap.ccsdk.apps.controllerblueprints.service.domain.ConfigModelContent;
-import org.onap.ccsdk.apps.controllerblueprints.service.repository.ConfigModelRepository;
-import org.springframework.stereotype.Service;
-
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-
 /**
  * ServiceTemplateCreateService.java Purpose: Provide Service Template Create Service processing
  * ServiceTemplateCreateService
@@ -50,29 +25,19 @@ import java.util.Optional;
  * @version 1.0
  */
 @Deprecated
-@Service
 public class ConfigModelCreateService {
+    /*
 
     private static EELFLogger log = EELFManager.getInstance().getLogger(ConfigModelCreateService.class);
 
     private ConfigModelRepository configModelRepository;
 
-    /**
-     * This is a ConfigModelCreateService
-     *
-     * @param configModelRepository ConfigModelRepository
-     */
+
     public ConfigModelCreateService(ConfigModelRepository configModelRepository) {
         this.configModelRepository = configModelRepository;
     }
 
-    /**
-     * This is a createInitialServiceTemplateContent method
-     *
-     * @param templateName templateName
-     * @return String
-     * @throws BluePrintException BluePrintException
-     */
+
     public String createInitialServiceTemplateContent(String templateName) throws BluePrintException {
         String serviceTemplateContent = null;
         if (StringUtils.isNotBlank(templateName)) {
@@ -87,13 +52,7 @@ public class ConfigModelCreateService {
         return serviceTemplateContent;
     }
 
-    /**
-     * This is a createInitialServiceTemplate method
-     *
-     * @param templateName templateName
-     * @return ServiceTemplate
-     * @throws BluePrintException BluePrintException
-     */
+
     public ServiceTemplate createInitialServiceTemplate(String templateName) throws BluePrintException {
         ServiceTemplate serviceTemplate = null;
         if (StringUtils.isNotBlank(templateName)) {
@@ -111,13 +70,7 @@ public class ConfigModelCreateService {
         return serviceTemplate;
     }
 
-    /**
-     * This is a saveConfigModel method
-     *
-     * @param configModel configModel
-     * @return ConfigModel
-     * @throws BluePrintException BluePrintException
-     */
+
     public ConfigModel saveConfigModel(ConfigModel configModel) throws BluePrintException {
 
         if (configModel != null) {
@@ -282,13 +235,7 @@ public class ConfigModelCreateService {
         return tags;
     }
 
-    /**
-     * This is a publishConfigModel method
-     *
-     * @param id id
-     * @return ConfigModel
-     * @throws BluePrintException BluePrintException
-     */
+
     public ConfigModel publishConfigModel(@NotNull Long id) throws BluePrintException {
         ConfigModel dbConfigModel = null;
         Optional<ConfigModel> dbConfigModelOptional = configModelRepository.findById(id);
@@ -316,15 +263,11 @@ public class ConfigModelCreateService {
         return dbConfigModel;
     }
 
-    /**
-     * This is a validateServiceTemplate method
-     *
-     * @param serviceTemplate Service Template
-     * @return ServiceTemplate
-     * @throws BluePrintException BluePrintException
-     */
+
     public ServiceTemplate validateServiceTemplate(ServiceTemplate serviceTemplate) throws BluePrintException {
         // FIXME("Plug right Validator")
         return serviceTemplate;
     }
+    */
+
 }
