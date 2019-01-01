@@ -1,0 +1,462 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_c44145aa",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/data/BlueprintResponse.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Remove this Class definition manage with in service classes , not in core module",
+      "range": {
+        "startLine": 15,
+        "startChar": 11,
+        "endLine": 15,
+        "endChar": 32
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_640c19a6",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintCatalogService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "findBlueprintById and findAllBlueprint are DB Service , It shouldn\u0027t be in  CatalogService.",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e43ec927",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintCatalogService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Revert this change, to return string",
+      "range": {
+        "startLine": 27,
+        "startChar": 40,
+        "endLine": 27,
+        "endChar": 61
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_8447bdbb",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintCatalogService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "No need of this definition here, Better move to BluePrintHandler",
+      "range": {
+        "startLine": 42,
+        "startChar": 8,
+        "endLine": 42,
+        "endChar": 25
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a44441b7",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintCatalogService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "No need of this definition here, Better move to BluePrintHandler",
+      "range": {
+        "startLine": 47,
+        "startChar": 8,
+        "endLine": 47,
+        "endChar": 24
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4415559a",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintCatalogService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Return Zip path location instead response.",
+      "range": {
+        "startLine": 52,
+        "startChar": 48,
+        "endLine": 52,
+        "endChar": 69
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_641ad9cd",
+        "filename": "ms/blueprintsprocessor/modules/inbounds/selfservice-api/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/selfservice/api/BluePrintCatalogServiceImpl.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Update the changes based on BluePrintCatalog comments.",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 33
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_040bcd7d",
+        "filename": "ms/blueprintsprocessor/modules/inbounds/selfservice-api/src/test/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/selfservice/api/mock/SelfServiceApiMocks.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Update the implementation based on BluePrintCatalogService Comments",
+      "range": {
+        "startLine": 42,
+        "startChar": 6,
+        "endLine": 42,
+        "endChar": 33
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_04fd0d6e",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BluePrintDatabaseService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Rename file name to BluePrintHandler, Repository name is used only for DB Service.",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_241051a7",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BluePrintDatabaseService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "It is confusing so many implementation for same functionality, Only Handler, Rest and Load function is needed",
+      "range": {
+        "startLine": 47,
+        "startChar": 13,
+        "endLine": 47,
+        "endChar": 37
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c42865e4",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BluePrintDatabaseService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Replace to BluePrintMetadatUtils and BluePrintValidations.",
+      "range": {
+        "startLine": 74,
+        "startChar": 26,
+        "endLine": 74,
+        "endChar": 42
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2402916f",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/CBAContentService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "CBAContentService and BlueprintHandler/BluePrintDatabase Service can be combined together.",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c4faa574",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/CbaFileManagementService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Seems like this file is duplicate or redundant implementation.",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e4f7a989",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/CbaService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Could be placed in load package.",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_e4256909",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/CbaService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Redundant implementation or miss placement.",
+      "range": {
+        "startLine": 52,
+        "startChar": 13,
+        "endLine": 52,
+        "endChar": 23
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_84f01d92",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/domain/CbaContent.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Change the table name to BluePrint_Content",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a4ed21b9",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/model/BlueprintModelResponse.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Reuse ConfigModelSearch file for this",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_442eb5fc",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/rs/CbaRest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "replace path identified to blueprint instead cba.",
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_841eddb9",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/rs/CbaRest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "Change to class ConfigModelSearch( This name will be renamed to BluePrintModelSearch later)",
+      "range": {
+        "startLine": 71,
+        "startChar": 4,
+        "endLine": 71,
+        "endChar": 25
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_24393141",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/load/BluePrintCatalogServiceImpl.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "BluePrintCatalogService is common for design and Runtime, So dont use BlueprintInfoResponse. Revert back the cahnges.",
+      "range": {
+        "startLine": 36,
+        "startChar": 49,
+        "endLine": 36,
+        "endChar": 70
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6433b963",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/load/BluePrintCatalogServiceImpl.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "No need of this definition here",
+      "range": {
+        "startLine": 94,
+        "startChar": 17,
+        "endLine": 94,
+        "endChar": 34
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_04342d48",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/load/BluePrintCatalogServiceImpl.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-01T15:20:19Z",
+      "side": 1,
+      "message": "No Need of definition here.",
+      "range": {
+        "startLine": 98,
+        "startChar": 17,
+        "endLine": 98,
+        "endChar": 33
+      },
+      "revId": "fee75cf94d770248f29269cf1269b91c591fdec4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
