@@ -20,10 +20,11 @@
 	<parent>
 		<groupId>org.onap.ccsdk.apps.blueprintsprocessor</groupId>
 		<artifactId>inbounds</artifactId>
-		<version>0.3.2-SNAPSHOT</version>
+		<version>0.3.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>resource-api</artifactId>
+        <version>0.3.3-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<name>Blueprints Processor Resource API</name>
 	<description>Blueprints Processor Resource API</description>

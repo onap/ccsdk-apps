@@ -20,10 +20,11 @@
 	<parent>
 		<groupId>org.onap.ccsdk.apps.blueprintsprocessor</groupId>
 		<artifactId>commons</artifactId>
-		<version>0.3.2-SNAPSHOT</version>
+		<version>0.3.3-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>adaptors</artifactId>
+        <version>0.3.3-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Blueprints Processor Adaptors POM</name>
 	<description>Blueprints Processor Adaptors</description>

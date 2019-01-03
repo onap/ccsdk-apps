@@ -27,6 +27,7 @@
         <relativePath>../parent</relativePath>
     </parent>
     <artifactId>distribution</artifactId>
+    <version>0.3.3-SNAPSHOT</version>
     <packaging>pom</packaging>
     <name>Controller Blueprints Distribution</name>
     <properties>
