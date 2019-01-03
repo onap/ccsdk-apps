@@ -21,6 +21,21 @@
 		<name>ONAP</name>
 	</organization>
 
+	<properties>
+		<!--Don't set any language to let sonar enable multi-language support-->
+		<sonar.language/>
+		<!--Provide src/main as source path so both src/main/java and src/main/kotlin are covered-->
+		<sonar.sources>src/main/</sonar.sources>
+		<!--Provide src/test as source path for test so both src/test/java and src/test/kotlin are covered-->
+		<sonar.tests>src/test</sonar.tests>
+		<!--Specify path to load jacoco XLM report.
+		Note: coverage for now is invalid and is failing to load because of:
+		"Cannot import coverage information for file '{file}', coverage data is invalid."
+		see https://github.com/jacoco/jacoco/issues/763
+		That issue has been fixed in 0.8.3 but haven't yet been release. d-->
+		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+	</properties>
+
 	<modules>
 		<module>components</module>
 		<module>ms</module>
@@ -31,7 +46,6 @@
 		<developerConnection>scm:git:ssh://${onap.git.host}:${onap.git.port}/${onap.git.project}/apps.git</developerConnection>
 		<url>${onap.git.protocol}://${onap.git.host}/projects/${onap.git.project}/repos/apps/browse</url>
 	</scm>
-
 
 	<profiles>
 		<profile>
