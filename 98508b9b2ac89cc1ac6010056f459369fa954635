@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_2f7b4529",
+        "filename": "ms/neng/src/main/java/org/onap/ccsdk/apps/ms/neng/core/policy/PolicyReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 3293
+      },
+      "writtenOn": "2019-01-04T22:28:54Z",
+      "side": 1,
+      "message": "What if its empty ?",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 26
+      },
+      "revId": "98508b9b2ac89cc1ac6010056f459369fa954635",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_0f7e8119",
+        "filename": "ms/neng/src/main/java/org/onap/ccsdk/apps/ms/neng/core/policy/PolicyReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 3293
+      },
+      "writtenOn": "2019-01-04T22:28:54Z",
+      "side": 1,
+      "message": "Missing space.",
+      "range": {
+        "startLine": 117,
+        "startChar": 28,
+        "endLine": 117,
+        "endChar": 38
+      },
+      "revId": "98508b9b2ac89cc1ac6010056f459369fa954635",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6f85cd05",
+        "filename": "ms/neng/src/main/java/org/onap/ccsdk/apps/ms/neng/core/policy/PolicyReader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 3293
+      },
+      "writtenOn": "2019-01-04T22:28:54Z",
+      "side": 1,
+      "message": "Better to remove dead code.",
+      "range": {
+        "startLine": 237,
+        "startChar": 0,
+        "endLine": 240,
+        "endChar": 15
+      },
+      "revId": "98508b9b2ac89cc1ac6010056f459369fa954635",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
