@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
+package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.processing
 
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
@@ -25,10 +25,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class ExecutionServiceHandler(private val bluePrintCatalogService: BluePrintCatalogService,
-                              private val blueprintDGExecutionService: BlueprintDGExecutionService) {
+class ProcessingHanlder(private val bluePrintCatalogService: BluePrintCatalogService,
+                        private val blueprintDGExecutionService: BlueprintDGExecutionService) {
 
-    private val log = LoggerFactory.getLogger(ExecutionServiceHandler::class.toString())
+    private val log = LoggerFactory.getLogger(ProcessingHanlder::class.toString())
 
     fun process(executionServiceInput: ExecutionServiceInput): ExecutionServiceOutput {
 
@@ -47,6 +47,4 @@ class ExecutionServiceHandler(private val bluePrintCatalogService: BluePrintCata
 
         return blueprintDGExecutionService.executeDirectedGraph(blueprintRuntimeService, executionServiceInput)
     }
-
-
 }

@@ -25,6 +25,8 @@ import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
 import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBluePrintCatalogService
 import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBlueprintDGExecutionService
+import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.processing.GrpcProcessingHandler
+import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.processing.ProcessingHanlder
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc
 import org.onap.ccsdk.apps.controllerblueprints.processing.api.CommonHeader
@@ -38,7 +40,7 @@ import kotlin.test.BeforeTest
 import kotlin.test.assertNotNull
 
 @RunWith(SpringRunner::class)
-@ContextConfiguration(classes = [BluePrintProcessingGRPCHandler::class, ExecutionServiceHandler::class,
+@ContextConfiguration(classes = [GrpcServerConfig::class, GrpcProcessingHandler::class, ProcessingHanlder::class,
     MockBlueprintDGExecutionService::class, MockBluePrintCatalogService::class,
     BluePrintCoreConfiguration::class])
 @TestPropertySource(locations = ["classpath:application-test.properties"])
@@ -50,7 +52,7 @@ class BluePrintProcessingGRPCHandlerTest {
     val grpcServerRule = GrpcServerRule().directExecutor()
 
     @Autowired
-    lateinit var bluePrintProcessingGRPCHandler: BluePrintProcessingGRPCHandler
+    lateinit var bluePrintProcessingGRPCHandler: GrpcProcessingHandler
 
     @BeforeTest
     fun init() {

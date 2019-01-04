@@ -16,6 +16,8 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 
+import com.google.common.util.concurrent.FutureCallback
+import com.google.common.util.concurrent.Futures
 import com.google.protobuf.ByteString
 import io.grpc.testing.GrpcServerRule
 import org.apache.commons.io.FileUtils
@@ -25,6 +27,7 @@ import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
 import org.onap.ccsdk.apps.controllerblueprints.management.api.BluePrintManagementServiceGrpc
 import org.onap.ccsdk.apps.controllerblueprints.management.api.BluePrintUploadInput
+import org.onap.ccsdk.apps.controllerblueprints.management.api.BluePrintUploadOutput
 import org.onap.ccsdk.apps.controllerblueprints.management.api.CommonHeader
 import org.onap.ccsdk.apps.controllerblueprints.management.api.FileChunk
 import org.slf4j.LoggerFactory
@@ -33,14 +36,17 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import java.io.File
+import java.lang.Exception
 import java.nio.file.Paths
+import java.util.concurrent.Executors
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.test.fail
 
 @RunWith(SpringRunner::class)
-@ContextConfiguration(classes = [BluePrintManagementGRPCHandler::class, BluePrintCoreConfiguration::class])
+@ContextConfiguration(classes = [GrpcServerConfig::class, GrpcManagementHandler::class, BluePrintCoreConfiguration::class])
 @TestPropertySource(locations = ["classpath:application-test.properties"])
 class BluePrintManagementGRPCHandlerTest {
 
@@ -50,7 +56,7 @@ class BluePrintManagementGRPCHandlerTest {
     val grpcServerRule = GrpcServerRule().directExecutor()
 
     @Autowired
-    lateinit var bluePrintManagementGRPCHandler: BluePrintManagementGRPCHandler
+    lateinit var bluePrintManagementGRPCHandler: GrpcManagementHandler
 
     @BeforeTest
     fun init() {
@@ -65,7 +71,7 @@ class BluePrintManagementGRPCHandlerTest {
 
     @Test
     fun testFileUpload() {
-        val blockingStub = BluePrintManagementServiceGrpc.newBlockingStub(grpcServerRule.channel)
+        val stub = BluePrintManagementServiceGrpc.newFutureStub(grpcServerRule.channel)
 
         val file = Paths.get("./src/test/resources/test-cba.zip").toFile()
         assertTrue(file.exists(), "couldnt get file ${file.absolutePath}")
@@ -86,7 +92,14 @@ class BluePrintManagementGRPCHandlerTest {
                 .setFileChunk(fileChunk)
                 .build()
 
-        val output = blockingStub.uploadBlueprint(input)
-        assertNotNull(output, "failed to get upload response")
+        Futures.addCallback(stub.uploadBlueprint(input), object : FutureCallback<BluePrintUploadOutput> {
+            override fun onSuccess(s: BluePrintUploadOutput?) {
+                assertNotNull(s, "failed to get upload response")
+            }
+
+            override fun onFailure(throwable: Throwable) {
+                fail()
+            }
+        }, Executors.newSingleThreadExecutor())
     }
 }

@@ -14,22 +14,26 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
+package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.processing
 
 import io.swagger.annotations.ApiOperation
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
-import org.springframework.web.bind.annotation.*
+import org.springframework.web.bind.annotation.RequestBody
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestMethod
+import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 
 @RestController
 @RequestMapping("/api/v1/execution-service")
-class ExecutionServiceController {
+class HttpProcessingHandler {
 
     @Autowired
-    lateinit var executionServiceHandler: ExecutionServiceHandler
+    lateinit var executionServiceHandler: ProcessingHanlder
 
 
     @RequestMapping(path = arrayOf("/ping"), method = arrayOf(RequestMethod.GET), produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
@@ -42,6 +46,7 @@ class ExecutionServiceController {
     @ApiOperation(value = "Resolve Resource Mappings", notes = "Takes the blueprint information and process as per the payload")
     @ResponseBody
     fun process(@RequestBody executionServiceInput: ExecutionServiceInput): Mono<ExecutionServiceOutput> {
+        // validation of input
         val executionServiceOutput = executionServiceHandler.process(executionServiceInput)
         return Mono.just(executionServiceOutput)
     }

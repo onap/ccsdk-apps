@@ -21,6 +21,7 @@ import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBluePrintCatalogService
 import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBlueprintDGExecutionService
+import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.processing.ProcessingHanlder
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.springframework.beans.factory.annotation.Autowired
@@ -29,11 +30,11 @@ import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
 @ContextConfiguration(classes = [MockBluePrintCatalogService::class,
-    MockBlueprintDGExecutionService::class, ExecutionServiceHandler::class])
+    MockBlueprintDGExecutionService::class, ProcessingHanlder::class])
 class ExecutionServiceHandlerTest {
 
     @Autowired
-    lateinit var executionServiceHandler: ExecutionServiceHandler
+    lateinit var executionServiceHandler: ProcessingHanlder
 
     @Test
     fun testProcess() {

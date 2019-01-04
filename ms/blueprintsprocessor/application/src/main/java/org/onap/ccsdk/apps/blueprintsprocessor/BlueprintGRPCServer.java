@@ -17,48 +17,64 @@
 package org.onap.ccsdk.apps.blueprintsprocessor;
 
 import io.grpc.Server;
-import io.grpc.ServerBuilder;
-import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.BluePrintManagementGRPCHandler;
-import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.BluePrintProcessingGRPCHandler;
+import io.grpc.netty.NettyServerBuilder;
+import java.util.concurrent.ExecutorService;
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.GrpcManagementHandler;
+import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.processing.GrpcProcessingHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
 
 @ConditionalOnProperty(name = "blueprintsprocessor.grpcEnable", havingValue = "true")
 @Component
-public class BlueprintGRPCServer implements ApplicationListener<ContextRefreshedEvent> {
+public class BlueprintGRPCServer {
 
     private static Logger log = LoggerFactory.getLogger(BlueprintGRPCServer.class);
 
     @Autowired
-    private BluePrintProcessingGRPCHandler bluePrintProcessingGRPCHandler;
-
+    private GrpcProcessingHandler bluePrintProcessingGRPCHandler;
     @Autowired
-    private BluePrintManagementGRPCHandler bluePrintManagementGRPCHandler;
+    private GrpcManagementHandler bluePrintManagementGRPCHandler;
+    @Autowired
+    @Qualifier("grpcExecutor")
+    private ExecutorService executor;
 
     @Value("${blueprintsprocessor.grpcPort}")
     private Integer grpcPort;
 
-    @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
+    private Server server;
+
+    @PostConstruct
+    public void start() {
         try {
-            log.info("Starting Blueprint Processor GRPC Starting..");
-            Server server = ServerBuilder
-                    .forPort(grpcPort)
-                    .addService(bluePrintProcessingGRPCHandler)
-                    .addService(bluePrintManagementGRPCHandler)
-                    .build();
+            log.info("Starting Blueprint Processor GRPC server..");
+
+            this.server = NettyServerBuilder.forPort(grpcPort)
+                .addService(bluePrintProcessingGRPCHandler)
+                .addService(bluePrintManagementGRPCHandler)
+                .executor(executor)
+                .build();
 
             server.start();
             log.info("Blueprint Processor GRPC server started and ready to serve on port({})...", server.getPort());
             server.awaitTermination();
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new BlueprintGRPCException("Could not start server", e);
+        }
+    }
+
+    @PreDestroy
+    public void stop() {
+        if (server != null) {
+            log.info("Stopping Blueprint Processor GRPC server");
+            executor.shutdown();
+            server.shutdown();
         }
     }
 }
