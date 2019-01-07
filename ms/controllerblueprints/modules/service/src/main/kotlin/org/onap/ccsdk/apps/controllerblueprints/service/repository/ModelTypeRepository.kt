@@ -23,6 +23,7 @@ import javax.transaction.Transactional
 
 @Repository
 interface ModelTypeRepository : JpaRepository<ModelType, String> {
+
     /**
      * This is a findByModelName method
      *

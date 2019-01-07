@@ -19,7 +19,6 @@ package org.onap.ccsdk.apps.controllerblueprints.service.handler
 import com.att.eelf.configuration.EELFManager
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ModelType
-import org.onap.ccsdk.apps.controllerblueprints.service.repository.ModelTypeRepository
 import org.onap.ccsdk.apps.controllerblueprints.service.validator.ModelTypeValidator
 import org.springframework.stereotype.Service
 

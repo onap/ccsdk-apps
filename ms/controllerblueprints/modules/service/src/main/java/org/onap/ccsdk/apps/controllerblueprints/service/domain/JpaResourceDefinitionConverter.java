@@ -21,12 +21,14 @@ import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDefinition
 
 import javax.persistence.AttributeConverter;
 import javax.persistence.Converter;
+
 /**
  * @author Brinda Santh
  */
 @Converter
 public class JpaResourceDefinitionConverter implements
-        AttributeConverter<ResourceDefinition, String> {
+    AttributeConverter<ResourceDefinition, String> {
+
     @Override
     public String convertToDatabaseColumn(ResourceDefinition resourceDefinition) {
         return JacksonUtils.getJson(resourceDefinition);

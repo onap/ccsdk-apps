@@ -33,10 +33,9 @@ import java.util.Optional;
 @Repository
 public interface ResourceDictionaryRepository extends JpaRepository<ResourceDictionary, String> {
 
-
     /**
      * This is a findByName method
-     * 
+     *
      * @param name name
      * @return Optional<ResourceMapping>
      */
@@ -44,7 +43,7 @@ public interface ResourceDictionaryRepository extends JpaRepository<ResourceDict
 
     /**
      * This is a findByNameIn method
-     * 
+     *
      * @param names names
      * @return Optional<ResourceMapping>
      */
@@ -52,7 +51,7 @@ public interface ResourceDictionaryRepository extends JpaRepository<ResourceDict
 
     /**
      * This is a findByTagsContainingIgnoreCase method
-     * 
+     *
      * @param tags tags
      * @return Optional<ModelType>
      */
@@ -60,10 +59,8 @@ public interface ResourceDictionaryRepository extends JpaRepository<ResourceDict
 
     /**
      * This is a deleteByName method
-     * 
+     *
      * @param name name
      */
     void deleteByName(String name);
-
-
 }
