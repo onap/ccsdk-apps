@@ -28,12 +28,13 @@ import org.springframework.orm.jpa.JpaTransactionManager
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter
 import org.springframework.transaction.PlatformTransactionManager
+import springfox.documentation.swagger2.mappers.SerializableParameterFactories.factory
 import java.util.*
 import javax.sql.DataSource
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor.db.primary"],
+        basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor.db.repository"],
         entityManagerFactoryRef = "primaryEntityManager",
         transactionManagerRef = "primaryTransactionManager"
 )
@@ -45,8 +46,7 @@ open class PrimaryDatabaseConfiguration(private val primaryDataSourceProperties:
     open fun primaryEntityManager(): LocalContainerEntityManagerFactoryBean {
         val em = LocalContainerEntityManagerFactoryBean()
         em.dataSource = primaryDataSource()
-        em.setPackagesToScan(
-                "org.onap.ccsdk.apps.blueprintsprocessor.db.primary")
+        em.setPackagesToScan("org.onap.ccsdk.apps.blueprintsprocessor.db.primary")
 
         val vendorAdapter = HibernateJpaVendorAdapter()
         em.jpaVendorAdapter = vendorAdapter
