@@ -31,6 +31,7 @@ import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintRepoSer
 import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintExpressionService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDefinition
+import org.springframework.stereotype.Service
 import java.io.Serializable
 
 /**
@@ -44,6 +45,15 @@ interface ResourceDefinitionValidationService : Serializable {
     fun validate(resourceDefinition: ResourceDefinition)
 
 }
+
+// Resource Dictionary Validation Services
+
+@Service
+class DefaultResourceAssignmentValidationService : ResourceAssignmentValidationServiceImpl()
+
+@Service
+class DefalutResourceDefinitionValidationService(bluePrintRepoService: BluePrintRepoService)
+    : ResourceDefinitionValidationServiceImpl(bluePrintRepoService)
 
 /**
  * ResourceDefinitionValidationService.

@@ -29,7 +29,7 @@
     <description>Blueprints Processor Commons</description>
 
     <modules>
-        <module>db-lib</module>
+        <!--<module>db-lib</module>-->
         <module>rest-lib</module>
         <module>core</module>
     </modules>
