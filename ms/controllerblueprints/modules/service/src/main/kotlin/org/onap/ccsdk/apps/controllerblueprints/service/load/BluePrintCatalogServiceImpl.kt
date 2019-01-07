@@ -108,7 +108,7 @@ class BluePrintCatalogServiceImpl(private val bluePrintLoadConfiguration: BluePr
             // FIXME("Check Duplicate for Artifact Name and Artifact Version")
             val blueprintModel = BlueprintModel()
             blueprintModel.id = id
-            blueprintModel.artifactType =  ApplicationConstants.ASDC_ARTIFACT_TYPE_SDNC_MODEL
+            blueprintModel.artifactType = ApplicationConstants.ASDC_ARTIFACT_TYPE_SDNC_MODEL
             blueprintModel.published = ApplicationConstants.ACTIVE_N
             blueprintModel.artifactName = metaData[BluePrintConstants.METADATA_TEMPLATE_NAME]
             blueprintModel.artifactVersion = metaData[BluePrintConstants.METADATA_TEMPLATE_VERSION]

@@ -41,7 +41,7 @@ import javax.sql.DataSource;
 public class DatabaseConfig {
     /**
      * This is a entityManagerFactory method
-     * 
+     *
      * @param dataSource
      * @return LocalContainerEntityManagerFactoryBean
      */

@@ -45,6 +45,7 @@ public interface BlueprintModelSearchRepository extends JpaRepository<BlueprintM
 
     /**
      * This is a findAll method
+     *
      * @return List<BlueprintModelSearch>
      */
     @Override
@@ -61,8 +62,7 @@ public interface BlueprintModelSearchRepository extends JpaRepository<BlueprintM
 
     /**
      * This is a findByTagsContainingIgnoreCase method
-     * 
-     * @param tags
+     *
      * @return Optional<BlueprintModelSearch>
      */
     List<BlueprintModelSearch> findByTagsContainingIgnoreCase(String tags);
