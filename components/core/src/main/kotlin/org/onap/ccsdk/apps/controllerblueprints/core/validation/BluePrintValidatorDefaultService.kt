@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.service.validator
+package org.onap.ccsdk.apps.controllerblueprints.core.validation
 
 import com.att.eelf.configuration.EELFLogger
 import com.att.eelf.configuration.EELFManager
@@ -24,9 +24,6 @@ import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintTypeVal
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintValidatorService
 import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintRuntimeService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
-import org.onap.ccsdk.apps.controllerblueprints.core.validation.*
-import org.onap.ccsdk.apps.controllerblueprints.resource.dict.service.ResourceAssignmentValidationServiceImpl
-import org.onap.ccsdk.apps.controllerblueprints.resource.dict.service.ResourceDefinitionValidationServiceImpl
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -92,12 +89,3 @@ class DefaulBluePrintPropertyDefinitionValidator(bluePrintTypeValidatorService: 
 @Service
 class DefaultBluePrintAttributeDefinitionValidator(bluePrintTypeValidatorService: BluePrintTypeValidatorService)
     : BluePrintAttributeDefinitionValidatorImpl(bluePrintTypeValidatorService)
-
-// Resource Dictionary Validation Services
-
-@Service
-class DefaultResourceAssignmentValidationService : ResourceAssignmentValidationServiceImpl()
-
-@Service
-class DefalutResourceDefinitionValidationService(bluePrintRepoService: BluePrintRepoService)
-    : ResourceDefinitionValidationServiceImpl(bluePrintRepoService)
