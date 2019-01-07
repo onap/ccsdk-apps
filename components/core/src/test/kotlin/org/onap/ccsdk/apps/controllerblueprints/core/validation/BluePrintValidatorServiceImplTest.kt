@@ -17,6 +17,7 @@
 package org.onap.ccsdk.apps.controllerblueprints.core.validation
 
 import org.junit.Test
+import org.onap.ccsdk.apps.controllerblueprints.core.data.Workflow
 import org.onap.ccsdk.apps.controllerblueprints.core.mock.MockBluePrintTypeValidatorService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
 import kotlin.test.assertTrue
@@ -38,6 +39,18 @@ class BluePrintValidatorServiceImplTest {
 
         assertTrue(valid, "failed in blueprint Validation")
 
+    }
+
+    @Test
+    fun testValidateWorkflow() {
+        val bluePrintRuntime = BluePrintMetadataUtils.getBluePrintRuntime("1234", blueprintBasePath)
+
+        val mockBluePrintTypeValidatorService = MockBluePrintTypeValidatorService()
+
+        val workflowValidator = BluePrintWorkflowValidatorImpl(mockBluePrintTypeValidatorService)
+
+        val workflow = Workflow()
+        workflowValidator.validate(bluePrintRuntime, "", workflow)
     }
 }
 
