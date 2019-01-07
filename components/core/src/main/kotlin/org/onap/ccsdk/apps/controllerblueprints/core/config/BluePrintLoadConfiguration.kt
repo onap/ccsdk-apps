@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.service.load
+package org.onap.ccsdk.apps.controllerblueprints.core.config
 
 open class BluePrintLoadConfiguration {
 
