@@ -22,6 +22,29 @@
       "revId": "a3ca9a2c8f74d23ff0ec18cdbf2a577049c47155",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_5d767aa5",
+        "filename": "components/model-catalog/definition-type/starter-type/node_type/source-capability.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-08T22:05:52Z",
+      "side": 1,
+      "message": "It is Component reference name, ie Resource Assignment processor spring service/process annotation value. I will include the description and same test cases.",
+      "range": {
+        "startLine": 18,
+        "startChar": 18,
+        "endLine": 18,
+        "endChar": 20
+      },
+      "revId": "a3ca9a2c8f74d23ff0ec18cdbf2a577049c47155",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
