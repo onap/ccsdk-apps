@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_dd3b4acf",
+        "filename": "components/model-catalog/definition-type/starter-type/node_type/source-capability.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-08T22:02:13Z",
+      "side": 1,
+      "message": "what does it refer to? a package name, a python class name, a Spring bean...? Maybe we could be more precice?",
+      "range": {
+        "startLine": 18,
+        "startChar": 5,
+        "endLine": 18,
+        "endChar": 18
+      },
+      "revId": "a3ca9a2c8f74d23ff0ec18cdbf2a577049c47155",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
