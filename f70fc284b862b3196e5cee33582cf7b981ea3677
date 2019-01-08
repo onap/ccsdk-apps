@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_9d8dc27e",
+        "filename": "ms/neng/src/main/java/org/onap/ccsdk/apps/ms/neng/core/policy/PolicyReader.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 3293
+      },
+      "writtenOn": "2019-01-08T22:54:36Z",
+      "side": 1,
+      "message": "Two things \n1. Why not private static final ?\n2. Better to name it as LOG since programmer  would know its constant because our aim should be supply much information as possible with little effort as required.",
+      "range": {
+        "startLine": 46,
+        "startChar": 26,
+        "endLine": 46,
+        "endChar": 29
+      },
+      "revId": "f70fc284b862b3196e5cee33582cf7b981ea3677",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
