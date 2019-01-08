@@ -17,29 +17,12 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.validator;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ModelType;
 
 public class ModelTypeValidatorTest {
 
-    @Before
-    public void setup(){
-        ModelTypeValidator modelTypeValidator;
-    }
-
-    @Test
-    public void testGetValidModelDefinitionType_definitionContentNULL() throws Exception{
-        String definitionType=null;
-        JsonNode definitionContent=null;
-        boolean valid= ModelTypeValidator.validateModelTypeDefinition(definitionType, definitionContent);
-        Assert.assertTrue(valid);
-
-    }
-
-    @Test(expected=BluePrintException.class)
+    @Test(expected=IllegalStateException.class)
     public void testvalidateModelType() throws Exception{
         ModelType modelType = new ModelType();
         modelType.setDefinitionType("");
@@ -51,6 +34,6 @@ public class ModelTypeValidatorTest {
         modelType.setVersion("");
         modelType.setTags("");
         modelType.setUpdatedBy("");
-        ModelTypeValidator.validateModelType(modelType);
+        ModelTypeValidator.Companion.validateModelType(modelType);
     }
 }
