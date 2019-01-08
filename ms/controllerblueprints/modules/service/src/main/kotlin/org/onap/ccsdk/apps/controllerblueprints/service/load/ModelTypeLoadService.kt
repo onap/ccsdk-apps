@@ -24,6 +24,7 @@ import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.data.ArtifactType
 import org.onap.ccsdk.apps.controllerblueprints.core.data.DataType
 import org.onap.ccsdk.apps.controllerblueprints.core.data.NodeType
+import org.onap.ccsdk.apps.controllerblueprints.core.data.RelationshipType
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ModelType
 import org.onap.ccsdk.apps.controllerblueprints.service.handler.ModelTypeHandler
@@ -57,11 +58,21 @@ open class ModelTypeLoadService(private val modelTypeHandler: ModelTypeHandler) 
             }
 
             coroutineScope {
-                val artifactTypefiles = File("$modelTypePath/artifact_type").listFiles()
+                val artifactTypeFiles = File("$modelTypePath/artifact_type").listFiles()
 
                 val deferredResults = mutableListOf<Deferred<Unit>>()
 
-                for (file in artifactTypefiles) deferredResults += async { loadArtifactType(file, errorBuilder) }
+                for (file in artifactTypeFiles) deferredResults += async { loadArtifactType(file, errorBuilder) }
+
+                deferredResults.awaitAll()
+            }
+
+            coroutineScope {
+                val relationshipTypeFiles = File("$modelTypePath/relationship_type").listFiles()
+
+                val deferredResults = mutableListOf<Deferred<Unit>>()
+
+                for (file in relationshipTypeFiles) deferredResults += async { loadRelationshipType(file, errorBuilder) }
 
                 deferredResults.awaitAll()
             }
@@ -104,6 +115,30 @@ open class ModelTypeLoadService(private val modelTypeHandler: ModelTypeHandler) 
             log.trace("DataType(${file.name}) loaded successfully ")
         } catch (e: Exception) {
             errorBuilder.appendln("Couldn't load DataType(${file.name}: ${e.message}")
+        }
+    }
+
+    private fun loadRelationshipType(file: File, errorBuilder: StrBuilder) {
+        try {
+            log.trace("Loading Relationship(${file.name}")
+            val dataKey = FilenameUtils.getBaseName(file.name)
+            val definitionContent = file.readText(Charset.defaultCharset())
+            val relationshipType = JacksonUtils.readValue(definitionContent, RelationshipType::class.java)
+            checkNotNull(relationshipType) { "failed to get relationship type from file : ${file.name}" }
+
+            val modelType = ModelType()
+            modelType.definitionType = BluePrintConstants.MODEL_DEFINITION_TYPE_RELATIONSHIP_TYPE
+            modelType.derivedFrom = relationshipType.derivedFrom
+            modelType.description = relationshipType.description
+            modelType.definition = JacksonUtils.jsonNode(definitionContent)
+            modelType.modelName = dataKey
+            modelType.version = relationshipType.version
+            modelType.updatedBy = updateBySystem
+            modelType.tags = (dataKey + "," + relationshipType.derivedFrom + "," + BluePrintConstants.MODEL_DEFINITION_TYPE_RELATIONSHIP_TYPE)
+            modelTypeHandler.saveModel(modelType)
+            log.trace("RelationshipType(${file.name}) loaded successfully ")
+        } catch (e: Exception) {
+            errorBuilder.appendln("Couldn't load RelationshipType(${file.name}: ${e.message}")
         }
     }
 

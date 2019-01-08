@@ -21,10 +21,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import org.apache.commons.lang3.StringUtils;
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants;
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.ArtifactType;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.CapabilityDefinition;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.DataType;
-import org.onap.ccsdk.apps.controllerblueprints.core.data.NodeType;
+import org.onap.ccsdk.apps.controllerblueprints.core.data.*;
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.ModelType;
 
@@ -89,6 +86,13 @@ public class ModelTypeValidator {
                 if (capabilityDefinition == null) {
                     throw new BluePrintException(
                             "Model type definition is not CapabilityDefinition valid content " + definitionContent);
+                }
+            }else if (BluePrintConstants.MODEL_DEFINITION_TYPE_RELATIONSHIP_TYPE.equalsIgnoreCase(definitionType)) {
+                RelationshipType relationshipType =
+                        JacksonUtils.readValue(definitionContent, RelationshipType.class);
+                if (relationshipType == null) {
+                    throw new BluePrintException(
+                            "Model type definition is not RelationshipType valid content " + definitionContent);
                 }
             }
 
