@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_2e7a5e77",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/load/ModelTypeLoadService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-09T18:37:17Z",
+      "side": 1,
+      "message": "shouldn\u0027 this be a suspend fun in order to declare that it has inner coroutine?",
+      "range": {
+        "startLine": 45,
+        "startChar": 13,
+        "endLine": 45,
+        "endChar": 30
+      },
+      "revId": "f48fce64073af98adcdfe0d5a69a0161b7403225",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
