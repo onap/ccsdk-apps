@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_8e802ac1",
+        "filename": "ms/blueprintsprocessor/modules/commons/db-lib/pom.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-09T22:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_ced5d2e5",
+      "range": {
+        "startLine": 34,
+        "startChar": 24,
+        "endLine": 34,
+        "endChar": 28
+      },
+      "revId": "6fdd17f79786d367a94b47ac92ef9e0b5e3a4b0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_8e0b4a8d",
         "filename": "ms/blueprintsprocessor/modules/commons/db-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/db/primary/domain/BlueprintProcessorModel.kt",
         "patchSetId": 14
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-09T20:34:27Z",
       "side": 1,
       "message": "Suggestion to remove CONFIG prefix table name, May be BluePrint Runtime model.",
+      "range": {
+        "startLine": 40,
+        "startChar": 15,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "6fdd17f79786d367a94b47ac92ef9e0b5e3a4b0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_ce1ab2c5",
+        "filename": "ms/blueprintsprocessor/modules/commons/db-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/db/primary/domain/BlueprintProcessorModel.kt",
+        "patchSetId": 14
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-09T22:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_8e0b4a8d",
       "range": {
         "startLine": 40,
         "startChar": 15,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_6e7b86f5",
+        "filename": "ms/blueprintsprocessor/modules/commons/db-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/db/primary/domain/BlueprintProcessorModel.kt",
+        "patchSetId": 14
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-09T22:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_2efc9e71",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 72,
+        "endChar": 36
+      },
+      "revId": "6fdd17f79786d367a94b47ac92ef9e0b5e3a4b0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_4eea42ad",
         "filename": "ms/controllerblueprints/modules/service/pom.xml",
         "patchSetId": 14
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_8e67ca4c",
+        "filename": "ms/controllerblueprints/modules/service/pom.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-09T22:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_4eea42ad",
+      "range": {
+        "startLine": 44,
+        "startChar": 31,
+        "endLine": 44,
+        "endChar": 38
+      },
+      "revId": "6fdd17f79786d367a94b47ac92ef9e0b5e3a4b0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_eed216ff",
         "filename": "ms/controllerblueprints/modules/service/pom.xml",
         "patchSetId": 14
@@ -105,6 +201,30 @@
       "writtenOn": "2019-01-09T20:34:27Z",
       "side": 1,
       "message": "Version Managed in parent pom",
+      "range": {
+        "startLine": 49,
+        "startChar": 31,
+        "endLine": 49,
+        "endChar": 38
+      },
+      "revId": "6fdd17f79786d367a94b47ac92ef9e0b5e3a4b0e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_6e62a63f",
+        "filename": "ms/controllerblueprints/modules/service/pom.xml",
+        "patchSetId": 14
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-09T22:12:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_eed216ff",
       "range": {
         "startLine": 49,
         "startChar": 31,
