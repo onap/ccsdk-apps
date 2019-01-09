@@ -19,7 +19,10 @@ package org.onap.ccsdk.apps.controllerblueprints.core.validation
 import com.att.eelf.configuration.EELFLogger
 import com.att.eelf.configuration.EELFManager
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
+import org.onap.ccsdk.apps.controllerblueprints.core.data.NodeTemplate
 import org.onap.ccsdk.apps.controllerblueprints.core.data.Workflow
+import org.onap.ccsdk.apps.controllerblueprints.core.format
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintTypeValidatorService
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintWorkflowValidator
 import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintRuntimeService
@@ -42,14 +45,36 @@ open class BluePrintWorkflowValidatorImpl(private val bluePrintTypeValidatorServ
 
         // Step Validation Start
         paths.add("steps")
-        workflow.steps?.forEach { stepName, _ ->
+        workflow.steps?.forEach { stepName, step ->
             paths.add(stepName)
             paths.joinToString(BluePrintConstants.PATH_DIVIDER)
-            // TODO("Step Validation")
+
+            // Validate target
+            val targetNodeTemplate = step.target
+
+            targetNodeTemplate?.let {
+                val nodeTemplate: NodeTemplate?
+                try {
+                    nodeTemplate = bluePrintRuntimeService.bluePrintContext().nodeTemplateByName(it)
+                } catch (e: BluePrintException) {
+                    throw BluePrintException(format("Failed to validate Workflow({})'s step({})'s definition: couldn't find NodeTemplate({})",
+                            workflowName, stepName, targetNodeTemplate))
+                }
+
+                val nodeType = nodeTemplate.type
+                check(bluePrintRuntimeService.bluePrintContext().nodeTypes!![nodeType]?.derivedFrom == BluePrintConstants.MODEL_TYPE_NODE_DG) {
+                    throw BluePrintException(format("Failed to validate Workflow({})'s step({})'s definition: NodeTemplate({}) is of type '{}'. Expected type '{}' ",
+                            workflowName, stepName, targetNodeTemplate, nodeType, BluePrintConstants.MODEL_TYPE_NODE_DG))
+                }
+            }
             paths.removeAt(paths.lastIndex)
         }
         paths.removeAt(paths.lastIndex)
         // Step Validation Ends
         paths.removeAt(paths.lastIndex)
+
+        workflow.inputs?.let {
+            bluePrintTypeValidatorService.validatePropertyDefinitions(bluePrintRuntimeService, workflow.inputs!!)
+        }
     }
 }
