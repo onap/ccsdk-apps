@@ -18,6 +18,8 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.load
 
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
+import org.onap.ccsdk.apps.controllerblueprints.core.data.ErrorCode
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintValidatorService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintArchiveUtils
@@ -26,8 +28,8 @@ import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtil
 import org.onap.ccsdk.apps.controllerblueprints.service.common.ApplicationConstants
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.BlueprintModel
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.BlueprintModelContent
-import org.onap.ccsdk.apps.controllerblueprints.service.repository.BlueprintModelContentRepository
 import org.onap.ccsdk.apps.controllerblueprints.service.repository.BlueprintModelRepository
+import org.springframework.dao.DataIntegrityViolationException
 import org.springframework.stereotype.Service
 import java.io.File
 import java.nio.file.Files
@@ -35,7 +37,6 @@ import java.nio.file.Files
 @Service
 class BluePrintCatalogServiceImpl(private val bluePrintLoadConfiguration: BluePrintLoadConfiguration,
                                   private val bluePrintValidatorService: BluePrintValidatorService,
-                                  private val blueprintModelContentRepository: BlueprintModelContentRepository,
                                   private val blueprintModelRepository: BlueprintModelRepository) : BluePrintCatalogService {
 
     override fun uploadToDataBase(file: String, validate: Boolean): String {
@@ -129,7 +130,12 @@ class BluePrintCatalogServiceImpl(private val bluePrintLoadConfiguration: BluePr
             // Set the Blueprint Model Content into blueprintModel
             blueprintModel.blueprintModelContent = blueprintModelContent
 
-            blueprintModelRepository.saveAndFlush(blueprintModel)
+            try {
+                blueprintModelRepository.saveAndFlush(blueprintModel)
+            } catch (ex: DataIntegrityViolationException) {
+                throw BluePrintException(ErrorCode.CONFLICT_ADDING_RESOURCE.value, String.format("The blueprint entry " +
+                        "is already exist in database: %s", ex.message), ex)
+            }
         }
     }
 }

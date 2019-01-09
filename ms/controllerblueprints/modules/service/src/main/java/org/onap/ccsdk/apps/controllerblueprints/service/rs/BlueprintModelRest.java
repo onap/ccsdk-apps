@@ -20,6 +20,7 @@ package org.onap.ccsdk.apps.controllerblueprints.service.rs;
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
 import org.onap.ccsdk.apps.controllerblueprints.service.BlueprintModelService;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.BlueprintModelSearch;
+import org.onap.ccsdk.apps.controllerblueprints.service.model.BlueprintModelSearchList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.http.MediaType;
@@ -27,8 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.codec.multipart.FilePart;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
-
-import java.util.List;
 
 /**
  * {@inheritDoc}
@@ -60,13 +59,13 @@ public class BlueprintModelRest {
 
     @GetMapping(path = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    BlueprintModelSearch getCBA(@PathVariable(value = "id") String id) throws BluePrintException {
+    BlueprintModelSearch getBlueprintModel(@PathVariable(value = "id") String id) throws BluePrintException {
         return this.blueprintModelService.getBlueprintModelSearch(id);
     }
 
     @GetMapping(path = "", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<BlueprintModelSearch> getAllCBA() {
+    BlueprintModelSearchList getAllBlueprintModel() {
         return this.blueprintModelService.getAllBlueprintModel();
     }
 
@@ -84,7 +83,7 @@ public class BlueprintModelRest {
 
     @GetMapping(path = "/search/{tags}", produces = MediaType.APPLICATION_JSON_VALUE)
     public @ResponseBody
-    List<BlueprintModelSearch> searchBlueprintModels(@PathVariable(value = "tags") String tags) {
+    BlueprintModelSearchList searchBlueprintModels(@PathVariable(value = "tags") String tags) {
         return this.blueprintModelService.searchBlueprintModels(tags);
     }
 }

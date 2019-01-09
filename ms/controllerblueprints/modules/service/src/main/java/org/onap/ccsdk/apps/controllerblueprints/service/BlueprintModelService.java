@@ -17,15 +17,15 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service;
 
-import com.att.eelf.configuration.EELFLogger;
-import com.att.eelf.configuration.EELFManager;
 import org.jetbrains.annotations.NotNull;
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
+import org.onap.ccsdk.apps.controllerblueprints.core.data.ErrorCode;
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService;
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintFileUtils;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.BlueprintModel;
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.BlueprintModelSearch;
 import org.onap.ccsdk.apps.controllerblueprints.service.load.BluePrintLoadConfiguration;
+import org.onap.ccsdk.apps.controllerblueprints.service.model.BlueprintModelSearchList;
 import org.onap.ccsdk.apps.controllerblueprints.service.repository.BlueprintModelContentRepository;
 import org.onap.ccsdk.apps.controllerblueprints.service.repository.BlueprintModelRepository;
 import org.onap.ccsdk.apps.controllerblueprints.service.repository.BlueprintModelSearchRepository;
@@ -56,8 +56,6 @@ import java.util.Optional;
 @Service
 public class BlueprintModelService {
 
-    private static EELFLogger log = EELFManager.getInstance().getLogger(BlueprintModelService.class);
-
     @Autowired
     private BluePrintLoadConfiguration bluePrintLoadConfiguration;
 
@@ -73,9 +71,9 @@ public class BlueprintModelService {
     @Autowired
     private BlueprintModelContentRepository blueprintModelContentRepository;
 
-    private static final String BLUEPRINT_MODEL_ID_FAILURE_MSG = "failed to get blueprint model id(%d) from repo";
-    private static final String BLUEPRINT_MODEL_NAME_VERSION_FAILURE_MSG = "failed to get blueprint model by name(%d)" +
-                                                                    " and version(%d) from repo";
+    private static final String BLUEPRINT_MODEL_ID_FAILURE_MSG = "failed to get blueprint model id(%s) from repo";
+    private static final String BLUEPRINT_MODEL_NAME_VERSION_FAILURE_MSG = "failed to get blueprint model by name(%s)" +
+                                                                    " and version(%s) from repo";
 
     /**
      * This is a saveBlueprintModel method
@@ -91,9 +89,9 @@ public class BlueprintModelService {
                         String blueprintId =   bluePrintCatalogService.uploadToDataBase(cbaLocation.resolve(fileName).toString(), false);
                         return blueprintModelSearchRepository.findById(blueprintId).get();
             });
-
-        } catch (IOException | BluePrintException e) {
-            return Mono.error(new BluePrintException("Error uploading the CBA file in channel.", e));
+        } catch (IOException e) {
+              throw new BluePrintException(ErrorCode.IO_FILE_INTERRUPT.getValue(),
+                    String.format("I/O Error while uploading the CBA file: %s", e.getMessage()), e);
         }
     }
 
@@ -113,10 +111,15 @@ public class BlueprintModelService {
      * This is a searchBlueprintModels method
      *
      * @param tags tags
-     * @return List<BlueprintModelSearch>
+     * @return BlueprintModelSearchList
      */
-    public List<BlueprintModelSearch> searchBlueprintModels(String tags) {
-        return blueprintModelSearchRepository.findByTagsContainingIgnoreCase(tags);
+    public BlueprintModelSearchList searchBlueprintModels(String tags) {
+        List<BlueprintModelSearch> blueprintModelSearches = blueprintModelSearchRepository.findByTagsContainingIgnoreCase(tags);
+
+        BlueprintModelSearchList blueprintModelSearchList = new BlueprintModelSearchList();
+        blueprintModelSearchList.setBlueprintModelSearchList(blueprintModelSearches);
+
+        return blueprintModelSearchList;
     }
 
     /**
@@ -125,15 +128,18 @@ public class BlueprintModelService {
      * @param name    name
      * @param version version
      * @return BlueprintModelSearch
+     * @throws BluePrintException BluePrintException
      */
-    public BlueprintModelSearch getBlueprintModelByNameAndVersion(@NotNull String name, @NotNull String version) throws BluePrintException {
+    public BlueprintModelSearch getBlueprintModelByNameAndVersion(@NotNull String name, @NotNull String version)
+                                                                    throws BluePrintException {
         BlueprintModelSearch blueprintModelSearch;
         Optional<BlueprintModelSearch> dbBlueprintModel = blueprintModelSearchRepository
                                                             .findByArtifactNameAndArtifactVersion(name, version);
         if (dbBlueprintModel.isPresent()) {
             blueprintModelSearch = dbBlueprintModel.get();
         } else {
-            throw new BluePrintException(String.format(BLUEPRINT_MODEL_NAME_VERSION_FAILURE_MSG, name, version));
+            throw new BluePrintException(ErrorCode.RESOURCE_NOT_FOUND.getValue(),
+                    String.format(BLUEPRINT_MODEL_NAME_VERSION_FAILURE_MSG, name, version));
         }
 
         return blueprintModelSearch;
@@ -144,13 +150,15 @@ public class BlueprintModelService {
      *
      * @param (id)
      * @return ResponseEntity<Resource>
+     * @throws BluePrintException BluePrintException
      */
     public ResponseEntity<Resource> downloadBlueprintModelFile(@NotNull String id) throws BluePrintException {
         BlueprintModel blueprintModel;
         try {
             blueprintModel = getBlueprintModel(id);
         } catch (BluePrintException e) {
-            throw new BluePrintException("Error uploading the CBA file in channel.", e);
+            throw new BluePrintException(ErrorCode.RESOURCE_NOT_FOUND.getValue(), String.format("Error while " +
+                                                            "downloading the CBA file: %s", e.getMessage()), e);
         }
         String fileName = blueprintModel.getId() + ".zip";
         byte[] file = blueprintModel.getBlueprintModelContent().getContent();
@@ -173,7 +181,8 @@ public class BlueprintModelService {
         if (dbBlueprintModel.isPresent()) {
             blueprintModel = dbBlueprintModel.get();
         } else {
-            throw new BluePrintException(String.format(BLUEPRINT_MODEL_ID_FAILURE_MSG, id));
+            String msg = String.format(BLUEPRINT_MODEL_ID_FAILURE_MSG, id);
+            throw new BluePrintException(ErrorCode.RESOURCE_NOT_FOUND.getValue(), msg);
         }
 
         return blueprintModel;
@@ -192,7 +201,8 @@ public class BlueprintModelService {
         if (dbBlueprintModel.isPresent()) {
             blueprintModelSearch = dbBlueprintModel.get();
         } else {
-            throw new BluePrintException(String.format(BLUEPRINT_MODEL_ID_FAILURE_MSG, id));
+            String msg = String.format(BLUEPRINT_MODEL_ID_FAILURE_MSG, id);
+            throw new BluePrintException(ErrorCode.RESOURCE_NOT_FOUND.getValue(), msg);
         }
 
         return blueprintModelSearch;
@@ -211,17 +221,22 @@ public class BlueprintModelService {
             blueprintModelContentRepository.deleteByBlueprintModel(dbBlueprintModel.get());
             blueprintModelRepository.delete(dbBlueprintModel.get());
         } else {
-            throw new BluePrintException(String.format(BLUEPRINT_MODEL_ID_FAILURE_MSG, id));
+            String msg = String.format(BLUEPRINT_MODEL_ID_FAILURE_MSG, id);
+            throw new BluePrintException(ErrorCode.RESOURCE_NOT_FOUND.getValue(), msg);
         }
     }
 
     /**
      * This is a getAllBlueprintModel method to retrieve all the BlueprintModel in Database
      *
-     * @return List<BlueprintModelSearch> list with the controller blueprint archives
+     * @return BlueprintModelSearchList list of the controller blueprint archives
      */
-    public List<BlueprintModelSearch> getAllBlueprintModel() {
-        return blueprintModelSearchRepository.findAll();
+    public BlueprintModelSearchList getAllBlueprintModel() {
+        BlueprintModelSearchList blueprintModelSearchList = new BlueprintModelSearchList();
+        List<BlueprintModelSearch> blueprintModelSearches = blueprintModelSearchRepository.findAll();
+        blueprintModelSearchList.setBlueprintModelSearchList(blueprintModelSearches);
+
+        return blueprintModelSearchList;
     }
 
 }
