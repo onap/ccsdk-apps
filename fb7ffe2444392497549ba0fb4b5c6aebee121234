@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_f373df7d",
+        "filename": "ms/blueprintsprocessor/modules/commons/db-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/db/primary/PrimaryDatabaseConfiguration.kt",
+        "patchSetId": 8
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-09T15:08:38Z",
+      "side": 1,
+      "message": "Need to include Runtime Primary Data source Entitiy packeges too.",
+      "range": {
+        "startLine": 49,
+        "startChar": 73,
+        "endLine": 49,
+        "endChar": 79
+      },
+      "revId": "fb7ffe2444392497549ba0fb4b5c6aebee121234",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
