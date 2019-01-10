@@ -22,6 +22,9 @@ import com.att.eelf.configuration.EELFManager
 import com.fasterxml.jackson.annotation.JsonInclude
 import com.fasterxml.jackson.core.type.TypeReference
 import com.fasterxml.jackson.databind.JsonNode
+import com.fasterxml.jackson.databind.node.ArrayNode
+import com.fasterxml.jackson.databind.node.NullNode
+import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.databind.SerializationFeature
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
 import kotlinx.coroutines.Dispatchers
@@ -132,6 +135,16 @@ object JacksonUtils {
     }
 
     @JvmStatic
+    fun getJsonNode(any: kotlin.Any?, pretty: Boolean = false): JsonNode {
+        val objectMapper = jacksonObjectMapper()
+        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL)
+        if (pretty) {
+            objectMapper.enable(SerializationFeature.INDENT_OUTPUT)
+        }
+        return objectMapper.valueToTree(any)
+    }
+
+    @JvmStatic
     fun <T> getListFromJsonNode(node: JsonNode, valueType: Class<T>): List<T>? {
         return getListFromJson(node.toString(), valueType)
     }
@@ -199,60 +212,46 @@ object JacksonUtils {
         }
 
     }
-/*
+
     @JvmStatic
     fun populatePrimitiveValues(key: String, value: Any, primitiveType: String, objectNode: ObjectNode) {
-        if (BluePrintConstants.DATA_TYPE_BOOLEAN == primitiveType) {
-            objectNode.put(key, value as Boolean)
-        } else if (BluePrintConstants.DATA_TYPE_INTEGER == primitiveType) {
-            objectNode.put(key, value as Int)
-        } else if (BluePrintConstants.DATA_TYPE_FLOAT == primitiveType) {
-            objectNode.put(key, value as Float)
-        } else if (BluePrintConstants.DATA_TYPE_TIMESTAMP == primitiveType) {
-            objectNode.put(key, value as String)
-        } else {
-            objectNode.put(key, value as String)
+        when (primitiveType) {
+            BluePrintConstants.DATA_TYPE_BOOLEAN -> objectNode.put(key, value as Boolean)
+            BluePrintConstants.DATA_TYPE_INTEGER -> objectNode.put(key, value as Int)
+            BluePrintConstants.DATA_TYPE_FLOAT -> objectNode.put(key, value as Float)
+            BluePrintConstants.DATA_TYPE_TIMESTAMP -> objectNode.put(key, value as String)
+            else -> objectNode.put(key, value as String)
         }
     }
 
     @JvmStatic
-    fun populatePrimitiveValues(value: Any, primitiveType: String, objectNode: ArrayNode) {
-        if (BluePrintConstants.DATA_TYPE_BOOLEAN == primitiveType) {
-            objectNode.add(value as Boolean)
-        } else if (BluePrintConstants.DATA_TYPE_INTEGER == primitiveType) {
-            objectNode.add(value as Int)
-        } else if (BluePrintConstants.DATA_TYPE_FLOAT == primitiveType) {
-            objectNode.add(value as Float)
-        } else if (BluePrintConstants.DATA_TYPE_TIMESTAMP == primitiveType) {
-            objectNode.add(value as String)
-        } else {
-            objectNode.add(value as String)
+    fun populatePrimitiveValues(value: Any, primitiveType: String, arrayNode: ArrayNode) {
+        when (primitiveType) {
+            BluePrintConstants.DATA_TYPE_BOOLEAN -> arrayNode.add(value as Boolean)
+            BluePrintConstants.DATA_TYPE_INTEGER -> arrayNode.add(value as Int)
+            BluePrintConstants.DATA_TYPE_FLOAT -> arrayNode.add(value as Float)
+            BluePrintConstants.DATA_TYPE_TIMESTAMP -> arrayNode.add(value as String)
+            else -> arrayNode.add(value as String)
         }
     }
 
     @JvmStatic
     fun populatePrimitiveDefaultValues(key: String, primitiveType: String, objectNode: ObjectNode) {
-        if (BluePrintConstants.DATA_TYPE_BOOLEAN == primitiveType) {
-            objectNode.put(key, false)
-        } else if (BluePrintConstants.DATA_TYPE_INTEGER == primitiveType) {
-            objectNode.put(key, 0)
-        } else if (BluePrintConstants.DATA_TYPE_FLOAT == primitiveType) {
-            objectNode.put(key, 0.0)
-        } else {
-            objectNode.put(key, "")
+        when (primitiveType) {
+            BluePrintConstants.DATA_TYPE_BOOLEAN -> objectNode.put(key, false)
+            BluePrintConstants.DATA_TYPE_INTEGER -> objectNode.put(key, 0)
+            BluePrintConstants.DATA_TYPE_FLOAT -> objectNode.put(key, 0.0)
+            else -> objectNode.put(key, "")
         }
     }
 
     @JvmStatic
     fun populatePrimitiveDefaultValuesForArrayNode(primitiveType: String, arrayNode: ArrayNode) {
-        if (BluePrintConstants.DATA_TYPE_BOOLEAN == primitiveType) {
-            arrayNode.add(false)
-        } else if (BluePrintConstants.DATA_TYPE_INTEGER == primitiveType) {
-            arrayNode.add(0)
-        } else if (BluePrintConstants.DATA_TYPE_FLOAT == primitiveType) {
-            arrayNode.add(0.0)
-        } else {
-            arrayNode.add("")
+        when (primitiveType) {
+            BluePrintConstants.DATA_TYPE_BOOLEAN -> arrayNode.add(false)
+            BluePrintConstants.DATA_TYPE_INTEGER -> arrayNode.add(0)
+            BluePrintConstants.DATA_TYPE_FLOAT -> arrayNode.add(0.0)
+            else -> arrayNode.add("")
         }
     }
 
@@ -261,20 +260,20 @@ object JacksonUtils {
         if (nodeValue == null || nodeValue is NullNode) {
             objectNode.set(key, nodeValue)
         } else if (BluePrintTypes.validPrimitiveTypes().contains(type)) {
-            if (BluePrintConstants.DATA_TYPE_BOOLEAN == type) {
-                objectNode.put(key, nodeValue.asBoolean())
-            } else if (BluePrintConstants.DATA_TYPE_INTEGER == type) {
-                objectNode.put(key, nodeValue.asInt())
-            } else if (BluePrintConstants.DATA_TYPE_FLOAT == type) {
-                objectNode.put(key, nodeValue.floatValue())
-            } else if (BluePrintConstants.DATA_TYPE_TIMESTAMP == type) {
-                objectNode.put(key, nodeValue.asText())
-            } else {
-                objectNode.put(key, nodeValue.asText())
-            }
+            populatePrimitiveValues(key, nodeValue, type, objectNode)
         } else {
             objectNode.set(key, nodeValue)
         }
     }
-    */
+
+    @JvmStatic
+    fun convertPrimitiveResourceValue(type: String, value: String): JsonNode? {
+        when (type) {
+            BluePrintConstants.DATA_TYPE_BOOLEAN -> return JacksonUtils.getJsonNode(value as Boolean)
+            BluePrintConstants.DATA_TYPE_INTEGER -> return JacksonUtils.getJsonNode(value as Int)
+            BluePrintConstants.DATA_TYPE_FLOAT -> return JacksonUtils.getJsonNode(value as Float)
+            else -> return JacksonUtils.getJsonNode(value)
+        }
+    }
+
 }

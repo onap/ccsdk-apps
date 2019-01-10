@@ -19,9 +19,12 @@
     "resource-assignment-request": {
       "resource-assignment-properties": {
         "request-id": "1234",
+        "service-instance-id": "siid_1234",
+        "vnf-id": "vnf_1234",
         "action-name": "assign-activate",
         "scope-type": "vnf-type",
-        "hostname": "localhost"
+        "hostname": "localhost",
+        "vnf_name": "temp_vnf"
       }
     }
   }
