@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_f3543a00",
+        "filename": "components/core/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-10T16:34:56Z",
+      "side": 1,
+      "message": "Is this auto Generated File ?",
+      "range": {
+        "startLine": 1,
+        "startChar": 9,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "b2b806de136c01d1cc4887c84e6f4ffab2e4bdfa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
