@@ -29,6 +29,8 @@ import org.onap.ccsdk.apps.controllerblueprints.management.api.CommonHeader
 import org.onap.ccsdk.apps.controllerblueprints.management.api.FileChunk
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
@@ -41,6 +43,8 @@ import kotlin.test.assertTrue
 
 @RunWith(SpringRunner::class)
 @ContextConfiguration(classes = [BluePrintManagementGRPCHandler::class, BluePrintCoreConfiguration::class])
+//@EnableAutoConfiguration
+@ComponentScan(basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor"])
 @TestPropertySource(locations = ["classpath:application-test.properties"])
 class BluePrintManagementGRPCHandlerTest {
 

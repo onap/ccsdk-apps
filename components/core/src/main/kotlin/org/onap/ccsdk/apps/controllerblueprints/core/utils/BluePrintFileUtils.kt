@@ -34,7 +34,6 @@ import java.nio.file.Path
 import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 
-
 class BluePrintFileUtils {
     companion object {
 
@@ -226,12 +225,14 @@ class BluePrintFileUtils {
             return fileStorageLocation
         }
 
+        /**
+         * Remove the extension from a file name
+         * @param fileName The name of the file
+         */
         fun stripFileExtension(fileName: String): String {
-            val dotIndexe = fileName.lastIndexOf('.')
-
+            val dotIndex = fileName.lastIndexOf('.')
             // In case dot is in first position, we are dealing with a hidden file rather than an extension
-            return if (dotIndexe > 0) fileName.substring(0, dotIndexe) else fileName
+            return if (dotIndex > 0) fileName.substring(0, dotIndex) else fileName
         }
-
     }
 }

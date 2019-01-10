@@ -17,29 +17,31 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.core.utils
 
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.withContext
 import org.apache.commons.compress.archivers.zip.ZipArchiveEntry
 import org.apache.commons.compress.archivers.zip.ZipArchiveOutputStream
 import org.apache.commons.io.IOUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
+import org.slf4j.LoggerFactory
 import java.io.*
 import java.nio.charset.Charset
 import java.util.zip.ZipFile
 
 class BluePrintArchiveUtils {
-
     companion object {
+        private val log = LoggerFactory.getLogger(BluePrintArchiveUtils::class.java)
 
         fun getFileContent(fileName: String): String = runBlocking {
-            async {
+            withContext(Dispatchers.Default) {
                 try {
                     File(fileName).readText(Charsets.UTF_8)
                 } catch (e: Exception) {
                     throw BluePrintException("couldn't find file($fileName)")
                 }
-            }.await()
+            }
         }
 
         fun compress(source: String, destination: String, absolute: Boolean): Boolean {
@@ -51,50 +53,20 @@ class BluePrintArchiveUtils {
         /**
          * Create a new Zip from a root directory
          *
-         * @param directory the base directory
-         * @param filename the output filename
+         * @param source the base directory
+         * @param destination the output filename
          * @param absolute store absolute filepath (from directory) or only filename
          * @return True if OK
          */
         fun compress(source: File, destination: File, absolute: Boolean): Boolean {
-            // recursive call
-            val zaos: ZipArchiveOutputStream
             try {
-                zaos = ZipArchiveOutputStream(FileOutputStream(destination))
-            } catch (e: FileNotFoundException) {
-                return false
-            }
-
-            try {
-                recurseFiles(source, source, zaos, absolute)
-            } catch (e2: IOException) {
-                try {
-                    zaos.close()
-                } catch (e: IOException) {
-                    // ignore
+                ZipArchiveOutputStream(destination).use {
+                    recurseFiles(source, source, it, absolute)
                 }
-
+            } catch (e: Exception) {
+                log.error("Fail to compress folder(:$source) to path(${destination.path}", e)
                 return false
             }
-
-            try {
-                zaos.finish()
-            } catch (e1: IOException) {
-                // ignore
-            }
-
-            try {
-                zaos.flush()
-            } catch (e: IOException) {
-                // ignore
-            }
-
-            try {
-                zaos.close()
-            } catch (e: IOException) {
-                // ignore
-            }
-
             return true
         }
 
@@ -113,21 +85,19 @@ class BluePrintArchiveUtils {
             if (file.isDirectory) {
                 // recursive call
                 val files = file.listFiles()
-                for (file2 in files!!) {
-                    recurseFiles(root, file2, zaos, absolute)
+                for (fileChild in files!!) {
+                    recurseFiles(root, fileChild, zaos, absolute)
                 }
             } else if (!file.name.endsWith(".zip") && !file.name.endsWith(".ZIP")) {
-                var filename: String? = null
-                if (absolute) {
-                    filename = file.absolutePath.substring(root.absolutePath.length)
+                val filename = if (absolute) {
+                    file.absolutePath.substring(root.absolutePath.length)
                 } else {
-                    filename = file.name
+                    file.name
                 }
                 val zae = ZipArchiveEntry(filename)
-                zae.setSize(file.length())
+                zae.size = file.length()
                 zaos.putArchiveEntry(zae)
-                val fis = FileInputStream(file)
-                IOUtils.copy(fis, zaos)
+                FileInputStream(file).use { IOUtils.copy(it, zaos) }
                 zaos.closeArchiveEntry()
             }
         }
@@ -140,10 +110,9 @@ class BluePrintArchiveUtils {
                 val entry = enumeration.nextElement()
                 val destFilePath = File(targetPath, entry.name)
                 destFilePath.parentFile.mkdirs()
-
-                if (entry.isDirectory)
+                if (entry.isDirectory) {
                     continue
-
+                }
                 val bufferedIs = BufferedInputStream(zip.getInputStream(entry))
                 bufferedIs.use {
                     destFilePath.outputStream().buffered(1024).use { bos ->
@@ -158,16 +127,6 @@ class BluePrintArchiveUtils {
             }
 
             return destinationDir
-        }
-
-        /**
-         * Get the first item in directory
-         *
-         * @param zipFile
-         * @return string
-         */
-        fun getFirstItemInDirectory(dir: File): String {
-            return dir.walk().map { it.name }.elementAt(1)
         }
     }
 
