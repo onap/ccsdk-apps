@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_10abf475",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/data/BlueprintErrorCode.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-10T14:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_49123c0a",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_09f8b4c1",
         "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-10T03:12:26Z",
       "side": 1,
       "message": "Retain the List as it is, and Remove the BlueprintModelSearchList class.",
+      "range": {
+        "startLine": 116,
+        "startChar": 11,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_9097e439",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-10T14:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_09f8b4c1",
       "range": {
         "startLine": 116,
         "startChar": 11,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_b09c685e",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-10T14:21:05Z",
+      "side": 1,
+      "message": "So this method is consider as a download blueprint?",
+      "parentUuid": "9adffdf1_a90088ab",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 133,
+        "endChar": 31
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_893344aa",
         "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2019-01-10T03:12:26Z",
       "side": 1,
       "message": "This method is not needed, It may bring down the server.",
+      "range": {
+        "startLine": 234,
+        "startChar": 11,
+        "endLine": 234,
+        "endChar": 35
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d091ec47",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-10T14:21:05Z",
+      "side": 1,
+      "message": "We have planned to add an interval to this query. We will do this in the next contribution.",
+      "parentUuid": "9adffdf1_893344aa",
       "range": {
         "startLine": 234,
         "startChar": 11,
@@ -128,6 +224,30 @@
       "writtenOn": "2019-01-10T03:12:26Z",
       "side": 1,
       "message": "Use Kotlin Templating function, Avoid String.format",
+      "range": {
+        "startLine": 136,
+        "startChar": 51,
+        "endLine": 136,
+        "endChar": 75
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_50a5fc9f",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/load/BluePrintCatalogServiceImpl.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-10T14:21:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_690700cb",
       "range": {
         "startLine": 136,
         "startChar": 51,
