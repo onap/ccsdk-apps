@@ -21,7 +21,7 @@ import org.springframework.boot.context.properties.bind.Binder
 import org.springframework.stereotype.Service
 
 @Service
-open class BluePrintProperties(var bluePrintPropertyBinder: Binder) {
+open class BluePrintProperties(private var bluePrintPropertyBinder: Binder) {
 
     fun <T> propertyBeanType(prefix: String, type: Class<T>): T {
         return bluePrintPropertyBinder.bind(prefix, Bindable.of(type)).get()

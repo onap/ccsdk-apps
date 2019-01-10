@@ -16,25 +16,29 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.core.interfaces
 
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
+import java.io.File
+
 interface BluePrintCatalogService {
 
     /**
-     * Upload the CBA Zip fle to data base and return the Database identifier
+     * Save the CBA to database
+     * @param blueprintFile Can be either a directory, or an archive
+     * @param validate whether to validate before saving
+     * @return Blueprint ID
+     * @throws BluePrintException if blueprint validation failed
+     * @throws BluePrintProcessorException if saving to DB failed
      */
-    fun uploadToDataBase(file: String, validate : Boolean): String
+    @Throws(BluePrintException::class, BluePrintProcessorException::class)
+    fun save(blueprintFile: File, validate: Boolean): String?
 
     /**
-     * Download the CBA zip file from the data base and place it in a path and return the CBA zip absolute path
+     * Retrieve the CBA from database
+     * @param name Name of the blueprint
+     * @param version Version of the blueprint
+     * @param path Path where to output the CBA. If the path contains '.zip' we will
+     * retrieve the archive only, else we will extract the content to the given path.
      */
-    fun downloadFromDataBase(name: String, version: String, path: String): String
-
-    /**
-     * Get the Blueprint from Data Base and Download it under working directory and return the path path
-     */
-    fun prepareBluePrint(name: String, version: String): String
-
-    /**
-     * Get blueprint archive with zip file from Data Base
-     */
-    fun downloadFromDataBase(uuid: String, path: String): String
+    fun get(name: String, version: String, path: String)
 }

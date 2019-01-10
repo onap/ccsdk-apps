@@ -35,10 +35,8 @@ import java.nio.file.Paths
 import java.nio.file.StandardOpenOption
 import java.text.MessageFormat
 import java.time.Instant
-import java.time.temporal.ChronoUnit
 import java.time.ZoneId
 import java.time.format.DateTimeFormatter
-
 
 
 class BluePrintFileUtils {
@@ -207,8 +205,8 @@ class BluePrintFileUtils {
                     "\nEntry-Definitions: Definitions/<BLUEPRINT_NAME>.json" +
                     "\nTemplate-Tags: <TAGS>"
         }
-       
-        fun getBluePrintFile(fileName: String, targetPath: Path) : File {
+
+        fun getBluePrintFile(fileName: String, targetPath: Path): File {
             val filePath = targetPath.resolve(fileName).toString()
             val file = File(filePath)
             check(file.exists()) {
@@ -237,12 +235,14 @@ class BluePrintFileUtils {
             return fileStorageLocation
         }
 
+        /**
+         * Remove the extension from a file name
+         * @param fileName The name of the file
+         */
         fun stripFileExtension(fileName: String): String {
-            val dotIndexe = fileName.lastIndexOf('.')
-
+            val dotIndex = fileName.lastIndexOf('.')
             // In case dot is in first position, we are dealing with a hidden file rather than an extension
-            return if (dotIndexe > 0) fileName.substring(0, dotIndexe) else fileName
+            return if (dotIndex > 0) fileName.substring(0, dotIndex) else fileName
         }
-
     }
 }

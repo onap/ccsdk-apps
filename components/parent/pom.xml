@@ -40,7 +40,7 @@
         <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <h2database.version>1.4.197</h2database.version>
         <onap.logger.slf4j>1.2.2</onap.logger.slf4j>
-        <powermock.version>1.7.4</powermock.version>
+        <!--<powermock.version>1.7.4</powermock.version>-->
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -188,12 +188,12 @@
             </dependency>
 
             <!-- Testing Dependencies -->
-            <dependency>
-                <groupId>org.powermock</groupId>
-                <artifactId>powermock-api-mockito2</artifactId>
-                <version>${powermock.version}</version>
-                <scope>test</scope>
-            </dependency>
+            <!--<dependency>-->
+                <!--<groupId>org.powermock</groupId>-->
+                <!--<artifactId>powermock-api-mockito2</artifactId>-->
+                <!--<version>${powermock.version}</version>-->
+                <!--<scope>test</scope>-->
+            <!--</dependency>-->
             <dependency>
                 <groupId>org.jetbrains.kotlin</groupId>
                 <artifactId>kotlin-test-junit</artifactId>
