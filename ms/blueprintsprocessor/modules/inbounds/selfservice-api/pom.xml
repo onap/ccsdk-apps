@@ -30,6 +30,10 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.onap.ccsdk.apps.blueprintsprocessor</groupId>
+            <artifactId>db-lib</artifactId>
+        </dependency>
+        <dependency>
             <groupId>io.grpc</groupId>
             <artifactId>grpc-testing</artifactId>
         </dependency>
