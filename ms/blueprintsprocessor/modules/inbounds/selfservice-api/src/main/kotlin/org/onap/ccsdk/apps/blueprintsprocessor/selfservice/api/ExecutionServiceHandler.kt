@@ -16,6 +16,7 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 
+import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
@@ -25,8 +26,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 
 @Service
-class ExecutionServiceHandler(private val bluePrintCatalogService: BluePrintCatalogService,
+class ExecutionServiceHandler(private val bluePrintCoreConfiguration: BluePrintCoreConfiguration,
+                              private val bluePrintCatalogService: BluePrintCatalogService,
                               private val blueprintDGExecutionService: BlueprintDGExecutionService) {
+
 
     private val log = LoggerFactory.getLogger(ExecutionServiceHandler::class.toString())
 
@@ -39,14 +42,12 @@ class ExecutionServiceHandler(private val bluePrintCatalogService: BluePrintCata
 
         val blueprintName = actionIdentifiers.blueprintName
         val blueprintVersion = actionIdentifiers.blueprintVersion
+        val path = "${bluePrintCoreConfiguration.deployPath}/$blueprintName/$blueprintVersion/$blueprintName"
+        bluePrintCatalogService.get(blueprintName, blueprintVersion, path)
+        log.info("blueprint base path $path")
 
-        val basePath = bluePrintCatalogService.prepareBluePrint(blueprintName, blueprintVersion)
-        log.info("blueprint base path $basePath")
-
-        val blueprintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(requestId, basePath)
+        val blueprintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(requestId, path)
 
         return blueprintDGExecutionService.executeDirectedGraph(blueprintRuntimeService, executionServiceInput)
     }
-
-
 }

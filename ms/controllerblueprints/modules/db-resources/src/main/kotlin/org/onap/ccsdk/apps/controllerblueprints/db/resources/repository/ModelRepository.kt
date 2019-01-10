@@ -42,23 +42,23 @@ interface ModelRepository<T> : JpaRepository<T, String> {
      *
      * @param artifactName artifactName
      * @param artifactVersion artifactVersion
-     * @return Optional<T>
+     * @return T?
      */
-    fun findByArtifactNameAndArtifactVersion(artifactName: String, artifactVersion: String): Optional<T>
+    fun findByArtifactNameAndArtifactVersion(artifactName: String, artifactVersion: String): T?
 
     /**
      * This is a findTopByArtifactNameOrderByArtifactIdDesc method
      *
      * @param artifactName artifactName
-     * @return Optional<T>
+     * @return T?
      */
-    fun findTopByArtifactNameOrderByArtifactVersionDesc(artifactName: String): Optional<T>
+    fun findTopByArtifactNameOrderByArtifactVersionDesc(artifactName: String): T?
 
     /**
      * This is a findTopByArtifactName method
      *
      * @param artifactName artifactName
-     * @return Optional<T>
+     * @return List<T>
      */
     fun findTopByArtifactName(artifactName: String): List<T>
 
@@ -66,7 +66,7 @@ interface ModelRepository<T> : JpaRepository<T, String> {
      * This is a findByTagsContainingIgnoreCase method
      *
      * @param tags tags
-     * @return Optional<ModelType>
+     * @return List<T>
      */
     fun findByTagsContainingIgnoreCase(tags: String): List<T>
 
