@@ -22,6 +22,30 @@
       "revId": "b2b806de136c01d1cc4887c84e6f4ffab2e4bdfa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_b35a3228",
+        "filename": "components/core/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-10T16:36:25Z",
+      "side": 1,
+      "message": "No, I\u0027m trying to have Mockito working with Kotlin. This is to be able to mock final, as in Kotlin everything is final.",
+      "parentUuid": "9adffdf1_f3543a00",
+      "range": {
+        "startLine": 1,
+        "startChar": 9,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "b2b806de136c01d1cc4887c84e6f4ffab2e4bdfa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
