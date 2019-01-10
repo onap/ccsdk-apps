@@ -66,26 +66,26 @@ public class ModelTypeValidator {
             throws BluePrintException {
         if (definitionContent != null) {
             if (BluePrintConstants.MODEL_DEFINITION_TYPE_DATA_TYPE.equalsIgnoreCase(definitionType)) {
-                DataType dataType = JacksonUtils.readValue(definitionContent, DataType.class);
+                DataType dataType = JacksonUtils.Companion.readValue(definitionContent, DataType.class);
                 if (dataType == null) {
                     throw new BluePrintException(
                             "Model type definition is not DataType valid content " + definitionContent);
                 }
             } else if (BluePrintConstants.MODEL_DEFINITION_TYPE_NODE_TYPE.equalsIgnoreCase(definitionType)) {
-                NodeType nodeType = JacksonUtils.readValue(definitionContent, NodeType.class);
+                NodeType nodeType = JacksonUtils.Companion.readValue(definitionContent, NodeType.class);
                 if (nodeType == null) {
                     throw new BluePrintException(
                             "Model type definition is not NodeType valid content " + definitionContent);
                 }
             } else if (BluePrintConstants.MODEL_DEFINITION_TYPE_ARTIFACT_TYPE.equalsIgnoreCase(definitionType)) {
-                ArtifactType artifactType = JacksonUtils.readValue(definitionContent, ArtifactType.class);
+                ArtifactType artifactType = JacksonUtils.Companion.readValue(definitionContent, ArtifactType.class);
                 if (artifactType == null) {
                     throw new BluePrintException(
                             "Model type definition is not ArtifactType valid content " + definitionContent);
                 }
             }else if (BluePrintConstants.MODEL_DEFINITION_TYPE_CAPABILITY_TYPE.equalsIgnoreCase(definitionType)) {
                 CapabilityDefinition capabilityDefinition =
-                        JacksonUtils.readValue(definitionContent, CapabilityDefinition.class);
+                        JacksonUtils.Companion.readValue(definitionContent, CapabilityDefinition.class);
                 if (capabilityDefinition == null) {
                     throw new BluePrintException(
                             "Model type definition is not CapabilityDefinition valid content " + definitionContent);
