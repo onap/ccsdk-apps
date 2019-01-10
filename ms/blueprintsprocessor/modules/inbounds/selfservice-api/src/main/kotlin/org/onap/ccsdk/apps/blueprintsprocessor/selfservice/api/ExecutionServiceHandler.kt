@@ -28,6 +28,7 @@ import org.springframework.stereotype.Service
 class ExecutionServiceHandler(private val bluePrintCatalogService: BluePrintCatalogService,
                               private val blueprintDGExecutionService: BlueprintDGExecutionService) {
 
+
     private val log = LoggerFactory.getLogger(ExecutionServiceHandler::class.toString())
 
     fun process(executionServiceInput: ExecutionServiceInput): ExecutionServiceOutput {
@@ -39,14 +40,13 @@ class ExecutionServiceHandler(private val bluePrintCatalogService: BluePrintCata
 
         val blueprintName = actionIdentifiers.blueprintName
         val blueprintVersion = actionIdentifiers.blueprintVersion
+        val path = ""
 
-        val basePath = bluePrintCatalogService.prepareBluePrint(blueprintName, blueprintVersion)
-        log.info("blueprint base path $basePath")
+        bluePrintCatalogService.get(blueprintName, blueprintVersion, path)
+        log.info("blueprint base path $path")
 
-        val blueprintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(requestId, basePath)
+        val blueprintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(requestId, path)
 
         return blueprintDGExecutionService.executeDirectedGraph(blueprintRuntimeService, executionServiceInput)
     }
-
-
 }
