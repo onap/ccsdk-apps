@@ -23,11 +23,9 @@ import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.repository.BlueprintPr
 import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.repository.BlueprintProcessorModelRepository
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.common.ApplicationConstants
-import org.onap.ccsdk.apps.controllerblueprints.core.config.BluePrintLoadConfiguration
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintValidatorService
-import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintArchiveUtils
-import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
 import org.onap.ccsdk.apps.controllerblueprints.db.resources.BlueprintCatalogServiceImpl
+import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.File
 import java.nio.file.Files
@@ -36,51 +34,44 @@ import java.nio.file.Files
 Similar/Duplicate implementation in [org.onap.ccsdk.apps.controllerblueprints.service.load.ControllerBlueprintCatalogServiceImpl]
  */
 @Service
-class BlueprintProcessorCatalogServiceImpl(bluePrintLoadConfiguration: BluePrintLoadConfiguration,
-                                           private val bluePrintValidatorService: BluePrintValidatorService,
+class BlueprintProcessorCatalogServiceImpl(bluePrintValidatorService: BluePrintValidatorService,
                                            private val blueprintModelContentRepository: BlueprintProcessorModelContentRepository,
                                            private val blueprintModelRepository: BlueprintProcessorModelRepository)
-    : BlueprintCatalogServiceImpl(bluePrintLoadConfiguration) {
+    : BlueprintCatalogServiceImpl(bluePrintValidatorService) {
 
-    override fun saveToDataBase(extractedDirectory: File, id: String, archiveFile: File, checkValidity: Boolean?) {
-        var valid = false
-        val firstItem = BluePrintArchiveUtils.getFirstItemInDirectory(extractedDirectory)
-        val blueprintBaseDirectory = extractedDirectory.absolutePath + "/" + firstItem
-        // Validate Blueprint
-        val bluePrintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(id, blueprintBaseDirectory)
+    private val log = LoggerFactory.getLogger(BlueprintProcessorCatalogServiceImpl::class.toString())
 
-        // Check Validity of blueprint
-        if (checkValidity!!) {
-            valid = bluePrintValidatorService.validateBluePrints(bluePrintRuntimeService)
+    override fun saveToDataBase(metadata: MutableMap<String, String>, archiveFile: File) {
+
+        val artifactName = metadata[BluePrintConstants.METADATA_TEMPLATE_NAME]
+        val artifactVersion = metadata[BluePrintConstants.METADATA_TEMPLATE_VERSION]
+
+        log.isDebugEnabled.apply {
+            blueprintModelRepository.findByArtifactNameAndArtifactVersion(artifactName!!, artifactVersion!!)?.let {
+                log.debug("Overwriting blueprint model :$artifactName::$artifactVersion")
+            }
         }
 
-        if ((valid && checkValidity!!) || (!valid && !checkValidity!!)) {
-            val metaData = bluePrintRuntimeService.bluePrintContext().metadata!!
-            // FIXME("Check Duplicate for Artifact Name and Artifact Version")
-            val blueprintModel = BlueprintProcessorModel()
-            blueprintModel.id = id
-            blueprintModel.artifactType = ApplicationConstants.ASDC_ARTIFACT_TYPE_SDNC_MODEL
-            blueprintModel.published = ApplicationConstants.ACTIVE_N
-            blueprintModel.artifactName = metaData[BluePrintConstants.METADATA_TEMPLATE_NAME]
-            blueprintModel.artifactVersion = metaData[BluePrintConstants.METADATA_TEMPLATE_VERSION]
-            blueprintModel.updatedBy = metaData[BluePrintConstants.METADATA_TEMPLATE_AUTHOR]
-            blueprintModel.tags = metaData[BluePrintConstants.METADATA_TEMPLATE_TAGS]
-            blueprintModel.artifactDescription = "Controller Blueprint for ${blueprintModel.artifactName}:${blueprintModel.artifactVersion}"
+        val blueprintModel = BlueprintProcessorModel()
+        blueprintModel.id = metadata[BluePrintConstants.PROPERTY_BLUEPRINT_PROCESS_ID]
+        blueprintModel.artifactType = ApplicationConstants.ASDC_ARTIFACT_TYPE_SDNC_MODEL
+        blueprintModel.artifactName = artifactName
+        blueprintModel.artifactVersion = artifactVersion
+        blueprintModel.updatedBy = metadata[BluePrintConstants.METADATA_TEMPLATE_AUTHOR]
+        blueprintModel.tags = metadata[BluePrintConstants.METADATA_TEMPLATE_TAGS]
+        blueprintModel.artifactDescription = "Controller Blueprint for $artifactName:$artifactVersion"
 
-            val blueprintModelContent = BlueprintProcessorModelContent()
-            blueprintModelContent.id = id // For quick access both id's are same.always have one to one mapping.
-            blueprintModelContent.contentType = "CBA_ZIP"
-            blueprintModelContent.name = "${blueprintModel.artifactName}:${blueprintModel.artifactVersion}"
-            blueprintModelContent.description = "(${blueprintModel.artifactName}:${blueprintModel.artifactVersion} CBA Zip Content"
-            blueprintModelContent.content = Files.readAllBytes(archiveFile.toPath())
+        val blueprintModelContent = BlueprintProcessorModelContent()
+        blueprintModelContent.id = metadata[BluePrintConstants.PROPERTY_BLUEPRINT_PROCESS_ID]
+        blueprintModelContent.contentType = "CBA_ZIP"
+        blueprintModelContent.name = "$artifactName:$artifactVersion"
+        blueprintModelContent.description = "$artifactName:$artifactVersion CBA Zip Content"
+        blueprintModelContent.content = Files.readAllBytes(archiveFile.toPath())
+        blueprintModelContent.blueprintModel = blueprintModel
 
-            // Set the Blueprint Model into blueprintModelContent
-            blueprintModelContent.blueprintModel = blueprintModel
+        blueprintModel.blueprintModelContent = blueprintModelContent
 
-            // Set the Blueprint Model Content into blueprintModel
-            blueprintModel.blueprintModelContent = blueprintModelContent
-
-            blueprintModelRepository.saveAndFlush(blueprintModel)
-        }
+        blueprintModelRepository.saveAndFlush(blueprintModel)
+        blueprintModelContentRepository.saveAndFlush(blueprintModelContent)
     }
 }

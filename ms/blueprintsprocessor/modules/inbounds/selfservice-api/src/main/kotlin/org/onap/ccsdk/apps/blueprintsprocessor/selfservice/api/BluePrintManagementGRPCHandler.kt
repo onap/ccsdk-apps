@@ -19,45 +19,57 @@ package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 import io.grpc.stub.StreamObserver
 import org.apache.commons.io.FileUtils
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
+import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
 import org.onap.ccsdk.apps.controllerblueprints.management.api.*
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import java.io.File
 
 @Service
-class BluePrintManagementGRPCHandler(private val bluePrintCoreConfiguration: BluePrintCoreConfiguration)
+class BluePrintManagementGRPCHandler(private val bluePrintCoreConfiguration: BluePrintCoreConfiguration,
+                                     private val bluePrintCatalogService: BluePrintCatalogService)
     : BluePrintManagementServiceGrpc.BluePrintManagementServiceImplBase() {
 
     private val log = LoggerFactory.getLogger(BluePrintManagementGRPCHandler::class.java)
 
     override fun uploadBlueprint(request: BluePrintUploadInput, responseObserver: StreamObserver<BluePrintUploadOutput>) {
+        // TODO complete response
         val response = BluePrintUploadOutput.newBuilder().setCommonHeader(request.commonHeader).build()
+
+        val blueprintName = request.blueprintName
+        val blueprintVersion = request.blueprintVersion
+        val blueprintArchivedFilePath = "${bluePrintCoreConfiguration.archivePath}/$blueprintName/$blueprintVersion/$blueprintName.zip"
         try {
-            val blueprintName = request.blueprintName
-            val blueprintVersion = request.blueprintVersion
-            val filePath = "${bluePrintCoreConfiguration.archivePath}/$blueprintName/$blueprintVersion"
-            val blueprintDir = File(filePath)
+            val blueprintArchivedFile = File(blueprintArchivedFilePath)
 
-            log.info("Re-creating blueprint directory(${blueprintDir.absolutePath})")
-            FileUtils.deleteDirectory(blueprintDir)
-            FileUtils.forceMkdir(blueprintDir)
+            saveToDisk(request, blueprintArchivedFile)
+            bluePrintCatalogService.save(blueprintArchivedFile, true)
 
-            val file = File("${blueprintDir.absolutePath}/$blueprintName.zip")
-            log.info("Writing CBA File under :${file.absolutePath}")
+            blueprintArchivedFile.delete()
 
-            val fileChunk = request.fileChunk
-
-            file.writeBytes(fileChunk.chunk.toByteArray()).apply {
-                log.info("CBA file(${file.absolutePath} written successfully")
-            }
+            responseObserver.onNext(response)
+            responseObserver.onCompleted()
         } catch (e: Exception) {
-            log.error("failed to upload file ", e)
+            // TODO pass data with onError
+            log.error("failed to upload file at path :$blueprintArchivedFilePath ", e)
+            responseObserver.onError(e)
         }
-        responseObserver.onNext(response)
-        responseObserver.onCompleted()
     }
 
     override fun removeBlueprint(request: BluePrintRemoveInput?, responseObserver: StreamObserver<BluePrintRemoveOutput>?) {
         //TODO
+    }
+
+    private fun saveToDisk(request: BluePrintUploadInput, blueprintDir: File) {
+        log.info("Writing CBA File under :${blueprintDir.absolutePath}")
+        if (blueprintDir.exists()) {
+            log.info("Re-creating blueprint directory(${blueprintDir.absolutePath})")
+            FileUtils.deleteDirectory(blueprintDir)
+            FileUtils.forceMkdir(blueprintDir)
+        }
+
+        blueprintDir.writeBytes(request.fileChunk.chunk.toByteArray()).apply {
+            log.info("CBA file(${blueprintDir.absolutePath} written successfully")
+        }
     }
 }
