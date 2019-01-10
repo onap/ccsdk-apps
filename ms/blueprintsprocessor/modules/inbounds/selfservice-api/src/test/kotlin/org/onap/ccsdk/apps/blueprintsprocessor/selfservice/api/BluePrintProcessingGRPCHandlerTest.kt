@@ -23,14 +23,14 @@ import org.junit.Rule
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
-import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBluePrintCatalogService
-import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBlueprintDGExecutionService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.processing.api.BluePrintProcessingServiceGrpc
 import org.onap.ccsdk.apps.controllerblueprints.processing.api.CommonHeader
 import org.onap.ccsdk.apps.controllerblueprints.processing.api.ExecutionServiceInput
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
@@ -38,9 +38,8 @@ import kotlin.test.BeforeTest
 import kotlin.test.assertNotNull
 
 @RunWith(SpringRunner::class)
-@ContextConfiguration(classes = [BluePrintProcessingGRPCHandler::class, ExecutionServiceHandler::class,
-    MockBlueprintDGExecutionService::class, MockBluePrintCatalogService::class,
-    BluePrintCoreConfiguration::class])
+@EnableAutoConfiguration
+@ComponentScan(basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor", "org.onap.ccsdk.apps.controllerblueprints"])
 @TestPropertySource(locations = ["classpath:application-test.properties"])
 class BluePrintProcessingGRPCHandlerTest {
 

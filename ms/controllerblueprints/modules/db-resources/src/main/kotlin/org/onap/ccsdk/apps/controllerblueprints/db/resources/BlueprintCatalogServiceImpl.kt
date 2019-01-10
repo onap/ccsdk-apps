@@ -17,66 +17,59 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.db.resources
 
-import org.onap.ccsdk.apps.controllerblueprints.core.config.BluePrintLoadConfiguration
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
+import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintValidatorService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintArchiveUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintFileUtils
+import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
+import org.slf4j.LoggerFactory
 import java.io.File
 import javax.persistence.MappedSuperclass
 
 @MappedSuperclass
-abstract class BlueprintCatalogServiceImpl(private val bluePrintLoadConfiguration: BluePrintLoadConfiguration) : BluePrintCatalogService {
+abstract class BlueprintCatalogServiceImpl(private val blueprintValidator: BluePrintValidatorService) : BluePrintCatalogService {
 
-    override fun uploadToDataBase(file: String, validate: Boolean): String {
-        // The file name provided here is unique as we transform to UUID before storing
-        val blueprintFile = File(file)
-        val fileName = blueprintFile.name
-        val id = BluePrintFileUtils.stripFileExtension(fileName)
-        // If the file is directory
+    private val log = LoggerFactory.getLogger(BlueprintCatalogServiceImpl::class.java)
+
+    override fun save(blueprintFile: File, validate: Boolean): String? {
+        val extractedDirectory: File
+        val archivedPath: File
+        val blueprintId: String
+
         if (blueprintFile.isDirectory) {
+            blueprintId = blueprintFile.name
 
-            val zipFile = File("${bluePrintLoadConfiguration.blueprintArchivePath}/$fileName")
-            // zip the directory
-            BluePrintArchiveUtils.compress(blueprintFile, zipFile, true)
+            extractedDirectory = blueprintFile
+            archivedPath = File(":$blueprintFile.zip")
 
-            // Upload to the Data Base
-            saveToDataBase(blueprintFile, id, zipFile)
-
-            // After Upload to Database delete the zip file
-            zipFile.delete()
-
+            if (!BluePrintArchiveUtils.compress(blueprintFile, archivedPath, true)) {
+                return null
+            }
         } else {
-            // If the file is ZIP
-            // unzip the CBA file to validate before store in database
-            val targetDir = "${bluePrintLoadConfiguration.blueprintDeployPath}/$id/"
-            val extractedDirectory = BluePrintArchiveUtils.deCompress(blueprintFile, targetDir)
+            blueprintId = BluePrintFileUtils.stripFileExtension(blueprintFile.name)
+            val targetDir = blueprintFile.parent
 
-            // Upload to the Data Base
-            saveToDataBase(extractedDirectory, id, blueprintFile)
-
-            // After Upload to Database delete the zip file
-            blueprintFile.delete()
-            extractedDirectory.delete()
+            extractedDirectory = BluePrintArchiveUtils.deCompress(blueprintFile, targetDir)
+            archivedPath = blueprintFile
         }
 
-        return id
+        if (validate) {
+            blueprintValidator.validateBluePrints(extractedDirectory.path)
+        }
+
+        val bluePrintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(blueprintId, extractedDirectory.path)
+        val metadata = bluePrintRuntimeService.bluePrintContext().metadata!!
+        metadata[BluePrintConstants.PROPERTY_BLUEPRINT_PROCESS_ID] = blueprintId
+
+        saveToDataBase(metadata, archivedPath)
+
+        return blueprintId
     }
 
-    override fun downloadFromDataBase(name: String, version: String, path: String): String {
-        // If path ends with zip, then compress otherwise download as extracted folder
-
+    override fun get(name: String, version: String, path: String) {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    override fun downloadFromDataBase(uuid: String, path: String): String {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun prepareBluePrint(name: String, version: String): String {
-        val preparedPath = "${bluePrintLoadConfiguration.blueprintDeployPath}/$name/$version"
-        downloadFromDataBase(name, version, preparedPath)
-        return preparedPath
-    }
-
-    abstract fun saveToDataBase(extractedDirectory: File, id: String, archiveFile: File, checkValidity: Boolean? = false)
+    abstract fun saveToDataBase(metadata: MutableMap<String, String>, archiveFile: File)
 }

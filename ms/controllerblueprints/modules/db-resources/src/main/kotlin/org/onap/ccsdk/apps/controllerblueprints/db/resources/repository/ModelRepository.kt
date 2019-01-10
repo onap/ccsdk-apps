@@ -42,9 +42,9 @@ interface ModelRepository<T> : JpaRepository<T, String> {
      *
      * @param artifactName artifactName
      * @param artifactVersion artifactVersion
-     * @return Optional<T>
+     * @return T?
      */
-    fun findByArtifactNameAndArtifactVersion(artifactName: String, artifactVersion: String): Optional<T>
+    fun findByArtifactNameAndArtifactVersion(artifactName: String, artifactVersion: String): T?
 
     /**
      * This is a findTopByArtifactNameOrderByArtifactIdDesc method
