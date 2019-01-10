@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_49123c0a",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/data/BlueprintErrorCode.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-10T03:12:26Z",
+      "side": 1,
+      "message": "Use Templating function,",
+      "range": {
+        "startLine": 17,
+        "startChar": 19,
+        "endLine": 17,
+        "endChar": 32
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_09f8b4c1",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-10T03:12:26Z",
+      "side": 1,
+      "message": "Retain the List as it is, and Remove the BlueprintModelSearchList class.",
+      "range": {
+        "startLine": 116,
+        "startChar": 11,
+        "endLine": 116,
+        "endChar": 35
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_a90088ab",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-10T03:12:26Z",
+      "side": 1,
+      "message": "Should return response Entity resource content.",
+      "range": {
+        "startLine": 133,
+        "startChar": 11,
+        "endLine": 133,
+        "endChar": 31
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_893344aa",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/BlueprintModelService.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-10T03:12:26Z",
+      "side": 1,
+      "message": "This method is not needed, It may bring down the server.",
+      "range": {
+        "startLine": 234,
+        "startChar": 11,
+        "endLine": 234,
+        "endChar": 35
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_c9662cbb",
+        "filename": "ms/controllerblueprints/modules/service/src/main/java/org/onap/ccsdk/apps/controllerblueprints/service/rs/BlueprintModelRest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-10T03:12:26Z",
+      "side": 1,
+      "message": "This method should return ResponseEntity\u003cResource\u003e",
+      "range": {
+        "startLine": 55,
+        "startChar": 4,
+        "endLine": 55,
+        "endChar": 24
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_690700cb",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/load/BluePrintCatalogServiceImpl.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-10T03:12:26Z",
+      "side": 1,
+      "message": "Use Kotlin Templating function, Avoid String.format",
+      "range": {
+        "startLine": 136,
+        "startChar": 51,
+        "endLine": 136,
+        "endChar": 75
+      },
+      "revId": "c57f85b241f35a26bdc2c93b0476c00ab829b8ce",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
