@@ -21,7 +21,6 @@ import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintProperties
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BlueprintPropertyConfiguration
 import org.onap.ccsdk.apps.blueprintsprocessor.db.BluePrintDBLibConfiguration
-import org.onap.ccsdk.apps.controllerblueprints.core.config.BluePrintLoadConfiguration
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.context.annotation.ComponentScan
@@ -33,7 +32,7 @@ import kotlin.test.assertNotNull
 
 @RunWith(SpringRunner::class)
 @ContextConfiguration(classes = [BlueprintPropertyConfiguration::class, BluePrintProperties::class,
-    BluePrintDBLibConfiguration::class, BluePrintLoadConfiguration::class])
+    BluePrintDBLibConfiguration::class])
 @TestPropertySource(locations = ["classpath:application-test.properties"])
 @ComponentScan(basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor", "org.onap.ccsdk.apps.controllerblueprints"])
 @EnableAutoConfiguration

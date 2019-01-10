@@ -19,17 +19,19 @@ package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 import org.junit.Test
 import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
-import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBluePrintCatalogService
-import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.mock.MockBlueprintDGExecutionService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
+import org.springframework.context.annotation.ComponentScan
 import org.springframework.test.context.ContextConfiguration
+import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
-@ContextConfiguration(classes = [MockBluePrintCatalogService::class,
-    MockBlueprintDGExecutionService::class, ExecutionServiceHandler::class])
+@EnableAutoConfiguration
+@ComponentScan(basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor", "org.onap.ccsdk.apps.controllerblueprints"])
+@TestPropertySource(locations = ["classpath:application-test.properties"])
 class ExecutionServiceHandlerTest {
 
     @Autowired
@@ -41,7 +43,7 @@ class ExecutionServiceHandlerTest {
                 "./../../../../../components/model-catalog/blueprint-model/starter-blueprint/baseconfiguration")
 
         val executionServiceInput = JacksonUtils.readValueFromClassPathFile("execution-input/default-input.json", ExecutionServiceInput::class.java)!!
-        executionServiceHandler.process(executionServiceInput)
+//        executionServiceHandler.process(executionServiceInput)
 
     }
 

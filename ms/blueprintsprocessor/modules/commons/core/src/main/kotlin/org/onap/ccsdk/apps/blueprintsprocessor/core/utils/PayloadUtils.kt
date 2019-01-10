@@ -21,7 +21,8 @@ import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintRuntimeService
 
 
-class PayloadUtils {
+class
+PayloadUtils {
 
     companion object {
 
