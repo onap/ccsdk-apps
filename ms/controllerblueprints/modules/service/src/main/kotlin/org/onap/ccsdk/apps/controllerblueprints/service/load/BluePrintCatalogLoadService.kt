@@ -59,9 +59,9 @@ open class BluePrintCatalogLoadService(private val bluePrintCatalogService: Blue
 
     open fun loadBluePrintModelCatalog(errorBuilder: StrBuilder, file: File) {
         try {
-            bluePrintCatalogService.uploadToDataBase(file.absolutePath, true)
+            bluePrintCatalogService.save(file, true)
         } catch (e: Exception) {
-            errorBuilder.appendln("Couldn't load DataType(${file.name}: ${e.message}")
+            errorBuilder.appendln("Couldn't load ModelCatalog(${file.name}: ${e.message}")
         }
     }
 
