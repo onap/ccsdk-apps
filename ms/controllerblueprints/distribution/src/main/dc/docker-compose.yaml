@@ -29,7 +29,7 @@ services:
        APPLICATIONNAME : ControllerBluePrints
        BUNDLEVERSION: 1.0.0
        APP_CONFIG_HOME: /opt/app/onap/config
-       DB_URL: jdbc:mysql://db:3306/sdnctl
+       DB_URL: jdbc:mysql://primary-db:3306/sdnctl
        DB_USER: sdnctl
        DB_PASSWORD: sdnctl
        INIT_DATA_LOAD: "true"
