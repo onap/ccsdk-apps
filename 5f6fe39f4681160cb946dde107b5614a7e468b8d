@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_5c4af326",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/BluePrintConstants.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-11T19:34:43Z",
+      "side": 1,
+      "message": "No Need to change here",
+      "range": {
+        "startLine": 168,
+        "startChar": 44,
+        "endLine": 168,
+        "endChar": 51
+      },
+      "revId": "5f6fe39f4681160cb946dde107b5614a7e468b8d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_7c3fb787",
+        "filename": "ms/controllerblueprints/distribution/src/main/dc/docker-compose.yaml",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-11T19:34:43Z",
+      "side": 1,
+      "message": "No need to change here",
+      "range": {
+        "startLine": 32,
+        "startChar": 28,
+        "endLine": 32,
+        "endChar": 37
+      },
+      "revId": "5f6fe39f4681160cb946dde107b5614a7e468b8d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
