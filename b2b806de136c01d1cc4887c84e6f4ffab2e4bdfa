@@ -46,6 +46,30 @@
       "revId": "b2b806de136c01d1cc4887c84e6f4ffab2e4bdfa",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d39d76bd",
+        "filename": "components/core/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-11T14:15:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_b35a3228",
+      "range": {
+        "startLine": 1,
+        "startChar": 9,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "b2b806de136c01d1cc4887c84e6f4ffab2e4bdfa",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
