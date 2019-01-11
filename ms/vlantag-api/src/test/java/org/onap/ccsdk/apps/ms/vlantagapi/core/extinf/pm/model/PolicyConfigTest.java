@@ -105,6 +105,12 @@ public class PolicyConfigTest {
     }
     
     @Test
+    public void testGetSetRiskType() {
+        policyConfig.setRiskType("RiskType");
+        assertEquals("RiskType", policyConfig.getRiskType());
+    }
+    
+    @Test
     public void testToString()
     {
         assertTrue(policyConfig.toString() instanceof String);
