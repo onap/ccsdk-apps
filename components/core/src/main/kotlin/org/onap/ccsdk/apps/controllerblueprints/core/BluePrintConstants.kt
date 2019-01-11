@@ -165,7 +165,7 @@ object BluePrintConstants {
     const val OPERATION_PROCESS = "process"
     const val OPERATION_PREPARE = "prepare"
 
-    const val BLUEPRINT_RETRIEVE_TYPE_DB = "db"
+    const val BLUEPRINT_RETRIEVE_TYPE_DB = "primary-db"
     const val BLUEPRINT_RETRIEVE_TYPE_FILE = "file"
     const val BLUEPRINT_RETRIEVE_TYPE_REPO = "repo"
 

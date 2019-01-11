@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils
+package org.onap.ccsdk.apps.controllerblueprints.resource.dict.utils
 
 import java.util.Date
-import org.apache.commons.lang3.StringUtils
 import com.att.eelf.configuration.EELFLogger
 import com.att.eelf.configuration.EELFManager
 import com.fasterxml.jackson.databind.JsonNode
@@ -28,10 +27,10 @@ import org.onap.ccsdk.apps.controllerblueprints.core.*
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
 
-class ResourceResolutionUtils {
+class ResourceAssignmentUtils {
     companion object {
 
-        private val logger: EELFLogger = EELFManager.getInstance().getLogger(ResourceResolutionUtils::class.toString())
+        private val logger: EELFLogger = EELFManager.getInstance().getLogger(ResourceAssignmentUtils::class.toString())
 
         @Synchronized
         @Throws(BluePrintProcessorException::class)
