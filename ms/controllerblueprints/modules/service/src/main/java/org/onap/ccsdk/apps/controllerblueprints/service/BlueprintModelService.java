@@ -19,6 +19,7 @@ package org.onap.ccsdk.apps.controllerblueprints.service;
 
 import com.att.eelf.configuration.EELFLogger;
 import com.att.eelf.configuration.EELFManager;
+import java.io.File;
 import org.jetbrains.annotations.NotNull;
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException;
 import org.onap.ccsdk.apps.controllerblueprints.core.config.BluePrintLoadConfiguration;
@@ -89,8 +90,13 @@ public class BlueprintModelService {
             Path cbaLocation = BluePrintFileUtils.Companion
                 .getCbaStorageDirectory(bluePrintLoadConfiguration.blueprintArchivePath);
             return BluePrintEnhancerUtils.Companion.saveCBAFile(filePart, cbaLocation).map(fileName -> {
-                String blueprintId = bluePrintCatalogService
-                    .uploadToDataBase(cbaLocation.resolve(fileName).toString(), false);
+                String blueprintId = null;
+                try {
+                    blueprintId = bluePrintCatalogService
+                        .saveToDatabase(cbaLocation.toFile(), false);
+                } catch (BluePrintException e) {
+                    // FIXME handle expection
+                }
                 return blueprintModelSearchRepository.findById(blueprintId).get();
             });
 
