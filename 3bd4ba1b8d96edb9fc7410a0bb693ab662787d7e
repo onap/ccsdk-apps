@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_36df0b6b",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/load/ControllerBlueprintCatalogServiceImpl.kt",
+        "patchSetId": 3
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-14T15:27:07Z",
+      "side": 1,
+      "message": "If we maintain Artifact Name and Version as Unique Constrain then we don want to check Artifact Name and Version uniqueness.",
+      "range": {
+        "startLine": 69,
+        "startChar": 17,
+        "endLine": 69,
+        "endChar": 21
+      },
+      "revId": "3bd4ba1b8d96edb9fc7410a0bb693ab662787d7e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
