@@ -27,6 +27,9 @@ import java.util.*
  * @author Brinda Santh
  * DATE : 8/15/2018
  */
+const val ACTION_MODE_ASYNC = "async"
+const val ACTION_MODE_SYNC = "sync"
+
 
 open class ExecutionServiceInput {
     @get:ApiModelProperty(required = true)
@@ -47,6 +50,9 @@ open class ExecutionServiceOutput {
     @get:ApiModelProperty(required = true)
     lateinit var payload: ObjectNode
 }
+
+const val ACTION_MODE_ASYNC = "async"
+const val ACTION_MODE_SYNC = "sync"
 
 open class ActionIdentifiers {
     @get:ApiModelProperty(required = false)
