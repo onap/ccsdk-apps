@@ -17,8 +17,12 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 
 import io.swagger.annotations.ApiOperation
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
+import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.codec.multipart.FilePart
@@ -37,6 +41,7 @@ class ExecutionServiceController {
 
     @Autowired
     lateinit var executionServiceHandler: ExecutionServiceHandler
+    private val log = LoggerFactory.getLogger(ExecutionServiceController::class.toString())
 
 
     @RequestMapping(path = ["/ping"], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
@@ -59,7 +64,10 @@ class ExecutionServiceController {
     @ApiOperation(value = "Resolve Resource Mappings", notes = "Takes the blueprint information and process as per the payload")
     @ResponseBody
     fun process(@RequestBody executionServiceInput: ExecutionServiceInput): Mono<ExecutionServiceOutput> {
-        val executionServiceOutput = executionServiceHandler.process(executionServiceInput)
-        return Mono.just(executionServiceOutput)
+        GlobalScope.launch(Dispatchers.Default) {
+            // TODO post result in DMaaP
+            val executionServiceOutput = executionServiceHandler.process(executionServiceInput)
+        }
+        return Mono.just(executionServiceHandler.response(executionServiceInput))
     }
 }
