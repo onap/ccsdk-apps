@@ -19,8 +19,10 @@ package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
+import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.Status
 import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.utils.saveCBAFile
 import org.onap.ccsdk.apps.blueprintsprocessor.services.workflow.BlueprintDGExecutionService
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintFileUtils
@@ -42,14 +44,14 @@ class ExecutionServiceHandler(private val bluePrintCoreConfiguration: BluePrintC
             val archivedPath = BluePrintFileUtils.getCbaStorageDirectory(bluePrintCoreConfiguration.archivePath)
             val cbaPath = saveCBAFile(filePart, archivedPath)
             bluePrintCatalogService.saveToDatabase(cbaPath.toFile()).let {
-                return Mono.just("{\"status\": \"Successfully uploaded blueprint with id($it)\"")
+                return Mono.just("{\"status\": \"Successfully uploaded blueprint with id($it)\"}")
             }
         } catch (e: Exception) {
             return Mono.error<String>(BluePrintException("Error uploading the CBA file.", e))
         }
     }
 
-    fun process(executionServiceInput: ExecutionServiceInput): ExecutionServiceOutput {
+    suspend fun process(executionServiceInput: ExecutionServiceInput): ExecutionServiceOutput {
 
         val requestId = executionServiceInput.commonHeader.requestId
         log.info("processing request id $requestId")
@@ -65,5 +67,20 @@ class ExecutionServiceHandler(private val bluePrintCoreConfiguration: BluePrintC
         val blueprintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(requestId, basePath.toString())
 
         return blueprintDGExecutionService.executeDirectedGraph(blueprintRuntimeService, executionServiceInput)
+    }
+
+    fun response(executionServiceInput: ExecutionServiceInput): ExecutionServiceOutput {
+        val executionServiceOutput = ExecutionServiceOutput()
+        executionServiceOutput.commonHeader = executionServiceInput.commonHeader
+        executionServiceOutput.actionIdentifiers = executionServiceInput.actionIdentifiers
+        executionServiceOutput.payload = executionServiceInput.payload
+
+        // Populate Status
+        val status = Status()
+        status.eventType = "EVENT-COMPONENT-PROCESSING"
+        status.code = 200
+        status.message = BluePrintConstants.STATUS_SUCCESS
+        executionServiceOutput.status = status
+        return executionServiceOutput
     }
 }
