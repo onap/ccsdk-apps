@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.resource.dict.utils
+package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils
 
 import java.util.Date
 import com.att.eelf.configuration.EELFLogger
@@ -37,7 +37,7 @@ class ResourceAssignmentUtils {
         fun setResourceDataValue(resourceAssignment: ResourceAssignment, value: Any?) {
 
             val resourceProp = checkNotNull(resourceAssignment.property) { "Failed in setting resource value for resource mapping $resourceAssignment" }
-            checkNotEmptyNThrow(resourceAssignment.name, "Failed in setting resource value for resource mapping $resourceAssignment")
+            checkNotEmptyOrThrow(resourceAssignment.name, "Failed in setting resource value for resource mapping $resourceAssignment")
 
             if (checkNotEmpty(resourceAssignment.dictionaryName)) {
                 resourceAssignment.dictionaryName = resourceAssignment.name
