@@ -89,7 +89,7 @@ public class BlueprintModelService {
                 String blueprintId = null;
                 try {
                     blueprintId = bluePrintCatalogService
-                        .saveToDatabase(cbaLocation.toFile(), false);
+                        .saveToDatabase(cbaLocation.resolve(fileName).toFile(), false);
                 } catch (BluePrintException e) {
                     // FIXME handle expection
                 }
