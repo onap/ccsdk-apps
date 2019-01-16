@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_e0a7754e",
+        "filename": "ms/blueprintsprocessor/modules/commons/core/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/core/api/data/BlueprintProcessorData.kt",
+        "patchSetId": 10
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-16T20:42:25Z",
+      "side": 1,
+      "message": "Should go inside Companion Object or Constant Class",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 52,
+        "endChar": 35
+      },
+      "revId": "4b2d6fa231b41797bb6e5642120240461f024cd2",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
