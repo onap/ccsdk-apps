@@ -37,6 +37,7 @@ object BluePrintConstants {
     const val DATA_TYPE_STRING: String = "string"
     const val DATA_TYPE_INTEGER: String = "integer"
     const val DATA_TYPE_FLOAT: String = "float"
+    const val DATA_TYPE_DOUBLE: String = "double"
     const val DATA_TYPE_BOOLEAN: String = "boolean"
     const val DATA_TYPE_TIMESTAMP: String = "timestamp"
     const val DATA_TYPE_NULL: String = "null"
@@ -165,7 +166,7 @@ object BluePrintConstants {
     const val OPERATION_PROCESS = "process"
     const val OPERATION_PREPARE = "prepare"
 
-    const val BLUEPRINT_RETRIEVE_TYPE_DB = "db"
+    const val BLUEPRINT_RETRIEVE_TYPE_DB = "primary-db"
     const val BLUEPRINT_RETRIEVE_TYPE_FILE = "file"
     const val BLUEPRINT_RETRIEVE_TYPE_REPO = "repo"
 

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.resource.dict.utils
+package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils
 
 import java.util.Date
 import com.att.eelf.configuration.EELFLogger
@@ -37,7 +37,7 @@ class ResourceAssignmentUtils {
         fun setResourceDataValue(resourceAssignment: ResourceAssignment, value: Any?) {
 
             val resourceProp = checkNotNull(resourceAssignment.property) { "Failed in setting resource value for resource mapping $resourceAssignment" }
-            checkNotEmptyNThrow(resourceAssignment.name, "Failed in setting resource value for resource mapping $resourceAssignment")
+            checkNotEmptyOrThrow(resourceAssignment.name, "Failed in setting resource value for resource mapping $resourceAssignment")
 
             if (checkNotEmpty(resourceAssignment.dictionaryName)) {
                 resourceAssignment.dictionaryName = resourceAssignment.name
@@ -144,12 +144,6 @@ class ResourceAssignmentUtils {
             }
 
             return result
-        }
-
-        fun <T> transformResourceSource(properties: MutableMap<String, JsonNode>, classType: Class<T>): T {
-            val content = JacksonUtils.getJson(properties)
-            return JacksonUtils.readValue(content, classType)
-                    ?: throw BluePrintProcessorException("failed to transform content($content) to type($classType)")
         }
 
     }

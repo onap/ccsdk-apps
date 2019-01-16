@@ -19,7 +19,8 @@ package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.pr
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.CapabilityResourceSource
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
-import org.onap.ccsdk.apps.controllerblueprints.resource.dict.utils.ResourceAssignmentUtils
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils.ResourceAssignmentUtils
+import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Service
@@ -50,7 +51,7 @@ open class CapabilityResourceAssignmentProcessor : ResourceAssignmentProcessor()
 
         checkNotNull(resourceSource.properties) { "failed to get ${executionRequest.dictionarySource} properties" }
 
-        val capabilityResourceSourceProperty = ResourceAssignmentUtils.transformResourceSource(resourceSource.properties!!, CapabilityResourceSource::class.java)
+        val capabilityResourceSourceProperty = JacksonUtils.getInstanceFromMap(resourceSource.properties!!, CapabilityResourceSource::class.java)
 
         val instanceType = capabilityResourceSourceProperty.type
         val instanceName = capabilityResourceSourceProperty.instanceName

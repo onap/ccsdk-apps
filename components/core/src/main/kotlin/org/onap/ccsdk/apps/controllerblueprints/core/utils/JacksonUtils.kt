@@ -33,6 +33,7 @@ import kotlinx.coroutines.withContext
 import org.apache.commons.io.IOUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintTypes
 import java.io.File
 import java.nio.charset.Charset
@@ -54,18 +55,6 @@ class JacksonUtils {
 
         fun <T> readValue(node: JsonNode, valueType: Class<T>): T? {
             return jacksonObjectMapper().treeToValue(node, valueType)
-        }
-
-        fun removeJsonNullNode(node: JsonNode) {
-            val it = node.iterator()
-            while (it.hasNext()) {
-                val child = it.next()
-                if (child.isNull) {
-                    it.remove()
-                } else {
-                    removeJsonNullNode(child)
-                }
-            }
         }
 
         fun getContent(fileName: String): String = runBlocking {
@@ -174,6 +163,11 @@ class JacksonUtils {
             return getMapFromJson(content, valueType)
         }
 
+        fun <T> getInstanceFromMap(properties: MutableMap<String, JsonNode>, classType: Class<T>): T {
+            return readValue(getJson(properties), classType)
+                    ?: throw BluePrintProcessorException("failed to transform content ($properties) to type ($classType)")
+        }
+
         fun checkJsonNodeValueOfType(type: String, jsonNode: JsonNode): Boolean {
             if (BluePrintTypes.validPrimitiveTypes().contains(type)) {
                 return checkJsonNodeValueOfPrimitiveType(type, jsonNode)
@@ -183,22 +177,35 @@ class JacksonUtils {
             return false
         }
 
+        fun checkIfPrimitiveType(primitiveType: String): Boolean {
+            return when (primitiveType) {
+                BluePrintConstants.DATA_TYPE_STRING -> true
+                BluePrintConstants.DATA_TYPE_BOOLEAN -> true
+                BluePrintConstants.DATA_TYPE_INTEGER -> true
+                BluePrintConstants.DATA_TYPE_FLOAT -> true
+                BluePrintConstants.DATA_TYPE_DOUBLE -> true
+                BluePrintConstants.DATA_TYPE_TIMESTAMP -> true
+                else -> false
+            }
+        }
+
         fun checkJsonNodeValueOfPrimitiveType(primitiveType: String, jsonNode: JsonNode): Boolean {
-            when (primitiveType) {
-                BluePrintConstants.DATA_TYPE_STRING -> return jsonNode.isTextual
-                BluePrintConstants.DATA_TYPE_BOOLEAN -> return jsonNode.isBoolean
-                BluePrintConstants.DATA_TYPE_INTEGER -> return jsonNode.isInt
-                BluePrintConstants.DATA_TYPE_FLOAT -> return jsonNode.isDouble
-                BluePrintConstants.DATA_TYPE_TIMESTAMP -> return jsonNode.isTextual
-                else -> return false
+            return when (primitiveType) {
+                BluePrintConstants.DATA_TYPE_STRING -> jsonNode.isTextual
+                BluePrintConstants.DATA_TYPE_BOOLEAN -> jsonNode.isBoolean
+                BluePrintConstants.DATA_TYPE_INTEGER -> jsonNode.isInt
+                BluePrintConstants.DATA_TYPE_FLOAT -> jsonNode.isDouble
+                BluePrintConstants.DATA_TYPE_DOUBLE -> jsonNode.isDouble
+                BluePrintConstants.DATA_TYPE_TIMESTAMP -> jsonNode.isTextual
+                else -> false
             }
         }
 
         fun checkJsonNodeValueOfCollectionType(type: String, jsonNode: JsonNode): Boolean {
-            when (type) {
-                BluePrintConstants.DATA_TYPE_LIST -> return jsonNode.isArray
-                BluePrintConstants.DATA_TYPE_MAP -> return jsonNode.isContainerNode
-                else -> return false
+            return when (type) {
+                BluePrintConstants.DATA_TYPE_LIST -> jsonNode.isArray
+                BluePrintConstants.DATA_TYPE_MAP -> jsonNode.isContainerNode
+                else -> false
             }
         }
 
@@ -207,6 +214,7 @@ class JacksonUtils {
                 BluePrintConstants.DATA_TYPE_BOOLEAN -> objectNode.put(key, value as Boolean)
                 BluePrintConstants.DATA_TYPE_INTEGER -> objectNode.put(key, value as Int)
                 BluePrintConstants.DATA_TYPE_FLOAT -> objectNode.put(key, value as Float)
+                BluePrintConstants.DATA_TYPE_DOUBLE -> objectNode.put(key, value as Double)
                 BluePrintConstants.DATA_TYPE_TIMESTAMP -> objectNode.put(key, value as String)
                 else -> objectNode.put(key, value as String)
             }
@@ -217,6 +225,7 @@ class JacksonUtils {
                 BluePrintConstants.DATA_TYPE_BOOLEAN -> arrayNode.add(value as Boolean)
                 BluePrintConstants.DATA_TYPE_INTEGER -> arrayNode.add(value as Int)
                 BluePrintConstants.DATA_TYPE_FLOAT -> arrayNode.add(value as Float)
+                BluePrintConstants.DATA_TYPE_DOUBLE -> arrayNode.add(value as Double)
                 BluePrintConstants.DATA_TYPE_TIMESTAMP -> arrayNode.add(value as String)
                 else -> arrayNode.add(value as String)
             }
@@ -227,6 +236,7 @@ class JacksonUtils {
                 BluePrintConstants.DATA_TYPE_BOOLEAN -> objectNode.put(key, false)
                 BluePrintConstants.DATA_TYPE_INTEGER -> objectNode.put(key, 0)
                 BluePrintConstants.DATA_TYPE_FLOAT -> objectNode.put(key, 0.0)
+                BluePrintConstants.DATA_TYPE_DOUBLE -> objectNode.put(key, 0.0)
                 else -> objectNode.put(key, "")
             }
         }
@@ -236,6 +246,7 @@ class JacksonUtils {
                 BluePrintConstants.DATA_TYPE_BOOLEAN -> arrayNode.add(false)
                 BluePrintConstants.DATA_TYPE_INTEGER -> arrayNode.add(0)
                 BluePrintConstants.DATA_TYPE_FLOAT -> arrayNode.add(0.0)
+                BluePrintConstants.DATA_TYPE_DOUBLE -> arrayNode.add(0.0)
                 else -> arrayNode.add("")
             }
         }
@@ -250,12 +261,16 @@ class JacksonUtils {
             }
         }
 
-        fun convertPrimitiveResourceValue(type: String, value: String): JsonNode? {
-            when (type) {
-                BluePrintConstants.DATA_TYPE_BOOLEAN -> return JacksonUtils.getJsonNode(value as Boolean)
-                BluePrintConstants.DATA_TYPE_INTEGER -> return JacksonUtils.getJsonNode(value as Int)
-                BluePrintConstants.DATA_TYPE_FLOAT -> return JacksonUtils.getJsonNode(value as Float)
-                else -> return JacksonUtils.getJsonNode(value)
+        fun convertPrimitiveResourceValue(type: String, value: String): JsonNode {
+            if (value == null) {
+                return NullNode.instance
+            }
+            return when (type) {
+                BluePrintConstants.DATA_TYPE_BOOLEAN -> JacksonUtils.getJsonNode(value as Boolean)
+                BluePrintConstants.DATA_TYPE_INTEGER -> JacksonUtils.getJsonNode(value as Int)
+                BluePrintConstants.DATA_TYPE_FLOAT -> JacksonUtils.getJsonNode(value as Float)
+                BluePrintConstants.DATA_TYPE_DOUBLE -> JacksonUtils.getJsonNode(value as Double)
+                else -> JacksonUtils.getJsonNode(value)
             }
         }
     }
