@@ -14,18 +14,20 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.resource.dict.utils
+package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils
 
-import java.util.Date
 import com.att.eelf.configuration.EELFLogger
 import com.att.eelf.configuration.EELFManager
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.ResourceAssignmentRuntimeService
 import org.onap.ccsdk.apps.controllerblueprints.core.*
+import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintRuntimeService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
+import java.util.*
 
 class ResourceAssignmentUtils {
     companion object {
@@ -34,10 +36,10 @@ class ResourceAssignmentUtils {
 
         @Synchronized
         @Throws(BluePrintProcessorException::class)
-        fun setResourceDataValue(resourceAssignment: ResourceAssignment, value: Any?) {
+        fun setResourceDataValue(resourceAssignment: ResourceAssignment, raRuntimeService: ResourceAssignmentRuntimeService, value: Any?) {
 
             val resourceProp = checkNotNull(resourceAssignment.property) { "Failed in setting resource value for resource mapping $resourceAssignment" }
-            checkNotEmptyNThrow(resourceAssignment.name, "Failed in setting resource value for resource mapping $resourceAssignment")
+            checkNotEmptyOrThrow(resourceAssignment.name, "Failed in setting resource value for resource mapping $resourceAssignment")
 
             if (checkNotEmpty(resourceAssignment.dictionaryName)) {
                 resourceAssignment.dictionaryName = resourceAssignment.name
@@ -48,34 +50,36 @@ class ResourceAssignmentUtils {
                 if (checkNotEmpty(resourceProp.type)) {
                     val convertedValue = convertResourceValue(resourceProp.type, value)
                     logger.info("Setting Resource Value ($convertedValue) for Resource Name (${resourceAssignment.dictionaryName}) of type (${resourceProp.type})")
-                    resourceProp.value = convertedValue
+                    setResourceValue(resourceAssignment, raRuntimeService, convertedValue)
                     resourceAssignment.updatedDate = Date()
                     resourceAssignment.updatedBy = BluePrintConstants.USER_SYSTEM
                     resourceAssignment.status = BluePrintConstants.STATUS_SUCCESS
                 }
             } catch (e: Exception) {
-                throw BluePrintProcessorException("Failed in setting value for template key (%s) and " +
-                        "dictionary key (${resourceAssignment.name}) of type (${resourceProp.type}) with error message (${e.message})", e)
+                throw BluePrintProcessorException("Failed in setting value for template key (${resourceAssignment.name}) and " +
+                        "dictionary key (${resourceAssignment.dictionaryName}) of type (${resourceProp.type}) with error message (${e.message})", e)
             }
         }
 
-        private fun convertResourceValue(type: String, value: Any?): JsonNode? {
-            var convertedValue: JsonNode?
+        private fun setResourceValue(resourceAssignment: ResourceAssignment, raRuntimeService: ResourceAssignmentRuntimeService, value: JsonNode) {
+            raRuntimeService.putResolutionStore(resourceAssignment.name, value)
+            raRuntimeService.putDictionaryStore(resourceAssignment.dictionaryName!!, value)
+            resourceAssignment.property!!.value = value
+        }
 
-            if (value == null || value is NullNode) {
+        private fun convertResourceValue(type: String, value: Any?): JsonNode {
+
+            return if (value == null || value is NullNode) {
                 logger.info("Returning {} value from convertResourceValue", value)
-                return null
+                NullNode.instance
             } else if (BluePrintTypes.validPrimitiveTypes().contains(type) && value is String) {
-                convertedValue = JacksonUtils.convertPrimitiveResourceValue(type, value)
+                JacksonUtils.convertPrimitiveResourceValue(type, value)
+            } else if (value is String) {
+                JacksonUtils.jsonNode(value)
             } else {
-                // Case where Resource is non-primitive type
-                if (value is String) {
-                    convertedValue = JacksonUtils.jsonNode(value)
-                } else {
-                    convertedValue = JacksonUtils.getJsonNode(value)
-                }
+                JacksonUtils.getJsonNode(value)
             }
-            return convertedValue
+
         }
 
         @Synchronized
@@ -108,15 +112,36 @@ class ResourceAssignmentUtils {
 
                 assignments.forEach {
                     if (checkNotEmpty(it.name) && it.property != null) {
-
-                        val type = it.property?.type
+                        val rName = it.name
+                        val type = nullToEmpty(it.property?.type).toLowerCase()
                         val value = it.property?.value
-                        logger.info("Generating Resource name ({}), type ({}), value ({})", it.name, type,
-                                value)
+                        logger.info("Generating Resource name ($rName), type ($type), value ($value)")
+
+                        when (value) {
+                            null -> (root as ObjectNode).set(rName, null)
+                            is JsonNode -> (root as ObjectNode).set(rName, value)
+                            else -> {
+                                when (type) {
+                                    BluePrintConstants.DATA_TYPE_TIMESTAMP -> (root as ObjectNode).put(rName, value as String)
+                                    BluePrintConstants.DATA_TYPE_STRING -> (root as ObjectNode).put(rName, value as String)
+                                    BluePrintConstants.DATA_TYPE_BOOLEAN -> (root as ObjectNode).put(rName, value as Boolean)
+                                    BluePrintConstants.DATA_TYPE_INTEGER -> (root as ObjectNode).put(rName, value as Int)
+                                    BluePrintConstants.DATA_TYPE_FLOAT -> (root as ObjectNode).put(rName, value as Float)
+                                    else -> {
+                                        if (JacksonUtils.getJsonNode(value) != null) {
+                                            (root as ObjectNode).set(rName, JacksonUtils.getJsonNode(value))
+                                        } else {
+                                            (root as ObjectNode).set(rName, null)
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                        /*
                         if (value == null) {
                             (root as ObjectNode).set(it.name, null)
                         } else if (value is JsonNode) {
-                            (root as ObjectNode).put(it.name, value as JsonNode)
+                            (root as ObjectNode).set(it.name, value)
                         } else if (BluePrintConstants.DATA_TYPE_STRING.equals(type, ignoreCase = true)) {
                             (root as ObjectNode).put(it.name, value as String)
                         } else if (BluePrintConstants.DATA_TYPE_BOOLEAN.equals(type, ignoreCase = true)) {
@@ -127,30 +152,48 @@ class ResourceAssignmentUtils {
                             (root as ObjectNode).put(it.name, value as Float)
                         } else if (BluePrintConstants.DATA_TYPE_TIMESTAMP.equals(type, ignoreCase = true)) {
                             (root as ObjectNode).put(it.name, value as String)
+                        } else if (JacksonUtils.getJsonNode(value) != null) {
+                            (root as ObjectNode).set(it.name, JacksonUtils.getJsonNode(value))
                         } else {
-                            val jsonNode = JacksonUtils.getJsonNode(value)
-                            if (jsonNode != null) {
-                                (root as ObjectNode).put(it.name, jsonNode)
-                            } else {
-                                (root as ObjectNode).set(it.name, null)
-                            }
+                            (root as ObjectNode).set(it.name, null)
                         }
+                        */
                     }
                 }
                 result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(root)
-                logger.info("Generated Resource Param Data ({})", result)
+                logger.info("Generated Resource Param Data ($result)")
             } catch (e: Exception) {
-                throw BluePrintProcessorException("kapil is failing with $e.message", e)
+                throw BluePrintProcessorException("Resource Assignment is failed with $e.message", e)
             }
 
             return result
         }
 
-        fun <T> transformResourceSource(properties: MutableMap<String, JsonNode>, classType: Class<T>): T {
-            val content = JacksonUtils.getJson(properties)
-            return JacksonUtils.readValue(content, classType)
-                    ?: throw BluePrintProcessorException("failed to transform content($content) to type($classType)")
+        fun transformToRARuntimeService(blueprintRuntimeService: BluePrintRuntimeService<*>, templateArtifactName: String): ResourceAssignmentRuntimeService {
+            val resourceAssignmentRuntimeService = ResourceAssignmentRuntimeService(blueprintRuntimeService.id(), blueprintRuntimeService.bluePrintContext())
+            resourceAssignmentRuntimeService.createUniqueId(templateArtifactName)
+            resourceAssignmentRuntimeService.setExecutionContext(blueprintRuntimeService.getExecutionContext() as MutableMap<String, JsonNode>)
+
+            return resourceAssignmentRuntimeService
         }
 
+        /*
+         * Populate the Field property type for the Data type
+         */
+        @Synchronized
+        @Throws(BluePrintProcessorException::class)
+        fun getPropertyType(raRuntimeService: ResourceAssignmentRuntimeService, dataTypeName: String, propertyName: String): String {
+            lateinit var type: String
+            try {
+                val dataTypeProps = checkNotNull(raRuntimeService.bluePrintContext().dataTypeByName(dataTypeName)?.properties)
+                val propertyDefinition = checkNotNull(dataTypeProps[propertyName])
+                type = returnNotEmptyOrThrow(propertyDefinition.type) { "Couldn't get data type ($dataTypeName)" }
+                logger.trace("Data type({})'s property ({}) is ({})", dataTypeName, propertyName, type)
+            } catch (e: Exception) {
+                logger.error("couldn't get data type($dataTypeName)'s property ($propertyName), error message $e")
+                throw BluePrintProcessorException("${e.message}", e)
+            }
+            return type
+        }
     }
 }
