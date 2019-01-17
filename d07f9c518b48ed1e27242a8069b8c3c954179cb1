@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_9a57f157",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2019-01-17T14:43:37Z",
+      "side": 1,
+      "message": "We don\u0027t need db-resource here so removed.",
+      "parentUuid": "9adffdf1_fab63df8",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "d07f9c518b48ed1e27242a8069b8c3c954179cb1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_daaa5984",
         "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
         "patchSetId": 5
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-17T14:08:41Z",
       "side": 1,
       "message": "Check, If it should come in outer loop",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 99
+      },
+      "revId": "d07f9c518b48ed1e27242a8069b8c3c954179cb1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_1a646148",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2019-01-17T14:43:37Z",
+      "side": 1,
+      "message": "Moved outside",
+      "parentUuid": "9adffdf1_daaa5984",
       "range": {
         "startLine": 127,
         "startChar": 0,
