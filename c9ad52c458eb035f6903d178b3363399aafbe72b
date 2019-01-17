@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_c01eec0b",
+        "filename": "components/parent/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-17T23:21:22Z",
+      "side": 1,
+      "message": "This is needed, If any issues Please upgrade Intellj and Revalidate cache.",
+      "range": {
+        "startLine": 308,
+        "startChar": 0,
+        "endLine": 313,
+        "endChar": 25
+      },
+      "revId": "c9ad52c458eb035f6903d178b3363399aafbe72b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_60194021",
+        "filename": "ms/blueprintsprocessor/parent/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-17T23:21:22Z",
+      "side": 1,
+      "message": "This is needed for Script Compilation.",
+      "range": {
+        "startLine": 404,
+        "startChar": 0,
+        "endLine": 409,
+        "endChar": 25
+      },
+      "revId": "c9ad52c458eb035f6903d178b3363399aafbe72b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
