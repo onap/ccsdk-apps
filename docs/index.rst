@@ -1,13 +1,50 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
+.. http://creativecommons.org/licenses/by/4.0
+.. Copyright (C) 2019 IBM.
 
 CCSDK APPS DOCUMENTATION REPOSITORY
 ------------------------------------------------
 .. toctree::
    :maxdepth: 1
 
-	Architecture
-	Installation
-	Configuration
-	Development
-	Logging
-	Release Notes
+Introduction:
+=============
+APPS repository which contains all micro services for CCSDK module.
+Also these are application that are intended to run outside of OpenDaylight
+container.Modular feature implementation that is reusable across all controllers.
+
+Microservices:
+=============
+
+Controller BluePrints Studio Processor
+Blueprints processor
+NetworkElementNameGen (NENG)
+Vlan Tag API
+
+
+Installation:
+=============
+
+Steps
+-----
+To compile this code:
+
+1. Make sure your local Maven settings file ($HOME/.m2/settings.xml) contains
+references to the ONAP repositories and OpenDaylight repositories.
+
+2. To compile all of CCSDK apps code
+    - git clone https://(LFID)@gerrit.onap.org/r/a/ccsdk/apps
+    - cd apps ; mvn clean install ; cd ..
+
+
+
+Logging:
+=============
+CCSDK uses slf4j to log messages to the standard OpenDaylight karaf.log
+log file.
+
+Where to Access Information
+---------------------------
+Logs are found within the SDNC docker container, in the directory
+/opt/opendaylight/current/data/logs.
+Release Notes
