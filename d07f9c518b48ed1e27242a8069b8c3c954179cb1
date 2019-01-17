@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_fab63df8",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/pom.xml",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-17T14:08:41Z",
+      "side": 1,
+      "message": "Manage the Version number in parent file",
+      "range": {
+        "startLine": 35,
+        "startChar": 21,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "d07f9c518b48ed1e27242a8069b8c3c954179cb1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_daaa5984",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
+        "patchSetId": 5
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-01-17T14:08:41Z",
+      "side": 1,
+      "message": "Check, If it should come in outer loop",
+      "range": {
+        "startLine": 127,
+        "startChar": 0,
+        "endLine": 130,
+        "endChar": 99
+      },
+      "revId": "d07f9c518b48ed1e27242a8069b8c3c954179cb1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
