@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9adffdf1_00295436",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintCatalogService.kt",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-01-17T23:19:29Z",
+      "side": 1,
+      "message": "Not null annotation we can remove through out the file.",
+      "range": {
+        "startLine": 34,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 12
+      },
+      "revId": "e677b4ca72278999cf3ab65079010dc0f4366244",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
