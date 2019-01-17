@@ -61,6 +61,7 @@ public class VlanTagTest {
     public void testElementVlanRole() {
         vlanTag.setElementVlanRole("role");
         assertEquals("role", vlanTag.getElementVlanRole());
+        assertTrue(vlanTag.elementVlanRole("role") instanceof VlanTag);
     }
 
     @Test
