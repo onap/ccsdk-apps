@@ -1,0 +1,9 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Brinda Santh Muthuramalingam <bs2796@att.com>
+Code-Review+1: Alexis de Talhouët <alexis.de_talhouet@bell.ca>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Thu, 17 Jan 2019 13:43:09 +0000
+Reviewed-on: https://gerrit.onap.org/r/75586
+Project: ccsdk/apps
+Branch: refs/heads/master
