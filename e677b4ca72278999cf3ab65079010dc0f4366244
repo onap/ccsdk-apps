@@ -22,6 +22,30 @@
       "revId": "e677b4ca72278999cf3ab65079010dc0f4366244",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_2bc0f9df",
+        "filename": "components/core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintCatalogService.kt",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-01-18T15:26:57Z",
+      "side": 1,
+      "message": "I think it is fine to define interface with @NotNull annotation, so ppl implementing the interface knows what to expect.",
+      "parentUuid": "9adffdf1_00295436",
+      "range": {
+        "startLine": 34,
+        "startChar": 3,
+        "endLine": 34,
+        "endChar": 12
+      },
+      "revId": "e677b4ca72278999cf3ab65079010dc0f4366244",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
