@@ -18,6 +18,7 @@ package org.onap.ccsdk.apps.ms.vlangtagapi.core.model;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +60,7 @@ public class AssignVlanTagResponseTest {
     public void testEqualsAndHashcode()
     {
         assertTrue(assignVlanTagResponse.equals(assignVlanTagResponse1));
+        assertFalse(assignVlanTagResponse.equals(null));
         assertTrue((Integer)assignVlanTagResponse.hashCode() instanceof Integer);
     }
     
