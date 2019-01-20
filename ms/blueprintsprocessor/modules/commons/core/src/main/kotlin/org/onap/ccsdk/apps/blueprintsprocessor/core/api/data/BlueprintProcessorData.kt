@@ -96,7 +96,7 @@ open class Status {
     var message: String = "success"
 }
 
-open class BluePrintUploadInput {
+open class BluePrintManagementInput {
     @get:ApiModelProperty(required = true)
     lateinit var commonHeader: CommonHeader
     @get:ApiModelProperty(required = false)
@@ -112,23 +112,7 @@ open class FileChunk {
     lateinit var chunk: ByteArray
 }
 
-open class BluePrintUploadOutput {
-    @get:ApiModelProperty(required = true)
-    lateinit var commonHeader: CommonHeader
-    @get:ApiModelProperty(required = true)
-    var status: Status = Status()
-}
-
-open class BluePrintRemoveInput {
-    @get:ApiModelProperty(required = true)
-    lateinit var commonHeader: CommonHeader
-    @get:ApiModelProperty(required = false)
-    lateinit var blueprintName: String
-    @get:ApiModelProperty(required = false)
-    lateinit var blueprintVersion: String
-}
-
-open class BluePrintRemoveOutput {
+open class BluePrintManagementOutput {
     @get:ApiModelProperty(required = true)
     lateinit var commonHeader: CommonHeader
     @get:ApiModelProperty(required = true)
