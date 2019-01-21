@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_0341590a",
+        "filename": "ms/blueprintsprocessor/application/src/main/resources/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-21T19:44:52Z",
+      "side": 1,
+      "message": "yes for dev testing we need localhost but, that why we keep application-dev.properties with localhost. So dev use application-dev.properties instead.",
+      "parentUuid": "9adffdf1_a38acd61",
+      "range": {
+        "startLine": 25,
+        "startChar": 35,
+        "endLine": 25,
+        "endChar": 62
+      },
+      "revId": "69af9fefe7be9aab0a5f960eba027762cb8f3082",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_43ed2125",
         "filename": "ms/blueprintsprocessor/functions/netconf-executor/pom.xml",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_23449d19",
+        "filename": "ms/blueprintsprocessor/functions/netconf-executor/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-21T19:44:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_43ed2125",
+      "range": {
+        "startLine": 31,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 20
+      },
+      "revId": "69af9fefe7be9aab0a5f960eba027762cb8f3082",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_23f6ddf9",
         "filename": "ms/controllerblueprints/application/src/test/java/org/onap/ccsdk/apps/controllerblueprints/ControllerBlueprintsApplicationTest.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2019-01-21T19:15:31Z",
       "side": 1,
       "message": "WebClient template, not Rest Template",
+      "range": {
+        "startLine": 35,
+        "startChar": 11,
+        "endLine": 35,
+        "endChar": 42
+      },
+      "revId": "69af9fefe7be9aab0a5f960eba027762cb8f3082",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_835469ca",
+        "filename": "ms/controllerblueprints/application/src/test/java/org/onap/ccsdk/apps/controllerblueprints/ControllerBlueprintsApplicationTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-21T19:44:52Z",
+      "side": 1,
+      "message": "Will leave Vinal fix this. It comes from another commit.",
+      "parentUuid": "9adffdf1_23f6ddf9",
       "range": {
         "startLine": 35,
         "startChar": 11,
