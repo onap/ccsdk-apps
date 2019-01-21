@@ -1,102 +1,102 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.onap.ccsdk.parent</groupId>
-		<artifactId>odlparent-lite</artifactId>
-		<version>1.2.1-SNAPSHOT</version>
-		<relativePath/>
-	</parent>
+    <parent>
+        <groupId>org.onap.ccsdk.parent</groupId>
+        <artifactId>odlparent-lite</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
 
-	<groupId>org.onap.ccsdk.apps</groupId>
-	<artifactId>ccsdk-apps</artifactId>
-	<version>0.4.1-SNAPSHOT</version>
-	<packaging>pom</packaging>
+    <groupId>org.onap.ccsdk.apps</groupId>
+    <artifactId>ccsdk-apps</artifactId>
+    <version>0.4.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
 
-	<name>ccsdk-apps</name>
-	<description>CCSDK applications</description>
-	<url>https://wiki.onap.org</url>
-	<organization>
-		<name>ONAP</name>
-	</organization>
+    <name>ccsdk-apps</name>
+    <description>CCSDK applications</description>
+    <url>https://wiki.onap.org</url>
+    <organization>
+        <name>ONAP</name>
+    </organization>
 
-	<properties>
-		<!--Don't set any language to let sonar enable multi-language support-->
-		<sonar.language/>
-		<!--Provide src/main as source path so both src/main/java and src/main/kotlin are scanned-->
-		<sonar.sources>src/main</sonar.sources>
-		<!--Provide src/test as source path for test so both src/test/java and src/test/kotlin are scanned-->
-		<sonar.tests>src/test</sonar.tests>
-		<!--Only include java and kt files to the scan-->
-		<sonar.inclusions>**/*.java,**/*.kt</sonar.inclusions>
-		<!--Specify path to load jacoco XLM report, as Sonar can't load Kotlin coverage from binary report.
-		Note: coverage for now is invalid and is failing to load because of:
-		"Cannot import coverage information for file '{file}', coverage data is invalid."
-		see https://github.com/jacoco/jacoco/issues/763
-		That issue has been fixed in 0.8.3 but haven't yet been release. -->
-		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-	</properties>
+    <properties>
+        <!--Don't set any language to let sonar enable multi-language support-->
+        <sonar.language/>
+        <!--Provide src/main as source path so both src/main/java and src/main/kotlin are scanned-->
+        <sonar.sources>src/main</sonar.sources>
+        <!--Provide src/test as source path for test so both src/test/java and src/test/kotlin are scanned-->
+        <sonar.tests>src/test</sonar.tests>
+        <!--Only include java and kt files to the scan-->
+        <sonar.inclusions>**/*.java,**/*.kt</sonar.inclusions>
+        <!--Specify path to load jacoco XLM report, as Sonar can't load Kotlin coverage from binary report.
+        Note: coverage for now is invalid and is failing to load because of:
+        "Cannot import coverage information for file '{file}', coverage data is invalid."
+        see https://github.com/jacoco/jacoco/issues/763
+        That issue has been fixed in 0.8.3 but haven't yet been release. -->
+        <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
 
-	<modules>
-		<module>components</module>
-		<module>ms</module>
-	</modules>
+    <modules>
+        <module>components</module>
+        <module>ms</module>
+    </modules>
 
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<!--Change version to 0.8.3 when released-->
-				<version>${jacoco.version}</version>
-			</plugin>
-		</plugins>
-	</build>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <!--Change version to 0.8.3 when released-->
+                <version>${jacoco.version}</version>
+            </plugin>
+        </plugins>
+    </build>
 
-	<scm>
-		<connection>scm:git:ssh://git@${onap.git.host}/apps.git</connection>
-		<developerConnection>scm:git:ssh://${onap.git.host}:${onap.git.port}/${onap.git.project}/apps.git</developerConnection>
-		<url>${onap.git.protocol}://${onap.git.host}/projects/${onap.git.project}/repos/apps/browse</url>
-	</scm>
+    <scm>
+        <connection>scm:git:ssh://git@${onap.git.host}/apps.git</connection>
+        <developerConnection>scm:git:ssh://${onap.git.host}:${onap.git.port}/${onap.git.project}/apps.git</developerConnection>
+        <url>${onap.git.protocol}://${onap.git.host}/projects/${onap.git.project}/repos/apps/browse</url>
+    </scm>
 
-	<profiles>
-		<profile>
-			<id>blackduck</id>
-			<activation>
-				<property>
-					<name>blackduck-scan</name>
-				</property>
-			</activation>
-			<build>
-					<plugins>
-						<plugin>
-							<groupId>com.blackducksoftware.integration</groupId>
-							<artifactId>hub-maven-plugin</artifactId>
-							<version>1.4.0</version>
-							<inherited>false</inherited>
-							<configuration>
-								<hubProjectName>${project.name}</hubProjectName>
-								<outputDirectory>${project.basedir}</outputDirectory>
-							</configuration>
-							<executions>
-								<execution>
-									<id>create-bdio-file</id>
-									<phase>package</phase>
-									<goals>
-										<goal>createHubOutput</goal>
-									</goals>
-								</execution>
-							</executions>
-						</plugin>
-					</plugins>
+    <profiles>
+        <profile>
+            <id>blackduck</id>
+            <activation>
+                <property>
+                    <name>blackduck-scan</name>
+                </property>
+            </activation>
+            <build>
+                    <plugins>
+                        <plugin>
+                            <groupId>com.blackducksoftware.integration</groupId>
+                            <artifactId>hub-maven-plugin</artifactId>
+                            <version>1.4.0</version>
+                            <inherited>false</inherited>
+                            <configuration>
+                                <hubProjectName>${project.name}</hubProjectName>
+                                <outputDirectory>${project.basedir}</outputDirectory>
+                            </configuration>
+                            <executions>
+                                <execution>
+                                    <id>create-bdio-file</id>
+                                    <phase>package</phase>
+                                    <goals>
+                                        <goal>createHubOutput</goal>
+                                    </goals>
+                                </execution>
+                            </executions>
+                        </plugin>
+                    </plugins>
 
 
 
-			</build>
+            </build>
 
-		</profile>
+        </profile>
 
-	</profiles>
+    </profiles>
 
 </project>
