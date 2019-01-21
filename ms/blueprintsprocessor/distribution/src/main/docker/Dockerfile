@@ -14,7 +14,6 @@ RUN (mkdir -p /source /opt/app/onap) && (tar -xzf /source.tar.gz -C /source) \
 && (mv /source/@project.build.finalName@ /source/app) \
 && (cp -rf /source/app/opt/app/onap/lib /opt/app/onap/) \
 && (cp -rf /source/app/etc /) \
-&& (cp -rf /source/app/model-catalog /) \
 && (cp -rf /source/app/config /) \
 && (cp -rf /source/app /) \
 && (rm -rf /source)

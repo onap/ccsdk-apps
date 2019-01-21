@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~  Copyright © 2017-2018 AT&T Intellectual Property.
-  ~  Modifications Copyright © 2019 Bell Canada.
+  ~  Copyright © 2018-2019 Bell Canada Intellectual Property.
   ~
   ~  Licensed under the Apache License, Version 2.0 (the "License");
   ~  you may not use this file except in compliance with the License.
@@ -18,19 +17,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-        <groupId>org.onap.ccsdk.apps.controllerblueprints</groupId>
+        <groupId>org.onap.ccsdk.apps.blueprintsprocessor</groupId>
         <artifactId>parent</artifactId>
         <version>0.4.1-SNAPSHOT</version>
         <relativePath>../parent</relativePath>
     </parent>
     <artifactId>distribution</artifactId>
     <packaging>pom</packaging>
-    <name>Controller Blueprints Distribution</name>
+    <name>Blueprints Processor Distribution</name>
     <properties>
         <assembly.id>maven</assembly.id>
         <name.space>org.onap.ccsdk.apps</name.space>     <!-- <name.space>${namespace}</name.space> -->
-        <serviceArtifactName>controllerblueprints</serviceArtifactName>
-        <image.name>onap/ccsdk-controllerblueprints</image.name>
+        <serviceArtifactName>blueprintsprocessor</serviceArtifactName>
+        <image.name>onap/ccsdk-blueprintsprocessor</image.name>
 		<docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
 		<docker.push.phase>deploy</docker.push.phase>
 		<docker.verbose>true</docker.verbose>
@@ -38,7 +37,7 @@
 
     <dependencies>
         <dependency>
-            <groupId>org.onap.ccsdk.apps.controllerblueprints</groupId>
+            <groupId>org.onap.ccsdk.apps.blueprintsprocessor</groupId>
             <artifactId>application</artifactId>
         </dependency>
     </dependencies>
@@ -93,7 +92,7 @@
                 <version>3.1.0</version>
                 <configuration>
                     <!-- <skipAssembly>${skip.assembly}</skipAssembly>-->
-                    <outputDirectory>${basedir}/target/docker-stage</outputDirectory>
+		            <outputDirectory>${basedir}/target/docker-stage</outputDirectory>
                     <descriptors>
                         <descriptor>src/main/docker/distribution.xml</descriptor>
                     </descriptors>
