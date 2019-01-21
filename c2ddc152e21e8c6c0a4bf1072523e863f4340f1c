@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_a3e16d2b",
+        "filename": "ms/blueprintsprocessor/application/src/main/resources/application.properties",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-21T19:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_03207999",
+      "range": {
+        "startLine": 29,
+        "startChar": 52,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "c2ddc152e21e8c6c0a4bf1072523e863f4340f1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_23233da8",
         "filename": "ms/blueprintsprocessor/distribution/pom.xml",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-01-21T18:02:01Z",
       "side": 1,
       "message": "fix formatting",
+      "range": {
+        "startLine": 33,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 1
+      },
+      "revId": "c2ddc152e21e8c6c0a4bf1072523e863f4340f1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_63d7054c",
+        "filename": "ms/blueprintsprocessor/distribution/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-21T19:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_23233da8",
       "range": {
         "startLine": 33,
         "startChar": 0,
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9adffdf1_03cab9a0",
+        "filename": "ms/blueprintsprocessor/distribution/src/main/docker/distribution.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-21T19:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_c33d91c5",
+      "range": {
+        "startLine": 3,
+        "startChar": 38,
+        "endLine": 3,
+        "endChar": 60
+      },
+      "revId": "c2ddc152e21e8c6c0a4bf1072523e863f4340f1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9adffdf1_4351a10d",
         "filename": "ms/blueprintsprocessor/functions/netconf-executor/pom.xml",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2019-01-21T18:02:01Z",
       "side": 1,
       "message": "why is this being added ? same elsewhere",
+      "range": {
+        "startLine": 30,
+        "startChar": 0,
+        "endLine": 32,
+        "endChar": 28
+      },
+      "revId": "c2ddc152e21e8c6c0a4bf1072523e863f4340f1c",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_23cd7db7",
+        "filename": "ms/blueprintsprocessor/functions/netconf-executor/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-01-21T19:31:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_4351a10d",
       "range": {
         "startLine": 30,
         "startChar": 0,
