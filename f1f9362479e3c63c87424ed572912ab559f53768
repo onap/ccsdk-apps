@@ -22,6 +22,30 @@
       "revId": "f1f9362479e3c63c87424ed572912ab559f53768",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_d4230554",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/controller/BlueprintModelRest.kt",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 4980
+      },
+      "writtenOn": "2019-01-22T19:34:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9adffdf1_03b079db",
+      "range": {
+        "startLine": 37,
+        "startChar": 24,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "f1f9362479e3c63c87424ed572912ab559f53768",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
