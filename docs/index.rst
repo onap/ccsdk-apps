@@ -5,9 +5,10 @@ CCSDK APPS DOCUMENTATION REPOSITORY
 .. toctree::
    :maxdepth: 1
 
-	Architecture
-	Installation
-	Configuration
-	Development
-	Logging
-	Release Notes
+  Architecture
+  Installation
+  Configuration
+  Development
+  Logging
+  Release Notes
+	
