@@ -22,6 +22,30 @@
       "revId": "6138760c218b03287cd8ace84fb8ccdf7f6dcbc5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_4a93ee4f",
+        "filename": "ms/controllerblueprints/modules/service/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/service/controller/BlueprintModelRest.kt",
+        "patchSetId": 7
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 4980
+      },
+      "writtenOn": "2019-01-23T14:56:06Z",
+      "side": 1,
+      "message": "Thank Brinda for comments, there are 2 api byname-byversion, in which 1 returns files and this returns the blueprintModelSearch object. Please review new patch.",
+      "parentUuid": "9adffdf1_8f8fa874",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 36
+      },
+      "revId": "6138760c218b03287cd8ace84fb8ccdf7f6dcbc5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
