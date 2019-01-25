@@ -17,6 +17,7 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.db.resources
 
+import org.apache.commons.io.FileUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintCatalogService
@@ -65,6 +66,7 @@ abstract class BlueprintCatalogServiceImpl(private val blueprintValidator: BlueP
 
         save(metadata, archivedDirectory)
 
+        //FileUtils.deleteDirectory(toDeleteDirectory)
         toDeleteDirectory.deleteRecursively()
 
         return blueprintId
