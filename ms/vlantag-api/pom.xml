@@ -1,110 +1,110 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+    <modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.onap.ccsdk.apps.ms.vlantagapi</groupId>
-	<artifactId>vlantag-api</artifactId>
-	<version>0.4.1-SNAPSHOT</version>
-	<packaging>jar</packaging>
+    <groupId>org.onap.ccsdk.apps.ms.vlantagapi</groupId>
+    <artifactId>vlantag-api</artifactId>
+    <version>0.4.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
-	<name>Vlantag API</name>
-	<description>Vlantag Api Service for Vlantag management of VNFs</description>
+    <name>Vlantag API</name>
+    <description>Vlantag Api Service for Vlantag management of VNFs</description>
 
-	<properties>
-		<swagger.directory>${basedir}/target/main/resources/META-INF/resources/swagger-ui/dist</swagger.directory>
-		<swagger.annotations.version>1.5.8</swagger.annotations.version>
-		<java.version>1.8</java.version>
-		<springboot.version>2.0.4.RELEASE</springboot.version>
-		<mariadb.connector.version>2.1.1</mariadb.connector.version>
-		<docker.registry>TBD:5100</docker.registry>
-		<serviceArtifactName>vlantagapi</serviceArtifactName>
+    <properties>
+        <swagger.directory>${basedir}/target/main/resources/META-INF/resources/swagger-ui/dist</swagger.directory>
+        <swagger.annotations.version>1.5.8</swagger.annotations.version>
+        <java.version>1.8</java.version>
+        <springboot.version>2.0.4.RELEASE</springboot.version>
+        <mariadb.connector.version>2.1.1</mariadb.connector.version>
+        <docker.registry>TBD:5100</docker.registry>
+        <serviceArtifactName>vlantagapi</serviceArtifactName>
 
-		<!-- Sonar -->
-		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-		<sonar.surefire.reportsPath>${basedir}/target/surefire-reports</sonar.surefire.reportsPath>
-		<sonar.failsafe.reportsPath>${basedir}/target/failsafe-reports</sonar.failsafe.reportsPath>
-		<jacoco.path>${basedir}/target/jacoco_report</jacoco.path>
-		<jacoco.itPath>${basedir}/target/jacoco_itReport</jacoco.itPath>
-		<sonar.jacoco.reportPath>${basedir}/target/jacoco-ut.exec</sonar.jacoco.reportPath>
-		<sonar.jacoco.itReportPath>${basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
-		<sonar.language>java</sonar.language>
-		<ilib.version>2.0.7</ilib.version>
-		<docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
-		<docker.push.phase>deploy</docker.push.phase>
-		<docker.verbose>true</docker.verbose>
-		<ccsdk.project.version>${project.version}</ccsdk.project.version>
-	</properties>
+        <!-- Sonar -->
+        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+        <sonar.surefire.reportsPath>${basedir}/target/surefire-reports</sonar.surefire.reportsPath>
+        <sonar.failsafe.reportsPath>${basedir}/target/failsafe-reports</sonar.failsafe.reportsPath>
+        <jacoco.path>${basedir}/target/jacoco_report</jacoco.path>
+        <jacoco.itPath>${basedir}/target/jacoco_itReport</jacoco.itPath>
+        <sonar.jacoco.reportPath>${basedir}/target/jacoco-ut.exec</sonar.jacoco.reportPath>
+        <sonar.jacoco.itReportPath>${basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
+        <sonar.language>java</sonar.language>
+        <ilib.version>2.0.7</ilib.version>
+        <docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
+        <docker.push.phase>deploy</docker.push.phase>
+        <docker.verbose>true</docker.verbose>
+        <ccsdk.project.version>${project.version}</ccsdk.project.version>
+    </properties>
 
-	<parent>
-		<groupId>org.onap.ccsdk.parent</groupId>
-		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.2.1-SNAPSHOT</version>
-		<relativePath/>
-	</parent>
-
-
-	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-jersey</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-actuator</artifactId>
-		</dependency>
-
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-security</artifactId>
-			<version>2.0.1.RELEASE</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.onap.ccsdk.sli.core</groupId>
-			<artifactId>sli-common</artifactId>
-			<version>${ccsdk.sli.core.version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.onap.ccsdk.sli.adaptors</groupId>
-			<artifactId>resource-assignment-provider</artifactId>
-			<version>${ccsdk.sli.adaptors.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.slf4j</groupId>
-					<artifactId>slf4j-simple</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<groupId>org.mariadb.jdbc</groupId>
-			<artifactId>mariadb-java-client</artifactId>
-			<version>${mariadb.connector.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>io.swagger</groupId>
-			<artifactId>swagger-annotations</artifactId>
-			<version>1.5.8</version>
-		</dependency>
-	</dependencies>
+    <parent>
+        <groupId>org.onap.ccsdk.parent</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>1.2.1-SNAPSHOT</version>
+        <relativePath/>
+    </parent>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-jersey</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
 
-	<build>
-		<plugins>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+            <version>2.0.1.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
+            <artifactId>sli-common</artifactId>
+            <version>${ccsdk.sli.core.version}</version>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.adaptors</groupId>
+            <artifactId>resource-assignment-provider</artifactId>
+            <version>${ccsdk.sli.adaptors.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+            <version>${mariadb.connector.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.8</version>
+        </dependency>
+    </dependencies>
+
+
+
+    <build>
+        <plugins>
             <plugin>
                 <groupId>org.codehaus.groovy.maven</groupId>
                 <artifactId>gmaven-plugin</artifactId>
@@ -136,7 +136,7 @@
                     </execution>
                 </executions>
             </plugin>
-		    <plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
@@ -147,154 +147,154 @@
                     </excludes>
                 </configuration>
             </plugin>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.5.201505241946</version>
-				<executions>
-					<!-- Prepares the property pointing to the JaCoCo runtime agent which 
-						is passed as VM argument when Maven the Surefire plugin is executed. -->
-					<execution>
-						<id>pre-unit-test</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-						<configuration>
-							<!-- Sets the path to the file which contains the execution data. -->
-							<destFile>${sonar.jacoco.reportPath}</destFile>
-							<propertyName>surefireArgLine</propertyName>
-						</configuration>
-					</execution>
-					<!-- Ensures that the code coverage report for unit tests is created 
-						after unit tests have been run. -->
-					<execution>
-						<id>post-unit-test</id>
-						<phase>test</phase>
-						<goals>
-							<goal>report</goal>
-						</goals>
-						<configuration>
-							<!-- Sets the path to the file which contains the execution data. -->
-							<dataFile>${sonar.jacoco.reportPath}</dataFile>
-							<!-- Sets the output directory for the code coverage report. -->
-							<outputDirectory>${jacoco.path}</outputDirectory>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.github.kongchen</groupId>
-				<artifactId>swagger-maven-plugin</artifactId>
-				<version>3.1.7</version>
-				<configuration>
-					<apiSources>
-						<apiSource>
-							<schemes>
-								<scheme>http</scheme>
-								<scheme>https</scheme>
-							</schemes>
-							<host>localhost:9091</host>
-							<locations>
-								<location>org.onap.ccsdk.apps.ms.vlantagapi.core.service</location>
-								<location>org.onap.ccsdk.apps.ms.vlantagapi.core.model</location>
-							</locations>
-							<!-- <locations>org.onap.ccsdk.apps.ms.vlantagapi.core.service</locations> -->
-							<basePath>/vlantagapi</basePath>
-							<info>
-								<title>${project.artifactId} Service</title>
-								<version>${project.version}</version>
-							</info>
-							<securityDefinitions>
-								<securityDefinition>
-									<name>basicAuth</name>
-									<type>basic</type>
-								</securityDefinition>
-							</securityDefinitions>
-							<swaggerDirectory>${swagger.directory}</swaggerDirectory>
-						</apiSource>
-					</apiSources>
-				</configuration>
-				<executions>
-					<execution>
-						<!-- <phase>compile</phase> -->
-						<phase>package</phase>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-			<plugin>
-				<groupId>com.spotify</groupId>
-				<artifactId>docker-maven-plugin</artifactId>
-				<version>0.4.11</version>
-				<configuration>
-					<imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}</imageName>
-					<dockerDirectory>src/main/docker</dockerDirectory>
-					<serverId>docker-hub</serverId>
-					<registryUrl>https://${docker.registry}</registryUrl>
-					<imageTags>
-						<imageTag>${project.version}</imageTag>
-						<imageTag>latest</imageTag>
-					</imageTags>
-					<forceTags>true</forceTags>
-					<resources>
-						<resource>
-							<targetPath>/</targetPath>
-							<directory>${project.build.directory}</directory>
-							<include>${project.build.finalName}.jar</include>
-						</resource>
-					</resources>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
-				<version>${springboot.version}</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>repackage</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.7.5.201505241946</version>
+                <executions>
+                    <!-- Prepares the property pointing to the JaCoCo runtime agent which
+                        is passed as VM argument when Maven the Surefire plugin is executed. -->
+                    <execution>
+                        <id>pre-unit-test</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <destFile>${sonar.jacoco.reportPath}</destFile>
+                            <propertyName>surefireArgLine</propertyName>
+                        </configuration>
+                    </execution>
+                    <!-- Ensures that the code coverage report for unit tests is created
+                        after unit tests have been run. -->
+                    <execution>
+                        <id>post-unit-test</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                        <configuration>
+                            <!-- Sets the path to the file which contains the execution data. -->
+                            <dataFile>${sonar.jacoco.reportPath}</dataFile>
+                            <!-- Sets the output directory for the code coverage report. -->
+                            <outputDirectory>${jacoco.path}</outputDirectory>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.github.kongchen</groupId>
+                <artifactId>swagger-maven-plugin</artifactId>
+                <version>3.1.7</version>
+                <configuration>
+                    <apiSources>
+                        <apiSource>
+                            <schemes>
+                                <scheme>http</scheme>
+                                <scheme>https</scheme>
+                            </schemes>
+                            <host>localhost:9091</host>
+                            <locations>
+                                <location>org.onap.ccsdk.apps.ms.vlantagapi.core.service</location>
+                                <location>org.onap.ccsdk.apps.ms.vlantagapi.core.model</location>
+                            </locations>
+                            <!-- <locations>org.onap.ccsdk.apps.ms.vlantagapi.core.service</locations> -->
+                            <basePath>/vlantagapi</basePath>
+                            <info>
+                                <title>${project.artifactId} Service</title>
+                                <version>${project.version}</version>
+                            </info>
+                            <securityDefinitions>
+                                <securityDefinition>
+                                    <name>basicAuth</name>
+                                    <type>basic</type>
+                                </securityDefinition>
+                            </securityDefinitions>
+                            <swaggerDirectory>${swagger.directory}</swaggerDirectory>
+                        </apiSource>
+                    </apiSources>
+                </configuration>
+                <executions>
+                    <execution>
+                        <!-- <phase>compile</phase> -->
+                        <phase>package</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.spotify</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.4.11</version>
+                <configuration>
+                    <imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}</imageName>
+                    <dockerDirectory>src/main/docker</dockerDirectory>
+                    <serverId>docker-hub</serverId>
+                    <registryUrl>https://${docker.registry}</registryUrl>
+                    <imageTags>
+                        <imageTag>${project.version}</imageTag>
+                        <imageTag>latest</imageTag>
+                    </imageTags>
+                    <forceTags>true</forceTags>
+                    <resources>
+                        <resource>
+                            <targetPath>/</targetPath>
+                            <directory>${project.build.directory}</directory>
+                            <include>${project.build.finalName}.jar</include>
+                        </resource>
+                    </resources>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${springboot.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
-	<profiles>
-		<profile>
-			<id>docker</id>
-			<build>
-				<plugins>
-					<plugin>
-						<groupId>com.spotify</groupId>
-						<artifactId>docker-maven-plugin</artifactId>
-						<version>0.4.11</version>
-						<configuration>
-							<imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}</imageName>
-							<dockerDirectory>src/main/docker</dockerDirectory>
-							<serverId>docker-hub</serverId>
-							<registryUrl>https://${docker.registry}</registryUrl>
-							<imageTags>
-								<imageTag>${project.version}</imageTag>
-								<imageTag>${project.version}-STAGING-${maven.build.timestamp}</imageTag>
-							    <imageTag>${project.docker.latesttag.version}</imageTag>
-							</imageTags>
-							<forceTags>true</forceTags>
-							<resources>
-								<resource>
-									<targetPath>/</targetPath>
-									<directory>${project.build.directory}</directory>
-									<include>${project.build.finalName}.jar</include>
-								</resource>
-							</resources>
-						</configuration>
-					</plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>0.4.11</version>
+                        <configuration>
+                            <imageName>${docker.registry}/org.onap.ccsdk.apps/${serviceArtifactName}</imageName>
+                            <dockerDirectory>src/main/docker</dockerDirectory>
+                            <serverId>docker-hub</serverId>
+                            <registryUrl>https://${docker.registry}</registryUrl>
+                            <imageTags>
+                                <imageTag>${project.version}</imageTag>
+                                <imageTag>${project.version}-STAGING-${maven.build.timestamp}</imageTag>
+                                <imageTag>${project.docker.latesttag.version}</imageTag>
+                            </imageTags>
+                            <forceTags>true</forceTags>
+                            <resources>
+                                <resource>
+                                    <targetPath>/</targetPath>
+                                    <directory>${project.build.directory}</directory>
+                                    <include>${project.build.finalName}.jar</include>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
 
 </project>
