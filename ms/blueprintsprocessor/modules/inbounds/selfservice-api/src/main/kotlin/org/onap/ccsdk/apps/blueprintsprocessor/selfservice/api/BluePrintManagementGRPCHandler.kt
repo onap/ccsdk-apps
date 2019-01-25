@@ -53,6 +53,7 @@ class BluePrintManagementGRPCHandler(private val bluePrintCoreConfiguration: Blu
             saveToDisk(request, blueprintArchivedFile)
             val blueprintId = bluePrintCatalogService.saveToDatabase(blueprintArchivedFile)
 
+            //FileUtils.deleteDirectory(File("${bluePrintCoreConfiguration.archivePath}/$blueprintName"))
             File("${bluePrintCoreConfiguration.archivePath}/$blueprintName").deleteRecursively()
 
             responseObserver.onNext(successStatus("Successfully uploaded $blueprint with id($blueprintId)", request.commonHeader))
@@ -82,9 +83,11 @@ class BluePrintManagementGRPCHandler(private val bluePrintCoreConfiguration: Blu
         log.info("request(${request.commonHeader.requestId}): Writing CBA File under :${blueprintDir.absolutePath}")
         if (blueprintDir.exists()) {
             log.info("request(${request.commonHeader.requestId}): Re-creating blueprint directory(${blueprintDir.absolutePath})")
-            FileUtils.deleteDirectory(blueprintDir.parentFile)
+            //FileUtils.deleteDirectory(blueprintDir.parentFile)
+            blueprintDir.parentFile.deleteRecursively()
         }
-        FileUtils.forceMkdir(blueprintDir.parentFile)
+        blueprintDir.parentFile.mkdirs()
+        //FileUtils.forceMkdir(blueprintDir.parentFile)
         blueprintDir.writeBytes(request.fileChunk.chunk.toByteArray()).apply {
             log.info("request(${request.commonHeader.requestId}): CBA file(${blueprintDir.absolutePath} written successfully")
         }
