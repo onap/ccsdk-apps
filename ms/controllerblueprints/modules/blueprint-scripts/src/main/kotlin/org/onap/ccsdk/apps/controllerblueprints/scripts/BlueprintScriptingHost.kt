@@ -14,19 +14,21 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.controllerblueprints.core.script
+package org.onap.ccsdk.apps.controllerblueprints.scripts
 
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.slf4j.LoggerFactory
+import java.util.*
 import kotlin.script.experimental.api.*
 import kotlin.script.experimental.host.BasicScriptingHost
 import kotlin.script.experimental.jvm.defaultJvmScriptingHostConfiguration
 import kotlin.script.experimental.jvmhost.JvmScriptCompiler
+import kotlin.script.experimental.jvmhost.impl.withDefaults
 
-val defaultBlueprintScriptCompiler = JvmScriptCompiler(defaultJvmScriptingHostConfiguration)
+val blueprintScriptCompiler = JvmScriptCompiler(defaultJvmScriptingHostConfiguration,
+        BluePrintsCompilerProxy(defaultJvmScriptingHostConfiguration.withDefaults()))
 
-open class BlueprintScriptingHost(evaluator: ScriptEvaluator
-) : BasicScriptingHost(defaultBlueprintScriptCompiler, evaluator) {
+open class BlueprintScriptingHost(evaluator: ScriptEvaluator) : BasicScriptingHost(blueprintScriptCompiler, evaluator) {
 
     override fun eval(
             script: SourceCode,
@@ -44,19 +46,24 @@ open class BlueprintScriptingHost(evaluator: ScriptEvaluator
 }
 
 
-open class BluePrintScriptEvaluator(private val scriptClassName: String) : ScriptEvaluator {
+open class BluePrintScriptEvaluator<T>(private val scriptClassName: String) : ScriptEvaluator {
 
-    val log = LoggerFactory.getLogger(BluePrintScriptEvaluator::class.java)!!
+    private val log = LoggerFactory.getLogger(BluePrintScriptEvaluator::class.java)!!
 
     override suspend operator fun invoke(
             compiledScript: CompiledScript<*>,
             scriptEvaluationConfiguration: ScriptEvaluationConfiguration?
     ): ResultWithDiagnostics<EvaluationResult> =
             try {
+                log.info("Getting class name($scriptClassName) of type() from the compiled sources ")
+                val bluePrintCompiledScript = compiledScript as BluePrintCompiledScript
+                bluePrintCompiledScript.scriptClassFQName = scriptClassName
+
                 val res = compiledScript.getClass(scriptEvaluationConfiguration)
                 when (res) {
                     is ResultWithDiagnostics.Failure -> res
                     is ResultWithDiagnostics.Success -> {
+
                         val scriptClass = res.value
                         val args = ArrayList<Any?>()
                         scriptEvaluationConfiguration?.get(ScriptEvaluationConfiguration.providedProperties)?.forEach {
@@ -69,21 +76,13 @@ open class BluePrintScriptEvaluator(private val scriptClassName: String) : Scrip
                             args.addAll(it)
                         }
 
-                        val completeScriptClass = "Script\$$scriptClassName"
-                        log.info("Searching for class type($completeScriptClass)")
-                        /**
-                         * Search for Class Name
-                         */
-                        val instanceClass = scriptClass.java.classes
-                                .single { it.name == completeScriptClass }
-                                //.single { it.name == "Script\$SampleBlueprintsFunctionNode" }
-
-
-                        val instance = instanceClass.newInstance()
+                        val instance = scriptClass.java.newInstance() as? T
                                 ?: throw BluePrintProcessorException("failed to create instance from the script")
 
-                        ResultWithDiagnostics.Success(EvaluationResult(ResultValue.Value(completeScriptClass,
-                                instance, instance.javaClass.typeName),
+                        log.info("Created script instance successfully....")
+
+                        ResultWithDiagnostics.Success(EvaluationResult(ResultValue.Value(scriptClass.qualifiedName!!,
+                                instance, "", instance),
                                 scriptEvaluationConfiguration))
                     }
                 }
