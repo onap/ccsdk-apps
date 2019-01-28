@@ -34,7 +34,6 @@ import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import java.io.File
-import java.nio.file.Paths
 import kotlin.test.AfterTest
 import kotlin.test.BeforeTest
 import kotlin.test.assertEquals
@@ -96,7 +95,7 @@ class BluePrintManagementGRPCHandlerTest {
     }
 
     private fun createInputRequest(id: String): BluePrintManagementInput {
-        val file = Paths.get("./src/test/resources/test-cba.zip").toFile()
+        val file = File("./src/test/resources/test-cba.zip")
         assertTrue(file.exists(), "couldnt get file ${file.absolutePath}")
 
         val commonHeader = CommonHeader
