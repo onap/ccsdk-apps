@@ -48,14 +48,18 @@ public class AaiServiceImplTest {
         AaiResponse aaiResponse = aaiServiceImpl.buildResponse(true);
         Assert.assertEquals(aaiResponse.isRecFound(), true);
     }
-    
+
     @Test(expected= Exception.class)
     public void testValidate() throws Exception {
         AaiProps aaiProps=new AaiProps();
         aaiProps.setUriBase("http://");
         aaiServiceImpl.setAaiProps(aaiProps);
         aaiServiceImpl.setRestTemplate(new RestTemplate());
-        aaiServiceImpl.validate("testUrl/","testName");
-        
+        Assert.assertTrue(aaiServiceImpl.validate("testUrl/","testName"));
+    }
+    @Test(expected= Exception.class)
+    public void testGetRestTemplate_Null() throws Exception {
+        aaiServiceImpl.setRestTemplate(null);
+        Assert.assertNotNull(aaiServiceImpl.getRestTemplate());
     }
 }
