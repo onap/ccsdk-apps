@@ -24,3 +24,6 @@
 
 **/*py.class
 **/.DS_Store
+
+# To Remove Kotlin Script Generated Jars
+**/*cba-kts.jar
