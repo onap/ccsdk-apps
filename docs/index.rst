@@ -9,17 +9,17 @@ CCSDK APPS DOCUMENTATION REPOSITORY
 
 Introduction:
 =============
-APPS repository which contains all micro services for CCSDK module.
-Also these are application that are intended to run outside of OpenDaylight
-container.Modular feature implementation that is reusable across all controllers.
+   APPS repository which contains all micro services for CCSDK module.
+   Also these are application that are intended to run outside of OpenDaylight
+   container.Modular feature implementation that is reusable across all controllers.
 
 Microservices:
 =============
 
-Controller BluePrints Studio Processor
-Blueprints processor
-NetworkElementNameGen (NENG)
-Vlan Tag API
+   Controller BluePrints Studio Processor
+   Blueprints processor
+   NetworkElementNameGen (NENG)
+   Vlan Tag API
 
 
 Installation:
@@ -27,12 +27,12 @@ Installation:
 
 Steps
 -----
-To compile this code:
+   To compile this code:
 
-1. Make sure your local Maven settings file ($HOME/.m2/settings.xml) contains
-references to the ONAP repositories and OpenDaylight repositories.
+   1. Make sure your local Maven settings file ($HOME/.m2/settings.xml) contains
+    references to the ONAP repositories and OpenDaylight repositories.
 
-2. To compile all of CCSDK apps code
+   2. To compile all of CCSDK apps code
     - git clone https://(LFID)@gerrit.onap.org/r/a/ccsdk/apps
     - cd apps ; mvn clean install ; cd ..
 
