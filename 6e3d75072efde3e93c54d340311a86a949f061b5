@@ -22,6 +22,30 @@
       "revId": "6e3d75072efde3e93c54d340311a86a949f061b5",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9adffdf1_8834674a",
+        "filename": "components/model-catalog/proto-definition/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-01-31T13:42:07Z",
+      "side": 1,
+      "message": "Yes - otherwise release build will fail (it won\u0027t find ccsdk-apps version 0.4.1 in Nexus)",
+      "parentUuid": "9adffdf1_562386bc",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 46
+      },
+      "revId": "6e3d75072efde3e93c54d340311a86a949f061b5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
