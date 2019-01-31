@@ -16,11 +16,18 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor
 
+import com.fasterxml.jackson.databind.JsonNode
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.interfaces.DeviceInfo
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.ComponentJythonExecutor
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.PythonExecutorProperty
+import org.onap.ccsdk.apps.controllerblueprints.core.putJsonElement
+import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
@@ -30,9 +37,25 @@ open class ComponentNetconfExecutor(private val netconfExecutorConfiguration: Ne
                                     private val pythonExecutorProperty: PythonExecutorProperty)
     : ComponentJythonExecutor(pythonExecutorProperty) {
 
-    private val log = LoggerFactory.getLogger(ComponentJythonExecutor::class.java)
+    private val log = LoggerFactory.getLogger(ComponentNetconfExecutor::class.java)
+    lateinit var deviceInfo: DeviceInfo
+
 
     override fun process(executionServiceInput: ExecutionServiceInput) {
-        super.process(executionServiceInput)
+        val capabilityProperty: MutableMap<String, JsonNode> = bluePrintRuntimeService.resolveNodeTemplateCapabilityProperties("sample-netconf-device","netconf")
+        val deviceInfo = JacksonUtils.getInstanceFromMap(capabilityProperty, DeviceInfo::class.java)
+        log.info("Processing NetconfExecutor : $operationInputs")
+        operationInputs.putJsonElement("deviceInfo",deviceInfo)
+        val configContext = applicationContext as ConfigurableApplicationContext
+        val beanRegistry = configContext.beanFactory
+        beanRegistry.registerSingleton("deviceInfo", deviceInfo);
+
+         super.process(executionServiceInput)
+
+
+    }
+
+    fun setdeviceInfo(deviceInfo: DeviceInfo) {
+        this.deviceInfo = deviceInfo
     }
 }

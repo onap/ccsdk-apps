@@ -22,7 +22,7 @@ import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInp
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.utils.PythonExecutorUtils
 import org.onap.ccsdk.apps.blueprintsprocessor.services.execution.AbstractComponentFunction
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
-import org.onap.ccsdk.apps.controllerblueprints.core.checkNotEmptyOrThrow
+//import org.onap.ccsdk.apps.controllerblueprints.core.checkNotEmptyNThrow
 import org.onap.ccsdk.apps.controllerblueprints.core.data.OperationAssignment
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
@@ -62,7 +62,7 @@ open class ComponentJythonExecutor(private val pythonExecutorProperty: PythonExe
 
         val content: String? = bluePrintRuntimeService.resolveNodeTemplateArtifact(nodeTemplateName, artifactName)
 
-        checkNotEmptyOrThrow(content, "artifact ($artifactName) content is empty")
+        //checkNotEmptyNThrow(content, "artifact ($artifactName) content is empty")
 
         val pythonPath: MutableList<String> = operationAssignment.implementation?.dependencies ?: arrayListOf()
         pythonPath.add(blueprintBasePath)
@@ -70,12 +70,15 @@ open class ComponentJythonExecutor(private val pythonExecutorProperty: PythonExe
 
         val jythonInstances: MutableMap<String, Any> = hashMapOf()
         jythonInstances["log"] = LoggerFactory.getLogger(nodeTemplateName)
+        //jythonInstances["bluePrintRuntimeService"] = bluePrintRuntimeService
+        //jythonInstances["deviceInfo"] =  applicationContext.getBean("deviceInfo")
 
         val instanceDependenciesNode: ArrayNode = operationInputs[PythonExecutorConstants.INPUT_INSTANCE_DEPENDENCIES] as? ArrayNode
                 ?: throw BluePrintProcessorException("Failed to get property(${PythonExecutorConstants.INPUT_INSTANCE_DEPENDENCIES})")
 
         instanceDependenciesNode.forEach { instanceName ->
             jythonInstances[instanceName.textValue()] = applicationContext.getBean(instanceName.textValue())
+
         }
 
         componentFunction = PythonExecutorUtils.getPythonComponent(pythonExecutorProperty.executionPath,
@@ -90,7 +93,6 @@ open class ComponentJythonExecutor(private val pythonExecutorProperty: PythonExe
 
         // Populate Component Instance
         populateJythonComponentInstance(executionServiceInput)
-
         // Invoke Jython Component Script
         componentFunction!!.process(executionServiceInput)
 
