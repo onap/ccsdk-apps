@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "494206ec_9bbdd4c5",
+        "filename": "components/model-catalog/blueprint-model/starter-blueprint/baseconfiguration/Definitions/activation-blueprint.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-02-01T14:42:08Z",
+      "side": 1,
+      "message": "Move to python folder Scripts/python/DefaultGetNetConfig.py",
+      "range": {
+        "startLine": 245,
+        "startChar": 29,
+        "endLine": 245,
+        "endChar": 48
+      },
+      "revId": "145a2406f509fea0e3a1fcaeed8810df0c6e3a6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aaa51c75_f9a87a9a",
+        "filename": "components/model-catalog/blueprint-model/starter-blueprint/baseconfiguration/Scripts/DefaultGetNetConfig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-02-01T14:42:08Z",
+      "side": 1,
+      "message": "get the Netconf Service from Capability Properties",
+      "range": {
+        "startLine": 15,
+        "startChar": 8,
+        "endLine": 15,
+        "endChar": 61
+      },
+      "revId": "145a2406f509fea0e3a1fcaeed8810df0c6e3a6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "181d4975_f7abb3f5",
+        "filename": "components/model-catalog/blueprint-model/starter-blueprint/baseconfiguration/Scripts/DefaultGetNetConfig.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-02-01T14:42:08Z",
+      "side": 1,
+      "message": "Seems like hardcode path",
+      "range": {
+        "startLine": 25,
+        "startChar": 12,
+        "endLine": 26,
+        "endChar": 0
+      },
+      "revId": "145a2406f509fea0e3a1fcaeed8810df0c6e3a6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46fac319_43abfe57",
+        "filename": "components/scripts/python/ccsdk_netconf/messageclient.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-02-01T14:42:08Z",
+      "side": 1,
+      "message": "Messaging Client Service is not needed",
+      "range": {
+        "startLine": 1,
+        "startChar": 6,
+        "endLine": 1,
+        "endChar": 19
+      },
+      "revId": "145a2406f509fea0e3a1fcaeed8810df0c6e3a6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "88422c78_7ce11190",
+        "filename": "ms/blueprintsprocessor/functions/netconf-executor/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/netconf/executor/ComponentNetconfExecutor.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4397
+      },
+      "writtenOn": "2019-02-01T14:42:08Z",
+      "side": 1,
+      "message": "Should go into python utilities, because we dont create single connections allthe times",
+      "range": {
+        "startLine": 45,
+        "startChar": 6,
+        "endLine": 53,
+        "endChar": 45
+      },
+      "revId": "145a2406f509fea0e3a1fcaeed8810df0c6e3a6a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
