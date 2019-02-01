@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e77a001_dd02b556",
+        "filename": "components/model-catalog/blueprint-model/starter-blueprint/baseconfiguration/Scripts/DefaultGetNetConfig.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-02-01T16:35:39Z",
+      "side": 1,
+      "message": "Do not include your user id in code.  And more generally, you shouldn\u0027t be hard coding paths .",
+      "range": {
+        "startLine": 23,
+        "startChar": 46,
+        "endLine": 23,
+        "endChar": 52
+      },
+      "revId": "ea7dd2208c581b449b6ea4fb7e42e9d288b3718e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
