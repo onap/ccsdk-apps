@@ -1,6 +1,8 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
  *
+ * Modifications Copyright © 2019 IBM, Bell Canada.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -16,17 +18,20 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.processor
 
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.BlueprintPythonService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.CapabilityResourceSource
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintScriptsService
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
+import org.slf4j.LoggerFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Service
 
 @Service("resource-assignment-processor-capability")
 open class CapabilityResourceAssignmentProcessor(private var applicationContext: ApplicationContext,
-                                                 private val bluePrintScriptsService: BluePrintScriptsService) :
+                                                 private val bluePrintScriptsService: BluePrintScriptsService,
+                                                 private val bluePrintPythonService: BlueprintPythonService):
         ResourceAssignmentProcessor() {
 
     companion object {
@@ -70,7 +75,9 @@ open class CapabilityResourceAssignmentProcessor(private var applicationContext:
                 componentResourceAssignmentProcessor = applicationContext.getBean(instanceName, ResourceAssignmentProcessor::class.java)
             }
             CAPABILITY_TYPE_JYTHON_COMPONENT -> {
-                TODO(" No implementation")
+                val content = raRuntimeService.resolveNodeTemplateArtifact(resourceAssignment.name, instanceName)//TODO: Not clear how to get "content" variable
+                componentResourceAssignmentProcessor = getJythonResourceAssignmentProcessorInstance(instanceName,
+                        content, capabilityResourceSourceProperty.instanceDependencies)
             }
         }
 
@@ -116,6 +123,43 @@ open class CapabilityResourceAssignmentProcessor(private var applicationContext:
         // Add additional Instance
         if (scriptPropertyInstances != null) {
             resourceAssignmentProcessor.scriptPropertyInstances = scriptPropertyInstances
+        }
+
+        return resourceAssignmentProcessor
+    }
+
+    /**
+     * getJythonResourceAssignmentProcessorInstance Purpose: prepare the jython
+     * executor component as a resource assignment processor
+     *
+     * @param pythonClassName String
+     * @param content String
+     * @param dependencyInstances List<String>
+     * @return resourceAssignmentProcessor ResourceAssignmentProcessor
+     */
+    private fun getJythonResourceAssignmentProcessorInstance(pythonClassName: String, content: String,
+                                                     dependencyInstances: List<String>?):
+            ResourceAssignmentProcessor {
+        val jythonContextInstance: MutableMap<String, Any> = hashMapOf()
+        jythonContextInstance["log"] = LoggerFactory.getLogger(pythonClassName)
+        dependencyInstances?.forEach { instanceName ->
+            jythonContextInstance[instanceName] = applicationContext.getBean(instanceName)
+        }
+
+        return getJythonResourceAssignmentProcessorInstance(pythonClassName, content, jythonContextInstance)
+    }
+
+    fun getJythonResourceAssignmentProcessorInstance(pythonClassName: String, content: String,
+                                                             dependencyInstances: MutableMap<String, Any>):
+            ResourceAssignmentProcessor {
+
+        val resourceAssignmentProcessor = bluePrintPythonService
+                .jythonInstance<ResourceAssignmentProcessor>(raRuntimeService.bluePrintContext(), pythonClassName,
+                        content, dependencyInstances)
+
+        // Add additional Instance
+        if (dependencyInstances != null) {
+            resourceAssignmentProcessor.scriptPropertyInstances = dependencyInstances
         }
 
         return resourceAssignmentProcessor
