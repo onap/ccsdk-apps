@@ -1,6 +1,8 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
  *
+ * Modifications Copyright © 2019 IBM, Bell Canada.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -23,6 +25,7 @@ import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ActionIdentifiers
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.CommonHeader
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.BlueprintPythonService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.PythonExecutorProperty
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.asJsonNode
@@ -34,7 +37,8 @@ import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 
 @RunWith(SpringRunner::class)
-@ContextConfiguration(classes = [NetconfExecutorConfiguration::class, PythonExecutorProperty::class])
+@ContextConfiguration(classes = [NetconfExecutorConfiguration::class, BlueprintPythonService::class,
+    PythonExecutorProperty::class])
 @TestPropertySource(properties =
 ["blueprints.processor.functions.python.executor.modulePaths=./../../../../components/scripts/python/ccsdk_blueprints",
     "blueprints.processor.functions.python.executor.executionPath=./../../../../components/scripts/python/ccsdk_blueprints"])
