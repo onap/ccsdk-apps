@@ -1,6 +1,8 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
  *
+ * Modifications Copyright © 2019 IBM, Bell Canada.
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
@@ -18,6 +20,8 @@ package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.pr
 
 import org.junit.Test
 import org.junit.runner.RunWith
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.BlueprintPythonService
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.PythonExecutorProperty
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.ResourceAssignmentRuntimeService
 import org.onap.ccsdk.apps.controllerblueprints.core.data.PropertyDefinition
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
@@ -30,7 +34,7 @@ import kotlin.test.assertNotNull
 
 @RunWith(SpringRunner::class)
 @ContextConfiguration(classes = [CapabilityResourceAssignmentProcessor::class, BluePrintScriptsServiceImpl::class,
-    MockCapabilityService::class])
+    BlueprintPythonService::class, PythonExecutorProperty::class, MockCapabilityService::class])
 class CapabilityResourceAssignmentProcessorTest {
 
     @Autowired
