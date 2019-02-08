@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d03942bd_96e97185",
+        "filename": "components/model-catalog/blueprint-model/starter-blueprint/baseconfiguration/Scripts/SampleResourceAssignmentProcessorScript.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-08T21:10:08Z",
+      "side": 1,
+      "message": "It should be in Scripts/python dir",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 57
+      },
+      "revId": "92a139a5dd636939b30debdb8a0e2b9fbc7d37b8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
