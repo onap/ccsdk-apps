@@ -9,17 +9,15 @@ CCSDK APPS DOCUMENTATION REPOSITORY
 
 Introduction:
 =============
-   APPS repository which contains all micro services for CCSDK module.
-   Also these are application that are intended to run outside of OpenDaylight
-   container.Modular feature implementation that is reusable across all controllers.
+   APPS repository which contains all micro services for CCSDK module. Also these are application that are intended to run outside of OpenDaylight container.Modular feature implementation that is reusable across all controllers.
 
 Microservices:
 =============
 
-   Controller BluePrints Studio Processor
-   Blueprints processor
-   NetworkElementNameGen (NENG)
-   Vlan Tag API
+   microservices/controllerBlueprintStudioProcessor
+   microservices/bluePrintsProcessor
+   microservices/neng
+   microservices/vlanTag
 
 
 Installation:
@@ -47,4 +45,7 @@ Where to Access Information
 ---------------------------
 Logs are found within the SDNC docker container, in the directory
 /opt/opendaylight/current/data/logs.
-Release Notes
+
+Release Notes:
+==============
+	release-notes
