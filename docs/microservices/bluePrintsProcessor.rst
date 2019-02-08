@@ -8,3 +8,14 @@ Blueprints Processor
 .. toctree::
    :maxdepth: 1
    :titlesonly:
+   
+Micro service to Manage Controller Blueprint Models, such as Resource Dictionary, Service Models, Velocity Templates etc,  which will serve service for Controller Design Studio and Controller runtimes.
+
+Architecture:
+==============
+
+|image0|
+
+.. |image0| image:: images/blueprintprocessor.jpg
+   :height: 600px
+   :width: 800px
