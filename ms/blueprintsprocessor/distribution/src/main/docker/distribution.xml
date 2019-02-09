@@ -16,8 +16,8 @@
   -->
 
 <assembly xmlns="http://maven.apache.org/ASSEMBLY/2.0.0"
-          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-          xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/ASSEMBLY/2.0.0 http://maven.apache.org/xsd/assembly-2.0.0.xsd">
     <!-- create a tar.gz file containing the projects dependencies -->
     <id>${assembly.id}</id>
     <formats>
@@ -26,9 +26,9 @@
     <dependencySets>
         <dependencySet>
             <outputDirectory>/opt/app/onap/lib</outputDirectory>
-            <outputFileNameMapping>${artifact.groupId}-${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
-            <excludes>
-            </excludes>
+            <outputFileNameMapping>
+                ${artifact.groupId}-${artifact.artifactId}-${artifact.version}${dashClassifier?}.${artifact.extension}
+            </outputFileNameMapping>
         </dependencySet>
     </dependencySets>
     <fileSets>
@@ -38,31 +38,7 @@
                 <include>application.properties</include>
                 <include>logback.xml</include>
             </includes>
-            <outputDirectory>./</outputDirectory>
-            <useDefaultExcludes>true</useDefaultExcludes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/src/main/docker</directory>
-            <includes>
-                <include>Dockerfile</include>
-                <include>startService.sh</include>
-            </includes>
-            <outputDirectory>./</outputDirectory>
-            <useDefaultExcludes>true</useDefaultExcludes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../application/src/main/resources</directory>
-            <outputDirectory>src/main/resources</outputDirectory>
-            <useDefaultExcludes>true</useDefaultExcludes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../application/opt/app/onap/config</directory>
-            <outputDirectory>./config</outputDirectory>
-            <useDefaultExcludes>true</useDefaultExcludes>
-        </fileSet>
-        <fileSet>
-            <directory>${project.basedir}/../application/etc</directory>
-            <outputDirectory>./etc</outputDirectory>
+            <outputDirectory>/opt/app/onap/config</outputDirectory>
             <useDefaultExcludes>true</useDefaultExcludes>
         </fileSet>
     </fileSets>
