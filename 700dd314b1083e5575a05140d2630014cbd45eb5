@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "983fa7de_7032a32d",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 0,
+      "message": "Template Artifact , Resource AssignmentService creation is missing.",
+      "range": {
+        "startLine": 111,
+        "startChar": 3,
+        "endLine": 119,
+        "endChar": 4
+      },
+      "revId": "700dd314b1083e5575a05140d2630014cbd45eb5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}

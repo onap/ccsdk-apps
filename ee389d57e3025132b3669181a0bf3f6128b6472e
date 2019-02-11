@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "36f4752e_2ff9a140",
+        "filename": "ms/blueprintsprocessor/application/src/main/resources/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 1,
+      "message": "local user footprints",
+      "range": {
+        "startLine": 26,
+        "startChar": 40,
+        "endLine": 26,
+        "endChar": 80
+      },
+      "revId": "ee389d57e3025132b3669181a0bf3f6128b6472e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a655a3c9_b05cf079",
+        "filename": "ms/blueprintsprocessor/application/src/main/resources/application.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 1,
+      "message": "local user footprints",
+      "range": {
+        "startLine": 38,
+        "startChar": 61,
+        "endLine": 38,
+        "endChar": 79
+      },
+      "revId": "ee389d57e3025132b3669181a0bf3f6128b6472e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5b4c2925_b95b881f",
+        "filename": "ms/blueprintsprocessor/functions/python-executor/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/python/executor/ComponentJythonExecutor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 1,
+      "message": "I made mistake, This should go to PrepareRequest method and call Abstract.prepareRequest.",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 95,
+        "endChar": 62
+      },
+      "revId": "ee389d57e3025132b3669181a0bf3f6128b6472e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fae6a149_f8d51964",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 1,
+      "message": "Use ResourceAssignmentUtils.generateResourceDataForAssignments",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 104,
+        "endChar": 10
+      },
+      "revId": "ee389d57e3025132b3669181a0bf3f6128b6472e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7da7a0c4_4ca96c84",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 1,
+      "message": "We can use resolvedParamJsonContent as it is.",
+      "range": {
+        "startLine": 107,
+        "startChar": 88,
+        "endLine": 107,
+        "endChar": 134
+      },
+      "revId": "ee389d57e3025132b3669181a0bf3f6128b6472e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1257f368_6e34dc3e",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 1,
+      "message": "We can use resolvedParamJsonContent as it is.",
+      "range": {
+        "startLine": 109,
+        "startChar": 30,
+        "endLine": 109,
+        "endChar": 76
+      },
+      "revId": "ee389d57e3025132b3669181a0bf3f6128b6472e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "95df289a_ea407f89",
+        "filename": "ms/controllerblueprints/modules/blueprint-core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/service/BluePrintRuntimeService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-11T17:07:43Z",
+      "side": 1,
+      "message": "Workflows Inputs are different Service Template Inputs, So it has to accessed by  Dynamic Properties reference.",
+      "range": {
+        "startLine": 471,
+        "startChar": 6,
+        "endLine": 474,
+        "endChar": 37
+      },
+      "revId": "ee389d57e3025132b3669181a0bf3f6128b6472e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
