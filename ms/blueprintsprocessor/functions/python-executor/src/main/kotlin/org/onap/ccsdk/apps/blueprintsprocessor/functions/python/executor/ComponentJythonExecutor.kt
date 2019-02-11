@@ -42,7 +42,25 @@ open class ComponentJythonExecutor(private val pythonExecutorProperty: PythonExe
     @Autowired
     lateinit var applicationContext: ApplicationContext
 
-    fun populateJythonComponentInstance(executionServiceInput: ExecutionServiceInput) {
+    override fun prepareRequest(executionRequest: ExecutionServiceInput): ExecutionServiceInput {
+        val request = super.prepareRequest(executionRequest)
+        // Populate Component Instance
+        populateJythonComponentInstance()
+        return request
+    }
+
+    override fun process(executionRequest: ExecutionServiceInput) {
+        log.info("Processing : $operationInputs")
+        // Invoke Jython Component Script
+        componentFunction!!.process(executionServiceInput)
+
+    }
+
+    override fun recover(runtimeException: RuntimeException, executionRequest: ExecutionServiceInput) {
+        componentFunction!!.recover(runtimeException, executionRequest)
+    }
+
+    private fun populateJythonComponentInstance() {
         val bluePrintContext = bluePrintRuntimeService.bluePrintContext()
 
         val operationAssignment: OperationAssignment = bluePrintContext
@@ -80,24 +98,9 @@ open class ComponentJythonExecutor(private val pythonExecutorProperty: PythonExe
 
         componentFunction = PythonExecutorUtils.getPythonComponent(pythonExecutorProperty.executionPath,
                 pythonPath, content, pythonClassName, jythonInstances)
-    }
 
-
-    override fun process(executionServiceInput: ExecutionServiceInput) {
-
-        log.info("Processing : $operationInputs")
+        // Add blueprint runtime service to python instance
         checkNotNull(bluePrintRuntimeService) { "failed to get bluePrintRuntimeService" }
-
-        // Populate Component Instance
-        populateJythonComponentInstance(executionServiceInput)
-
-        // Invoke Jython Component Script
-        componentFunction!!.process(executionServiceInput)
-
+        componentFunction?.bluePrintRuntimeService = bluePrintRuntimeService;
     }
-
-    override fun recover(runtimeException: RuntimeException, executionRequest: ExecutionServiceInput) {
-        componentFunction!!.recover(runtimeException, executionRequest)
-    }
-
 }
