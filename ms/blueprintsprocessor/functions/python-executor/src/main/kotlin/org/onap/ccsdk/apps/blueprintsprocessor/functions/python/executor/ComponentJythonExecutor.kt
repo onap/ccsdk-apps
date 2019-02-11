@@ -26,6 +26,7 @@ import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.checkNotEmptyOrThrow
 import org.onap.ccsdk.apps.controllerblueprints.core.data.OperationAssignment
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Scope
@@ -40,11 +41,31 @@ open class ComponentJythonExecutor(private var applicationContext: ApplicationCo
 
     private var componentFunction: AbstractComponentFunction? = null
 
-    fun populateJythonComponentInstance(executionServiceInput: ExecutionServiceInput) {
+    override fun prepareRequest(executionRequest: ExecutionServiceInput): ExecutionServiceInput {
+        val request = super.prepareRequest(executionRequest)
+        // Populate Component Instance
+        populateJythonComponentInstance()
+        return request
+    }
+
+    override fun process(executionRequest: ExecutionServiceInput) {
+        log.info("Processing : $operationInputs")
+        // Invoke Jython Component Script
+        componentFunction!!.process(executionServiceInput)
+
+    }
+
+    override fun recover(runtimeException: RuntimeException, executionRequest: ExecutionServiceInput) {
+        componentFunction!!.recover(runtimeException, executionRequest)
+    }
+
+    private fun populateJythonComponentInstance() {
         val bluePrintContext = bluePrintRuntimeService.bluePrintContext()
 
         val operationAssignment: OperationAssignment = bluePrintContext
                 .nodeTemplateInterfaceOperation(nodeTemplateName, interfaceName, operationName)
+
+        val blueprintBasePath: String = bluePrintContext.rootPath
 
         val artifactName: String = operationAssignment.implementation?.primary
                 ?: throw BluePrintProcessorException("missing primary field to get artifact name for node template ($nodeTemplateName)")
@@ -73,26 +94,15 @@ open class ComponentJythonExecutor(private var applicationContext: ApplicationCo
             jythonContextInstance[instance] = value
         }
 
+        // Setup componentFunction
         componentFunction = blueprintPythonService.jythonInstance(bluePrintContext, pythonClassName,
                 content!!, jythonContextInstance)
+        componentFunction?.bluePrintRuntimeService = bluePrintRuntimeService
+        componentFunction?.executionServiceInput = executionServiceInput
+        componentFunction?.stepName = stepName
+        componentFunction?.interfaceName = interfaceName
+        componentFunction?.operationName = operationName
+        componentFunction?.processId = processId
+        componentFunction?.workflowName = workflowName
     }
-
-
-    override fun process(executionServiceInput: ExecutionServiceInput) {
-
-        log.info("Processing : $operationInputs")
-        checkNotNull(bluePrintRuntimeService) { "failed to get bluePrintRuntimeService" }
-
-        // Populate Component Instance
-        populateJythonComponentInstance(executionServiceInput)
-
-        // Invoke Jython Component Script
-        componentFunction!!.process(executionServiceInput)
-
-    }
-
-    override fun recover(runtimeException: RuntimeException, executionRequest: ExecutionServiceInput) {
-        componentFunction!!.recover(runtimeException, executionRequest)
-    }
-
 }
