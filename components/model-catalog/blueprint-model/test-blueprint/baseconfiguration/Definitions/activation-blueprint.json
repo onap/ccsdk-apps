@@ -182,7 +182,7 @@
       "activate-jython": {
         "type": "component-jython-executor",
         "interfaces": {
-          "JythonExecutorComponent": {
+          "ComponentJythonExecutor": {
             "operations": {
               "process": {
                 "implementation": {
