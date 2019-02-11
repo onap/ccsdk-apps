@@ -68,7 +68,7 @@ class ComponentNetconfExecutorTest {
 
         val stepMetaData: MutableMap<String, JsonNode> = hashMapOf()
         stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_NODE_TEMPLATE, "activate-jython")
-        stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_INTERFACE, "JythonExecutorComponent")
+        stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_INTERFACE, "ComponentJythonExecutor")
         stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_OPERATION, "process")
         // Set Step Inputs in Blueprint Runtime Service
         bluePrintRuntimeService.put("activate-jython-step-inputs", stepMetaData.asJsonNode())

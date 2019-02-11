@@ -42,22 +42,6 @@ class ComponentJythonExecutorTest {
 
     @Test
     fun testPythonComponentInjection() {
-        /*
-        val executionServiceInput = ExecutionServiceInput()
-        executionServiceInput.payload = JsonNodeFactory.instance.objectNode()
-
-        val commonHeader = CommonHeader()
-        commonHeader.requestId = "1234"
-        executionServiceInput.commonHeader = commonHeader
-
-        val actionIdentifiers = ActionIdentifiers()
-        actionIdentifiers.blueprintName = "baseconfiguration"
-        actionIdentifiers.blueprintVersion = "1.0.0"
-        actionIdentifiers.actionName = "activate"
-        executionServiceInput.actionIdentifiers = actionIdentifiers
-
-        */
-
         val executionServiceInput = JacksonUtils.readValueFromClassPathFile("payload/requests/sample-activate-request.json",
                 ExecutionServiceInput::class.java)!!
 
@@ -66,7 +50,7 @@ class ComponentJythonExecutorTest {
 
         val stepMetaData: MutableMap<String, JsonNode> = hashMapOf()
         stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_NODE_TEMPLATE, "activate-jython")
-        stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_INTERFACE, "JythonExecutorComponent")
+        stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_INTERFACE, "ComponentJythonExecutor")
         stepMetaData.putJsonElement(BluePrintConstants.PROPERTY_CURRENT_OPERATION, "process")
         bluePrintRuntimeService.put("activate-jython-step-inputs", stepMetaData.asJsonNode())
 
