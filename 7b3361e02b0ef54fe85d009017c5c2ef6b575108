@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d032548a_b76a1093",
+        "filename": "ms/blueprintsprocessor/functions/python-executor/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/python/executor/ComponentJythonExecutor.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-11T14:27:48Z",
+      "side": 1,
+      "message": "Brinda, I add this so Python as the runtime service available.",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 77
+      },
+      "revId": "7b3361e02b0ef54fe85d009017c5c2ef6b575108",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be9b5ca8_fc620490",
+        "filename": "ms/controllerblueprints/modules/blueprint-core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/service/BluePrintRuntimeService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-11T14:27:48Z",
+      "side": 1,
+      "message": "Brinda, I changed this so all properties get put in the store so when resolution through input occur, values get found.",
+      "range": {
+        "startLine": 471,
+        "startChar": 0,
+        "endLine": 474,
+        "endChar": 37
+      },
+      "revId": "7b3361e02b0ef54fe85d009017c5c2ef6b575108",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
