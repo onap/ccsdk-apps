@@ -85,7 +85,7 @@ class BluePrintRuntimeServiceTest {
 
         val inContext: MutableMap<String, JsonNode> = bluePrintRuntimeService
                 .resolveNodeTemplateInterfaceOperationInputs("resource-assignment",
-                        "ResourceAssignmentComponent", "process")
+                        "ResourceResolutionComponent", "process")
 
         assertNotNull(inContext, "Failed to populate interface input property values")
         assertEquals(inContext["action-name"], JacksonUtils.jsonNodeFromObject("sample-action"), "Failed to populate parameter action-name")
@@ -101,14 +101,14 @@ class BluePrintRuntimeServiceTest {
         bluePrintRuntimeService.setNodeTemplateAttributeValue("resource-assignment", "assignment-params", NullNode.getInstance())
 
         bluePrintRuntimeService.resolveNodeTemplateInterfaceOperationOutputs("resource-assignment",
-                "ResourceAssignmentComponent", "process")
+                "ResourceResolutionComponent", "process")
 
         val outputStatus = bluePrintRuntimeService.getNodeTemplateOperationOutputValue("resource-assignment",
-                "ResourceAssignmentComponent", "process", "status")
+                "ResourceResolutionComponent", "process", "status")
         assertEquals("success".asJsonPrimitive(), outputStatus, "Failed to get operation property status")
 
         val outputParams = bluePrintRuntimeService.getNodeTemplateOperationOutputValue("resource-assignment",
-                "ResourceAssignmentComponent", "process", "resource-assignment-params")
+                "ResourceResolutionComponent", "process", "resource-assignment-params")
         assertEquals(NullNode.getInstance(), outputParams, "Failed to get operation property resource-assignment-params")
 
     }
@@ -132,7 +132,7 @@ class BluePrintRuntimeServiceTest {
     }
 
     private fun getBluePrintRuntimeService(): BluePrintRuntimeService<MutableMap<String, JsonNode>> {
-        val blueprintBasePath: String = ("./../../../../components/model-catalog/blueprint-model/test-blueprint/baseconfiguration")
+        val blueprintBasePath: String = ("/Users/adetalhouet/onap/master/ccsdk-apps/components/model-catalog/blueprint-model/test-blueprint/baseconfiguration")
         val blueprintRuntime = BluePrintMetadataUtils.getBluePrintRuntime("1234", blueprintBasePath)
         val checkBasePath = blueprintRuntime.get(BluePrintConstants.PROPERTY_BLUEPRINT_BASE_PATH)
 
