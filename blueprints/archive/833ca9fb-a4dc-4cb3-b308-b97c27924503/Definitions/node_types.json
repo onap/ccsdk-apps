@@ -1,0 +1,140 @@
+{
+  "node_types": {
+    "dg-activate": {
+      "description": "This is Generic Directed Graph Type",
+      "version": "1.0.0",
+      "properties": {
+        "content": {
+          "required": false,
+          "type": "string"
+        },
+        "process-name": {
+          "required": false,
+          "type": "string"
+        },
+        "version": {
+          "required": false,
+          "type": "string",
+          "default": "LATEST"
+        }
+      },
+      "derived_from": "tosca.nodes.DG"
+    },
+    "tosca.nodes.Component": {
+      "description": "This is Resource Assignment Component API",
+      "version": "1.0.0",
+      "derived_from": "tosca.nodes.Root"
+    },
+    "tosca.nodes.DG": {
+      "description": "This is Directed Graph Node Type",
+      "version": "1.0.0",
+      "derived_from": "tosca.nodes.Root"
+    },
+    "tosca.nodes.component.Jython": {
+      "description": "This is Resource Assignment Jython Component API",
+      "version": "1.0.0",
+      "derived_from": "tosca.nodes.Root"
+    },
+    "component-resource-resolution": {
+      "description": "This is Resource Assignment Component API",
+      "version": "1.0.0",
+      "properties": {
+        "request-id": {
+          "description": "Request Id used to store the generated configuration, in the database along with the template-name",
+          "required": true,
+          "type": "string"
+        }
+      },
+      "interfaces": {
+        "ResourceAssignmentComponent": {
+          "operations": {
+            "process": {
+              "inputs": {
+                "action-name": {
+                  "description": "Recipe Name to get from Database, Either (message & mask-info ) or ( resource-id & resource-type & action-name & template-name ) should be present. Message will be given higest priority",
+                  "required": false,
+                  "type": "string"
+                },
+                "resource-type": {
+                  "required": false,
+                  "type": "string"
+                },
+                "request-id": {
+                  "description": "Request Id used to store the generated configuration, in the database along with the template-name",
+                  "required": true,
+                  "type": "string"
+                },
+                "resource-id": {
+                  "description": "Id used to pull the data content from the data base. Either template-data or resource-id should be present",
+                  "required": true,
+                  "type": "string"
+                },
+                "template-content": {
+                  "description": "Id used to pull the data content from the data base. Either template-data or resource-id should be present",
+                  "required": true,
+                  "type": "string"
+                },
+                "mapping-content": {
+                  "description": "Id used to pull the data content from the data base. Either template-data or resource-id should be present",
+                  "required": true,
+                  "type": "string"
+                }
+              },
+              "outputs": {
+                "resource-assignment-params": {
+                  "required": true,
+                  "type": "string"
+                },
+                "status": {
+                  "required": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "derived_from": "tosca.nodes.Component"
+    },
+    "component-jython-executor": {
+      "description": "This is Jython Execution Component.",
+      "version": "1.0.0",
+      "capabilities": {
+        "component-node": {
+          "type": "tosca.capabilities.Node"
+        }
+      },
+      "interfaces": {
+        "JythonExecutorComponent": {
+          "operations": {
+            "process": {
+              "inputs": {
+                "instance-dependencies": {
+                  "required": true,
+                  "description": "Instance Names to Inject to Jython Script.",
+                  "type": "list",
+                  "entry_schema": {
+                    "type": "string"
+                  }
+                }
+              },
+              "outputs": {
+                "response-data": {
+                  "description": "Execution Response Data in JSON format.",
+                  "required": false,
+                  "type": "string"
+                },
+                "status": {
+                  "description": "Status of the Component Execution ( success or failure )",
+                  "required": true,
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "derived_from": "tosca.nodes.component.Jython"
+    }
+  }
+}
