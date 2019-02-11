@@ -468,13 +468,10 @@ open class DefaultBluePrintRuntimeService(private var id: String, private var bl
         // Load Dynamic data Types
         val workflowDynamicInputs: JsonNode? = jsonNode.get(dynamicInputPropertiesName)
 
-        workflowDynamicInputs?.let {
-            bluePrintContext.dataTypeByName("dt-$dynamicInputPropertiesName")?.properties?.forEach { propertyName, property ->
-                val valueNode: JsonNode = workflowDynamicInputs.at(BluePrintConstants.PATH_DIVIDER + propertyName)
-                        ?: NullNode.getInstance()
-                setInputValue(propertyName, property, valueNode)
-
-            }
+        workflowDynamicInputs?.fields()?.forEach { property ->
+            val path = StringBuilder(BluePrintConstants.PATH_INPUTS)
+                    .append(BluePrintConstants.PATH_DIVIDER).append(property.key).toString()
+            put(path, property.value)
         }
     }
 

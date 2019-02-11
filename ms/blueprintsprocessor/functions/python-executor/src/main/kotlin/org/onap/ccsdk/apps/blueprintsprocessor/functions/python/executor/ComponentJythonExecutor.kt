@@ -80,6 +80,9 @@ open class ComponentJythonExecutor(private val pythonExecutorProperty: PythonExe
 
         componentFunction = PythonExecutorUtils.getPythonComponent(pythonExecutorProperty.executionPath,
                 pythonPath, content, pythonClassName, jythonInstances)
+
+        // Add blueprint runtime service to python instance
+        componentFunction?.bluePrintRuntimeService = bluePrintRuntimeService;
     }
 
 
