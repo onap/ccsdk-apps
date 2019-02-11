@@ -52,8 +52,8 @@ class BluePrintEnhancerServiceImplTest {
     @Before
     fun init() {
         runBlocking {
-            modelTypeLoadService!!.loadPathModelType("./../../../../components/model-catalog/definition-type/starter-type")
-            resourceDictionaryLoadService!!.loadPathResourceDictionary("./../../../../components/model-catalog/resource-dictionary/starter-dictionary")
+            modelTypeLoadService!!.loadPathModelType("/Users/adetalhouet/onap/master/ccsdk-apps/components/model-catalog/definition-type/starter-type")
+            resourceDictionaryLoadService!!.loadPathResourceDictionary("/Users/adetalhouet/onap/master/ccsdk-apps/components/model-catalog/resource-dictionary/starter-dictionary")
         }
     }
 
@@ -61,9 +61,9 @@ class BluePrintEnhancerServiceImplTest {
     @Throws(Exception::class)
     fun testEnhancementAndValidation() {
 
-        val basePath = "./../../../../components/model-catalog/blueprint-model/test-blueprint/baseconfiguration"
+        val basePath = "/Users/adetalhouet/onap/master/ccsdk-apps/ms/blueprintsprocessor/modules/inbounds/selfservice-api/src/test/resources/test-cba"
 
-        val targetPath = Paths.get("target", "bp-enhance").toUri().path
+        val targetPath = Paths.get("/Users/adetalhouet/onap/master/ccsdk-apps/target", "bp-enhance").toUri().path
 
         val bluePrintContext = bluePrintEnhancerService!!.enhance(basePath, targetPath)
         Assert.assertNotNull("failed to get blueprintContext ", bluePrintContext)
