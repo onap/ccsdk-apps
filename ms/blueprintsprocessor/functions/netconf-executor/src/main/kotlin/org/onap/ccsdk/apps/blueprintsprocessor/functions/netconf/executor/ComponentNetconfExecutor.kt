@@ -17,19 +17,21 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor
 
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.BlueprintPythonService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.interfaces.DeviceInfo
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.BlueprintPythonService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.ComponentJythonExecutor
-import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.PythonExecutorProperty
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Component
 
 @Component("component-netconf-executor")
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-open class ComponentNetconfExecutor(private val netconfExecutorConfiguration: NetconfExecutorConfiguration,
-                                    private val pythonExecutorProperty: PythonExecutorProperty)
-    : ComponentJythonExecutor(pythonExecutorProperty) {
+open class ComponentNetconfExecutor(private val applicationContext: ApplicationContext, private val netconfExecutorConfiguration: NetconfExecutorConfiguration,
+                                    private val blueprintPythonService: BlueprintPythonService)
+    : ComponentJythonExecutor(applicationContext, blueprintPythonService) {
 
     private val log = LoggerFactory.getLogger(ComponentNetconfExecutor::class.java)
     lateinit var deviceInfo: DeviceInfo
