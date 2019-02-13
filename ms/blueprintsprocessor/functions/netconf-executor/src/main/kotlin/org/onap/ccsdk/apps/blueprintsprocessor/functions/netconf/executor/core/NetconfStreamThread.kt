@@ -25,17 +25,21 @@ import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.utils.
 import org.slf4j.LoggerFactory
 import java.io.*
 import java.nio.charset.StandardCharsets
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
 
-class NetconfStreamThread(private var inputStream: InputStream, private var out : OutputStream,
+class NetconfStreamThread(private var inputStream: InputStream, private var out: OutputStream,
                           private val netconfDeviceInfo: DeviceInfo, private val netconfSessionDelegate: NetconfSessionDelegate,
-                          private var replies :MutableMap<String, CompletableFuture<String>> ) : Thread() {
+                          private var replies: MutableMap<String, CompletableFuture<String>>) : Thread() {
 
     val log = LoggerFactory.getLogger(NetconfStreamThread::class.java)
-    lateinit var state : NetconfMessageState
-   // val outputStream = OutputStreamWriter(out, StandardCharsets.UTF_8)
-   private var outputStream: OutputStreamWriter? = null
+
+    var state = NetconfMessageState.NO_MATCHING_PATTERN
+
+    init {
+        start()
+    }
 
     override fun run() {
         var bufferReader: BufferedReader? = null
@@ -47,14 +51,14 @@ class NetconfStreamThread(private var inputStream: InputStream, private var out 
             var socketClosed = false
             val deviceReplyBuilder = StringBuilder()
             while (!socketClosed) {
-                val cInt = bufferReader!!.read()
+                val cInt = bufferReader.read()
                 if (cInt == -1) {
-                    log.debug("Netconf device {} sent error char in session will need to be reopend",
+                    log.info("Netconf device {} sent error char in session will need to be reopend",
                             netconfDeviceInfo)
-                    NetconfDeviceOutputEvent(NetconfDeviceOutputEvent.Type.SESSION_CLOSED, null!!, null!!,
-                            null !!, netconfDeviceInfo)
+                    NetconfDeviceOutputEvent(NetconfDeviceOutputEvent.Type.SESSION_CLOSED, "", "",
+                            Optional.empty(), netconfDeviceInfo)
                     socketClosed = true
-                    log.debug("Netconf device {} ERROR cInt == -1 socketClosed = true", netconfDeviceInfo)
+                    log.info("Netconf device {} ERROR cInt == -1 socketClosed = true", netconfDeviceInfo)
                 }
                 val c = cInt.toChar()
                 state = state.evaluateChar(c)
@@ -196,7 +200,7 @@ class NetconfStreamThread(private var inputStream: InputStream, private var out 
 
     private fun close(deviceReply: String) {
         log.debug("Netconf device {} socketClosed = true DEVICE_UNREGISTERED {}", netconfDeviceInfo, deviceReply)
-        NetconfDeviceOutputEvent(NetconfDeviceOutputEvent.Type.DEVICE_UNREGISTERED, null!!, null!!, null!!,
+        NetconfDeviceOutputEvent(NetconfDeviceOutputEvent.Type.DEVICE_UNREGISTERED, "", "", Optional.empty(),
                 netconfDeviceInfo)
         this.interrupt()
     }
@@ -206,9 +210,11 @@ class NetconfStreamThread(private var inputStream: InputStream, private var out 
                 || deviceReply.contains(RpcConstants.HELLO)) {
             log.info("From Netconf Device: {} \n for Message-ID: {} \n Device-Reply: \n {} \n ", netconfDeviceInfo,
                     RpcMessageUtils.getMsgId(deviceReply), deviceReply)
+
             val event = NetconfDeviceOutputEvent(NetconfDeviceOutputEvent.Type.DEVICE_REPLY,
-                    null!!, deviceReply, RpcMessageUtils.getMsgId(deviceReply), netconfDeviceInfo)
+                    "", deviceReply, RpcMessageUtils.getMsgId(deviceReply), netconfDeviceInfo)
             netconfSessionDelegate.notify(event)
+
         } else {
             log.debug("Error Reply: \n {} \n from Netconf Device: {}", deviceReply, netconfDeviceInfo)
         }
@@ -225,12 +231,11 @@ class NetconfStreamThread(private var inputStream: InputStream, private var out 
         log.info("Sending message: \n {} \n to NETCONF Device: {}", request, netconfDeviceInfo)
         val cf = CompletableFuture<String>()
         replies.put(messageId, cf)
-       // outputStream = OutputStreamWriter(out, StandardCharsets.UTF_8)
-        synchronized(OutputStreamWriter(out, StandardCharsets.UTF_8)) {
+        val outputStream = OutputStreamWriter(out, StandardCharsets.UTF_8)
+        synchronized(outputStream) {
             try {
-
-                OutputStreamWriter(out, StandardCharsets.UTF_8).write(request)
-                OutputStreamWriter(out, StandardCharsets.UTF_8).flush()
+                outputStream.write(request)
+                outputStream.flush()
             } catch (e: IOException) {
                 log.error("Writing to NETCONF Device {} failed", netconfDeviceInfo, e)
                 cf.completeExceptionally(e)

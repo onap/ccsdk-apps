@@ -31,9 +31,6 @@ import org.springframework.stereotype.Service
 import java.util.*
 import java.util.concurrent.TimeUnit
 
-
-@Service("netconf-rpc-service")
-@Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 class NetconfRpcService : NetconfRpcClientService {
 
     val log = LoggerFactory.getLogger(NetconfRpcService::class.java)
@@ -48,7 +45,6 @@ class NetconfRpcService : NetconfRpcClientService {
 
     override fun connect(deviceInfo: DeviceInfo): NetconfSession {
         try {
-
             this.deviceInfo = deviceInfo
 
             log.info("Connecting Netconf Device .....")
@@ -57,11 +53,11 @@ class NetconfRpcService : NetconfRpcClientService {
             return this.netconfSession
         } catch (e: NetconfException) {
             publishMessage(String.format("Netconf Device Connection Failed, %s", e.message))
-            throw NetconfException("Netconf Device Connection Failed,$deviceInfo",e)
+            throw NetconfException("Netconf Device Connection Failed, $deviceInfo", e)
         }
     }
 
-    override  fun disconnect() {
+    override fun disconnect() {
         netconfSession.close()
     }
 
@@ -72,7 +68,7 @@ class NetconfRpcService : NetconfRpcClientService {
 
     override fun getConfig(messageId: String, messageContent: String, configTarget: String, messageTimeout: Int): DeviceResponse {
         var output = DeviceResponse()
-        log.info("in the NetconfRpcService "+messageId)
+        log.info("in the NetconfRpcService " + messageId)
         try {
             val message = RpcMessageUtils.getConfig(messageId, configTarget, messageContent)
             output = asyncRpc(message, messageId, messageTimeout)
@@ -137,16 +133,16 @@ class NetconfRpcService : NetconfRpcClientService {
         } finally {
             // Update the Apply Config status
             if (CollectionUtils.isNotEmpty(applyConfigIds)) {
-                val status = if (NetconfAdaptorConstant.STATUS_SUCCESS.equals(output.status,ignoreCase = true))
+                val status = if (NetconfAdaptorConstant.STATUS_SUCCESS.equals(output.status, ignoreCase = true))
                     NetconfAdaptorConstant.CONFIG_STATUS_SUCCESS
                 else
                     NetconfAdaptorConstant.CONFIG_STATUS_FAILED
 
-                applyConfigIds.forEach{
+                applyConfigIds.forEach {
                     recordedApplyConfigIds.add(it)
                     try {
                         //TODO persistance logic
-                       // configPersistService.updateApplyConfig(applyConfigId, status)
+                        // configPersistService.updateApplyConfig(applyConfigId, status)
                     } catch (e: Exception) {
                         log.error("failed to update apply config ($it) status ($status)")
                     }
@@ -161,7 +157,7 @@ class NetconfRpcService : NetconfRpcClientService {
         }
 
         // If commit failed apply discard changes
-        if (discardChanges && NetconfAdaptorConstant.STATUS_FAILURE.equals(output.status,ignoreCase = true)) {
+        if (discardChanges && NetconfAdaptorConstant.STATUS_FAILURE.equals(output.status, ignoreCase = true)) {
             try {
                 val discardChangesConfigMessageId = "$messageId-discard-changes"
                 discardConfig(discardChangesConfigMessageId, NetconfAdaptorConstant.DEFAULT_MESSAGE_TIME_OUT)
@@ -173,6 +169,7 @@ class NetconfRpcService : NetconfRpcClientService {
 
         return output
     }
+
     override fun discardConfig(messageId: String, messageTimeout: Int): DeviceResponse {
         var output = DeviceResponse()
         try {
@@ -203,7 +200,7 @@ class NetconfRpcService : NetconfRpcClientService {
 
     override fun asyncRpc(request: String, msgId: String, timeOut: Int): DeviceResponse {
         val response = DeviceResponse()
-                try {
+        try {
             recordMessage("RPC request $request")
             response.requestMessage = request
             publishMessage("Netconf RPC InProgress")
@@ -223,11 +220,11 @@ class NetconfRpcService : NetconfRpcClientService {
             recordMessage(String.format("RPC Response status (%s) reply (%s), error message (%s)", response.status,
                     response.responseMessage, response.errorMessage))
 
-              when {
-                   NetconfAdaptorConstant.STATUS_FAILURE.equals(response.status,ignoreCase = true) -> publishMessage(String.format("Netconf RPC Failed for messgaeID (%s) with (%s)", msgId,
-                           response.errorMessage))
-                   else -> publishMessage(String.format("Netconf RPC Success for messgaeID (%s)", msgId))
-               }
+            when {
+                NetconfAdaptorConstant.STATUS_FAILURE.equals(response.status, ignoreCase = true) -> publishMessage(String.format("Netconf RPC Failed for messgaeID (%s) with (%s)", msgId,
+                        response.errorMessage))
+                else -> publishMessage(String.format("Netconf RPC Success for messgaeID (%s)", msgId))
+            }
         }
 
         return response
@@ -241,11 +238,11 @@ class NetconfRpcService : NetconfRpcClientService {
                     editDefaultOperation, messageContent)
             editConfigDeviceResponse.requestMessage = editMessage
 
-           /* val applyConfigId = configPersistService.saveApplyConfig(netconfExecutionRequest.getRequestId(),
-                    netconfDeviceInfo.getName(), netconfDeviceInfo.getDeviceId(), ConfigModelConstant.PROTOCOL_NETCONF,
-                    configTarget, editMessage)
+            /* val applyConfigId = configPersistService.saveApplyConfig(netconfExecutionRequest.getRequestId(),
+                     netconfDeviceInfo.getUsername(), netconfDeviceInfo.getDeviceId(), ConfigModelConstant.PROTOCOL_NETCONF,
+                     configTarget, editMessage)
 
-            applyConfigIds.add(applyConfigId)  */
+             applyConfigIds.add(applyConfigId)  */
 
             // Reconnect Client Session
             if (reConnect) {
@@ -261,7 +258,7 @@ class NetconfRpcService : NetconfRpcClientService {
                 val lockMessageId = "$messageId-lock"
                 val lockDeviceResponse = lock(lockMessageId, configTarget, DEFAULT_MESSAGE_TIME_OUT)
                 editConfigDeviceResponse.addSubDeviceResponse(lockMessageId, lockDeviceResponse)
-                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(lockDeviceResponse.status,ignoreCase = true)) {
+                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(lockDeviceResponse.status, ignoreCase = true)) {
                     throw NetconfException(lockDeviceResponse.errorMessage!!)
                 }
             }
@@ -271,7 +268,7 @@ class NetconfRpcService : NetconfRpcClientService {
                 val deleteConfigDeviceResponse = deleteConfig(deleteConfigMessageId,
                         NetconfAdaptorConstant.CONFIG_TARGET_CANDIDATE, DEFAULT_MESSAGE_TIME_OUT)
                 editConfigDeviceResponse.addSubDeviceResponse(deleteConfigMessageId, deleteConfigDeviceResponse)
-                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(deleteConfigDeviceResponse.status,ignoreCase = true)) {
+                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(deleteConfigDeviceResponse.status, ignoreCase = true)) {
                     throw NetconfException(deleteConfigDeviceResponse.errorMessage!!)
                 }
             }
@@ -280,13 +277,13 @@ class NetconfRpcService : NetconfRpcClientService {
                 val discardConfigMessageId = "$messageId-discard"
                 val discardConfigDeviceResponse = discardConfig(discardConfigMessageId, DEFAULT_MESSAGE_TIME_OUT)
                 editConfigDeviceResponse.addSubDeviceResponse(discardConfigMessageId, discardConfigDeviceResponse)
-                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(discardConfigDeviceResponse.status,ignoreCase = true)) {
+                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(discardConfigDeviceResponse.status, ignoreCase = true)) {
                     throw NetconfException(discardConfigDeviceResponse.errorMessage!!)
                 }
             }
 
             editConfigDeviceResponse = asyncRpc(editMessage, messageId, messageTimeout)
-            if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(editConfigDeviceResponse.status,ignoreCase = true)) {
+            if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(editConfigDeviceResponse.status, ignoreCase = true)) {
                 throw NetconfException(editConfigDeviceResponse.errorMessage!!)
             }
 
@@ -295,7 +292,7 @@ class NetconfRpcService : NetconfRpcClientService {
                 val validateDeviceResponse = validate(validateMessageId,
                         NetconfAdaptorConstant.CONFIG_TARGET_CANDIDATE, DEFAULT_MESSAGE_TIME_OUT)
                 editConfigDeviceResponse.addSubDeviceResponse(validateMessageId, validateDeviceResponse)
-                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(validateDeviceResponse.status,ignoreCase = true)) {
+                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(validateDeviceResponse.status, ignoreCase = true)) {
                     throw NetconfException(validateDeviceResponse.errorMessage!!)
                 }
             }
@@ -308,7 +305,7 @@ class NetconfRpcService : NetconfRpcClientService {
                 val commitMessageId = "$messageId-commit"
                 val commitDeviceResponse = commit(commitMessageId, commitMessageId, discardChanges, DEFAULT_MESSAGE_TIME_OUT)
                 editConfigDeviceResponse.addSubDeviceResponse(commitMessageId, commitDeviceResponse)
-                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(commitDeviceResponse.status,ignoreCase = true)) {
+                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(commitDeviceResponse.status, ignoreCase = true)) {
                     throw NetconfException(commitDeviceResponse.errorMessage!!)
                 }
             }
@@ -333,7 +330,7 @@ class NetconfRpcService : NetconfRpcClientService {
                 val unlockMessageId = "$messageId-unlock"
                 val unlockDeviceResponse = unLock(unlockMessageId, configTarget, DEFAULT_MESSAGE_TIME_OUT)
                 editConfigDeviceResponse.addSubDeviceResponse(unlockMessageId, unlockDeviceResponse)
-                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(unlockDeviceResponse.status,ignoreCase = true)) {
+                if (!NetconfAdaptorConstant.STATUS_SUCCESS.equals(unlockDeviceResponse.status, ignoreCase = true)) {
                     editConfigDeviceResponse.status = NetconfAdaptorConstant.STATUS_FAILURE
                     editConfigDeviceResponse.errorMessage = unlockDeviceResponse.errorMessage
                 }

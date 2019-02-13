@@ -43,9 +43,9 @@ class NetconfExecutorConstants {
         const val INPUT_PARAM_RESOURCE_ID = "resource-id"
         const val INPUT_PARAM_RESERVATION_ID = "reservation-id"
         const val INPUT_PARAM_RESOURCE_TYPE = "resource-type"
-        const val INPUT_PARAM_ACTION_NAME = "action-name"
-        const val INPUT_PARAM_TEMPLATE_NAME = "template-name"
-        const val INPUT_PARAM_ASSIGNMENT_ACTION_NAME = "assignment-action-name"
+        const val INPUT_PARAM_ACTION_NAME = "action-username"
+        const val INPUT_PARAM_TEMPLATE_NAME = "template-username"
+        const val INPUT_PARAM_ASSIGNMENT_ACTION_NAME = "assignment-action-username"
 
         const val SCRIPT_OUTPUT_RESPONSE_DATA = "responseData"
         const val SCRIPT_OUTPUT_ERROR_MESSAGE = "errorMessage"

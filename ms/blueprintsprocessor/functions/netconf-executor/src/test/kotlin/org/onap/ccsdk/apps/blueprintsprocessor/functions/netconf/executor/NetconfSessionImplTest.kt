@@ -31,8 +31,8 @@ class NetconfSessionImplTest {
     @Before
     fun before() {
         deviceInfo = DeviceInfo().apply {
-            name = "name"
-            pass = "password"
+            username = "username"
+            password = "password"
             ipAddress = "localhost"
             port = 2224
             connectTimeoutSec = 10

@@ -18,11 +18,9 @@ package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.core
 
 import com.google.common.collect.ImmutableList
 import com.google.common.collect.ImmutableSet
-import org.apache.sshd.client.ClientBuilder
 import org.apache.sshd.client.SshClient
 import org.apache.sshd.client.channel.ClientChannel
 import org.apache.sshd.client.session.ClientSession
-import org.apache.sshd.client.simple.SimpleClient
 import org.apache.sshd.common.FactoryManager
 import org.apache.sshd.server.keyprovider.SimpleGeneratorHostKeyProvider
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.NetconfException
@@ -39,7 +37,7 @@ import java.util.concurrent.*
 import java.util.concurrent.atomic.AtomicInteger
 
 
-class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
+class NetconfSessionImpl(private val deviceInfo: DeviceInfo) : NetconfSession {
     val log = LoggerFactory.getLogger(NetconfSessionImpl::class.java)
     var connectTimeout: Long = 0
     var replyTimeout: Int = 0
@@ -48,7 +46,7 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
     var errorReplies: MutableList<String> = mutableListOf()
     var netconfCapabilities = ImmutableList.of("urn:ietf:params:netconf:base:1.0", "urn:ietf:params:netconf:base:1.1")
 
-   // var replies: MutableMap<String, CompletableFuture<String>> = mutableListOf<String,CompletableFuture<String>()>()
+    // var replies: MutableMap<String, CompletableFuture<String>> = mutableListOf<String,CompletableFuture<String>()>()
     var replies: MutableMap<String, CompletableFuture<String>> = ConcurrentHashMap()
     val deviceCapabilities = LinkedHashSet<String>()
 
@@ -62,7 +60,7 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
 
 
     init {
-          startConnection()
+        startConnection()
     }
 
     private fun startConnection() {
@@ -74,44 +72,40 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
         try {
             startClient()
         } catch (e: IOException) {
-            throw NetconfException("Failed to establish SSH with device ${deviceInfo.deviceId}",e)
-        } catch (e:Exception){
-            throw NetconfException("Failed to establish SSH with device $deviceInfo",e)
+            throw NetconfException("Failed to establish SSH with device ${deviceInfo}", e)
+        } catch (e: Exception) {
+            throw NetconfException("Failed to establish SSH with device $deviceInfo", e)
         }
 
     }
 
     private fun startClient() {
         log.info("in the startClient")
-        // client = SshClient.setUpDefaultClient().toInt()
         client = SshClient.setUpDefaultClient()
+        log.info("client {}>>", client)
+        client.properties.putIfAbsent(FactoryManager.IDLE_TIMEOUT, TimeUnit.SECONDS.toMillis(idleTimeout.toLong()))
+        client.properties.putIfAbsent(FactoryManager.NIO2_READ_TIMEOUT, TimeUnit.SECONDS.toMillis(idleTimeout + 15L))
+//        client.setKeyPairProvider(SimpleGeneratorHostKeyProvider())
 
-        client = ClientBuilder.builder().build() as SshClient
-        log.info("client {}>>",client)
-        client.getProperties().putIfAbsent(FactoryManager.IDLE_TIMEOUT, TimeUnit.SECONDS.toMillis(idleTimeout.toLong()))
-        client.getProperties().putIfAbsent(FactoryManager.NIO2_READ_TIMEOUT,
-                TimeUnit.SECONDS.toMillis(idleTimeout + 15L))
         client.start()
-        client.setKeyPairProvider(SimpleGeneratorHostKeyProvider())
-        log.info("client {}>>",client.isOpen)
+        log.info("client {}>>", client.isOpen)
         startSession()
     }
 
     private fun startSession() {
         log.info("in the startSession")
-        val connectFuture = client.connect(deviceInfo.name, deviceInfo.ipAddress, deviceInfo.port)
-                .verify(connectTimeout, TimeUnit.SECONDS)
-        log.info("connectFuture {}>>"+connectFuture)
+        val connectFuture = client.connect(deviceInfo.username, deviceInfo.ipAddress, deviceInfo.port).verify(connectTimeout, TimeUnit.SECONDS)
+        log.info("connectFuture {}>>$connectFuture")
         session = connectFuture.session
 
-        session.addPasswordIdentity(deviceInfo.pass)
+        session.addPasswordIdentity(deviceInfo.password)
         session.auth().verify(connectTimeout, TimeUnit.SECONDS)
 
         val event = session.waitFor(ImmutableSet.of(ClientSession.ClientSessionEvent.WAIT_AUTH,
                 ClientSession.ClientSessionEvent.CLOSED, ClientSession.ClientSessionEvent.AUTHED), 0)
 
         if (!event.contains(ClientSession.ClientSessionEvent.AUTHED)) {
-            log.debug("Session closed {} for event {}", session.isClosed(), event)
+            log.debug("Session closed {} for event {}", session.isClosed, event)
             throw NetconfException(String
                     .format("Failed to authenticate session with device (%s) check the user/pwd or key", deviceInfo))
         }
@@ -121,15 +115,15 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
     private fun openChannel() {
         log.info("in the open Channel")
         channel = session.createSubsystemChannel("netconf")
-        val channeuture = channel.open()
+        val channelFuture = channel.open()
 
-        if (channeuture!!.await(connectTimeout, TimeUnit.SECONDS) && channeuture.isOpened) {
-           val netconfSessionDelegate:NetconfSessionDelegate = NetconfSessionDelegateImpl()
-            streamHandler = NetconfStreamThread(channel.getInvertedOut(), channel.getInvertedIn(), deviceInfo,
+        if (channelFuture!!.await(connectTimeout, TimeUnit.SECONDS) && channelFuture.isOpened) {
+            val netconfSessionDelegate: NetconfSessionDelegate = NetconfSessionDelegateImpl()
+            streamHandler = NetconfStreamThread(channel.invertedOut, channel.invertedIn, deviceInfo,
                     netconfSessionDelegate, replies)
             sendHello()
         } else {
-            throw NetconfException(String.format("Failed to open channel with device (%s) $deviceInfo", deviceInfo))
+            throw NetconfException("Failed to open channel with device ${deviceInfo}")
         }
     }
 
@@ -152,9 +146,9 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
     }
 
 
-    override fun asyncRpc( request: String, msgId: String): CompletableFuture<String> {
+    override fun asyncRpc(request: String, msgId: String): CompletableFuture<String> {
         //return close(false);
-       var  request = RpcMessageUtils.formatRPCRequest(request, msgId, deviceCapabilities)
+        var request = RpcMessageUtils.formatRPCRequest(request, msgId, deviceCapabilities)
         /**
          * Checking Liveliness of the Session
          */
@@ -170,8 +164,9 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
     }
 
     override fun close(): Boolean {
-        return close(false);
+        return close(false)
     }
+
     @Throws(NetconfException::class)
     private fun close(force: Boolean): Boolean {
         val rpc = StringBuilder()
@@ -187,13 +182,12 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
     }
 
 
-
     override fun getSessionId(): String? {
-          return this.sessionID
+        return this.sessionID
     }
 
     override fun getDeviceCapabilitiesSet(): Set<String> {
-        return Collections.unmodifiableSet(deviceCapabilities);
+        return Collections.unmodifiableSet(deviceCapabilities)
     }
 
     fun setCapabilities(capabilities: ImmutableList<String>) {
@@ -203,15 +197,15 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
     override fun checkAndReestablish() {
         try {
             if (client.isClosed) {
-                log.debug("Trying to restart the whole SSH connection with {}", deviceInfo.deviceId)
+                log.info("Trying to restart the whole SSH connection with {}", deviceInfo)
                 replies.clear()
                 startConnection()
             } else if (session.isClosed) {
-                log.debug("Trying to restart the session with {}", deviceInfo.deviceId)
+                log.info("Trying to restart the session with {}", deviceInfo)
                 replies.clear()
                 startSession()
             } else if (channel.isClosed) {
-                log.debug("Trying to reopen the channel with {}", deviceInfo.deviceId)
+                log.info("Trying to reopen the channel with {}", deviceInfo)
                 replies.clear()
                 openChannel()
             } else {
@@ -225,10 +219,6 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
             throw NetconfException(String.format("Cannot re-open the connection with device (%s)", deviceInfo), e)
         }
 
-    }
-
-    override fun setCapabilities(capabilities: List<String>) {
-        super.setCapabilities(capabilities)
     }
 
     override fun getDeviceInfo(): DeviceInfo {
@@ -256,10 +246,10 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
             replies.remove(messageId) // Why here???
         } catch (e: InterruptedException) {
             Thread.currentThread().interrupt()
-            throw NetconfException("Interrupted waiting for reply for request$request",e)
+            throw NetconfException("Interrupted waiting for reply for request$request", e)
         } catch (e: TimeoutException) {
             throw NetconfException(
-                    "Timed out waiting for reply for request $request after $replyTimeout sec.",e)
+                    "Timed out waiting for reply for request $request after $replyTimeout sec.", e)
         } catch (e: ExecutionException) {
             log.warn("Closing session {} for {} due to unexpected Error", sessionID, deviceInfo, e)
             try {
@@ -276,17 +266,17 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
             replies.clear()
 
             throw NetconfException(
-                    "Closing session $sessionID for $deviceInfo for request $request",e)
+                    "Closing session $sessionID for $deviceInfo for request $request", e)
         }
 
-        log.debug("Response from NETCONF Device: \n {} \n", response)
+        log.info("Response from NETCONF Device: \n {} \n", response)
         return response.trim { it <= ' ' }
     }
 
     inner class NetconfSessionDelegateImpl : NetconfSessionDelegate {
         override fun notify(event: NetconfDeviceOutputEvent) {
             val messageId = event.getMessageID()
-            log.debug("messageID {}, waiting replies messageIDs {}", messageId, replies.keys)
+            log.info("messageID {}, waiting replies messageIDs {}", messageId, replies.keys)
             if (messageId.isNullOrBlank()) {
                 errorReplies.add(event.getMessagePayload().toString())
                 log.error("Device {} sent error reply {}", event.getDeviceInfo(), event.getMessagePayload())
@@ -296,4 +286,4 @@ class NetconfSessionImpl(private val deviceInfo: DeviceInfo ): NetconfSession  {
             completedReply?.complete(event.getMessagePayload())
         }
     }
-    }
+}

@@ -21,9 +21,9 @@ import com.fasterxml.jackson.annotation.JsonProperty
 
 class DeviceInfo {
     @get:JsonProperty("login-account")
-    var name: String? = null
+    var username: String? = null
     @get:JsonProperty("login-key")
-    var pass: String? = null
+    var password: String? = null
     @get:JsonProperty("target-ip-address")
     var ipAddress: String? = null
     @get:JsonProperty("port-number")
@@ -33,11 +33,13 @@ class DeviceInfo {
     @get:JsonProperty("source")
     var source: String? = null
     @get:JsonProperty("connection-time-out")
-    var connectTimeoutSec: Long = 30
+    var connectTimeoutSec: Long = 5
     @get:JsonIgnore
-    var replyTimeout: Int = 60
+    var replyTimeout: Int = 5
     @get:JsonIgnore
     var idleTimeout: Int = 45
-    @get:JsonIgnore
-    var deviceId: String = "$ipAddress:$port"
+
+    override fun toString(): String {
+        return "$ipAddress:$port"
+    }
 }
