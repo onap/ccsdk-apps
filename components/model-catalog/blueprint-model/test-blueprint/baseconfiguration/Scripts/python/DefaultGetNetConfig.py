@@ -1,7 +1,9 @@
-import  netconf_constant
-from netconfclient import NetconfClient
+import netconf_constant
 from java.lang import Exception
-from org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor import NetconfComponentFunction
+from netconfclient import NetconfClient
+from org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor import \
+    NetconfComponentFunction
+
 
 class DefaultGetNetConfig(NetconfComponentFunction):
 
@@ -9,12 +11,8 @@ class DefaultGetNetConfig(NetconfComponentFunction):
         try:
             log = globals()[netconf_constant.SERVICE_LOG]
             print(globals())
-            #requestId = globals()[netconf_constant.PARAM_REQUEST_ID]
             requestId = '1234'
             nc = NetconfClient(log, self)
-
-            # Create RPC Serivice
-            nc.createRPCServiceFromRequirement("netconf-connection")
 
             runningConfigTemplate = "runningconfig-template"
 
