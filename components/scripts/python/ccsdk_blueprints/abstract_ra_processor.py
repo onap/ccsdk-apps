@@ -3,7 +3,11 @@ from org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.proce
 
 class AbstractRAProcessor(ResourceAssignmentProcessor):
 
-    def process(self, execution_request):
+
+    def process(self, resource_assignment):
+
+        # find all the resource with w/ property constraint as JYTHON-COMPONENT
+
         print "Processing calling.."
         return None
 
