@@ -18,10 +18,10 @@ package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.api.DeviceInfo
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.core.NetconfRpcServiceImpl
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.core.NetconfSessionImpl
-import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.interfaces.DeviceInfo
-import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.utils.NetconfDeviceSimulator
-
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.mocks.NetconfDeviceSimulator
 
 class NetconfSessionImplTest {
 
@@ -35,7 +35,7 @@ class NetconfSessionImplTest {
             password = "password"
             ipAddress = "localhost"
             port = 2224
-            connectTimeoutSec = 10
+            connectTimeout = 10
         }
 
         device = NetconfDeviceSimulator(deviceInfo!!.port)
@@ -49,7 +49,7 @@ class NetconfSessionImplTest {
 
     @Throws(Exception::class)
     fun testNetconfSession() {
-        val netconfSession = NetconfSessionImpl(deviceInfo!!)
+        val netconfSession = NetconfSessionImpl(deviceInfo!!, NetconfRpcServiceImpl(DeviceInfo()))
 
         Assert.assertNotNull(netconfSession.getSessionId())
         Assert.assertEquals("localhost:2224", netconfSession.getDeviceInfo().toString())

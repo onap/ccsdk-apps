@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.interfaces
+package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.api
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
@@ -28,12 +28,10 @@ class DeviceInfo {
     var ipAddress: String? = null
     @get:JsonProperty("port-number")
     var port: Int = 0
-    @get:JsonIgnore
-    var key: String? = null
-    @get:JsonProperty("source")
-    var source: String? = null
     @get:JsonProperty("connection-time-out")
-    var connectTimeoutSec: Long = 5
+    var connectTimeout: Long = 5
+    @get:JsonIgnore
+    var source: String? = null
     @get:JsonIgnore
     var replyTimeout: Int = 5
     @get:JsonIgnore
