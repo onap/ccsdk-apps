@@ -59,7 +59,9 @@
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <image.name>onap/ccsdk-apps-ms-neng</image.name>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>    
+		<ccsdk.project.version>${project.version}</ccsdk.project.version>
+		<ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
     </properties>
 
     <profiles>
@@ -198,9 +200,9 @@
                                         <cleanup>try</cleanup>
                                         <dockerFileDir>${basedir}/target/docker-stage</dockerFileDir>
                                         <tags>
-                                            <tag>${project.version}</tag>
-                                            <tag>${project.docker.latesttag.version}</tag>
-                                            <tag>${project.version}-STAGING-${maven.build.timestamp}</tag>
+											<tag>${project.docker.latestminortag.version}</tag>
+											<tag>${project.docker.latestfulltag.version}</tag>
+											<tag>${project.docker.latesttagtimestamp.version}</tag>
                                         </tags>
                                     </build>
                                 </image>
@@ -381,21 +383,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>
-                                println project.properties['ccsdk.project.version'];
-                                def versionArray;
-                                if (project.properties['ccsdk.project.version'] != null) {
-                                    versionArray = project.properties['ccsdk.project.version'].split('\\.');
-                                }
-
-                                if (project.properties['ccsdk.project.version'].endsWith("-SNAPSHOT")) {
-                                    project.properties['project.docker.latesttag.version'] = versionArray[0] + '.' + versionArray[1] + "-STAGING-latest";
-                                } else {
-                                    project.properties['project.docker.latesttag.version'] = versionArray[0] + '.' + versionArray[1] + "-STAGING-latest";
-                                }
-
-                                println 'New Tag for docker:' + project.properties['project.docker.latesttag.version'];
-                            </source>
+                            <source>${basedir}/../../TagVersion.groovy</source>
                         </configuration>
                     </execution>
                 </executions>
