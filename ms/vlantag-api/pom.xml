@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.onap.ccsdk.apps.ms.vlantagapi</groupId>
@@ -34,13 +36,14 @@
         <docker.push.phase>deploy</docker.push.phase>
         <docker.verbose>true</docker.verbose>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
+        <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
     </properties>
 
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.2.1-SNAPSHOT</version>
-        <relativePath/>
+        <relativePath />
     </parent>
 
 
@@ -116,22 +119,7 @@
                             <goal>execute</goal>
                         </goals>
                         <configuration>
-                            <source>
-                                println project.properties['ccsdk.project.version'];
-                                def versionArray;
-                                if (project.properties['ccsdk.project.version'] != null ) {
-                                    versionArray = project.properties['ccsdk.project.version'].split('\\.');
-                                }
-
-                                if (project.properties['ccsdk.project.version'].endsWith("-SNAPSHOT"))
-                                {
-                                    project.properties['project.docker.latesttag.version']=versionArray[0] + '.' + versionArray[1] + "-STAGING-latest";
-                                } else {
-                                    project.properties['project.docker.latesttag.version']=versionArray[0]+'.' + versionArray[1]+"-STAGING-latest";
-                                }
-
-                                println 'New Tag for docker:' + project.properties['project.docker.latesttag.version'];
-                            </source>
+                            <source>${basedir}/../../TagVersion.groovy</source>
                         </configuration>
                     </execution>
                 </executions>
@@ -152,7 +140,7 @@
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>0.7.5.201505241946</version>
                 <executions>
-                    <!-- Prepares the property pointing to the JaCoCo runtime agent which
+                    <!-- Prepares the property pointing to the JaCoCo runtime agent which 
                         is passed as VM argument when Maven the Surefire plugin is executed. -->
                     <execution>
                         <id>pre-unit-test</id>
@@ -165,7 +153,7 @@
                             <propertyName>surefireArgLine</propertyName>
                         </configuration>
                     </execution>
-                    <!-- Ensures that the code coverage report for unit tests is created
+                    <!-- Ensures that the code coverage report for unit tests is created 
                         after unit tests have been run. -->
                     <execution>
                         <id>post-unit-test</id>
@@ -234,8 +222,9 @@
                     <serverId>docker-hub</serverId>
                     <registryUrl>https://${docker.registry}</registryUrl>
                     <imageTags>
-                        <imageTag>${project.version}</imageTag>
-                        <imageTag>latest</imageTag>
+                        <imageTag>${project.docker.latestminortag.version}</imageTag>
+                        <imageTag>${project.docker.latestfulltag.version}</imageTag>
+                        <imageTag>${project.docker.latesttagtimestamp.version}</imageTag>
                     </imageTags>
                     <forceTags>true</forceTags>
                     <resources>
