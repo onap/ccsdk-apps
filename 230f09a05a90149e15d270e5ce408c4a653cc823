@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8fd7ef60_d01eea0e",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Scripts/python/SamplePythonComponentNode.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-02-15T18:25:45Z",
+      "side": 1,
+      "message": "Can you give more details about the cycle its create here pls?\n\nMaybe you can have a look on SampleRAProcessor.py to see the complete implementation of process.\n\n- process in AbstractPythonComponentFunction(Which is not an abstract class by the way) validate resource assignment then it get the value to resole. This is done all the time.\n\n- Then, the Python script (Which inherites AbstractPythonComponentFunction) provided in blueprint get the value and revolve those values using the business logic.",
+      "parentUuid": "95a26516_3e6df881",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "230f09a05a90149e15d270e5ce408c4a653cc823",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fdcd07ed_9d11d9ca",
         "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Scripts/python/SamplePythonComponentNode.py",
         "patchSetId": 3
