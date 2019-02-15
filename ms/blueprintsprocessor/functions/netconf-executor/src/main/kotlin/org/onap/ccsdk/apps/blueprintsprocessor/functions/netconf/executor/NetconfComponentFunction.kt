@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-
+@file:Suppress("unused")
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor
 
 import com.fasterxml.jackson.databind.JsonNode
@@ -52,11 +52,11 @@ abstract class NetconfComponentFunction : AbstractComponentFunction() {
         return netconfRpcClientService
     }
 
-    fun generateMessage(): String {
+    fun generateMesage(): String {
         TODO()
     }
 
-    fun resolveAndGenerateMesssage(): String {
+    fun resolveAndGenerateMessage(): String {
         TODO()
     }
 
