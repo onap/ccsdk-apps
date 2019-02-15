@@ -22,6 +22,7 @@
 **/.checkstyle
 **/.gitignore
 
+**/*.log
 **/*py.class
 **/.DS_Store
 
