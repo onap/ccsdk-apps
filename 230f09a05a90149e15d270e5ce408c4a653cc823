@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "95a26516_3e6df881",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Scripts/python/SamplePythonComponentNode.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-15T14:53:51Z",
+      "side": 1,
+      "message": "It creates cyclic, The intend is not to call any process, provide some business logic",
+      "range": {
+        "startLine": 11,
+        "startChar": 8,
+        "endLine": 11,
+        "endChar": 72
+      },
+      "revId": "230f09a05a90149e15d270e5ce408c4a653cc823",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fdcd07ed_9d11d9ca",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Scripts/python/SamplePythonComponentNode.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-15T14:53:51Z",
+      "side": 1,
+      "message": "It creates cyclic, The intend is not to call any process, provide some business logic",
+      "range": {
+        "startLine": 16,
+        "startChar": 8,
+        "endLine": 16,
+        "endChar": 91
+      },
+      "revId": "230f09a05a90149e15d270e5ce408c4a653cc823",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
