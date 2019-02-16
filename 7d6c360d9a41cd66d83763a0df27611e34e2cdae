@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c70c3460_cc518d51",
+        "filename": "ms/blueprintsprocessor/functions/restconf-executor/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/restconf/executor/ComponentRestconfExecutor.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-16T22:58:43Z",
+      "side": 1,
+      "message": "can we make this generic, so it can bbe use for netconf as well? Maybe put this in the AbstractComponentFunction",
+      "range": {
+        "startLine": 79,
+        "startChar": 8,
+        "endLine": 79,
+        "endChar": 33
+      },
+      "revId": "7d6c360d9a41cd66d83763a0df27611e34e2cdae",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
