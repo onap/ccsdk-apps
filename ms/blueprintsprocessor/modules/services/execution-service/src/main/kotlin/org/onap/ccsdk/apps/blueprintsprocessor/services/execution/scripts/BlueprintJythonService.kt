@@ -13,12 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor
+package org.onap.ccsdk.apps.blueprintsprocessor.services.execution.scripts
 
 import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.ArrayNode
 import org.apache.commons.io.FilenameUtils
-import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.plugin.BlueprintPythonHost
 import org.onap.ccsdk.apps.blueprintsprocessor.services.execution.AbstractComponentFunction
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.checkNotEmptyOrThrow
