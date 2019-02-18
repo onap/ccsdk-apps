@@ -49,22 +49,31 @@ open class BluePrintRestLibPropertyService(private var bluePrintProperties: Blue
     @Throws(BluePrintProcessorException::class)
     fun blueprintWebClientService(selector: String): BlueprintWebClientService {
         val prefix = "blueprintsprocessor.restclient.$selector"
-        val beanProperties = restClientProperties(prefix)
-        when (beanProperties) {
+        val restClientProperties = restClientProperties(prefix)
+        return blueprintWebClientService(restClientProperties)
+    }
+
+
+    fun blueprintDynamicWebClientService(sourceType: String, selector: String): BlueprintWebClientService {
+        TODO()
+    }
+
+    @Throws(BluePrintProcessorException::class)
+    fun blueprintWebClientService(restClientProperties: RestClientProperties): BlueprintWebClientService {
+        when (restClientProperties) {
             is BasicAuthRestClientProperties -> {
-                return BasicAuthRestClientService(beanProperties)
+                return BasicAuthRestClientService(restClientProperties)
             }
             is SSLBasicAuthRestClientProperties -> {
-                return SSLBasicAuthRestClientService(beanProperties)
+                return SSLBasicAuthRestClientService(restClientProperties)
             }
             is DME2RestClientProperties -> {
-                return DME2ProxyRestClientService(beanProperties)
+                return DME2ProxyRestClientService(restClientProperties)
             }
             else -> {
-                throw BluePrintProcessorException("couldn't get rest service for selector($selector)")
+                throw BluePrintProcessorException("couldn't get rest service for")
             }
         }
-
     }
 
     fun basicAuthRestClientProperties(prefix: String): BasicAuthRestClientProperties {

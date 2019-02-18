@@ -17,7 +17,7 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.restconf.executor
 
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
-import org.onap.ccsdk.apps.blueprintsprocessor.functions.python.executor.BlueprintJythonService
+import org.onap.ccsdk.apps.blueprintsprocessor.services.execution.scripts.BlueprintJythonService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.ResourceResolutionService
 import org.onap.ccsdk.apps.blueprintsprocessor.rest.service.BluePrintRestLibPropertyService
 import org.onap.ccsdk.apps.blueprintsprocessor.services.execution.AbstractComponentFunction
