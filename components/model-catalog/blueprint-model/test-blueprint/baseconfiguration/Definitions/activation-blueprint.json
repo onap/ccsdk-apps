@@ -247,7 +247,7 @@
           },
           "hostname-mapping": {
             "type": "artifact-mapping-resource",
-            "file": "Templates/hostname-mapping.json"
+            "file": "Definitions/hostname-mapping.json"
           },
           "component-script": {
             "type": "artifact-script-jython",

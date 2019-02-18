@@ -74,7 +74,7 @@ open class BluePrintEnhancerServiceImpl(private val bluePrintTypeEnhancerService
     }
 
     private fun enhanceResourceDefinition(blueprintRuntimeService: BluePrintRuntimeService<*>) {
-
+        log.info("##### Enhancing blueprint Resource Definitions")
         resourceDefinitionEnhancerService.enhance(blueprintRuntimeService)
     }
 
