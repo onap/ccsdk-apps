@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c5c3cb7_18a2a330",
+        "filename": "ms/blueprintsprocessor/modules/services/execution-service/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/services/execution/AbstractComponentFunction.kt",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-20T21:03:02Z",
+      "side": 1,
+      "message": "Brinda, I added this, it was missing. Now it works fine.",
+      "range": {
+        "startLine": 139,
+        "startChar": 42,
+        "endLine": 139,
+        "endChar": 48
+      },
+      "revId": "854cabcebee6d42a241700b4dcd66878440c2849",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
