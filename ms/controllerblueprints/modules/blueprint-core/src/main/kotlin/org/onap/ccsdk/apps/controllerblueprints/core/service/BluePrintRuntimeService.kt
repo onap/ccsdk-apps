@@ -24,13 +24,12 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
 import com.fasterxml.jackson.module.kotlin.jacksonObjectMapper
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintError
-import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
+import org.onap.ccsdk.apps.controllerblueprints.core.*
 import org.onap.ccsdk.apps.controllerblueprints.core.data.ArtifactDefinition
 import org.onap.ccsdk.apps.controllerblueprints.core.data.NodeTemplate
 import org.onap.ccsdk.apps.controllerblueprints.core.data.PropertyDefinition
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
+import java.util.Properties
 
 interface BluePrintRuntimeService<T> {
 
@@ -41,6 +40,10 @@ interface BluePrintRuntimeService<T> {
     fun getExecutionContext(): T
 
     fun setExecutionContext(executionContext: T)
+
+    fun setProperties(properties: Properties?)
+
+    fun getProperty(key: String): String?
 
     fun put(key: String, value: JsonNode)
 
@@ -80,6 +83,8 @@ interface BluePrintRuntimeService<T> {
     fun resolveNodeTemplateArtifact(nodeTemplateName: String, artifactName: String): String
 
     fun resolveNodeTemplateArtifactDefinition(nodeTemplateName: String, artifactName: String): ArtifactDefinition
+
+    fun resolveDSLExpression(dslPropertyName: String): JsonNode
 
     fun setInputValue(propertyName: String, propertyDefinition: PropertyDefinition, value: JsonNode)
 
@@ -129,6 +134,8 @@ open class DefaultBluePrintRuntimeService(private var id: String, private var bl
 
     private var bluePrintError = BluePrintError()
 
+    private var properties: Properties? = null
+
     override fun id(): String {
         return id
     }
@@ -144,6 +151,14 @@ open class DefaultBluePrintRuntimeService(private var id: String, private var bl
     @Suppress("UNCHECKED_CAST")
     override fun setExecutionContext(executionContext: MutableMap<String, JsonNode>) {
         this.store = executionContext
+    }
+
+    override fun setProperties(properties: Properties?) {
+        this.properties = properties
+    }
+
+    override fun getProperty(key: String): String? {
+        return this.properties?.getProperty(key)
     }
 
     override fun put(key: String, value: JsonNode) {
@@ -326,6 +341,28 @@ open class DefaultBluePrintRuntimeService(private var id: String, private var bl
                 ?: throw BluePrintProcessorException("failed to get artifat definition($artifactName) from the node " +
                         "template")
 
+    }
+
+    /**
+     * Read the DSL Property reference, If there is any expression, then resolve those expression and return as Json
+     * Type
+     */
+    override fun resolveDSLExpression(dslPropertyName: String): JsonNode {
+        val propertyAssignments = bluePrintContext.dslPropertiesByName(dslPropertyName)
+        return if (BluePrintExpressionService.checkContainsExpression(propertyAssignments)
+                && propertyAssignments is ObjectNode) {
+
+            val rootKeyMap = propertyAssignments.rootFieldsToMap()
+            val propertyAssignmentValue: MutableMap<String, JsonNode> = hashMapOf()
+            rootKeyMap.forEach { propertyName, propertyValue ->
+                val propertyAssignmentExpression = PropertyAssignmentService(this)
+                propertyAssignmentValue[propertyName] = propertyAssignmentExpression
+                        .resolveAssignmentExpression("DSL", propertyName, propertyValue)
+            }
+            propertyAssignmentValue.asJsonNode()
+        } else {
+            propertyAssignments
+        }
     }
 
     override fun setInputValue(propertyName: String, propertyDefinition: PropertyDefinition, value: JsonNode) {

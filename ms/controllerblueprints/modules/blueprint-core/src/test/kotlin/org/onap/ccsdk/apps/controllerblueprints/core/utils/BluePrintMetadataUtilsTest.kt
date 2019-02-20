@@ -21,6 +21,9 @@ package org.onap.ccsdk.apps.controllerblueprints.core.utils
 import org.junit.Test
 import org.onap.ccsdk.apps.controllerblueprints.core.data.ToscaMetaData
 import kotlin.test.assertNotNull
+import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils.Companion.getPropertiesData
+import kotlin.test.assertEquals
+import kotlin.test.assertNull
 
 class BluePrintMetadataUtilsTest {
     
@@ -37,5 +40,29 @@ class BluePrintMetadataUtilsTest {
         assertNotNull(toscaMetaData.entityDefinitions, "Missing Tosca Entity Definition")
         assertNotNull(toscaMetaData.templateTags, "Missing Template Tags")
 
+    }
+
+    @Test
+    fun environmentDataTest() {
+        val environmentPath = "./src/test/resources/environments"
+
+        val properties = getPropertiesData(environmentPath)
+
+        assertNotNull(properties, "Could not read the properties")
+        assertEquals(properties.getProperty("blueprintsprocessor.database.alt1.username"), "username1", "failed 1")
+        assertEquals(properties.getProperty("blueprintsprocessor.database.alt1.password"), "password1", "failed 2")
+        assertEquals(properties.getProperty("blueprintsprocessor.database.alt2.username"), "username2", "failed 3")
+        assertEquals(properties.getProperty("blueprintsprocessor.database.alt2.password"), "password2", "failed 4")
+        assertNull(properties.getProperty("blueprintsprocessor.database.alt3.password"), "failed 5")
+    }
+
+
+    @Test
+    fun environmentDataTestEmpty() {
+        val environmentPath = "./src/test/resources/environments_empty"
+
+        val properties = getPropertiesData(environmentPath)
+
+        assertNull(properties, "Properties should be null")
     }
 }

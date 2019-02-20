@@ -132,6 +132,7 @@ object BluePrintConstants {
     const val MODEL_TYPE_CAPABILITY_TYPE_SSH = "tosca.capabilities.Ssh"
     const val MODEL_TYPE_CAPABILITY_TYPE_SFTP = "tosca.capabilities.Sftp"
 
+    const val EXPRESSION_DSL_REFERENCE: String = "*"
     const val EXPRESSION_GET_INPUT: String = "get_input"
     const val EXPRESSION_GET_ATTRIBUTE: String = "get_attribute"
     const val EXPRESSION_GET_ARTIFACT: String = "get_artifact"
@@ -157,6 +158,8 @@ object BluePrintConstants {
     const val TOSCA_ENVIRONMENTS_DIR: String = "Environments"
     const val TOSCA_SCRIPTS_KOTLIN_DIR: String = "$TOSCA_SCRIPTS_DIR/kotlin"
     const val TOSCA_SCRIPTS_JYTHON_DIR: String = "$TOSCA_SCRIPTS_DIR/python"
+
+    const val PROPERTIES_ENTRY_DEFINITION_DIR: String = "Environments"
 
     const val METADATA_USER_GROUPS = "user-groups"
     const val METADATA_TEMPLATE_NAME = "template_name"

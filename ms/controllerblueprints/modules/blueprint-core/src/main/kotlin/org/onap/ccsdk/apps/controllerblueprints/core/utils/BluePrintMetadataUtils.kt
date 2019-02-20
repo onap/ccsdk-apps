@@ -29,7 +29,10 @@ import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintImportServ
 import org.onap.ccsdk.apps.controllerblueprints.core.service.BluePrintRuntimeService
 import org.onap.ccsdk.apps.controllerblueprints.core.service.DefaultBluePrintRuntimeService
 import java.io.File
+import java.io.FileInputStream
 import java.nio.charset.Charset
+import java.util.Properties
+import java.io.FilenameFilter
 
 class BluePrintMetadataUtils {
     companion object {
@@ -42,10 +45,40 @@ class BluePrintMetadataUtils {
             return toscaMetaDataFromMetaFile(toscaMetaPath)
         }
 
+        fun getPropertiesData(basePath: String): Properties? {
+            val environmentPath = basePath.plus(BluePrintConstants.PATH_DIVIDER)
+                    .plus(BluePrintConstants.PROPERTIES_ENTRY_DEFINITION_DIR)
+
+            return environmentDataFromFile(environmentPath)
+            
+        }
+        
         fun entryDefinitionFile(basePath: String): String {
             val toscaMetaPath = basePath.plus(BluePrintConstants.PATH_DIVIDER)
                     .plus(BluePrintConstants.TOSCA_METADATA_ENTRY_DEFINITION_FILE)
             return toscaMetaDataFromMetaFile(toscaMetaPath).entityDefinitions
+        }
+
+        fun environmentDataFromFile(environmentPath: String): Properties?  {
+
+            // Verify if the environment directory exists
+            val environmentDir = File(environmentPath)
+
+            var properties: Properties? = null
+
+            if (environmentDir.exists()) {
+                properties = Properties()
+
+                //Find all available environment files
+                environmentDir.listFiles(object : FilenameFilter {
+                    override fun accept(dir: File?, filename: String): Boolean {
+                        return filename.endsWith(".properties")
+                    }}).forEach {
+                        val inputStream = FileInputStream(it)
+                        properties.load(inputStream)
+                    }
+            }
+            return properties
         }
 
         fun toscaMetaDataFromMetaFile(metaFilePath: String): ToscaMetaData {
@@ -78,8 +111,12 @@ class BluePrintMetadataUtils {
             context[BluePrintConstants.PROPERTY_BLUEPRINT_BASE_PATH] = blueprintBasePath.asJsonPrimitive()
             context[BluePrintConstants.PROPERTY_BLUEPRINT_PROCESS_ID] = id.asJsonPrimitive()
 
+            val properties: Properties? = getPropertiesData(blueprintBasePath)
+
             val bluePrintRuntimeService = DefaultBluePrintRuntimeService(id, bluePrintContext)
             bluePrintRuntimeService.setExecutionContext(context)
+
+            bluePrintRuntimeService.setProperties(getPropertiesData(blueprintBasePath))
 
             return bluePrintRuntimeService
         }
@@ -94,13 +131,22 @@ class BluePrintMetadataUtils {
             val bluePrintRuntimeService = DefaultBluePrintRuntimeService(id, bluePrintContext)
             bluePrintRuntimeService.setExecutionContext(context)
 
+            // This may not be necessary in this context
+            bluePrintRuntimeService.setProperties(getPropertiesData(blueprintBasePath))
+
             return bluePrintRuntimeService
         }
 
         fun getBluePrintRuntime(id: String, blueprintBasePath: String, executionContext: MutableMap<String, JsonNode>): BluePrintRuntimeService<MutableMap<String, JsonNode>> {
             val bluePrintContext: BluePrintContext = getBluePrintContext(blueprintBasePath)
+
+            val properties: Properties? = getPropertiesData(blueprintBasePath)
+
             val bluePrintRuntimeService = DefaultBluePrintRuntimeService(id, bluePrintContext)
             bluePrintRuntimeService.setExecutionContext(executionContext)
+
+            bluePrintRuntimeService.setProperties(getPropertiesData(blueprintBasePath))
+
             return bluePrintRuntimeService
         }
 
