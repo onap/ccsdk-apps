@@ -26,6 +26,7 @@ object ResourceDictionaryConstants {
     const val SOURCE_DEFAULT = "default"
     const val SOURCE_PRIMARY_CONFIG_DATA = "rest"
     const val SOURCE_PRIMARY_DB = "primary-db"
+    const val SOURCE_DB = "db"
 
     const val MODEL_DIR_RESOURCE_DEFINITION: String = "resource_dictionary"
 
