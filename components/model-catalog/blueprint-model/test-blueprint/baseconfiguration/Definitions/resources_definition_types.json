@@ -25,6 +25,36 @@
       "input": {
         "type": "source-input",
         "properties": {}
+      },
+      "capability": {
+        "type": "source-capability",
+        "properties": {
+          "type": "JYTHON-COMPONENT",
+          "instance-name": "SampleRAProcessor",
+          "instance-dependencies": []
+        }
+      },
+      "any-db": {
+        "type": "source-primary-db",
+        "properties": {
+          "query": "SELECT artifact_name FROM sdnctl.BLUEPRINT_RUNTIME where artifact_version=\"1.0.0\"",
+          "input-key-mapping": {
+          },
+          "output-key-mapping": {
+            "service-instance-id": "artifact_name"
+          }
+        }
+      },
+      "primary-db": {
+        "type": "source-primary-db",
+        "properties": {
+          "query": "SELECT artifact_name FROM sdnctl.BLUEPRINT_RUNTIME where artifact_version=\"1.0.0\"",
+          "input-key-mapping": {
+          },
+          "output-key-mapping": {
+            "service-instance-id": "artifact_name"
+          }
+        }
       }
     }
   },
