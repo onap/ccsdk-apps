@@ -20,7 +20,7 @@ package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.pr
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.NullNode
-import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.PrimaryDBLibGenericService
+import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.DBLibGenericService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.DatabaseResourceSource
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils.ResourceAssignmentUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.*
@@ -28,19 +28,20 @@ import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDictionaryConstants
 import org.slf4j.LoggerFactory
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
 import java.util.*
 
 /**
- * PrimaryDataResourceAssignmentProcessor
+ * DatabaseResourceAssignmentProcessor
  *
  * @author Kapil Singal
  */
 @Service("resource-assignment-processor-primary-db")
-open class PrimaryDataResourceAssignmentProcessor(private val primaryDBLibGenericService: PrimaryDBLibGenericService)
+open class DatabaseResourceAssignmentProcessor(private val dBLibGenericService: DBLibGenericService)
     : ResourceAssignmentProcessor() {
 
-    private val logger = LoggerFactory.getLogger(PrimaryDataResourceAssignmentProcessor::class.java)
+    private val logger = LoggerFactory.getLogger(DatabaseResourceAssignmentProcessor::class.java)
 
     override fun getName(): String {
         return "resource-assignment-processor-primary-db"
@@ -69,8 +70,9 @@ open class PrimaryDataResourceAssignmentProcessor(private val primaryDBLibGeneri
                 val inputKeyMapping = checkNotNull(sourceProperties.inputKeyMapping) { "failed to get input-key-mappings for $dName under $dSource properties" }
 
                 logger.info("$dSource dictionary information : ($sql), ($inputKeyMapping), (${sourceProperties.outputKeyMapping})")
+                val jdbcTemplate = blueprintDBLibService(resourceAssignment, sourceProperties)
 
-                val rows = primaryDBLibGenericService.query(sql, populateNamedParameter(inputKeyMapping))
+                val rows = jdbcTemplate.queryForList(sql, populateNamedParameter(inputKeyMapping))
                 if (rows.isNullOrEmpty()) {
                     logger.warn("Failed to get $dSource result for dictionary name ($dName) the query ($sql)")
                 } else {
@@ -86,6 +88,16 @@ open class PrimaryDataResourceAssignmentProcessor(private val primaryDBLibGeneri
         }
     }
 
+    private fun blueprintDBLibService(resourceAssignment: ResourceAssignment, sourceProperties: DatabaseResourceSource): NamedParameterJdbcTemplate {
+        return if (checkNotEmpty(sourceProperties.endpointSelector)) {
+            val dbPropertiesJson = raRuntimeService.resolveDSLExpression(sourceProperties.endpointSelector!!)
+            dBLibGenericService.remoteJdbcTemplate(dbPropertiesJson)
+        } else {
+            dBLibGenericService.defaultJdbcTemplate()
+        }
+
+    }
+
     @Throws(BluePrintProcessorException::class)
     private fun validate(resourceAssignment: ResourceAssignment) {
         checkNotEmptyOrThrow(resourceAssignment.name, "resource assignment template key is not defined")
@@ -98,7 +110,7 @@ open class PrimaryDataResourceAssignmentProcessor(private val primaryDBLibGeneri
     private fun populateNamedParameter(inputKeyMapping: Map<String, String>): Map<String, Any> {
         val namedParameters = HashMap<String, Any>()
         inputKeyMapping.forEach {
-            val expressionValue = raRuntimeService.getDictionaryStore(it.value)
+            val expressionValue = raRuntimeService.getDictionaryStore(it.value).textValue()
             logger.trace("Reference dictionary key (${it.key}) resulted in value ($expressionValue)")
             namedParameters[it.key] = expressionValue
         }
