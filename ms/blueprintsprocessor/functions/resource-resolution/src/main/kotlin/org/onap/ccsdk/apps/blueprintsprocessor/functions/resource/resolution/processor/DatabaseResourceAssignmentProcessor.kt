@@ -18,7 +18,8 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.processor
 
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
-import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.DBLibGenericService
+import org.onap.ccsdk.apps.blueprintsprocessor.db.BluePrintDBLibGenericService
+import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.BluePrintDBLibPropertySevice
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.DatabaseResourceSource
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils.ResourceAssignmentUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.*
@@ -28,7 +29,6 @@ import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDictionary
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.config.ConfigurableBeanFactory
 import org.springframework.context.annotation.Scope
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
 import java.util.*
 
@@ -39,7 +39,7 @@ import java.util.*
  */
 @Service("rr-processor-source-primary-db")
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-open class DatabaseResourceAssignmentProcessor(private val dBLibGenericService: DBLibGenericService)
+open class DatabaseResourceAssignmentProcessor(private val bluePrintDBLibPropertySevice: BluePrintDBLibPropertySevice)
     : ResourceAssignmentProcessor() {
 
     private val logger = LoggerFactory.getLogger(DatabaseResourceAssignmentProcessor::class.java)
@@ -71,9 +71,9 @@ open class DatabaseResourceAssignmentProcessor(private val dBLibGenericService: 
                 val inputKeyMapping = checkNotNull(sourceProperties.inputKeyMapping) { "failed to get input-key-mappings for $dName under $dSource properties" }
 
                 logger.info("$dSource dictionary information : ($sql), ($inputKeyMapping), (${sourceProperties.outputKeyMapping})")
-                val jdbcTemplate = blueprintDBLibService(sourceProperties)
+                val jdbcTemplate = blueprintDBLibService(resourceAssignment,sourceProperties)
 
-                val rows = jdbcTemplate.queryForList(sql, populateNamedParameter(inputKeyMapping))
+                val rows = jdbcTemplate.query(sql, populateNamedParameter(inputKeyMapping))
                 if (rows.isNullOrEmpty()) {
                     logger.warn("Failed to get $dSource result for dictionary name ($dName) the query ($sql)")
                 } else {
@@ -89,12 +89,12 @@ open class DatabaseResourceAssignmentProcessor(private val dBLibGenericService: 
         }
     }
 
-    private fun blueprintDBLibService(sourceProperties: DatabaseResourceSource): NamedParameterJdbcTemplate {
-        return if (checkNotEmpty(sourceProperties.endpointSelector!!)) {
+    private fun blueprintDBLibService(resourceAssignment: ResourceAssignment,sourceProperties: DatabaseResourceSource): BluePrintDBLibGenericService {
+        return if (checkNotEmpty(sourceProperties.endpointSelector)) {
             val dbPropertiesJson = raRuntimeService.resolveDSLExpression(sourceProperties.endpointSelector!!)
-            dBLibGenericService.remoteJdbcTemplate(dbPropertiesJson)
+            bluePrintDBLibPropertySevice.JdbcTemplate(dbPropertiesJson)
         } else {
-            dBLibGenericService.primaryJdbcTemplate()
+            bluePrintDBLibPropertySevice.JdbcTemplate(resourceAssignment.dictionarySource!!)
         }
 
     }
