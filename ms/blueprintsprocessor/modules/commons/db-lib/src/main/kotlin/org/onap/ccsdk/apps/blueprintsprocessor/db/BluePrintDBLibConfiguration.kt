@@ -37,5 +37,6 @@ open class BluePrintDBLibConfiguration(private var bluePrintProperties: BluePrin
 class DBLibConstants {
     companion object {
         const val PREFIX_DB_PRIMARY: String = "blueprintsprocessor.db.primary"
+        const val Maria_DB: String = "maria-db"
     }
 }

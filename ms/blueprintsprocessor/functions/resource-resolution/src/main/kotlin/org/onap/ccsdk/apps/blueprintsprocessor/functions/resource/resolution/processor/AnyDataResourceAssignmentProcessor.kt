@@ -1,18 +1,17 @@
 /*
- *  Copyright © 2018 IBM.
- *  Modifications Copyright © 2017-2018 AT&T Intellectual Property.
+ * Copyright © 2019 Bell Canada Intellectual Property.
  *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.processor
@@ -28,28 +27,34 @@ import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDictionaryConstants
 import org.slf4j.LoggerFactory
+import org.springframework.boot.jdbc.DataSourceBuilder
+import org.springframework.jdbc.core.JdbcTemplate
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Service
 import java.util.*
 
 /**
- * PrimaryDataResourceAssignmentProcessor
+ * AnyDataResourceAssignmentProcessor Purpose: ResolveResource using any db defined in dictionary
  *
- * @author Kapil Singal
+ * @author Vinal Patel
+ * @version 1.0
  */
-@Service("resource-assignment-processor-primary-db")
-open class PrimaryDataResourceAssignmentProcessor(private val primaryDBLibGenericService: PrimaryDBLibGenericService)
+
+
+@Service("resource-assignment-processor-any-db")
+open class AnyDataResourceAssignmentProcessor()
     : ResourceAssignmentProcessor() {
 
     private val logger = LoggerFactory.getLogger(PrimaryDataResourceAssignmentProcessor::class.java)
 
     override fun getName(): String {
-        return "resource-assignment-processor-primary-db"
+        return "resource-assignment-processor-any-db"
     }
 
     override fun process(resourceAssignment: ResourceAssignment) {
         try {
-            validate(resourceAssignment)
+            //validate(resourceAssignment)
 
             // Check if It has Input
             val value = raRuntimeService.getInputValue(resourceAssignment.name)
@@ -70,9 +75,19 @@ open class PrimaryDataResourceAssignmentProcessor(private val primaryDBLibGeneri
                 val inputKeyMapping = checkNotNull(sourceProperties.inputKeyMapping) { "failed to get input-key-mappings for $dName under $dSource properties" }
 
                 logger.info("$dSource dictionary information : ($sql), ($inputKeyMapping), (${sourceProperties.outputKeyMapping})")
-                val jdbcTemplate = blueprintDBLibService(resourceAssignment, sourceProperties)
 
-                val rows = jdbcTemplate.queryForList(sql, populateNamedParameter(inputKeyMapping))
+                val dataSourceBuilder= DataSourceBuilder
+                        .create()
+                        .username("sdnctl")
+                        .password("sdnctl")
+                        .url("jdbc:mysql://localhost:3306/sdnctl")
+                        .driverClassName("org.mariadb.jdbc.Driver")
+                        .build()
+
+
+                val jdbcTemplate = NamedParameterJdbcTemplate(dataSourceBuilder)
+
+                val rows = jdbcTemplate.queryForList(sql, MapSqlParameterSource().addValues(populateNamedParameter(inputKeyMapping)))
                 if (rows.isNullOrEmpty()) {
                     logger.warn("Failed to get $dSource result for dictionary name ($dName) the query ($sql)")
                 } else {
@@ -86,16 +101,6 @@ open class PrimaryDataResourceAssignmentProcessor(private val primaryDBLibGeneri
             ResourceAssignmentUtils.setFailedResourceDataValue(resourceAssignment, e.message)
             throw BluePrintProcessorException("Failed in template key ($resourceAssignment) assignments with: ${e.message}", e)
         }
-    }
-
-    private fun blueprintDBLibService(resourceAssignment: ResourceAssignment, sourceProperties: DatabaseResourceSource): NamedParameterJdbcTemplate {
-        return if (checkNotEmpty(sourceProperties.endpointSelector)) {
-            val dbPropertiesJson = raRuntimeService.resolveDSLExpression(sourceProperties.endpointSelector!!)
-            primaryDBLibGenericService.DBNameParameterJdbcTemplate(dbPropertiesJson)
-        } else {
-            primaryDBLibGenericService.namedParameterJdbcTemplate()
-        }
-
     }
 
     @Throws(BluePrintProcessorException::class)
