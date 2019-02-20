@@ -22,6 +22,30 @@
       "revId": "854cabcebee6d42a241700b4dcd66878440c2849",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6ffb3a6b_e32fae26",
+        "filename": "ms/blueprintsprocessor/modules/services/execution-service/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/services/execution/AbstractComponentFunction.kt",
+        "patchSetId": 7
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-20T22:47:13Z",
+      "side": 1,
+      "message": "Thanks Alexi, I don\u0027t know how I missed this.",
+      "parentUuid": "8c5c3cb7_18a2a330",
+      "range": {
+        "startLine": 139,
+        "startChar": 42,
+        "endLine": 139,
+        "endChar": 48
+      },
+      "revId": "854cabcebee6d42a241700b4dcd66878440c2849",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
