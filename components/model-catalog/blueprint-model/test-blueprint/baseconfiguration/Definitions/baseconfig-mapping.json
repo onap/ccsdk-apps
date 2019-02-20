@@ -6,7 +6,7 @@
       "type": "string"
     },
     "dictionary-name": "service-instance-id",
-    "dictionary-source": "input",
+    "dictionary-source": "primary-db",
     "dependencies": [
     ]
   },
