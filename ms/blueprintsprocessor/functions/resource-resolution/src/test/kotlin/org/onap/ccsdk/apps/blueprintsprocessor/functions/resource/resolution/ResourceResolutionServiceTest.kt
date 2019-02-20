@@ -25,7 +25,6 @@ import org.onap.ccsdk.apps.blueprintsprocessor.core.BlueprintPropertyConfigurati
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.utils.PayloadUtils
 import org.onap.ccsdk.apps.blueprintsprocessor.db.BluePrintDBLibConfiguration
-import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.DBLibGenericService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.processor.*
 import org.onap.ccsdk.apps.controllerblueprints.core.config.BluePrintLoadConfiguration
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.BluePrintMetadataUtils
@@ -49,7 +48,7 @@ import kotlin.test.assertTrue
 @ContextConfiguration(classes = [ResourceResolutionServiceImpl::class,
     InputResourceResolutionProcessor::class, DefaultResourceResolutionProcessor::class,
     DatabaseResourceAssignmentProcessor::class, RestResourceResolutionProcessor::class,
-    CapabilityResourceResolutionProcessor::class, DBLibGenericService::class,
+    CapabilityResourceResolutionProcessor::class,
     BlueprintPropertyConfiguration::class, BluePrintProperties::class,
     BluePrintDBLibConfiguration::class, BluePrintLoadConfiguration::class])
 @TestPropertySource(locations = ["classpath:application-test.properties"])
@@ -66,7 +65,7 @@ class ResourceResolutionServiceTest {
     fun testRegisteredSource() {
         val sources = resourceResolutionService.registeredResourceSources()
         assertNotNull(sources, "failed to get registered sources")
-        assertTrue(sources.containsAll(arrayListOf("source-input", "source-default", "source-primary-db",
+        assertTrue(sources.containsAll(arrayListOf("source-input", "source-default", "source-db",
                 "source-rest")), "failed to get registered sources")
     }
 
