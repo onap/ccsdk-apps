@@ -24,6 +24,7 @@ import com.fasterxml.jackson.databind.JsonNode
 import com.fasterxml.jackson.databind.node.NullNode
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintConstants
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
+import org.onap.ccsdk.apps.controllerblueprints.core.asJsonPrimitive
 import org.onap.ccsdk.apps.controllerblueprints.core.data.*
 import org.onap.ccsdk.apps.controllerblueprints.core.format
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
@@ -110,12 +111,19 @@ If Property Assignment is Expression.
 
         var attributeNodeTemplateName = nodeTemplateName
         when (attributeExpression.modelableEntityName) {
-            "ENV" -> {
+            BluePrintConstants.PROPERTY_ENV -> {
                 val environmentValue = System.getProperty(attributeName)
-                valueNode = JacksonUtils.jsonNode(environmentValue)
+                valueNode = environmentValue.asJsonPrimitive()
+            }
+            BluePrintConstants.PROPERTY_APP -> {
+                TODO("Get property from application properties")
+            }
+            BluePrintConstants.PROPERTY_BPP -> {
+                valueNode = bluePrintRuntimeService.getNodeTemplateAttributeValue(BluePrintConstants.PROPERTY_BPP, attributeName)
+                        ?: throw BluePrintException("failed to get env attribute name ($attributeName) ")
             }
             else -> {
-                if (!attributeExpression.modelableEntityName.equals("SELF", true)) {
+                if (!attributeExpression.modelableEntityName.equals(BluePrintConstants.PROPERTY_SELF, true)) {
                     attributeNodeTemplateName = attributeExpression.modelableEntityName
                 }
 
