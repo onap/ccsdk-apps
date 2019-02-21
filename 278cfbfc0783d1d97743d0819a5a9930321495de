@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc7487b_47efc5e4",
+        "filename": "pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-21T15:35:05Z",
+      "side": 1,
+      "message": "Hi, I mentioned here, we were waiting for 0.8.3. I think comment should be either remove, or at least looked at.",
+      "range": {
+        "startLine": 33,
+        "startChar": 7,
+        "endLine": 37,
+        "endChar": 76
+      },
+      "revId": "278cfbfc0783d1d97743d0819a5a9930321495de",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
