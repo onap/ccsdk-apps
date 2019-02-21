@@ -34,8 +34,10 @@
         Note: coverage for now is invalid and is failing to load because of:
         "Cannot import coverage information for file '{file}', coverage data is invalid."
         see https://github.com/jacoco/jacoco/issues/763
-        That issue has been fixed in 0.8.3 but haven't yet been release. -->
+        That issue has been fixed in 0.8.3 , so we override the default ONAP
+        version here to pick up that fix -->
         <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+        <jacoco.version>0.8.3</jacoco.version>
     </properties>
 
     <modules>
@@ -48,7 +50,6 @@
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
-                <!--Change version to 0.8.3 when released-->
                 <version>${jacoco.version}</version>
             </plugin>
         </plugins>
