@@ -23,8 +23,6 @@ Microservices:
 Installation:
 =============
 
-Steps
------
    To compile this code:
 
    1. Make sure your local Maven settings file ($HOME/.m2/settings.xml) contains
@@ -37,14 +35,14 @@ Steps
 
 
 Logging:
-=============
+========
 CCSDK uses slf4j to log messages to the standard OpenDaylight karaf.log
 log file.
 
-Where to Access Information
----------------------------
-Logs are found within the SDNC docker container, in the directory
-/opt/opendaylight/current/data/logs.
+   Where to Access Information
+   ============================
+   Logs are found within the SDNC docker container, in the directory
+   /opt/opendaylight/current/data/logs.
 
 Release Notes:
 ==============
