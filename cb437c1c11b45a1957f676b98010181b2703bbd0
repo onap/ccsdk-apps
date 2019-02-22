@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c95157d8_3c000ed1",
+        "filename": "ms/controllerblueprints/modules/blueprint-core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/BluePrintConstants.kt",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-22T21:03:37Z",
+      "side": 1,
+      "message": "Duplicate Definition",
+      "range": {
+        "startLine": 162,
+        "startChar": 2,
+        "endLine": 162,
+        "endChar": 70
+      },
+      "revId": "cb437c1c11b45a1957f676b98010181b2703bbd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "09444113_5544e480",
+        "filename": "ms/controllerblueprints/modules/blueprint-core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/service/BluePrintRuntimeService.kt",
+        "patchSetId": 5
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-22T21:03:37Z",
+      "side": 1,
+      "message": "No Need to define new function, It is confusing, It may be used with get Attribute / Env , so that it can accessed  in uniform way.",
+      "range": {
+        "startLine": 44,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 41
+      },
+      "revId": "cb437c1c11b45a1957f676b98010181b2703bbd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3afa88a_699fc077",
+        "filename": "ms/controllerblueprints/modules/blueprint-core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/service/BluePrintRuntimeService.kt",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-22T21:03:37Z",
+      "side": 1,
+      "message": "No Need to define new store",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 46
+      },
+      "revId": "cb437c1c11b45a1957f676b98010181b2703bbd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a2201fe_8121ee5a",
+        "filename": "ms/controllerblueprints/modules/blueprint-core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/service/BluePrintRuntimeService.kt",
+        "patchSetId": 5
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-22T21:03:37Z",
+      "side": 1,
+      "message": "No Need of this Method",
+      "range": {
+        "startLine": 156,
+        "startChar": 0,
+        "endLine": 162,
+        "endChar": 5
+      },
+      "revId": "cb437c1c11b45a1957f676b98010181b2703bbd0",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
