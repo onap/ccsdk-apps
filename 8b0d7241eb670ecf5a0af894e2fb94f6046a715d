@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef1274e7_b0ae128a",
+        "filename": "ms/cds-sdc-listener/application/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-22T22:26:54Z",
+      "side": 1,
+      "message": "use spring boot parent",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 11
+      },
+      "revId": "8b0d7241eb670ecf5a0af894e2fb94f6046a715d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
