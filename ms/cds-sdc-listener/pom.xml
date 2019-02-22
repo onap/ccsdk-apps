@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <parent>
+    <artifactId>ccsdk-apps-ms</artifactId>
+    <groupId>org.onap.ccsdk.apps</groupId>
+    <version>0.4.1-SNAPSHOT</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cdssdclistener</artifactId>
+  <name>CDS-SDC Listener Root</name>
+  <description>A microservice to get the cba file from SDC and store it into database at runtime</description>
+  <packaging>pom</packaging>
+
+  <properties>
+    <service.name>cds-sdc-listener</service.name>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+    <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
+    <build.number>${maven.build.timestamp}</build.number>
+    <java.version>1.8</java.version>
+    <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <ccsdk.project.version>${project.version}</ccsdk.project.version>
+  </properties>
+
+  <modules>
+    <module>application</module>
+    <module>distribution</module>
+  </modules>
+
+</project>
