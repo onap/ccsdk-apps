@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "baae7306_91d7302a",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Definitions/activation-blueprint.json",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-22T23:10:42Z",
+      "side": 1,
+      "message": "can we have an example of how this is used within a DD?",
+      "range": {
+        "startLine": 27,
+        "startChar": 3,
+        "endLine": 27,
+        "endChar": 18
+      },
+      "revId": "39800c759802dd011b8ca0d9508c37df6772d869",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
