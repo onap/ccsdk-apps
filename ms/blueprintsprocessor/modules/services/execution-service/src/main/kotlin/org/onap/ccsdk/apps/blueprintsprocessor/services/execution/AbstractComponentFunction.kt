@@ -136,7 +136,7 @@ abstract class AbstractComponentFunction : BlueprintFunctionNode<ExecutionServic
      * This will be called from the scripts to serve instance from runtime to scripts.
      */
     open fun <T> functionDependencyInstanceAsType(name: String): T {
-        return functionDependencyInstances as? T
+        return functionDependencyInstances[name] as? T
                 ?: throw BluePrintProcessorException("couldn't get script property instance ($name)")
     }
 }
