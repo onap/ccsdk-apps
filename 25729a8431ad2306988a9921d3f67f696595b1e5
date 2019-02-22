@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f43af0e7_a970afc1",
+        "filename": "ms/blueprintsprocessor/distribution/src/main/docker/Dockerfile",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 4615
+      },
+      "writtenOn": "2019-02-22T21:27:44Z",
+      "side": 1,
+      "message": "I was able to create and push in Docker Hub a customized base image.\nBut, I am not able to publish the image in Nexus.\nWill keep this.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 32
+      },
+      "revId": "25729a8431ad2306988a9921d3f67f696595b1e5",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
