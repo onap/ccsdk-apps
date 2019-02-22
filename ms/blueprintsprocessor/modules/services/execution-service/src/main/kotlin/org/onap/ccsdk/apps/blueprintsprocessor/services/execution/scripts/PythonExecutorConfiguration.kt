@@ -54,7 +54,6 @@ open class BluePrintPython(executablePath: String, blueprintPythonPlatform: Muta
     init {
         // Build up the python.path
         val sb = StringBuilder()
-        sb.append(System.getProperty("java.class.path"))
 
         for (p in blueprintPythonPlatform) {
             sb.append(File.pathSeparator).append(p)
