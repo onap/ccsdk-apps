@@ -59,8 +59,8 @@ open class ResourceResolutionServiceImpl(private var applicationContext: Applica
 
     override fun registeredResourceSources(): List<String> {
         return applicationContext.getBeanNamesForType(ResourceAssignmentProcessor::class.java)
-                .filter { it.startsWith(ResourceResolutionConstants.PREFIX_RESOURCE_ASSIGNMENT_PROCESSOR) }
-                .map { it.substringAfter(ResourceResolutionConstants.PREFIX_RESOURCE_ASSIGNMENT_PROCESSOR) }
+                .filter { it.startsWith(ResourceResolutionConstants.PREFIX_RESOURCE_RESOLUTION_PROCESSOR) }
+                .map { it.substringAfter(ResourceResolutionConstants.PREFIX_RESOURCE_RESOLUTION_PROCESSOR) }
     }
 
     override fun resolveResources(bluePrintRuntimeService: BluePrintRuntimeService<*>, nodeTemplateName: String,
@@ -123,6 +123,11 @@ open class ResourceResolutionServiceImpl(private var applicationContext: Applica
         return resolvedContent
     }
 
+    /**
+     * Iterate the Batch, get the Resource Assignment, dictionary Name, Look for the Resource definition for the
+     * name, then get the type of the Resource Definition, Get the instance for the Resource Type and process the
+     * request.
+     */
     override fun resolveResourceAssignments(blueprintRuntimeService: BluePrintRuntimeService<*>,
                                             resourceDictionaries: MutableMap<String, ResourceDefinition>,
                                             resourceAssignments: MutableList<ResourceAssignment>,
@@ -134,8 +139,18 @@ open class ResourceResolutionServiceImpl(private var applicationContext: Applica
         bulkSequenced.map { batchResourceAssignments ->
             batchResourceAssignments.filter { it.name != "*" && it.name != "start" }
                     .map { resourceAssignment ->
+                        val dictionaryName = resourceAssignment.dictionaryName
                         val dictionarySource = resourceAssignment.dictionarySource
-                        val processorInstanceName = ResourceResolutionConstants.PREFIX_RESOURCE_ASSIGNMENT_PROCESSOR.plus(dictionarySource)
+
+                        val resourceDefinition = resourceDictionaries[dictionaryName]
+                                ?: throw BluePrintProcessorException("couldn't get resource dictionary definition for $dictionarySource")
+
+                        val resourceSource = resourceDefinition.sources[dictionarySource]
+                                ?: throw BluePrintProcessorException("couldn't get resource definition $dictionaryName source($dictionarySource)")
+
+                        val processorType = resourceSource.type
+
+                        val processorInstanceName = ResourceResolutionConstants.PREFIX_RESOURCE_RESOLUTION_PROCESSOR.plus(processorType)
 
                         val resourceAssignmentProcessor = applicationContext.getBean(processorInstanceName) as? ResourceAssignmentProcessor
                                 ?: throw BluePrintProcessorException("failed to get resource processor for instance name($processorInstanceName) " +
