@@ -206,7 +206,8 @@ open class DefaultBluePrintRuntimeService(private var id: String, private var bl
 
     override fun loadEnvironments(fileName: String) {
         BluePrintMetadataUtils.environmentFileProperties(fileName).forEach { key, value ->
-            setNodeTemplateAttributeValue("ENV", key.toString(), value.toString().asJsonPrimitive())
+            setNodeTemplateAttributeValue(BluePrintConstants.PROPERTY_BPP, key.toString(), value.toString()
+                    .asJsonPrimitive())
         }
     }
 
