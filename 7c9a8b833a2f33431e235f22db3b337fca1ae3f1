@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd7ceee6_b54c8004",
+        "filename": "ms/blueprintsprocessor/modules/commons/dmaap-lib/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-26T22:00:08Z",
+      "side": 1,
+      "message": "PLs put this property in parent pom",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 58
+      },
+      "revId": "7c9a8b833a2f33431e235f22db3b337fca1ae3f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f6778c3d_36381b49",
+        "filename": "ms/blueprintsprocessor/modules/commons/dmaap-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/dmaap/EnvironmentContext.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-26T22:00:08Z",
+      "side": 1,
+      "message": "Purpose of this file?",
+      "range": {
+        "startLine": 32,
+        "startChar": 6,
+        "endLine": 32,
+        "endChar": 24
+      },
+      "revId": "7c9a8b833a2f33431e235f22db3b337fca1ae3f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f7ce049d_b0aee68d",
+        "filename": "ms/blueprintsprocessor/modules/commons/dmaap-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/dmaap/EventPublisher.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-02-26T22:00:08Z",
+      "side": 1,
+      "message": "Pass Only Selector and Message.",
+      "range": {
+        "startLine": 32,
+        "startChar": 4,
+        "endLine": 32,
+        "endChar": 77
+      },
+      "revId": "7c9a8b833a2f33431e235f22db3b337fca1ae3f1",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
