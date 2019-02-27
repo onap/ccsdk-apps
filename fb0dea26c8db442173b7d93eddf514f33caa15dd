@@ -1,0 +1,135 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "dc89e7b0_4d899702",
+        "filename": "ms/blueprintsprocessor/modules/inbounds/selfservice-api/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/selfservice/api/validation/BluePrintDesignTimeRuntimeValidatorService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T13:17:00Z",
+      "side": 1,
+      "message": "I understand your passion for 2018, but it\u0027s time to move on to 2019 now ;)",
+      "range": {
+        "startLine": 2,
+        "startChar": 16,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ecbd48b4_dd641c95",
+        "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/BluePrintArtifactDefinitionValidatorImpl.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T13:17:00Z",
+      "side": 1,
+      "message": "why scope prototype here and not in the other validator? We should be consistent, shoulnd\u0027t we?",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 55
+      },
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8455708b_880bdd83",
+        "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/BluePrintArtifactTypeValidatorImpl.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T13:17:00Z",
+      "side": 1,
+      "message": "Scope?",
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d2daf5fe_f39c162d",
+        "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/BluePrintDataTypeValidatorImpl.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T13:17:00Z",
+      "side": 1,
+      "message": "scope",
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "912244c3_7e72e464",
+        "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/BluePrintDesignTimeValidatorService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T13:17:00Z",
+      "side": 1,
+      "message": "scope? bean name?",
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7417a39e_c21c1431",
+        "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/BluePrintTypeValidatorServiceImpl.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T13:17:00Z",
+      "side": 1,
+      "message": "scope?",
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d0feb188_19f32277",
+        "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/extension/ArtifactMappingResourceValidator.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T13:17:00Z",
+      "side": 1,
+      "message": "scope?",
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
