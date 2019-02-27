@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "950cc64e_572c4804",
+        "filename": "ms/blueprintsprocessor/modules/inbounds/selfservice-api/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/selfservice/api/validation/BluePrintDesignTimeRuntimeValidatorService.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T15:17:24Z",
+      "side": 1,
+      "message": "Just put 2019 and not 2018.",
+      "parentUuid": "ee31e646_4e709882",
+      "range": {
+        "startLine": 2,
+        "startChar": 16,
+        "endLine": 2,
+        "endChar": 20
+      },
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecbd48b4_dd641c95",
         "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/BluePrintArtifactDefinitionValidatorImpl.kt",
         "patchSetId": 2
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "Some instance hold Error, Blueprint Services as class variable. If there is class variable present, We have use use proto, If not we use singleton. It depends on how we use and Performance aspect.",
       "parentUuid": "ecbd48b4_dd641c95",
+      "range": {
+        "startLine": 34,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 55
+      },
+      "revId": "fb0dea26c8db442173b7d93eddf514f33caa15dd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "027ea09a_27dc26d9",
+        "filename": "ms/controllerblueprints/modules/blueprint-validation/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/validation/BluePrintArtifactDefinitionValidatorImpl.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-02-27T15:17:24Z",
+      "side": 1,
+      "message": "understood",
+      "parentUuid": "f57b6ddc_afebee4a",
       "range": {
         "startLine": 34,
         "startChar": 0,
