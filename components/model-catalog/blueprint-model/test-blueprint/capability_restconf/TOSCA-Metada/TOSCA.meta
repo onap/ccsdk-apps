@@ -1,0 +1,11 @@
+<!-- QUESTION:
+     what name should I use here, since I have two plans? -->
+
+TOSCA-Meta-File-Version: 1.0.0
+CSAR-Version: 1.0
+Created-By: Rodrigo Ottero
+Entry-Definitions: Definitions/activation-blueprint.json
+Template-Tags: activation-blueprint
+
+Name: Plans/CONFIG_configAssign.bpmn
+Content-Type: application/vnd.oasis.bpmn
