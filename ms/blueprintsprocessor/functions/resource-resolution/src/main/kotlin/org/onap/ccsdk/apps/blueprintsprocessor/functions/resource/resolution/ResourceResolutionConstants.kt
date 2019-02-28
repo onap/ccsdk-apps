@@ -1,5 +1,6 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
+ * Modifications Copyright © 2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +17,12 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution
 
-class ResourceResolutionConstants {
-    companion object {
-        const val SERVICE_RESOURCE_RESOLUTION = "resource-resolution-service"
+object ResourceResolutionConstants {
 
-        const val PREFIX_RESOURCE_RESOLUTION_PROCESSOR = "rr-processor-"
-        const val INPUT_ARTIFACT_PREFIX_NAMES = "artifact-prefix-names"
-        const val OUTPUT_ASSIGNMENT_PARAMS = "assignment-params"
-        const val FILE_NAME_RESOURCE_DEFINITION_TYPES = "resources_definition_types.json"
-    }
+    const val SERVICE_RESOURCE_RESOLUTION = "resource-resolution-service"
 
+    const val PREFIX_RESOURCE_RESOLUTION_PROCESSOR = "rr-processor-"
+    const val INPUT_ARTIFACT_PREFIX_NAMES = "artifact-prefix-names"
+    const val OUTPUT_ASSIGNMENT_PARAMS = "assignment-params"
+    const val FILE_NAME_RESOURCE_DEFINITION_TYPES = "resources_definition_types.json"
 }

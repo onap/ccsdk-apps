@@ -21,6 +21,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode
 import com.fasterxml.jackson.databind.node.JsonNodeFactory
 import com.fasterxml.jackson.databind.node.NullNode
 import com.fasterxml.jackson.databind.node.ObjectNode
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.ResourceResolutionConstants.PREFIX_RESOURCE_RESOLUTION_PROCESSOR
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.RestResourceSource
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils.ResourceAssignmentUtils
 import org.onap.ccsdk.apps.blueprintsprocessor.rest.service.BluePrintRestLibPropertyService
@@ -39,7 +40,7 @@ import org.springframework.stereotype.Service
  *
  * @author Kapil Singal
  */
-@Service("rr-processor-source-rest")
+@Service("${PREFIX_RESOURCE_RESOLUTION_PROCESSOR}source-rest")
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 open class RestResourceResolutionProcessor(private val blueprintRestLibPropertyService: BluePrintRestLibPropertyService)
     : ResourceAssignmentProcessor() {
@@ -47,7 +48,7 @@ open class RestResourceResolutionProcessor(private val blueprintRestLibPropertyS
     private val logger = LoggerFactory.getLogger(RestResourceResolutionProcessor::class.java)
 
     override fun getName(): String {
-        return "rr-processor-source-rest"
+        return "${PREFIX_RESOURCE_RESOLUTION_PROCESSOR}source-rest"
     }
 
     override fun process(resourceAssignment: ResourceAssignment) {
