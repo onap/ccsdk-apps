@@ -18,6 +18,7 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.processor
 
 import com.fasterxml.jackson.databind.node.NullNode
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.ResourceResolutionConstants.PREFIX_RESOURCE_RESOLUTION_PROCESSOR
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils.ResourceAssignmentUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.checkNotEmpty
@@ -32,14 +33,14 @@ import org.springframework.stereotype.Service
  *
  * @author Kapil Singal
  */
-@Service("rr-processor-source-input")
+@Service("${PREFIX_RESOURCE_RESOLUTION_PROCESSOR}source-input")
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 open class InputResourceResolutionProcessor : ResourceAssignmentProcessor() {
 
     private val logger = LoggerFactory.getLogger(InputResourceResolutionProcessor::class.java)
 
     override fun getName(): String {
-        return "rr-processor-source-input"
+        return "${PREFIX_RESOURCE_RESOLUTION_PROCESSOR}source-input"
     }
 
     override fun process(resourceAssignment: ResourceAssignment) {

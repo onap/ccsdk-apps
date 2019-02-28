@@ -22,6 +22,7 @@ import com.fasterxml.jackson.databind.node.MissingNode
 import com.fasterxml.jackson.databind.node.NullNode
 import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.PrimaryDBLibGenericService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.DatabaseResourceSource
+import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.ResourceResolutionConstants.PREFIX_RESOURCE_RESOLUTION_PROCESSOR
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils.ResourceAssignmentUtils
 import org.onap.ccsdk.apps.controllerblueprints.core.*
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
@@ -38,7 +39,7 @@ import java.util.*
  *
  * @author Kapil Singal
  */
-@Service("rr-processor-source-primary-db")
+@Service("${PREFIX_RESOURCE_RESOLUTION_PROCESSOR}source-primary-db")
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 open class PrimaryDataResourceResolutionProcessor(private val primaryDBLibGenericService: PrimaryDBLibGenericService)
     : ResourceAssignmentProcessor() {
@@ -46,7 +47,7 @@ open class PrimaryDataResourceResolutionProcessor(private val primaryDBLibGeneri
     private val logger = LoggerFactory.getLogger(PrimaryDataResourceResolutionProcessor::class.java)
 
     override fun getName(): String {
-        return "rr-processor-source-primary-db"
+        return "${PREFIX_RESOURCE_RESOLUTION_PROCESSOR}source-primary-db"
     }
 
     override fun process(resourceAssignment: ResourceAssignment) {
