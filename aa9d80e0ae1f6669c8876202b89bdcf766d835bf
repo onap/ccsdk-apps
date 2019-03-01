@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91c984a4_df71304e",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionService.kt",
+        "patchSetId": 4
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-01T15:50:25Z",
+      "side": 1,
+      "message": "dictionarySource of \"default\" don\u0027t required a DD; this will throw an exception at line 145. So we need to handle this case",
+      "range": {
+        "startLine": 143,
+        "startChar": 28,
+        "endLine": 143,
+        "endChar": 44
+      },
+      "revId": "aa9d80e0ae1f6669c8876202b89bdcf766d835bf",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
