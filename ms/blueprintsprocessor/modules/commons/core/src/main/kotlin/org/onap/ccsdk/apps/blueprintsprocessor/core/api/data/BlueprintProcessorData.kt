@@ -19,7 +19,8 @@ package org.onap.ccsdk.apps.blueprintsprocessor.core.api.data
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import com.fasterxml.jackson.databind.node.ObjectNode
-import io.swagger.annotations.ApiModelProperty
+import io.swagger.v3.oas.annotations.media.Schema
+
 import java.util.*
 
 /**
@@ -29,22 +30,22 @@ import java.util.*
  */
 
 open class ExecutionServiceInput {
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var commonHeader: CommonHeader
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var actionIdentifiers: ActionIdentifiers
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var payload: ObjectNode
 }
 
 open class ExecutionServiceOutput {
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var commonHeader: CommonHeader
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var actionIdentifiers: ActionIdentifiers
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     var status: Status = Status()
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var payload: ObjectNode
 }
 
@@ -52,70 +53,70 @@ const val ACTION_MODE_ASYNC = "async"
 const val ACTION_MODE_SYNC = "sync"
 
 open class ActionIdentifiers {
-    @get:ApiModelProperty(required = false)
+    @get:Schema(required = false)
     lateinit var blueprintName: String
-    @get:ApiModelProperty(required = false)
+    @get:Schema(required = false)
     lateinit var blueprintVersion: String
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var actionName: String
-    @get:ApiModelProperty(required = true, allowableValues = "sync, async")
+    @get:Schema(required = true, allowableValues = ["sync", "async"])
     lateinit var mode: String
 }
 
 open class CommonHeader {
-    @get:ApiModelProperty(required = true, example = "2012-04-23T18:25:43.511Z")
+    @get:Schema(required = true, example = "2012-04-23T18:25:43.511Z")
     @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     var timestamp: Date = Date()
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var originatorId: String
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var requestId: String
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var subRequestId: String
-    @get:ApiModelProperty(required = false)
+    @get:Schema(required = false)
     var flags: Flags? = null
 }
 
 open class Flags {
     var isForce: Boolean = false
-    @get:ApiModelProperty(value = "3600")
+    @get:Schema(defaultValue = "3600")
     var ttl: Int = 3600
 }
 
 open class Status {
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     var code: Int = 200
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     var eventType: String = "EVENT-ACTION-RESPONSE"
-    @get:ApiModelProperty(required = true, example = "2012-04-23T18:25:43.511Z")
+    @get:Schema(required = true, example = "2012-04-23T18:25:43.511Z")
     @get:JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     var timestamp: Date = Date()
-    @get:ApiModelProperty(required = false)
+    @get:Schema(required = false)
     var errorMessage: String? = null
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     var message: String = "success"
 }
 
 open class BluePrintManagementInput {
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var commonHeader: CommonHeader
-    @get:ApiModelProperty(required = false)
+    @get:Schema(required = false)
     lateinit var blueprintName: String
-    @get:ApiModelProperty(required = false)
+    @get:Schema(required = false)
     lateinit var blueprintVersion: String
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var fileChunk: FileChunk
 }
 
 open class FileChunk {
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var chunk: ByteArray
 }
 
 open class BluePrintManagementOutput {
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     lateinit var commonHeader: CommonHeader
-    @get:ApiModelProperty(required = true)
+    @get:Schema(required = true)
     var status: Status = Status()
 }
 

@@ -16,9 +16,10 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.resource.dict.factory;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceSourceMapping;
-import org.springframework.util.Assert;
+
 
 public class ResourceSourceMappingFactoryTest {
 
@@ -31,11 +32,11 @@ public class ResourceSourceMappingFactoryTest {
         ResourceSourceMappingFactory.INSTANCE.registerSourceMapping("primary-config-data", "source-rest");
 
         String nodeTypeName = ResourceSourceMappingFactory.INSTANCE.getRegisterSourceMapping("primary-db");
-        Assert.notNull(nodeTypeName, "Failed to get primary-db mapping");
+        Assert.assertNotNull("Failed to get primary-db mapping", nodeTypeName);
 
         ResourceSourceMapping resourceSourceMapping = ResourceSourceMappingFactory.INSTANCE.getRegisterSourceMapping();
-        Assert.notNull(resourceSourceMapping, "Failed to get resource source mapping");
-        Assert.notNull(resourceSourceMapping.getResourceSourceMappings(), "Failed to get resource source mappings");
+        Assert.assertNotNull("Failed to get resource source mapping", resourceSourceMapping);
+        Assert.assertNotNull("Failed to get resource source mappings", resourceSourceMapping.getResourceSourceMappings());
 
     }
 

@@ -17,23 +17,13 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.db.primary.domain
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import io.swagger.annotations.ApiModelProperty
-import javax.persistence.Entity
-import javax.persistence.EntityListeners
-import javax.persistence.Table
+import io.swagger.v3.oas.annotations.media.Schema
 import org.hibernate.annotations.Proxy
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.io.Serializable
 import java.util.*
-import javax.persistence.CascadeType
-import javax.persistence.Column
-import javax.persistence.FetchType
-import javax.persistence.Id
-import javax.persistence.Lob
-import javax.persistence.OneToOne
-import javax.persistence.Temporal
-import javax.persistence.TemporalType
+import javax.persistence.*
 
 @EntityListeners(AuditingEntityListener::class)
 @Entity
@@ -49,7 +39,7 @@ class BlueprintProcessorModel : Serializable {
     var artifactType: String? = null
 
     @Column(name = "artifact_version", nullable = false)
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     var artifactVersion: String? = null
 
     @Lob
@@ -63,16 +53,16 @@ class BlueprintProcessorModel : Serializable {
     var createdDate = Date()
 
     @Column(name = "artifact_name", nullable = false)
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     var artifactName: String? = null
 
     @Column(name = "updated_by", nullable = false)
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     var updatedBy: String? = null
 
     @Lob
     @Column(name = "tags", nullable = false)
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     var tags: String? = null
 
     @OneToOne(mappedBy = "blueprintModel", fetch = FetchType.EAGER, orphanRemoval = true, cascade = [CascadeType.ALL])

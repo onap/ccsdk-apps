@@ -200,53 +200,6 @@
                     <target>1.8</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>com.github.kongchen</groupId>
-                <artifactId>swagger-maven-plugin</artifactId>
-                <version>3.1.7</version>
-                <configuration>
-                    <apiSources>
-                        <apiSource>
-                            <springmvc>true</springmvc>
-                            <locations>org.onap.ccsdk.apps.controllerblueprints.service.rs
-                            </locations>
-                            <schemes>
-                                <scheme>http</scheme>
-                                <scheme>https</scheme>
-                            </schemes>
-                            <basePath>/api/v1</basePath>
-                            <info>
-                                <title>Controller Blueprints</title>
-                                <version>${project.version}</version>
-                                <description>
-                                    Controller blueprints API for VNF Self Service.
-                                </description>
-                                <termsOfService>
-                                    Terms of service
-                                </termsOfService>
-                                <contact>
-                                    <email>brindasanth@gmail.com</email>
-                                    <name>Brinda Santh</name>
-                                    <url>http://onap.com</url>
-                                </contact>
-                                <license>
-                                    <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-                                    <name>Apache 2.0</name>
-                                </license>
-                            </info>
-                            <swaggerDirectory>${swagger.directory}</swaggerDirectory>
-                        </apiSource>
-                    </apiSources>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>compile</phase>
-                        <goals>
-                            <goal>generate</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 

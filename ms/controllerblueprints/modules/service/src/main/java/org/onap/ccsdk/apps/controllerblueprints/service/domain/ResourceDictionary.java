@@ -1,5 +1,6 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
+ * Modifications Copyright © 2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,7 +18,7 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDefinition;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -40,30 +41,30 @@ public class ResourceDictionary implements Serializable {
 
     @Id
     @Column(name = "name", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String name;
 
     @Column(name = "data_type", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String dataType;
 
     @Column(name = "entry_schema")
     private String entrySchema;
 
     @Lob
-    @Convert(converter  = JpaResourceDefinitionConverter.class)
+    @Convert(converter = JpaResourceDefinitionConverter.class)
     @Column(name = "definition", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private ResourceDefinition definition;
 
     @Lob
     @Column(name = "description", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String description;
 
     @Lob
     @Column(name = "tags", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String tags;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -73,7 +74,7 @@ public class ResourceDictionary implements Serializable {
     private Date creationDate;
 
     @Column(name = "updated_by", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String updatedBy;
 
     @Override
@@ -152,7 +153,6 @@ public class ResourceDictionary implements Serializable {
     public void setUpdatedBy(String updatedBy) {
         this.updatedBy = updatedBy;
     }
-
 
 
 }

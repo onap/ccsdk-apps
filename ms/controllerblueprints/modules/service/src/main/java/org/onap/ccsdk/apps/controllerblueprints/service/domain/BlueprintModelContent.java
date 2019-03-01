@@ -1,6 +1,7 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
  * Modifications Copyright © 2019 Bell Canada.
+ * Modifications Copyright © 2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +19,7 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -45,11 +46,11 @@ public class BlueprintModelContent implements Serializable {
     private String id;
 
     @Column(name = "name", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String name;
 
     @Column(name = "content_type", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String contentType;
 
     @OneToOne
@@ -62,8 +63,8 @@ public class BlueprintModelContent implements Serializable {
 
     @Lob
     @Column(name = "content", nullable = false)
-    @ApiModelProperty(required=true)
-    private byte[]  content;
+    @Schema(required = true)
+    private byte[] content;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
     @LastModifiedDate

@@ -1,5 +1,6 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
+ * Modifications Copyright © 2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,20 +17,14 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api
 
-import io.swagger.annotations.ApiOperation
+import io.swagger.v3.oas.annotations.media.Schema
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ACTION_MODE_ASYNC
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.http.codec.multipart.FilePart
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestPart
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 
 @RestController
@@ -46,7 +41,7 @@ class ExecutionServiceController {
     }
 
     @PostMapping(path = ["/upload"], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
-    @ApiOperation(value = "Upload CBA", notes = "Takes a File and load it in the runtime database")
+    @Schema(description = "Upload CBA", title = "Takes a File and load it in the runtime database")
     @ResponseBody
     fun upload(@RequestPart("file") parts: Mono<FilePart>): Mono<String> {
         return parts
@@ -56,8 +51,8 @@ class ExecutionServiceController {
     }
 
     @RequestMapping(path = ["/process"], method = [RequestMethod.POST], produces = [MediaType.APPLICATION_JSON_VALUE])
-    @ApiOperation(value = "Resolve Resource Mappings",
-        notes = "Takes the blueprint information and process as per the payload")
+    @Schema(description = "Resolve Resource Mappings",
+        title = "Takes the blueprint information and process as per the payload")
     @ResponseBody
     fun process(@RequestBody executionServiceInput: ExecutionServiceInput): ExecutionServiceOutput {
         if (executionServiceInput.actionIdentifiers.mode == ACTION_MODE_ASYNC) {

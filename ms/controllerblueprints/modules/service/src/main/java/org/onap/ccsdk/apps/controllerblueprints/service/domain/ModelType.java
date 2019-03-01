@@ -1,5 +1,6 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
+ * Modifications Copyright © 2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +19,7 @@ package org.onap.ccsdk.apps.controllerblueprints.service.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.JsonNode;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -41,35 +42,35 @@ public class ModelType implements Serializable {
 
     @Id
     @Column(name = "model_name", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String modelName;
 
     @Column(name = "derived_from", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String derivedFrom;
 
     @Column(name = "definition_type", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String definitionType;
 
     @Lob
-    @Convert(converter  = JpaJsonNodeConverter.class)
+    @Convert(converter = JpaJsonNodeConverter.class)
     @Column(name = "definition", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private JsonNode definition;
 
     @Lob
     @Column(name = "description", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String description;
 
     @Column(name = "version", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String version;
 
     @Lob
     @Column(name = "tags", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String tags;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
@@ -79,7 +80,7 @@ public class ModelType implements Serializable {
     private Date creationDate;
 
     @Column(name = "updated_by", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String updatedBy;
 
     @Override

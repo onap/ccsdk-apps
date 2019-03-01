@@ -1,6 +1,7 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
  * Modifications Copyright © 2019 Bell Canada.
+ * Modifications Copyright © 2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +19,7 @@
 package org.onap.ccsdk.apps.controllerblueprints.service.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import org.hibernate.annotations.Proxy;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -36,8 +37,8 @@ import java.util.Date;
 
 @EntityListeners({AuditingEntityListener.class})
 @Entity
-@Table(name = "CONFIG_MODEL", uniqueConstraints=@UniqueConstraint(columnNames={"artifact_name","artifact_version"}))
-@Proxy(lazy=false)
+@Table(name = "CONFIG_MODEL", uniqueConstraints = @UniqueConstraint(columnNames = {"artifact_name", "artifact_version"}))
+@Proxy(lazy = false)
 public class BlueprintModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
@@ -78,7 +79,7 @@ public class BlueprintModel implements Serializable {
     private String artifactType;
 
     @Column(name = "artifact_version", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String artifactVersion;
 
     @Lob
@@ -95,20 +96,20 @@ public class BlueprintModel implements Serializable {
     private Date createdDate = new Date();
 
     @Column(name = "artifact_name", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String artifactName;
 
     @Column(name = "published", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String published;
 
     @Column(name = "updated_by", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String updatedBy;
 
     @Lob
     @Column(name = "tags", nullable = false)
-    @ApiModelProperty(required=true)
+    @Schema(required = true)
     private String tags;
 
     @OneToOne(mappedBy = "blueprintModel", fetch = FetchType.EAGER, orphanRemoval = true, cascade = CascadeType.ALL)

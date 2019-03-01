@@ -22,7 +22,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.fasterxml.jackson.annotation.JsonPropertyOrder
 import com.fasterxml.jackson.databind.JsonNode
-import io.swagger.annotations.ApiModelProperty
 
 /**
  *
@@ -163,7 +162,6 @@ class PropertyDefinition {
     var constraints: MutableList<ConstraintClause>? = null
     @get:JsonProperty("entry_schema")
     var entrySchema: EntrySchema? = null
-    @get:ApiModelProperty(notes = "Property Value, It may be raw JSON or primitive data type values")
     var value: JsonNode? = null
 }
 

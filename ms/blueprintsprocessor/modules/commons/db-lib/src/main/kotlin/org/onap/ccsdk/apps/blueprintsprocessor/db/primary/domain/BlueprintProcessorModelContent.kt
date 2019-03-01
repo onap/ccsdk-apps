@@ -17,22 +17,12 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.db.primary.domain
 
 import com.fasterxml.jackson.annotation.JsonFormat
-import io.swagger.annotations.ApiModelProperty
-import java.io.Serializable
-import java.util.Date
-import java.util.Objects
-import javax.persistence.Column
-import javax.persistence.Entity
-import javax.persistence.EntityListeners
-import javax.persistence.Id
-import javax.persistence.JoinColumn
-import javax.persistence.Lob
-import javax.persistence.OneToOne
-import javax.persistence.Table
-import javax.persistence.Temporal
-import javax.persistence.TemporalType
+import io.swagger.v3.oas.annotations.media.Schema
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
+import java.io.Serializable
+import java.util.*
+import javax.persistence.*
 
 @EntityListeners(AuditingEntityListener::class)
 @Entity
@@ -44,11 +34,11 @@ class BlueprintProcessorModelContent : Serializable {
     var id: String? = null
 
     @Column(name = "name", nullable = false)
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     var name: String? = null
 
     @Column(name = "content_type", nullable = false)
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     var contentType: String? = null
 
     @OneToOne
@@ -61,7 +51,7 @@ class BlueprintProcessorModelContent : Serializable {
 
     @Lob
     @Column(name = "content", nullable = false)
-    @ApiModelProperty(required = true)
+    @Schema(required = true)
     var content: ByteArray? = null
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")

@@ -39,11 +39,11 @@
         <protobuff.java.utils.version>3.6.1</protobuff.java.utils.version>
         <eelf.version>1.0.0</eelf.version>
         <guava.version>27.0.1-jre</guava.version>
-        <springfox.swagger2.version>2.9.2</springfox.swagger2.version>
         <h2database.version>1.4.197</h2database.version>
         <onap.logger.slf4j>1.2.2</onap.logger.slf4j>
         <powermock.version>1.7.4</powermock.version>
         <mockk.version>1.9</mockk.version>
+        <swagger.version>2.0.7</swagger.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -68,16 +68,6 @@
             </dependency>
 
             <!--Swagger Dependencies -->
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger2</artifactId>
-                <version>${springfox.swagger2.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.springfox</groupId>
-                <artifactId>springfox-swagger-ui</artifactId>
-                <version>${springfox.swagger2.version}</version>
-            </dependency>
 
             <dependency>
                 <groupId>org.apache.commons</groupId>
@@ -209,6 +199,12 @@
                 <version>${h2database.version}</version>
             </dependency>
 
+            <!-- Open API -->
+            <dependency>
+                <groupId>io.swagger.core.v3</groupId>
+                <artifactId>swagger-core</artifactId>
+                <version>${swagger.version}</version>
+            </dependency>
 
             <!-- Application Components -->
             <dependency>
@@ -315,14 +311,6 @@
             <artifactId>guava</artifactId>
         </dependency>
         <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
             <artifactId>kotlin-stdlib</artifactId>
         </dependency>
@@ -362,6 +350,11 @@
         <dependency>
             <groupId>com.google.protobuf</groupId>
             <artifactId>protobuf-java-util</artifactId>
+        </dependency>
+        <!-- Open API -->
+        <dependency>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core</artifactId>
         </dependency>
     </dependencies>
 
