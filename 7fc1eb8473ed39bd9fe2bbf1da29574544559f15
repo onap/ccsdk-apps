@@ -22,6 +22,75 @@
       "revId": "7fc1eb8473ed39bd9fe2bbf1da29574544559f15",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aec93989_898e9837",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/CapabilityResourceResolutionProcessor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-01T13:50:07Z",
+      "side": 1,
+      "message": "this impacts all the DD, same elsewhere where you changed * to source-*",
+      "range": {
+        "startLine": 35,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 29
+      },
+      "revId": "7fc1eb8473ed39bd9fe2bbf1da29574544559f15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4198404c_fcc3e823",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/RestResourceResolutionProcessor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-01T13:50:07Z",
+      "side": 1,
+      "message": "not consistent",
+      "range": {
+        "startLine": 50,
+        "startChar": 16,
+        "endLine": 50,
+        "endChar": 22
+      },
+      "revId": "7fc1eb8473ed39bd9fe2bbf1da29574544559f15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ad9b00ad_1d2bea10",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/test/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/ResourceResolutionServiceTest.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-01T13:50:07Z",
+      "side": 1,
+      "message": "this is exactly what is impacting the DDs",
+      "range": {
+        "startLine": 69,
+        "startChar": 0,
+        "endLine": 70,
+        "endChar": 29
+      },
+      "revId": "7fc1eb8473ed39bd9fe2bbf1da29574544559f15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
