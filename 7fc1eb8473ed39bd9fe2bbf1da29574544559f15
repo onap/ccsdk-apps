@@ -120,6 +120,69 @@
     },
     {
       "key": {
+        "uuid": "9c1813a7_9e2ee22b",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/DefaultResourceResolutionProcessor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-01T15:52:46Z",
+      "side": 1,
+      "message": "this throws an exception, should be catch to avoid breaking functionality",
+      "range": {
+        "startLine": 47,
+        "startChar": 47,
+        "endLine": 47,
+        "endChar": 60
+      },
+      "revId": "7fc1eb8473ed39bd9fe2bbf1da29574544559f15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24dc6221_99623fa7",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/PrimaryDataResourceResolutionProcessor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-01T15:52:46Z",
+      "side": 1,
+      "message": "this throws an exception, should be catch to avoid breaking functionality",
+      "range": {
+        "startLine": 57,
+        "startChar": 41,
+        "endLine": 57,
+        "endChar": 54
+      },
+      "revId": "7fc1eb8473ed39bd9fe2bbf1da29574544559f15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26296f49_25d62ce4",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/PrimaryDataResourceResolutionProcessor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-01T15:52:46Z",
+      "side": 1,
+      "message": "check null value",
+      "revId": "7fc1eb8473ed39bd9fe2bbf1da29574544559f15",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4198404c_fcc3e823",
         "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/RestResourceResolutionProcessor.kt",
         "patchSetId": 2
