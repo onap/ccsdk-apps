@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a511682_56fbcf84",
+        "filename": "components/model-catalog/resource-dictionary/starter-dictionary/service-instance-id.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-04T22:55:48Z",
+      "side": 1,
+      "message": "endpoint selector is missing, any reason for that?",
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ed1fd1d_0acf95fe",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/DatabaseResourceAssignmentProcessor.kt",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-04T22:55:48Z",
+      "side": 1,
+      "message": "Please work on the my latest validation patch version for property variable constant.",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c8a332ae_94afe147",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/DatabaseResourceAssignmentProcessor.kt",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-04T22:55:48Z",
+      "side": 1,
+      "message": "Please Refer the Rest  Implementation, Using Dynamic Property, Create the DB Service.",
+      "range": {
+        "startLine": 44,
+        "startChar": 47,
+        "endLine": 44,
+        "endChar": 99
+      },
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "72e7bc07_46654a8a",
+        "filename": "ms/blueprintsprocessor/modules/commons/db-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/db/primary/DBLibGenericService.kt",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-04T22:55:48Z",
+      "side": 1,
+      "message": "This is we can move to separate service. We need to populate this constructor.",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
