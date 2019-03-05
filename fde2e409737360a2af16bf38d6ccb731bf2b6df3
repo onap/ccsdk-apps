@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f781e15e_7d774a1e",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-05T17:38:54Z",
+      "side": 1,
+      "message": "My reasoning was that first I would need to send a mount command. After that, I would need to send the configlet and then conclude everything with an unmount.\n\nThe first prefix is for me to load the mount request and mesh it with the values I need. That would be the first payload I would send.\n\nThe configlet itself would have been persisted already meshed, so it would be just a matter of sending it.\n\nThe last step would be to create the unmount request, and for that I would need the mapping and the template related to the unmount.\n\nHypothetical example in Python:\n\n rc \u003d RestconfClient(...)\n rr \u003d ResolutionHelper(self)\n\n # mounting device\n mount_payload \u003d rr.resolve_and_generate_message_from_template_prefix(\"configure-restconf-mount\")\n rc.mount(mount_payload)\n\n # recover and send configlet\n configlet \u003d #recover configlet somehow\n rc.configure(configlet)\n\n # unounting device\n unmount_payload \u003d rr.resolve_and_generate_message_from_template_prefix(\"configure-restconf-unmount\")\n rc.unmount(unmount_payload)\n\n\nThat is the reason why I have created this.",
+      "parentUuid": "62a49cf9_b607ffe0",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 177,
+        "endChar": 19
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28db082c_6955b5c6",
         "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
         "patchSetId": 2
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "048a3f8c_6ebc0990",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-05T17:38:54Z",
+      "side": 1,
+      "message": "I thought in having two scripts, one for each action.",
+      "parentUuid": "ec8f2515_4f6644bc",
+      "range": {
+        "startLine": 200,
+        "startChar": 9,
+        "endLine": 202,
+        "endChar": 58
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cdc762b9_41035a7a",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-05T17:38:54Z",
+      "side": 1,
+      "message": "thanks",
+      "parentUuid": "28db082c_6955b5c6",
+      "range": {
+        "startLine": 202,
+        "startChar": 12,
+        "endLine": 202,
+        "endChar": 58
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9473f36_f5cc8ac3",
         "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
         "patchSetId": 2
@@ -82,6 +154,30 @@
       "writtenOn": "2019-03-05T16:11:27Z",
       "side": 1,
       "message": "Please check workflow input has those propertes.",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 16
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5ddd335_c239da22",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-05T17:38:54Z",
+      "side": 1,
+      "message": "will do",
+      "parentUuid": "f9473f36_f5cc8ac3",
       "range": {
         "startLine": 211,
         "startChar": 12,
