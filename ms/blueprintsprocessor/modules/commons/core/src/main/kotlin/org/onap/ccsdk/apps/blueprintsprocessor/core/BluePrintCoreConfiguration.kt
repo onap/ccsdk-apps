@@ -33,7 +33,6 @@ open class BluePrintCoreConfiguration {
 
     @Value("\${blueprintsprocessor.blueprintArchivePath}")
     lateinit var archivePath: String
-
 }
 
 @Configuration
