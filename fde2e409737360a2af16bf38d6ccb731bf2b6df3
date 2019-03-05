@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e6699144_69e3c7ff",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-05T17:52:17Z",
+      "side": 1,
+      "message": "No Need to define the Artifact prefix name here, Modeler knows the artifact attached and those artifacts used in scripts. So no need to this property. Inside the script, process method we can have this implementation.",
+      "parentUuid": "f781e15e_7d774a1e",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 177,
+        "endChar": 19
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28db082c_6955b5c6",
         "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
         "patchSetId": 2
@@ -134,6 +158,30 @@
       "range": {
         "startLine": 202,
         "startChar": 12,
+        "endLine": 202,
+        "endChar": 58
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aa3389ce_d253efdd",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-05T17:52:17Z",
+      "side": 1,
+      "message": "The script is defined as part of Component input.For executorScripting we don\u0027t need as it takes from the input directly.",
+      "parentUuid": "048a3f8c_6ebc0990",
+      "range": {
+        "startLine": 200,
+        "startChar": 9,
         "endLine": 202,
         "endChar": 58
       },
