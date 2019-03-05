@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "62a49cf9_b607ffe0",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-05T16:38:38Z",
+      "side": 1,
+      "message": "This is Not needed.",
+      "range": {
+        "startLine": 175,
+        "startChar": 18,
+        "endLine": 177,
+        "endChar": 19
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28db082c_6955b5c6",
         "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
         "patchSetId": 2
@@ -16,6 +39,29 @@
       "range": {
         "startLine": 202,
         "startChar": 12,
+        "endLine": 202,
+        "endChar": 58
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec8f2515_4f6644bc",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-05T16:38:38Z",
+      "side": 1,
+      "message": "No Need of this Definition",
+      "range": {
+        "startLine": 200,
+        "startChar": 9,
         "endLine": 202,
         "endChar": 58
       },
