@@ -22,6 +22,30 @@
       "revId": "bb4b06b4fea162f843ce0a103ec4a2e87cb791f9",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "05a41b40_9c7e4401",
+        "filename": "components/model-catalog/proto-definition/proto/BluePrintCommon.proto",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-05T01:52:03Z",
+      "side": 1,
+      "message": "We need to define the contract clearly, so that consumers of the gRPC API can under what type of event they are receiving.\n\nSO for instance shouldn\u0027t harcode the event type. If SO or any 3rd party system has to switch on the eventType, it has to be defined here and shared.",
+      "parentUuid": "b098e61b_5582a341",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 26
+      },
+      "revId": "bb4b06b4fea162f843ce0a103ec4a2e87cb791f9",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
