@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28db082c_6955b5c6",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-05T16:11:27Z",
+      "side": 1,
+      "message": "Kotlin Script with python extension",
+      "range": {
+        "startLine": 202,
+        "startChar": 12,
+        "endLine": 202,
+        "endChar": 58
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9473f36_f5cc8ac3",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 2
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-05T16:11:27Z",
+      "side": 1,
+      "message": "Please check workflow input has those propertes.",
+      "range": {
+        "startLine": 211,
+        "startChar": 12,
+        "endLine": 219,
+        "endChar": 16
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4b5481f5_889c6991",
+        "filename": "ms/blueprintsprocessor/functions/restconf-executor/src/main/kotlin/scripts/InternalSimpleRestconf.cba.kts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-05T16:11:27Z",
+      "side": 1,
+      "message": "Please define this in Process Method of the Class implementation. We shouldn\u0027t define process logic outside of the Script Class.",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 33
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
