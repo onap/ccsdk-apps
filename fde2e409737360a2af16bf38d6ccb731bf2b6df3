@@ -68,6 +68,30 @@
       "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c56947a5_ba0652d7",
+        "filename": "ms/blueprintsprocessor/functions/restconf-executor/src/main/kotlin/scripts/InternalSimpleRestconf.cba.kts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-05T16:26:21Z",
+      "side": 1,
+      "message": "Sorry, this shouldn\u0027t have been uploaded. It was just me doing some tests around the code. I understand this will be put in the script inside the blueprint, implementing the process method.",
+      "parentUuid": "4b5481f5_889c6991",
+      "range": {
+        "startLine": 88,
+        "startChar": 0,
+        "endLine": 100,
+        "endChar": 33
+      },
+      "revId": "fde2e409737360a2af16bf38d6ccb731bf2b6df3",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
