@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bda058dc_cef24762",
+        "filename": "ms/controllerblueprints/modules/blueprint-spec/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/spec/BluePrintOpenApiService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-05T13:02:59Z",
+      "side": 1,
+      "message": "onap-discuss@lists.onap.org",
+      "range": {
+        "startLine": 66,
+        "startChar": 25,
+        "endLine": 66,
+        "endChar": 37
+      },
+      "revId": "66f09526aaa3b0f8d4d0e17ea593693cf0355b60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "914d8e1e_189a50f1",
+        "filename": "ms/controllerblueprints/modules/blueprint-spec/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/spec/BluePrintOpenApiService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-05T13:02:59Z",
+      "side": 1,
+      "message": "https://www.onap.org/",
+      "range": {
+        "startLine": 68,
+        "startChar": 23,
+        "endLine": 68,
+        "endChar": 38
+      },
+      "revId": "66f09526aaa3b0f8d4d0e17ea593693cf0355b60",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
