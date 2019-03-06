@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "515a6439_85e40f67",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-06T16:40:14Z",
+      "side": 1,
+      "message": "these will need to change to reflect the parameters coming from SO. This was done some time ago, while these were the main parameters, but now this have changed and I need to understand the new parameters better.",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 31,
+        "endChar": 7
+      },
+      "revId": "cc60e42da09c7e8dfc2188b413937e0d6ad7859e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f22537ad_b25dae36",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Templates/config-assign-pnf-mapping.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-06T16:40:14Z",
+      "side": 1,
+      "message": "any parameter I am putting here is raising an exception, trying to fix it:\n\n org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException: \n Resource Assignment Validation:\n failed to get source(input) mapping for resource assignment(service-instance-id)",
+      "range": {
+        "startLine": 2,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 3
+      },
+      "revId": "cc60e42da09c7e8dfc2188b413937e0d6ad7859e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "040ecf14_7c761a2b",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Templates/configure-pnf-mapping.json",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-06T16:40:14Z",
+      "side": 1,
+      "message": "empty because of exception mentioned before.",
+      "revId": "cc60e42da09c7e8dfc2188b413937e0d6ad7859e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
