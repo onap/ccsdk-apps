@@ -25,9 +25,8 @@ import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 
 abstract class NetconfComponentFunction : AbstractComponentFunction() {
 
-
     open fun resourceResolutionService(): ResourceResolutionService =
-            functionDependencyInstanceAsType(ResourceResolutionConstants.SERVICE_RESOURCE_RESOLUTION)
+        functionDependencyInstanceAsType(ResourceResolutionConstants.SERVICE_RESOURCE_RESOLUTION)
 
     // Called from python script
     fun initializeNetconfConnection(requirementName: String): NetconfDevice {
@@ -39,14 +38,22 @@ abstract class NetconfComponentFunction : AbstractComponentFunction() {
         return bluePrintRuntimeService.resolveNodeTemplateArtifact(nodeTemplateName, artifactName)
     }
 
+    fun getDynamicProperties(key: String): JsonNode {
+        return operationInputs["dynamic-properties"]!!.get(key)
+    }
+
+    fun resolveFromDatabase(resolutionKey: String, artifactName: String): String {
+        return resourceResolutionService().resolveFromDatabase(bluePrintRuntimeService, artifactName, resolutionKey)
+    }
+
     fun resolveAndGenerateMessage(artifactMapping: String, artifactTemplate: String): String {
         return resourceResolutionService().resolveResources(bluePrintRuntimeService, nodeTemplateName,
-            artifactMapping, artifactTemplate)
+            artifactMapping, artifactTemplate, mapOf())
     }
 
     fun resolveAndGenerateMessage(artifactPrefix: String): String {
         return resourceResolutionService().resolveResources(bluePrintRuntimeService, nodeTemplateName,
-            artifactPrefix)
+            artifactPrefix, mapOf())
     }
 
     private fun deviceProperties(requirementName: String): DeviceInfo {
