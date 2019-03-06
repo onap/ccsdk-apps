@@ -1,0 +1,20 @@
+{
+  "data_types" : {
+    "dt-config-assign-properties" : {
+      "description" : "Dynamic DataType definition for workflow(config-assign).",
+      "version" : "1.0.0",
+      "properties" : {
+        "service-instance-id" : {
+          "type" : "string"
+        }
+      },
+      "derived_from" : "tosca.datatypes.Dynamic"
+    },
+    "dt-configure-properties" : {
+      "description" : "Dynamic DataType definition for workflow(configure).",
+      "version" : "1.0.0",
+      "properties" : { },
+      "derived_from" : "tosca.datatypes.Dynamic"
+    }
+  }
+}
