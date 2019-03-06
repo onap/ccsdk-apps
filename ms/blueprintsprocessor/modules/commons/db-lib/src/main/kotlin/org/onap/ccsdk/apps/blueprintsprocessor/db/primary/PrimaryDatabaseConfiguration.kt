@@ -33,9 +33,9 @@ import javax.sql.DataSource
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor.db.primary"],
-        entityManagerFactoryRef = "primaryEntityManager",
-        transactionManagerRef = "primaryTransactionManager"
+    basePackages = ["org.onap.ccsdk.apps.blueprintsprocessor.*"],
+    entityManagerFactoryRef = "primaryEntityManager",
+    transactionManagerRef = "primaryTransactionManager"
 )
 open class PrimaryDatabaseConfiguration(private val primaryDataSourceProperties: PrimaryDataSourceProperties) {
     val log = LoggerFactory.getLogger(PrimaryDatabaseConfiguration::class.java)!!
@@ -45,7 +45,7 @@ open class PrimaryDatabaseConfiguration(private val primaryDataSourceProperties:
     open fun primaryEntityManager(): LocalContainerEntityManagerFactoryBean {
         val em = LocalContainerEntityManagerFactoryBean()
         em.dataSource = primaryDataSource()
-        em.setPackagesToScan("org.onap.ccsdk.apps.blueprintsprocessor.db.primary")
+        em.setPackagesToScan("org.onap.ccsdk.apps.blueprintsprocessor.*")
 
         val vendorAdapter = HibernateJpaVendorAdapter()
         em.jpaVendorAdapter = vendorAdapter
