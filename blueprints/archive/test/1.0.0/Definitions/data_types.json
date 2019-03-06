@@ -1,0 +1,27 @@
+{
+  "data_types" : {
+    "dt-config-deploy-properties" : {
+      "description" : "Dynamic DataType definition for workflow(config-deploy).",
+      "version" : "1.0.0",
+      "properties" : {
+        "hostname" : {
+          "type" : "string"
+        }
+      },
+      "derived_from" : "tosca.datatypes.Dynamic"
+    },
+    "dt-resource-assignment-properties" : {
+      "description" : "Dynamic DataType definition for workflow(resource-assignment).",
+      "version" : "1.0.0",
+      "properties" : {
+        "service-instance-id" : {
+          "type" : "string"
+        },
+        "status" : {
+          "type" : "string"
+        }
+      },
+      "derived_from" : "tosca.datatypes.Dynamic"
+    }
+  }
+}

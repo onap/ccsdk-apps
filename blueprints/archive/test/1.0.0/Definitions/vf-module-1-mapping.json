@@ -1,0 +1,38 @@
+[
+  {
+    "name": "result",
+    "input-param": true,
+    "property": {
+      "type": "string"
+    },
+    "dictionary-name": "result",
+    "dictionary-source": "capability",
+    "dependencies": [
+        "vf-module-type"
+    ]
+  },
+  {
+    "name": "vf-module-type",
+    "input-param": true,
+    "property": {
+      "type": "string"
+    },
+    "dictionary-name": "vf-module-type",
+    "dictionary-source": "primary-db",
+    "dependencies": [
+        "vf-module-number"
+    ]
+  },
+  {
+    "name": "vf-module-number",
+    "input-param": true,
+    "property": {
+      "type": "string",
+      "default": "3"
+    },
+    "dictionary-name": "vf-module-number",
+    "dictionary-source": "default",
+    "dependencies": [
+    ]
+  }
+]

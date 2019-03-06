@@ -1,0 +1,278 @@
+{
+  "node_types" : {
+    "component-netconf-executor" : {
+      "description" : "This is Netconf Transaction Configuration Component API",
+      "version" : "1.0.0",
+      "capabilities" : {
+        "component-node" : {
+          "type" : "tosca.capabilities.Node"
+        }
+      },
+      "requirements" : {
+        "netconf-connection" : {
+          "capability" : "netconf",
+          "node" : "vnf-netconf-device",
+          "relationship" : "tosca.relationships.ConnectsTo"
+        }
+      },
+      "interfaces" : {
+        "ComponentNetconfExecutor" : {
+          "operations" : {
+            "process" : {
+              "inputs" : {
+                "script-type" : {
+                  "description" : "Script type, kotlin type is supported",
+                  "required" : true,
+                  "type" : "string",
+                  "constraints" : [ {
+                    "valid_values" : [ "kotlin", "jython", "internal" ]
+                  } ],
+                  "default" : "internal"
+                },
+                "script-class-reference" : {
+                  "description" : "Kotlin Script class name or jython script name.",
+                  "required" : true,
+                  "type" : "string"
+                },
+                "dynamic-properties": {
+                  "description": "Resolvable dynamic property.",
+                  "required": true,
+                  "type": "string"
+                },
+                "instance-dependencies" : {
+                  "description" : "Instance names to inject to Jython or Kotlin Script.",
+                  "required" : true,
+                  "type" : "list",
+                  "entry_schema" : {
+                    "type" : "string"
+                  }
+                }
+              },
+              "outputs" : {
+                "response-data" : {
+                  "description" : "Execution Response Data in JSON format.",
+                  "required" : false,
+                  "type" : "string"
+                },
+                "status" : {
+                  "description" : "Status of the Component Execution ( success or failure )",
+                  "required" : true,
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "derived_from" : "tosca.nodes.Component"
+    },
+    "component-resource-resolution" : {
+      "description" : "This is Resource Assignment Component API",
+      "version" : "1.0.0",
+      "attributes" : {
+        "assignment-params" : {
+          "required" : true,
+          "type" : "string"
+        }
+      },
+      "capabilities" : {
+        "component-node" : {
+          "type" : "tosca.capabilities.Node"
+        }
+      },
+      "interfaces" : {
+        "ResourceResolutionComponent" : {
+          "operations" : {
+            "process" : {
+              "inputs" : {
+                  "key" : {
+                    "description" : "Request type.",
+                    "required" : false,
+                    "type" : "string"
+                  },
+                  "store-result": {
+                    "description": "Whether or not to store the output.",
+                    "required": false,
+                    "type": "boolean"
+                  },
+                "resource-type" : {
+                  "description" : "Request type.",
+                  "required" : false,
+                  "type" : "string"
+                },
+                "artifact-prefix-names" : {
+                  "description" : "Template , Resource Assignment Artifact Prefix names",
+                  "required" : true,
+                  "type" : "list",
+                  "entry_schema" : {
+                    "type" : "string"
+                  }
+                },
+                "request-id" : {
+                  "description" : "Request Id, Unique Id for the request.",
+                  "required" : true,
+                  "type" : "string"
+                },
+                "resource-id" : {
+                  "description" : "Resource Id.",
+                  "required" : false,
+                  "type" : "string"
+                },
+                "action-name" : {
+                  "description" : "Action Name of the process",
+                  "required" : false,
+                  "type" : "string"
+                }
+              },
+              "outputs" : {
+                "resource-assignment-params" : {
+                  "required" : true,
+                  "type" : "string"
+                },
+                "status" : {
+                  "required" : true,
+                  "type" : "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "derived_from" : "tosca.nodes.Component"
+    },
+    "dg-generic" : {
+      "description" : "This is Generic Directed Graph Type",
+      "version" : "1.0.0",
+      "properties" : {
+        "content" : {
+          "required" : true,
+          "type" : "string"
+        },
+        "dependency-node-templates" : {
+          "description" : "Dependent Step Components NodeTemplate name.",
+          "required" : true,
+          "type" : "list",
+          "entry_schema" : {
+            "type" : "string"
+          }
+        }
+      },
+      "derived_from" : "tosca.nodes.DG"
+    },
+    "source-capability" : {
+      "description" : "This is Component Resource Source Node Type",
+      "version" : "1.0.0",
+      "properties" : {
+        "type" : {
+          "required" : true,
+          "type" : "string",
+          "constraints" : [ {
+            "valid_values" : [ "KOTLIN-COMPONENT", "JAVA-COMPONENT", "JYTHON-COMPONENT" ]
+          } ],
+          "default" : "KOTLIN-COMPONENT"
+        },
+        "instance-name" : {
+          "description" : "Capability component instance reference name for JAVA-COMPONENT, Script Class name for KOTLIN-COMPONENT.",
+          "required" : true,
+          "type" : "string"
+        },
+        "instance-dependencies" : {
+          "description" : "Instance dependency Names to Inject to Kotlin / Jython Script.",
+          "required" : false,
+          "type" : "list",
+          "entry_schema" : {
+            "type" : "string"
+          }
+        },
+        "key-dependencies" : {
+          "description" : "Resource Resolution dependency dictionary names.",
+          "required" : true,
+          "type" : "list",
+          "entry_schema" : {
+            "type" : "string"
+          }
+        }
+      },
+      "derived_from" : "tosca.nodes.ResourceSource"
+    },
+    "source-input" : {
+      "description" : "This is Input Resource Source Node Type",
+      "version" : "1.0.0",
+      "properties" : {
+        "key" : {
+          "required" : false,
+          "type" : "string"
+        },
+        "key-dependencies" : {
+          "required" : true,
+          "type" : "list",
+          "entry_schema" : {
+            "type" : "string"
+          }
+        }
+      },
+      "derived_from" : "tosca.nodes.ResourceSource"
+    },
+    "tosca.nodes.Component" : {
+      "description" : "This is default Component Node",
+      "version" : "1.0.0",
+      "derived_from" : "tosca.nodes.Root"
+    },
+    "tosca.nodes.DG" : {
+      "description" : "This is Directed Graph Node Type",
+      "version" : "1.0.0",
+      "derived_from" : "tosca.nodes.Root"
+    },
+    "tosca.nodes.ResourceSource" : {
+      "description" : "TOSCA base type for Resource Sources",
+      "version" : "1.0.0",
+      "derived_from" : "tosca.nodes.Root"
+    },
+    "tosca.nodes.Vnf" : {
+      "description" : "This is VNF Node Type",
+      "version" : "1.0.0",
+      "derived_from" : "tosca.nodes.Root"
+    },
+    "vnf-netconf-device" : {
+      "description" : "This is VNF Device with Netconf  Capability",
+      "version" : "1.0.0",
+      "capabilities" : {
+        "netconf" : {
+          "type" : "tosca.capabilities.Netconf",
+          "properties" : {
+            "login-key" : {
+              "required" : true,
+              "type" : "string",
+              "default" : "sdnc"
+            },
+            "login-account" : {
+              "required" : true,
+              "type" : "string",
+              "default" : "sdnc-tacacs"
+            },
+            "source" : {
+              "required" : false,
+              "type" : "string",
+              "default" : "npm"
+            },
+            "target-ip-address" : {
+              "required" : true,
+              "type" : "string"
+            },
+            "port-number" : {
+              "required" : true,
+              "type" : "integer",
+              "default" : 830
+            },
+            "connection-time-out" : {
+              "required" : false,
+              "type" : "integer",
+              "default" : 30
+            }
+          }
+        }
+      },
+      "derived_from" : "tosca.nodes.Vnf"
+    }
+  }
+}
