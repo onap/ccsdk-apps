@@ -44,11 +44,11 @@ abstract class RestconfComponentFunction : AbstractComponentFunction() {
 
     fun resolveAndGenerateMessage(artifactMapping: String, artifactTemplate: String): String {
         return resourceResolutionService().resolveResources(bluePrintRuntimeService, nodeTemplateName,
-                artifactMapping, artifactTemplate)
+                artifactMapping, artifactTemplate, mapOf())
     }
 
     fun resolveAndGenerateMessage(artifactPrefix: String): String {
         return resourceResolutionService().resolveResources(bluePrintRuntimeService, nodeTemplateName,
-                artifactPrefix)
+                artifactPrefix, mapOf())
     }
 }
