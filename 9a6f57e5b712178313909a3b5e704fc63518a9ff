@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "15143c9f_8c34f852",
+        "filename": "components/model-catalog/resource-dictionary/starter-dictionary/service-instance-id.json",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-06T15:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73c01ebb_6e4554bc",
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ed1fd1d_0acf95fe",
         "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/DatabaseResourceAssignmentProcessor.kt",
         "patchSetId": 9
@@ -72,6 +90,30 @@
       "side": 1,
       "message": "Sure",
       "parentUuid": "4ed1fd1d_0acf95fe",
+      "range": {
+        "startLine": 42,
+        "startChar": 0,
+        "endLine": 42,
+        "endChar": 42
+      },
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8cbe007c_1ecc0045",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/DatabaseResourceAssignmentProcessor.kt",
+        "patchSetId": 9
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-06T15:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc80838c_b2837da9",
       "range": {
         "startLine": 42,
         "startChar": 0,
@@ -131,6 +173,30 @@
     },
     {
       "key": {
+        "uuid": "8e23043b_e3aee4fa",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/DatabaseResourceAssignmentProcessor.kt",
+        "patchSetId": 9
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-06T15:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c8a332ae_94afe147",
+      "range": {
+        "startLine": 44,
+        "startChar": 47,
+        "endLine": 44,
+        "endChar": 99
+      },
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "72e7bc07_46654a8a",
         "filename": "ms/blueprintsprocessor/modules/commons/db-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/db/primary/DBLibGenericService.kt",
         "patchSetId": 9
@@ -166,6 +232,30 @@
       "side": 1,
       "message": "Working on this will update in next patch.",
       "parentUuid": "72e7bc07_46654a8a",
+      "range": {
+        "startLine": 31,
+        "startChar": 2,
+        "endLine": 71,
+        "endChar": 5
+      },
+      "revId": "9a6f57e5b712178313909a3b5e704fc63518a9ff",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9e4e147c_ab43be47",
+        "filename": "ms/blueprintsprocessor/modules/commons/db-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/db/primary/DBLibGenericService.kt",
+        "patchSetId": 9
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-06T15:57:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5586eddc_31f62ddf",
       "range": {
         "startLine": 31,
         "startChar": 2,
