@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "29a0788b_852547d5",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Plans/CONFIG_configAssign.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-06T17:12:10Z",
+      "side": 1,
+      "message": "this is causing problem during execution. Line\n\n \u003c?xml version\u003d\"1.0\" encoding\u003d\"UTF-8\"?\u003e\n\nshould come first. It will be fixed in next version.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "cc60e42da09c7e8dfc2188b413937e0d6ad7859e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "918d0e84_79fb53cd",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Plans/CONFIG_configure.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 5060
+      },
+      "writtenOn": "2019-03-06T17:12:10Z",
+      "side": 1,
+      "message": "same issue here.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 3
+      },
+      "revId": "cc60e42da09c7e8dfc2188b413937e0d6ad7859e",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f22537ad_b25dae36",
         "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Templates/config-assign-pnf-mapping.json",
         "patchSetId": 1
