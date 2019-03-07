@@ -1,0 +1,17 @@
+listenerservice:
+    config:
+      asdcAddress: localhost:8443
+      messageBusAddress: localhost
+      user: cdslistener
+      password: cds1234
+      pollingInterval: 15
+      pollingTimeout: 15
+      relevantArtifactTypes: TOSCA_CSAR
+      consumerGroup: cds-group
+      environmentName: dev
+      consumerId: cds-id
+      keyStorePassword:
+      keyStorePath:
+      activateServerTLSAuth : false
+      isUseHttpsWithDmaap: false
+
