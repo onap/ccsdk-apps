@@ -12,11 +12,11 @@
       "derived_from" : "tosca.artifacts.Implementation",
       "file_ext" : [ "json" ]
     },
-    "artifact-script-jython" : {
-      "description" : "Jython Script File",
+    "artifact-script-kotlin" : {
+      "description" : "Kotlin Script file",
       "version" : "1.0.0",
       "derived_from" : "tosca.artifacts.Implementation",
-      "file_ext" : [ "py" ]
+      "file_ext" : [ "kts" ]
     },
     "artifact-template-velocity" : {
       "description" : " Velocity Template used for Configuration",
