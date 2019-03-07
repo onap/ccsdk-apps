@@ -62,9 +62,12 @@ class BluePrintEnhancerServiceImplTest {
     @Throws(Exception::class)
     fun testEnhancementAndValidation() {
 
-        val basePath = "./../../../../components/model-catalog/blueprint-model/test-blueprint/baseconfiguration"
+        //val basePath = "./../../../../components/model-catalog/blueprint-model/test-blueprint/baseconfiguration"
+        val basePath = "./../../../../components/model-catalog/blueprint-model/test-blueprint/capability_restconf"
 
-        val targetPath = Paths.get("target", "bp-enhance").toUri().path
+
+        //val targetPath = Paths.get("target", "bp-enhance").toUri().path
+        val targetPath = Paths.get("target", "capability_restconf-enhance").toUri().path
 
         val bluePrintContext = bluePrintEnhancerService.enhance(basePath, targetPath)
         Assert.assertNotNull("failed to get blueprintContext ", bluePrintContext)
