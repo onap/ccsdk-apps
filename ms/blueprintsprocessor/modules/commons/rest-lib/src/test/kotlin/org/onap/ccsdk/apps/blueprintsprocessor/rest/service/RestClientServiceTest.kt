@@ -52,10 +52,10 @@ class RestClientServiceTest {
     @Test
     fun testBaseAuth() {
 
-        val restClientService = bluePrintRestLibPropertyService.blueprintWebClientService("sample")
+        val restClientService = bluePrintRestLibPropertyService.blueprintWebClientService("token-auth")
         val headers = mutableMapOf<String, String>()
         headers["X-Transaction-Id"] = "1234"
-        val response = restClientService.getResource("/sample/name", headers, String::class.java)
+        val response = restClientService.getResource("/sample/name")
         assertNotNull(response, "failed to get response")
     }
 

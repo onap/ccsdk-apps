@@ -19,7 +19,13 @@ package org.onap.ccsdk.apps.blueprintsprocessor.rest.service
 
 import com.fasterxml.jackson.databind.JsonNode
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintProperties
-import org.onap.ccsdk.apps.blueprintsprocessor.rest.*
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.BasicAuthRestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.DME2RestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.PolicyManagerRestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.RestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.RestLibConstants
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.SSLBasicAuthRestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.TokenAuthRestClientProperties
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.springframework.stereotype.Service
@@ -51,18 +57,22 @@ open class BluePrintRestLibPropertyService(private var bluePrintProperties: Blue
     fun restClientProperties(jsonNode: JsonNode): RestClientProperties {
         val type = jsonNode.get("type").textValue()
         return when (type) {
+            RestLibConstants.TYPE_TOKEN_AUTH -> {
+                JacksonUtils.readValue(jsonNode, TokenAuthRestClientProperties::class.java)!!
+            }
             RestLibConstants.TYPE_BASIC_AUTH -> {
                 JacksonUtils.readValue(jsonNode, BasicAuthRestClientProperties::class.java)!!
             }
-            RestLibConstants.TYPE_SSL_BASIC_AUTH -> {
-                JacksonUtils.readValue(jsonNode, SSLBasicAuthRestClientProperties::class.java)!!
-            }
-            RestLibConstants.TYPE_DME2_PROXY -> {
-                JacksonUtils.readValue(jsonNode, DME2RestClientProperties::class.java)!!
-            }
-            RestLibConstants.TYPE_POLICY_MANAGER -> {
-                JacksonUtils.readValue(jsonNode, PolicyManagerRestClientProperties::class.java)!!
-            }
+// FIXME(sync client)
+//            RestLibConstants.TYPE_SSL_BASIC_AUTH -> {
+//                JacksonUtils.readValue(jsonNode, SSLBasicAuthRestClientProperties::class.java)!!
+//            }
+//            RestLibConstants.TYPE_DME2_PROXY -> {
+//                JacksonUtils.readValue(jsonNode, DME2RestClientProperties::class.java)!!
+//            }
+//            RestLibConstants.TYPE_POLICY_MANAGER -> {
+//                JacksonUtils.readValue(jsonNode, PolicyManagerRestClientProperties::class.java)!!
+//            }
             else -> {
                 throw BluePrintProcessorException("Rest adaptor($type) is not supported")
             }
@@ -70,28 +80,32 @@ open class BluePrintRestLibPropertyService(private var bluePrintProperties: Blue
     }
 
 
-    fun blueprintWebClientService(selector: String): BlueprintWebClientService {
+    fun blueprintWebClientService(selector: String): BlueprintBlockingWebClientService {
         val prefix = "blueprintsprocessor.restclient.$selector"
         val restClientProperties = restClientProperties(prefix)
         return blueprintWebClientService(restClientProperties)
     }
 
-    fun blueprintWebClientService(jsonNode: JsonNode): BlueprintWebClientService {
+    fun blueprintWebClientService(jsonNode: JsonNode): BlueprintBlockingWebClientService {
         val restClientProperties = restClientProperties(jsonNode)
         return blueprintWebClientService(restClientProperties)
     }
 
-    fun blueprintWebClientService(restClientProperties: RestClientProperties): BlueprintWebClientService {
+    fun blueprintWebClientService(restClientProperties: RestClientProperties): BlueprintBlockingWebClientService {
         when (restClientProperties) {
+            is TokenAuthRestClientProperties -> {
+                return TokenAuthRestClientService(restClientProperties)
+            }
             is BasicAuthRestClientProperties -> {
                 return BasicAuthRestClientService(restClientProperties)
             }
-            is SSLBasicAuthRestClientProperties -> {
-                return SSLBasicAuthRestClientService(restClientProperties)
-            }
-            is DME2RestClientProperties -> {
-                return DME2ProxyRestClientService(restClientProperties)
-            }
+// FIXME(sync client)
+//            is SSLBasicAuthRestClientProperties -> {
+//                return SSLBasicAuthRestClientService(restClientProperties)
+//            }
+//            is DME2RestClientProperties -> {
+//                return DME2ProxyRestClientService(restClientProperties)
+//            }
             else -> {
                 throw BluePrintProcessorException("couldn't get rest service for")
             }

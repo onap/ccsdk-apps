@@ -19,10 +19,14 @@ package org.onap.ccsdk.apps.blueprintsprocessor.rest
 open class RestClientProperties {
     lateinit var type: String
     lateinit var url: String
-    lateinit var userId: String
 }
 
 open class BasicAuthRestClientProperties : RestClientProperties() {
+    lateinit var password: String
+    lateinit var username: String
+}
+
+open class TokenAuthRestClientProperties : RestClientProperties() {
     var token: String? = null
 }
 
