@@ -15,13 +15,18 @@
  */
 package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor
 
+import org.apache.sshd.client.channel.ChannelSubsystem
+import org.apache.sshd.client.session.ClientSessionImpl
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Test
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.api.DeviceInfo
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.core.NetconfRpcServiceImpl
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.core.NetconfSessionImpl
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.mocks.NetconfDeviceSimulator
+import java.util.concurrent.atomic.AtomicReference
+import kotlin.script.experimental.api.asSuccess
 
 class NetconfSessionImplTest {
 
@@ -60,6 +65,18 @@ class NetconfSessionImplTest {
         Assert.assertEquals("localhost:2224", netconfSession.getDeviceInfo().toString())
 
         Assert.assertTrue(!netconfSession.getDeviceCapabilitiesSet().isEmpty())
+    }
+
+    @Test
+    fun testNetconfSessionconnect() {
+        val netconfSession = NetconfSessionImpl(deviceInfo!!, NetconfRpcServiceImpl(DeviceInfo()))
+        netconfSession.connect()
+        Assert.assertTrue(netconfSession.sessionstatus("Open"))
+        netconfSession.reconnect()
+        Assert.assertTrue(netconfSession.sessionstatus("Open"))
+        netconfSession.disconnect()
+        Assert.assertTrue(netconfSession.sessionstatus("Close"))
+
     }
 
 }
