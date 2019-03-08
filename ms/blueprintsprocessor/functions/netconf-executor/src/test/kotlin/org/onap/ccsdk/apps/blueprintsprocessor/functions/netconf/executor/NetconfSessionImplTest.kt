@@ -18,10 +18,12 @@ package org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
+import org.junit.Test
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.api.DeviceInfo
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.core.NetconfRpcServiceImpl
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.core.NetconfSessionImpl
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.netconf.executor.mocks.NetconfDeviceSimulator
+import kotlin.script.experimental.api.asSuccess
 
 class NetconfSessionImplTest {
 
@@ -60,6 +62,15 @@ class NetconfSessionImplTest {
         Assert.assertEquals("localhost:2224", netconfSession.getDeviceInfo().toString())
 
         Assert.assertTrue(!netconfSession.getDeviceCapabilitiesSet().isEmpty())
+    }
+
+    @Test
+    fun testNetconfSessionconnect() {
+        val netconfSession = NetconfSessionImpl(deviceInfo!!, NetconfRpcServiceImpl(DeviceInfo()))
+        netconfSession.connect()
+        Assert.assertNotNull(netconfSession.getSessionId())
+        netconfSession.reconnect()
+        Assert.assertNotNull(netconfSession.getSessionId())
     }
 
 }
