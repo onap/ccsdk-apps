@@ -1,5 +1,5 @@
 /*
- * Copyright © 2017-2018 AT&T Intellectual Property.
+ * Copyright © 2017-2019 AT&T, Bell Canada
  * Modifications Copyright © 2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,7 +19,13 @@ package org.onap.ccsdk.apps.blueprintsprocessor.rest.service
 
 import com.fasterxml.jackson.databind.JsonNode
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintProperties
-import org.onap.ccsdk.apps.blueprintsprocessor.rest.*
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.BasicAuthRestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.DME2RestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.PolicyManagerRestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.RestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.RestLibConstants
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.SSLBasicAuthRestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.TokenAuthRestClientProperties
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.springframework.stereotype.Service
@@ -51,6 +57,9 @@ open class BluePrintRestLibPropertyService(private var bluePrintProperties: Blue
     fun restClientProperties(jsonNode: JsonNode): RestClientProperties {
         val type = jsonNode.get("type").textValue()
         return when (type) {
+            RestLibConstants.TYPE_TOKEN_AUTH -> {
+                JacksonUtils.readValue(jsonNode, TokenAuthRestClientProperties::class.java)!!
+            }
             RestLibConstants.TYPE_BASIC_AUTH -> {
                 JacksonUtils.readValue(jsonNode, BasicAuthRestClientProperties::class.java)!!
             }
@@ -83,6 +92,9 @@ open class BluePrintRestLibPropertyService(private var bluePrintProperties: Blue
 
     fun blueprintWebClientService(restClientProperties: RestClientProperties): BlueprintWebClientService {
         when (restClientProperties) {
+            is TokenAuthRestClientProperties -> {
+                return TokenAuthRestClientService(restClientProperties)
+            }
             is BasicAuthRestClientProperties -> {
                 return BasicAuthRestClientService(restClientProperties)
             }

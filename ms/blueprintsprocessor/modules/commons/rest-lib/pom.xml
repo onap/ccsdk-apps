@@ -36,6 +36,11 @@
             <groupId>org.onap.ccsdk.apps.blueprintsprocessor</groupId>
             <artifactId>core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+            <version>${apache.httpcomponents.client.version}</version>
+        </dependency>
     </dependencies>
 
 </project>

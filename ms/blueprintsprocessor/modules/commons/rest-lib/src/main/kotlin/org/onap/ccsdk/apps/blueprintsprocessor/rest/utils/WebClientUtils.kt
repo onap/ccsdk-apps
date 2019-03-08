@@ -27,7 +27,6 @@ class WebClientUtils {
         val log = LoggerFactory.getLogger(WebClientUtils::class.java)!!
 
         fun logRequest(): ExchangeFilterFunction {
-
             return ExchangeFilterFunction.ofRequestProcessor { clientRequest ->
                 log.info("Rest request method(${clientRequest.method()}), url(${clientRequest.url()})")
                 Mono.just(clientRequest)
