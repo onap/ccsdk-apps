@@ -17,35 +17,22 @@
 package org.onap.ccsdk.apps.blueprintsprocessor.rest.service
 
 import org.apache.http.message.BasicHeader
-import org.onap.ccsdk.apps.blueprintsprocessor.rest.BasicAuthRestClientProperties
+import org.onap.ccsdk.apps.blueprintsprocessor.rest.TokenAuthRestClientProperties
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
-import org.springframework.util.Assert
-import java.nio.charset.Charset
-import java.util.*
 
-
-class BasicAuthRestClientService(private val restClientProperties: BasicAuthRestClientProperties) :
+class TokenAuthRestClientService(private val restClientProperties: TokenAuthRestClientProperties) :
     BlueprintBlockingWebClientService() {
 
     override fun headers(): Array<BasicHeader> {
-        val encodedCredentials = setBasicAuth(restClientProperties.username, restClientProperties.password)
         val params = arrayListOf<BasicHeader>()
         params.add(BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
         params.add(BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
-        params.add(BasicHeader(HttpHeaders.AUTHORIZATION, "Basic $encodedCredentials"))
+        params.add(BasicHeader(HttpHeaders.AUTHORIZATION, restClientProperties.token))
         return params.toTypedArray()
     }
 
     override fun host(uri: String): String {
         return restClientProperties.url + uri
-    }
-
-    private fun setBasicAuth(username: String, password: String): String {
-        Assert.notNull(username, "Username must not be null")
-        Assert.notNull(password, "Password must not be null")
-
-        val credentialsString = "$username:$password"
-        return Base64.getEncoder().encodeToString(credentialsString.toByteArray(Charset.defaultCharset()))
     }
 }
