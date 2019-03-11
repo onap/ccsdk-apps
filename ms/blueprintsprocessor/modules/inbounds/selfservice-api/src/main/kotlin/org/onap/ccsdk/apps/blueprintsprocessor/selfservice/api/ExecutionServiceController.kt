@@ -20,24 +20,39 @@ import io.swagger.annotations.ApiOperation
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ACTION_MODE_ASYNC
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
 import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
+import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.utils.FileExtract
+import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.utils.FileStorage
+import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintEnhancerService
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
+import org.springframework.core.io.UrlResource
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
+import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import org.springframework.web.bind.annotation.RequestPart
-import org.springframework.web.bind.annotation.ResponseBody
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import reactor.core.publisher.Mono
+import java.nio.file.Paths
 
 @RestController
 @RequestMapping("/api/v1/execution-service")
 class ExecutionServiceController {
 
     @Autowired
+    lateinit var fileStorage: FileStorage
+
+    @Autowired
+    private val bluePrintEnhancerService: BluePrintEnhancerService? = null
+
+    @Autowired
     lateinit var executionServiceHandler: ExecutionServiceHandler
+
+    @Value("\${blueprintsprocessor.blueprintDeployPath}")
+    lateinit var deployPath: String
+
+    @Value("\${blueprintsprocessor.blueprintArchivePath}")
+    lateinit var archivePath: String
 
     @RequestMapping(path = ["/ping"], method = [RequestMethod.GET], produces = [MediaType.APPLICATION_JSON_VALUE])
     @ResponseBody
@@ -64,5 +79,22 @@ class ExecutionServiceController {
             throw IllegalStateException("Can't process async request through the REST endpoint. Use gRPC for async processing.")
         }
         return executionServiceHandler.processSync(executionServiceInput)
+    }
+
+    @PostMapping(path = ["/enrichment"], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @ApiOperation(value = "Enrichment of uploaded json",
+            notes = "Enrichment of uploaded json")
+    @ResponseBody
+    fun enrichment(@RequestBody file: MultipartFile): ResponseEntity<org.springframework.core.io.Resource> {
+        fileStorage.store(file);
+        FileExtract().extract(deployPath+file.originalFilename,deployPath)
+        val bluePrintContext = bluePrintEnhancerService!!.enhance(deployPath+file.originalFilename.replace(".zip",""), deployPath+System.currentTimeMillis()+"\\")
+        //after enrichment need to zip the file
+        val fileName:String=FileExtract().zip(deployPath+System.currentTimeMillis()+"\\");
+        //need to send the file
+        val resource:org.springframework.core.io.Resource = UrlResource(Paths.get(fileName).toUri())
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
     }
 }
