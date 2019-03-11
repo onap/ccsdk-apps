@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1de92e7_df684d89",
+        "filename": "ms/controllerblueprints/application/src/main/resources/application-dev.properties",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 4581
+      },
+      "writtenOn": "2019-03-11T17:24:06Z",
+      "side": 1,
+      "message": "Please replace \u003d with a -",
+      "range": {
+        "startLine": 52,
+        "startChar": 158,
+        "endLine": 52,
+        "endChar": 164
+      },
+      "revId": "27b4147a31a0f90d3a89dd62dc8cd59e3c176890",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
