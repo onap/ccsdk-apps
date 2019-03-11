@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "61870c4e_f01e762b",
+        "filename": "ms/blueprintsprocessor/modules/inbounds/selfservice-api/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-11T12:10:29Z",
+      "side": 0,
+      "message": "put this back please",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 21
+      },
+      "revId": "a5d9a4ddb92bad7d3334d8a6f9bc93879b8009ef",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
