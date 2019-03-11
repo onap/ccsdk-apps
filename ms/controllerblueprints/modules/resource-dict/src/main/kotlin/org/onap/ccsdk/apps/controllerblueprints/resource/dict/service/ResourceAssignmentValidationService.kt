@@ -23,10 +23,8 @@ import org.apache.commons.collections.CollectionUtils
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.text.StrBuilder
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
-import org.onap.ccsdk.apps.controllerblueprints.core.format
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.TopologicalSortingUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
-import org.onap.ccsdk.apps.controllerblueprints.resource.dict.factory.ResourceSourceMappingFactory
 import java.io.Serializable
 
 /**
@@ -53,7 +51,6 @@ open class ResourceAssignmentValidationServiceImpl : ResourceAssignmentValidatio
 
     override fun validate(resourceAssignments: List<ResourceAssignment>): Boolean {
         try {
-            validateSources(resourceAssignments)
             validateTemplateNDictionaryKeys(resourceAssignments)
             validateCyclicDependency(resourceAssignments)
             if (StringUtils.isNotBlank(validationMessage)) {
@@ -63,18 +60,6 @@ open class ResourceAssignmentValidationServiceImpl : ResourceAssignmentValidatio
             throw BluePrintException("Resource Assignment Validation :" + validationMessage.toString(), e)
         }
         return true
-    }
-
-    open fun validateSources(resourceAssignments: List<ResourceAssignment>) {
-        log.info("validating resource assignment sources")
-        // Check the Resource Assignment Source(Dynamic Instance) is valid.
-        resourceAssignments.forEach { resourceAssignment ->
-            try {
-                ResourceSourceMappingFactory.getRegisterSourceMapping(resourceAssignment.dictionarySource!!)
-            } catch (e: BluePrintException) {
-                validationMessage.appendln(e.message + format(" for resource assignment({})", resourceAssignment.name))
-            }
-        }
     }
 
     open fun validateTemplateNDictionaryKeys(resourceAssignments: List<ResourceAssignment>) {
@@ -88,14 +73,6 @@ open class ResourceAssignmentValidationServiceImpl : ResourceAssignmentValidatio
 
         if (duplicateKeyNames.isNotEmpty()) {
             validationMessage.appendln(String.format("Duplicate Assignment Template Keys (%s) is Present", duplicateKeyNames))
-        }
-
-        // Check the Resource Assignment has Duplicate Dictionary Names
-        val duplicateDictionaryKeyNames = resourceAssignments.groupBy { it.dictionaryName }
-                .filter { it.value.size > 1 }
-                .map { it.key }
-        if (duplicateDictionaryKeyNames.isNotEmpty()) {
-            validationMessage.appendln(String.format("Duplicate Assignment Dictionary Keys (%s) is Present", duplicateDictionaryKeyNames))
         }
 
         // Collect all the dependencies as a single list
