@@ -22,6 +22,30 @@
       "revId": "705438c610d668fe0d14d5d5bfc4f41c92326bdb",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6043e539_a874cb4a",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Definitions/resources_definition_types.json",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4980
+      },
+      "writtenOn": "2019-03-11T21:07:18Z",
+      "side": 1,
+      "message": "Primary-db was referring sdc db but now we can resolve resource using primary or any other db so changed to db. If you suggest other name it will be replaced in next patch.",
+      "parentUuid": "e32cbf2e_1e0f0436",
+      "range": {
+        "startLine": 29,
+        "startChar": 7,
+        "endLine": 29,
+        "endChar": 9
+      },
+      "revId": "705438c610d668fe0d14d5d5bfc4f41c92326bdb",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
