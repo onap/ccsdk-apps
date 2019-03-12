@@ -1,0 +1,21 @@
+{
+  "tags": "description",
+  "name": "description",
+  "property": {
+    "description": "description",
+    "type": "string"
+  },
+  "updated-by": "adetalhouet",
+  "sources": {
+    "capability": {
+      "type": "source-capability",
+      "properties": {
+        "script-type": "jython",
+        "script-class-reference": "DescriptionExample",
+        "instance-dependencies": [
+
+        ]
+      }
+    }
+  }
+}
