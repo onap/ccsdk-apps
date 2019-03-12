@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49ac1e32_f56177b4",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/DatabaseResourceAssignmentProcessor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-12T23:47:06Z",
+      "side": 1,
+      "message": "This service will be created based on selector or properties.",
+      "range": {
+        "startLine": 48,
+        "startChar": 47,
+        "endLine": 48,
+        "endChar": 99
+      },
+      "revId": "51b06267304d9c5dec53d15f9a2f9f614e843cbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "988ce22e_630aca5e",
+        "filename": "ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/ResourceAssignmentProcessor.kt",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-12T23:47:06Z",
+      "side": 1,
+      "message": "Prefer to have JsonNode, Avoid unknown casting",
+      "range": {
+        "startLine": 53,
+        "startChar": 96,
+        "endLine": 53,
+        "endChar": 99
+      },
+      "revId": "51b06267304d9c5dec53d15f9a2f9f614e843cbd",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
