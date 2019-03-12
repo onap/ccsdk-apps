@@ -7,7 +7,7 @@
     "type" : "string"
   },
   "sources" : {
-    "primary-config-data" : {
+    "rest" : {
       "type" : "source-rest",
       "properties" : {
         "type" : "JSON",

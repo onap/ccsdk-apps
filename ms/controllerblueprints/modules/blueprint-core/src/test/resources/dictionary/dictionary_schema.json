@@ -54,7 +54,7 @@
 				"aai": {
 					"type": "any"
 				},
-				"primary-config-data": {
+				"rest": {
 					"type": "object",
 					"properties": {
 						"path": {
@@ -188,7 +188,7 @@
 						}
 					}
 				},
-				"primary-config-data": {
+				"rest": {
 					"type": "object",
 					"properties": {
 						"names": {

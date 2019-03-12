@@ -25,6 +25,6 @@ object ResourceDictionaryTestUtils {
         ResourceSourceMappingFactory.registerSourceMapping("primary-db", "source-primary-db")
         ResourceSourceMappingFactory.registerSourceMapping("input", "source-input")
         ResourceSourceMappingFactory.registerSourceMapping("default", "source-default")
-        ResourceSourceMappingFactory.registerSourceMapping("primary-config-data", "source-rest")
+        ResourceSourceMappingFactory.registerSourceMapping("rest", "source-rest")
     }
 }
