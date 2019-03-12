@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9939921e_d565d617",
+        "filename": "ms/blueprintsprocessor/modules/commons/rest-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/rest/service/BlueprintWebClientService.kt",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-12T23:40:20Z",
+      "side": 1,
+      "message": "May take Custom headers, such as need to pass transaction Id etc. That may be specific to request. So we need place holder to pass custom headers for each action.",
+      "range": {
+        "startLine": 35,
+        "startChar": 4,
+        "endLine": 35,
+        "endChar": 17
+      },
+      "revId": "349643f7bec1b793e3427e97c79f0a123a20ca37",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
