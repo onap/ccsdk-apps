@@ -42,5 +42,5 @@ class DescriptionExample(AbstractRAProcessor):
         return None
 
     def recover(self, runtime_exception, resource_assignment):
-        print "NoOp"
+        print self.raRuntimeService.getBluePrintError().addError(runtime_exception.getMessage())
         return None
