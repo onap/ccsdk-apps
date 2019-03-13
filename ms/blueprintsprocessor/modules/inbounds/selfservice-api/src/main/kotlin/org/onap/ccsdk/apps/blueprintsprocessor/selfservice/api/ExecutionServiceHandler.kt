@@ -23,7 +23,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import org.onap.ccsdk.apps.blueprintsprocessor.core.BluePrintCoreConfiguration
-import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.*
+import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ACTION_MODE_ASYNC
+import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ACTION_MODE_SYNC
+import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceInput
+import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.ExecutionServiceOutput
+import org.onap.ccsdk.apps.blueprintsprocessor.core.api.data.Status
 import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.utils.saveCBAFile
 import org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.utils.toProto
 import org.onap.ccsdk.apps.controllerblueprints.common.api.EventType
@@ -37,6 +41,7 @@ import org.slf4j.LoggerFactory
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
+import java.util.stream.Collectors
 
 @Service
 class ExecutionServiceHandler(private val bluePrintCoreConfiguration: BluePrintCoreConfiguration,
@@ -75,8 +80,8 @@ class ExecutionServiceHandler(private val bluePrintCoreConfiguration: BluePrintC
                 responseObserver.onCompleted()
             }
             else -> responseObserver.onNext(response(executionServiceInput,
-                    "Failed to process request, 'actionIdentifiers.mode' not specified. Valid value are: 'sync' or 'async'.",
-                    true).toProto());
+                "Failed to process request, 'actionIdentifiers.mode' not specified. Valid value are: 'sync' or 'async'.",
+                true).toProto());
         }
     }
 
@@ -94,8 +99,18 @@ class ExecutionServiceHandler(private val bluePrintCoreConfiguration: BluePrintC
 
         val blueprintRuntimeService = BluePrintMetadataUtils.getBluePrintRuntime(requestId, basePath.toString())
 
-        return bluePrintWorkflowExecutionService.executeBluePrintWorkflow(blueprintRuntimeService,
-                executionServiceInput, hashMapOf())
+        val output = bluePrintWorkflowExecutionService.executeBluePrintWorkflow(blueprintRuntimeService,
+            executionServiceInput, hashMapOf())
+
+        if (blueprintRuntimeService.getBluePrintError().errors.isNotEmpty()) {
+            val errorMessage = blueprintRuntimeService.getBluePrintError().errors.stream().map { it.toString() }
+                .collect(Collectors.joining(","))
+            output.status.eventType = EventType.EVENT_COMPONENT_FAILURE.name
+            output.status.code = 500
+            output.status.message = errorMessage
+        }
+
+        return output
     }
 
     private fun response(executionServiceInput: ExecutionServiceInput, errorMessage: String = "",
