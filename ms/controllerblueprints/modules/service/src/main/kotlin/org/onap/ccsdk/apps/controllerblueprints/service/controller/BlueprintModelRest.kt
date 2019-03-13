@@ -16,15 +16,25 @@
 
 package org.onap.ccsdk.apps.controllerblueprints.service.controller
 
+import io.swagger.annotations.ApiOperation
 import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintException
+import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintEnhancerService
 import org.onap.ccsdk.apps.controllerblueprints.service.domain.BlueprintModelSearch
 import org.onap.ccsdk.apps.controllerblueprints.service.handler.BluePrintModelHandler
+import org.onap.ccsdk.apps.controllerblueprints.service.utils.FileExtract
+import org.onap.ccsdk.apps.controllerblueprints.service.utils.FileStorage
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.core.io.Resource
+import org.springframework.core.io.UrlResource
+import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
 import reactor.core.publisher.Mono
+import java.nio.file.Paths
 
 /**
  * BlueprintModelRest Purpose: Handle controllerBlueprint API request
@@ -36,11 +46,40 @@ import reactor.core.publisher.Mono
 @RequestMapping("/api/v1/blueprint-model")
 open class BlueprintModelRest(private val bluePrintModelHandler: BluePrintModelHandler) {
 
+    @Value("\${blueprintsprocessor.blueprintDeployPath}")
+    lateinit var deployPath: String
+
+    @Value("\${blueprintsprocessor.blueprintArchivePath}")
+    lateinit var archivePath: String
+
+    @Autowired
+    lateinit var fileStorage: FileStorage
+
+    @Autowired
+    private val bluePrintEnhancerService: BluePrintEnhancerService? = null
+
     @PostMapping("", produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     @ResponseBody
     @Throws(BluePrintException::class)
     fun saveBlueprint(@RequestPart("file") file: FilePart): Mono<BlueprintModelSearch> {
         return bluePrintModelHandler.saveBlueprintModel(file)
+    }
+
+    @PostMapping(path = ["/enrichment"], consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    @ApiOperation(value = "Enrichment of uploaded json",
+            notes = "Enrichment of uploaded json")
+    @ResponseBody
+    fun enrichment(@RequestBody file: MultipartFile): ResponseEntity<org.springframework.core.io.Resource> {
+        fileStorage.store(file);
+        FileExtract().extract(deployPath+file.originalFilename,deployPath)
+        val bluePrintContext = bluePrintEnhancerService!!.enhance(deployPath+file.originalFilename.replace(".zip",""), deployPath+System.currentTimeMillis()+"\\")
+        //after enrichment need to zip the file
+        val fileName:String=FileExtract().zip(deployPath+System.currentTimeMillis()+"\\");
+        //need to send the file
+        val resource:org.springframework.core.io.Resource = UrlResource(Paths.get(fileName).toUri())
+        return ResponseEntity.ok()
+                .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + fileName + "\"")
+                .body(resource);
     }
 
     @GetMapping("", produces = [MediaType.APPLICATION_JSON_VALUE])

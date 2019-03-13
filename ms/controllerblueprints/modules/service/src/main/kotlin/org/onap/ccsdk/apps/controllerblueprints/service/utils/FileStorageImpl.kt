@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.onap.ccsdk.apps.blueprintsprocessor.selfservice.api.utils
+package org.onap.ccsdk.apps.controllerblueprints.service.utils
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
