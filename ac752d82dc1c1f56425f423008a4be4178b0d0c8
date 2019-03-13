@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c9f93600_75925e66",
+        "filename": "ms/blueprintsprocessor/modules/services/workflow-service/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/services/workflow/BluePrintWorkflowExecutionServiceImpl.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-13T15:39:16Z",
+      "side": 1,
+      "message": "inline return",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 62,
+        "endChar": 39
+      },
+      "revId": "ac752d82dc1c1f56425f423008a4be4178b0d0c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "02558969_e0616095",
+        "filename": "ms/controllerblueprints/modules/blueprint-core/src/main/kotlin/org/onap/ccsdk/apps/controllerblueprints/core/interfaces/BluePrintWorkflowExecutionService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-13T15:39:16Z",
+      "side": 1,
+      "message": "is there value to have this in interface? or this is implementation detail?",
+      "range": {
+        "startLine": 23,
+        "startChar": 4,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "ac752d82dc1c1f56425f423008a4be4178b0d0c8",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
