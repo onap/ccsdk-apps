@@ -57,5 +57,5 @@ class NetconfRpcExample(NetconfComponentFunction):
       log.error("Python Exception in the script {}", err)
 
   def recover(self, runtime_exception, execution_request):
-    print "Recovering calling.." + PROPERTY_BLUEPRINT_BASE_PATH
+    print self.bluePrintRuntimeService.getBluePrintError().addError(runtime_exception.getMessage())
     return None
