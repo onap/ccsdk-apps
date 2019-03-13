@@ -24,7 +24,7 @@ import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDefinition
 import org.slf4j.LoggerFactory
 
-abstract class ResourceAssignmentProcessor : BlueprintFunctionNode<ResourceAssignment, ResourceAssignment> {
+abstract class ResourceAssignmentProcessor : BlueprintFunctionNode<ResourceAssignment, Boolean> {
 
     private val log = LoggerFactory.getLogger(ResourceAssignmentProcessor::class.java)
 
@@ -52,12 +52,12 @@ abstract class ResourceAssignmentProcessor : BlueprintFunctionNode<ResourceAssig
         return resourceAssignment
     }
 
-    override fun prepareResponse(): ResourceAssignment {
+    override fun prepareResponse(): Boolean {
         log.info("Preparing Response...")
-        return ResourceAssignment()
+        return true
     }
 
-    override fun apply(resourceAssignment: ResourceAssignment): ResourceAssignment {
+    override fun apply(resourceAssignment: ResourceAssignment): Boolean {
         try {
             prepareRequest(resourceAssignment)
             process(resourceAssignment)

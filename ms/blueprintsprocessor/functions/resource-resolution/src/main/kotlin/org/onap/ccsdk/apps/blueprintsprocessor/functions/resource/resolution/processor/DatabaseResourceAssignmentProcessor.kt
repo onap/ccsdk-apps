@@ -22,7 +22,13 @@ import org.onap.ccsdk.apps.blueprintsprocessor.db.primary.DBLibGenericService
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.DatabaseResourceSource
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.ResourceResolutionConstants.PREFIX_RESOURCE_RESOLUTION_PROCESSOR
 import org.onap.ccsdk.apps.blueprintsprocessor.functions.resource.resolution.utils.ResourceAssignmentUtils
-import org.onap.ccsdk.apps.controllerblueprints.core.*
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintProcessorException
+import org.onap.ccsdk.apps.controllerblueprints.core.BluePrintTypes
+import org.onap.ccsdk.apps.controllerblueprints.core.checkEqualsOrThrow
+import org.onap.ccsdk.apps.controllerblueprints.core.checkNotEmpty
+import org.onap.ccsdk.apps.controllerblueprints.core.checkNotEmptyOrThrow
+import org.onap.ccsdk.apps.controllerblueprints.core.nullToEmpty
+import org.onap.ccsdk.apps.controllerblueprints.core.returnNotEmptyOrThrow
 import org.onap.ccsdk.apps.controllerblueprints.core.utils.JacksonUtils
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceAssignment
 import org.onap.ccsdk.apps.controllerblueprints.resource.dict.ResourceDictionaryConstants
@@ -174,5 +180,6 @@ open class DatabaseResourceAssignmentProcessor(private val dBLibGenericService: 
     }
 
     override fun recover(runtimeException: RuntimeException, resourceAssignment: ResourceAssignment) {
+        raRuntimeService.getBluePrintError().addError(runtimeException.message!!)
     }
 }
