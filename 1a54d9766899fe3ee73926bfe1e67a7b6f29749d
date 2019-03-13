@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "643a8739_6900513a",
+        "filename": "ms/cds-sdc-listener/application/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-03-13T14:13:21Z",
+      "side": 1,
+      "message": "you need to specify to add \u003cgroupId\u003eorg.onap.ccsdk.apps\u003c/groupId\u003e here, since the parent has a different group id,  This broke the merge build",
+      "revId": "1a54d9766899fe3ee73926bfe1e67a7b6f29749d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6591e81c_5858bc25",
+        "filename": "ms/cds-sdc-listener/distribution/pom.xml",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2019-03-13T14:13:21Z",
+      "side": 1,
+      "message": "There is no such directory as src/main/docker, and there is no Dockerfile in this project.  This broke the docker build",
+      "range": {
+        "startLine": 28,
+        "startChar": 1,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "1a54d9766899fe3ee73926bfe1e67a7b6f29749d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
