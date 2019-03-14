@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a93dfdf_29307ac1",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Definitions/resources_definition_types.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-14T20:06:30Z",
+      "side": 1,
+      "message": "Provide meaning ful Source Instance name.",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "3887f6e7341132ee46de3f22daf044cb0254f02a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
