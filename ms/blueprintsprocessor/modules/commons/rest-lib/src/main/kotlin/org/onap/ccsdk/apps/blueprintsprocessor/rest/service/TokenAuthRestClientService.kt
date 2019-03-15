@@ -16,7 +16,6 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.rest.service
 
-import org.apache.http.message.BasicHeader
 import org.onap.ccsdk.apps.blueprintsprocessor.rest.TokenAuthRestClientProperties
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -24,12 +23,22 @@ import org.springframework.http.MediaType
 class TokenAuthRestClientService(private val restClientProperties: TokenAuthRestClientProperties) :
     BlueprintWebClientService {
 
-    override fun headers(): Array<BasicHeader> {
-        val params = arrayListOf<BasicHeader>()
-        params.add(BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
-        params.add(BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
-        params.add(BasicHeader(HttpHeaders.AUTHORIZATION, restClientProperties.token))
-        return params.toTypedArray()
+    override fun defaultHeaders(): Map<String, String> {
+        return mapOf(
+                HttpHeaders.CONTENT_TYPE to MediaType.APPLICATION_JSON_VALUE,
+                HttpHeaders.ACCEPT to MediaType.APPLICATION_JSON_VALUE,
+                HttpHeaders.AUTHORIZATION to restClientProperties.token!!)
+    }
+
+    override fun exchangeResource(methodType: String, path: String, request: String, headers: Map<String, String>): String {
+        val headersWithAuthorization = addAuthorizationHeader(headers)
+        return super.exchangeResource(methodType, path, request, headersWithAuthorization)
+    }
+
+    private fun addAuthorizationHeader(headers: Map<String, String>): Map<String, String> {
+        val customHeaders: MutableMap<String, String> = headers.toMutableMap()
+        customHeaders[HttpHeaders.AUTHORIZATION] = restClientProperties.token!!
+        return customHeaders
     }
 
     override fun host(uri: String): String {

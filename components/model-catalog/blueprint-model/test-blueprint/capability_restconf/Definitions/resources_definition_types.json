@@ -1,1 +1,16 @@
-{ }
+{
+  "hostname" : {
+    "tags" : "hostname",
+    "name" : "hostname",
+    "property" : {
+      "description" : "hostname",
+      "type" : "string"
+    },
+    "updated-by" : "adetalhouet",
+    "sources" : {
+      "input" : {
+        "type" : "source-input"
+      }
+    }
+  }
+}

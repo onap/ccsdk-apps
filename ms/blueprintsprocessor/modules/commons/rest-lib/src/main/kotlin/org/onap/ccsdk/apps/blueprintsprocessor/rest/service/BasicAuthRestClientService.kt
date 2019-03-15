@@ -16,7 +16,6 @@
 
 package org.onap.ccsdk.apps.blueprintsprocessor.rest.service
 
-import org.apache.http.message.BasicHeader
 import org.onap.ccsdk.apps.blueprintsprocessor.rest.BasicAuthRestClientProperties
 import org.springframework.http.HttpHeaders
 import org.springframework.http.MediaType
@@ -26,21 +25,34 @@ import java.util.*
 class BasicAuthRestClientService(private val restClientProperties: BasicAuthRestClientProperties) :
     BlueprintWebClientService {
 
-    override fun headers(): Array<BasicHeader> {
+    override fun defaultHeaders(): Map<String, String> {
         val encodedCredentials = setBasicAuth(restClientProperties.username, restClientProperties.password)
-        val params = arrayListOf<BasicHeader>()
-        params.add(BasicHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE))
-        params.add(BasicHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE))
-        params.add(BasicHeader(HttpHeaders.AUTHORIZATION, "Basic $encodedCredentials"))
-        return params.toTypedArray()
+        return mapOf(
+                HttpHeaders.CONTENT_TYPE to MediaType.APPLICATION_JSON_VALUE,
+                HttpHeaders.ACCEPT to MediaType.APPLICATION_JSON_VALUE,
+                HttpHeaders.AUTHORIZATION to "Basic $encodedCredentials")
     }
 
     override fun host(uri: String): String {
         return restClientProperties.url + uri
     }
 
+    override fun exchangeResource(methodType: String, path: String, request: String, headers: Map<String, String>): String {
+        val headersWithAuthorization = addAuthorizationHeader(headers)
+        return super.exchangeResource(methodType, path, request, headersWithAuthorization)
+    }
+
+    private fun addAuthorizationHeader(headers: Map<String, String>): Map<String, String> {
+        val customHeaders: MutableMap<String, String> = headers.toMutableMap()
+        val encodedCredentials = setBasicAuth(restClientProperties.username, restClientProperties.password)
+        customHeaders[HttpHeaders.AUTHORIZATION] = "Basic $encodedCredentials"
+        return customHeaders
+    }
+
     private fun setBasicAuth(username: String, password: String): String {
         val credentialsString = "$username:$password"
         return Base64.getEncoder().encodeToString(credentialsString.toByteArray(Charset.defaultCharset()))
     }
+
+
 }
