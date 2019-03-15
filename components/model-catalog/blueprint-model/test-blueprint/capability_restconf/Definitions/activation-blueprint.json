@@ -19,17 +19,14 @@
   }, {
     "file" : "Definitions/policy_types.json"
   } ],
-  "topology_template" : {
-    "inputs" : {
-      "serviceInstanceId" : {
-        "required" : true,
-        "type" : "string"
-      },
-      "identifier" : {
-        "required" : true,
-        "type" : "string"
+  "dsl_definitions" : {
+    "config-assign-properties" : {
+      "resolution-key" : {
+        "get_input" : "resolution-key"
       }
-    },
+    }
+  },
+  "topology_template" : {
     "workflows" : {
       "config-assign" : {
         "steps" : {
@@ -42,6 +39,10 @@
           }
         },
         "inputs" : {
+          "resolution-key" : {
+            "required" : true,
+            "type" : "string"
+          },
           "config-assign-properties" : {
             "description" : "Dynamic PropertyDefinition for workflow(config-assign).",
             "required" : true,
@@ -84,8 +85,6 @@
           }
         }
       },
-
-
       "config-assign" : {
         "type" : "component-restconf-executor",
         "interfaces" : {
@@ -98,11 +97,12 @@
                 "inputs" : {
                   "script-type" : "jython",
                   "script-class-reference" : "Scripts/python/RestconfAssignConfig.py",
-                  "instance-dependencies" : [ ]
+                  "instance-dependencies" : [ ],
+                  "dynamic-properties" : "*config-assign-properties"
                 },
                 "outputs" : {
                   "response-data" : "",
-                  "status" : ""
+                  "status" : "success"
                 }
               }
             }
@@ -115,7 +115,7 @@
           },
           "config-assign-mapping" : {
             "type" : "artifact-mapping-resource",
-            "file" : "Templates/config-assign-pnf-mapping.json"
+            "file" : "Definitions/config-assign-pnf-mapping.json"
           },
           "component-script" : {
             "type" : "artifact-script-jython",
@@ -123,9 +123,6 @@
           }
         }
       },
-
-
-
       "configure-process" : {
         "type" : "dg-generic",
         "properties" : {
@@ -157,24 +154,20 @@
                 },
                 "outputs" : {
                   "response-data" : "",
-                  "status" : ""
+                  "status" : "success"
                 }
               }
             }
           }
         },
         "artifacts" : {
-          "configure-mount-template" : {
+          "configure-template" : {
             "type" : "artifact-template-velocity",
             "file" : "Templates/configure-restconf-mount-template.vtl"
           },
-          "configure-unmount-template" : {
-            "type" : "artifact-template-velocity",
-            "file" : "Templates/configure-restconf-unmount-template.vtl"
-          },
           "configure-mapping" : {
             "type" : "artifact-mapping-resource",
-            "file" : "Templates/configure-pnf-mapping.json"
+            "file" : "Definitions/configure-pnf-mapping.json"
           },
           "component-script" : {
             "type" : "artifact-script-jython",

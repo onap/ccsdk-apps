@@ -1,0 +1,24 @@
+[
+  {
+    "name": "pnf-id",
+    "input-param": true,
+    "property": {
+      "type": "string"
+    },
+    "dictionary-name": "pnf-id",
+    "dictionary-source": "input",
+    "dependencies": [
+    ]
+  },
+  {
+    "name": "pnf-name",
+    "input-param": true,
+    "property": {
+      "type": "string"
+    },
+    "dictionary-name": "pnf-name",
+    "dictionary-source": "input",
+    "dependencies": [
+    ]
+  }
+]
