@@ -3,13 +3,27 @@
     "dt-config-assign-properties" : {
       "description" : "Dynamic DataType definition for workflow(config-assign).",
       "version" : "1.0.0",
-      "properties" : { },
+      "properties" : {
+        "pnf-id" : {
+          "type" : "string"
+        },
+        "pnf-name" : {
+          "type" : "string"
+        }
+      },
       "derived_from" : "tosca.datatypes.Dynamic"
     },
     "dt-configure-properties" : {
       "description" : "Dynamic DataType definition for workflow(configure).",
       "version" : "1.0.0",
-      "properties" : { },
+      "properties" : {
+        "pnf-id" : {
+          "type" : "string"
+        },
+        "pnf-name" : {
+          "type" : "string"
+        }
+      },
       "derived_from" : "tosca.datatypes.Dynamic"
     }
   }

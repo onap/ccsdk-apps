@@ -16,23 +16,47 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 
-
+from java.lang import Exception as JavaException
 from org.onap.ccsdk.apps.blueprintsprocessor.functions.restconf.executor import \
     RestconfComponentFunction
 
 
 class RestconfAssignConfig(RestconfComponentFunction):
 
-
     def process(self, execution_request):
-        # create instances of the needed objects
-        # retrieve any needed information not present on the request, like pnf ip
-        # create the configlet
-        # persist the configlet
-        # end
-        print("process", execution_request)
+        log = globals()["log"]
+        log.info("Started execution of process method")
+        try:
+            log.info("getting pnf id")
+            pnf_id = execution_request.payload.get("config-assign-request").get("config-assign-properties").get("pnf-id")
+            pnf_id = str(pnf_id).strip('\"')
+            log.info("pnf-id: {}", pnf_id)
 
+            log.info("defining YANG PATCH payload")
+            payload = self.resolveAndGenerateMessage("config-assign-mapping", "config-assign-template")
+            log.info("YANG PATCH payload: \n {}", payload)
+
+            # defining custom header
+            headers = {
+                "Content-Type": "application/yang.patch+json"
+            }
+
+            log.info("will test sending patch request")
+            url = "restconf/config/network-topology:network-topology/topology/topology-netconf/node/" + str(pnf_id) + "/yang-ext:mount/mynetconf:netconflist"
+            log.info("trying to call url: {}", url)
+            web_client_service = self.restClientService("sdncodl")
+            result = web_client_service.exchangeResource("PATCH", url, payload, headers)
+            log.info("result: {}", result)
+            log.info("Ended execution of process method")
+
+        except JavaException, err:
+            log.error("Java Exception in the script", err)
+            raise err
+        except Exception, err:
+            log.error("Python Exception in the script", err)
+            raise err
 
     def recover(self, runtime_exception, execution_request):
-        print("recover")
+        log = globals()["log"]
+        log.info("Recover method, no code to execute")
         return None

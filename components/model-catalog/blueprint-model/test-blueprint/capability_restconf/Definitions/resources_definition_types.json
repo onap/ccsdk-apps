@@ -1,1 +1,32 @@
-{ }
+{
+  "pnf-id" : {
+    "tags" : "pnf-id",
+    "name" : "pnf-id",
+    "property" : {
+      "description" : "pnf-id",
+      "type" : "string"
+    },
+    "updated-by" : "Rodrigo Ottero <rodrigo.ottero@est.tech>",
+    "sources" : {
+      "input" : {
+        "type" : "source-input",
+        "properties" : { }
+      }
+    }
+  },
+  "pnf-name" : {
+    "tags" : "pnf-name",
+    "name" : "pnf-name",
+    "property" : {
+      "description" : "pnf-name",
+      "type" : "string"
+    },
+    "updated-by" : "Rodrigo Ottero <rodrigo.ottero@est.tech>",
+    "sources" : {
+      "input" : {
+        "type" : "source-input",
+        "properties" : { }
+      }
+    }
+  }
+}
