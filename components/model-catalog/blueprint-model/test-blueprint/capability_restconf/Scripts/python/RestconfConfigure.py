@@ -16,23 +16,17 @@
 # SPDX-License-Identifier: Apache-2.0
 # ============LICENSE_END=========================================================
 
-
 from org.onap.ccsdk.apps.blueprintsprocessor.functions.restconf.executor import \
     RestconfComponentFunction
 
 
 class RestconfConfigure(RestconfComponentFunction):
 
-
     def process(self, execution_request):
-        # create instances of the needed objects
-        # retrieve any needed information not present on the request, like pnf ip
-        # retrieve the configlet
-        # send the configlet
-        # end
-        print("process", execution_request)
-
+        log = globals()["log"]
+        log.info("Process method, no code to execute")
 
     def recover(self, runtime_exception, execution_request):
-        print("recover")
+        log = globals()["log"]
+        log.info("Recover method, no code to execute")
         return None

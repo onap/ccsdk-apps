@@ -29,9 +29,11 @@ import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PatchMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import kotlin.test.Test
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 @RunWith(SpringRunner::class)
@@ -58,6 +60,13 @@ class RestClientServiceTest {
         assertNotNull(response, "failed to get response")
     }
 
+    @Test
+    fun testPatch() {
+        val restClientService = bluePrintRestLibPropertyService.blueprintWebClientService("sample")
+        val response = restClientService.exchangeResource(HttpMethod.PATCH.name, "/sample/name", "")
+        assertEquals("Patch request successful", response, "failed to get patch response")
+    }
+
 }
 
 @RestController
@@ -65,5 +74,7 @@ class RestClientServiceTest {
 open class SampleController {
     @GetMapping("/name")
     fun getName(): String = "Sample Controller"
+    @PatchMapping("/name")
+    fun patchName(): String = "Patch request successful"
 }
 
