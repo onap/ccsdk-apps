@@ -70,6 +70,30 @@
       "revId": "3887f6e7341132ee46de3f22daf044cb0254f02a",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0cd8a1f7_06298a5c",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/baseconfiguration/Definitions/resources_definition_types.json",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 4980
+      },
+      "writtenOn": "2019-03-15T19:07:27Z",
+      "side": 1,
+      "message": "Thanks will be updated to processor-db in next patch.",
+      "parentUuid": "5456b906_0cda0c43",
+      "range": {
+        "startLine": 29,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 10
+      },
+      "revId": "3887f6e7341132ee46de3f22daf044cb0254f02a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
