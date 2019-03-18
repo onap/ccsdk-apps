@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9468cfef_6f24a039",
+        "filename": "ms/blueprintsprocessor/modules/commons/rest-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/rest/service/BlueprintWebClientService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "this could be named defaultHeaders",
+      "range": {
+        "startLine": 32,
+        "startChar": 8,
+        "endLine": 32,
+        "endChar": 26
+      },
+      "revId": "a60fd751d325caf49398dcd2f24c0cdb30deaf9b",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
