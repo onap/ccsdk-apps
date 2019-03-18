@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "7a76caa9_3f2c4aa4",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "not used",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 27,
+        "endChar": 6
+      },
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0b5faa0d_2db867bd",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Definitions/activation-blueprint.json",
+        "patchSetId": 8
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 12
+      },
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4f14421_5bc2aebb",
         "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Scripts/python/RestconfConfigDeploy.py",
         "patchSetId": 8
@@ -47,6 +93,121 @@
       "writtenOn": "2019-03-18T09:38:55Z",
       "side": 1,
       "message": "Move last part of path to target data node (mynetconf:netconflist) to configlet (target attribute in YANG-patch edit) to remove dependency between configlet content and this script",
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "022db08b_e4eca7ed",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Templates/config-deploy-restconf-mount-template.vtl",
+        "patchSetId": 8
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be configurable?",
+      "range": {
+        "startLine": 4,
+        "startChar": 63,
+        "endLine": 4,
+        "endChar": 78
+      },
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3164fcf_a360231b",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Templates/config-deploy-restconf-mount-template.vtl",
+        "patchSetId": 8
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "shouldn\u0027t this be configurable?",
+      "range": {
+        "startLine": 8,
+        "startChar": 57,
+        "endLine": 8,
+        "endChar": 61
+      },
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0e12f962_3257972d",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Templates/config-deploy-restconf-mount-template.vtl",
+        "patchSetId": 8
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "tab",
+      "range": {
+        "startLine": 10,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 1
+      },
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f92116e_4de5fa85",
+        "filename": "ms/blueprintsprocessor/modules/commons/rest-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/rest/service/BasicAuthRestClientService.kt",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "not part of Apache 2 licence header, same applies elsewhere",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 38
+      },
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d6f163f7_8ddcb985",
+        "filename": "ms/blueprintsprocessor/modules/commons/rest-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/rest/service/BlueprintWebClientService.kt",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T13:08:39Z",
+      "side": 1,
+      "message": "Make it simpler: \n\n  return headers.map { BasicHeader(it.key, it.value) }.toTypedArray()",
+      "range": {
+        "startLine": 62,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 31
+      },
       "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
