@@ -211,6 +211,29 @@
       "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3b591b6_c4709f81",
+        "filename": "ms/blueprintsprocessor/modules/commons/rest-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/rest/service/BlueprintWebClientService.kt",
+        "patchSetId": 8
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-18T15:32:18Z",
+      "side": 1,
+      "message": "Better to have MutableMap\u003cString, String\u003e to avoid header footprints on caller.",
+      "range": {
+        "startLine": 70,
+        "startChar": 29,
+        "endLine": 70,
+        "endChar": 56
+      },
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
