@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77f77c25_ad2695da",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/golden/Scripts/python/DescriptionExample.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 4357
+      },
+      "writtenOn": "2019-03-18T15:35:17Z",
+      "side": 1,
+      "message": "Shall use addError parent method",
+      "range": {
+        "startLine": 45,
+        "startChar": 14,
+        "endLine": 45,
+        "endChar": 96
+      },
+      "revId": "5e523baaef8c2dafaf2b1bc96a25b764639faa16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
