@@ -22,6 +22,30 @@
       "revId": "5e523baaef8c2dafaf2b1bc96a25b764639faa16",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "50221cfd_efd1a639",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/golden/Scripts/python/DescriptionExample.py",
+        "patchSetId": 6
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 137
+      },
+      "writtenOn": "2019-03-18T15:56:26Z",
+      "side": 1,
+      "message": "Done, had to add this: https://gerrit.onap.org/r/#/c/82193/7/ms/blueprintsprocessor/functions/resource-resolution/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/functions/resource/resolution/processor/ResourceAssignmentProcessor.kt",
+      "parentUuid": "77f77c25_ad2695da",
+      "range": {
+        "startLine": 45,
+        "startChar": 14,
+        "endLine": 45,
+        "endChar": 96
+      },
+      "revId": "5e523baaef8c2dafaf2b1bc96a25b764639faa16",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
     }
   ]
 }
