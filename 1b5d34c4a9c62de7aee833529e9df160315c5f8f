@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d4f14421_5bc2aebb",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Scripts/python/RestconfConfigDeploy.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 5279
+      },
+      "writtenOn": "2019-03-18T09:38:55Z",
+      "side": 1,
+      "message": "Instead of sleeping for fixed amount of time, check progress via node-connection-status on the node mount in ODL",
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "de438e21_d70f7d5e",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Scripts/python/RestconfConfigDeploy.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 5279
+      },
+      "writtenOn": "2019-03-18T09:38:55Z",
+      "side": 1,
+      "message": "Could use base mount URL here as well",
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e7a17a56_b0acda6b",
+        "filename": "components/model-catalog/blueprint-model/test-blueprint/capability_restconf/Scripts/python/RestconfConfigDeploy.py",
+        "patchSetId": 8
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 5279
+      },
+      "writtenOn": "2019-03-18T09:38:55Z",
+      "side": 1,
+      "message": "Move last part of path to target data node (mynetconf:netconflist) to configlet (target attribute in YANG-patch edit) to remove dependency between configlet content and this script",
+      "revId": "1b5d34c4a9c62de7aee833529e9df160315c5f8f",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    }
+  ]
+}
