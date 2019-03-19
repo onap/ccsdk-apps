@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "05b724a0_ef34d488",
+        "filename": "ms/blueprintsprocessor/modules/commons/dmaap-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/dmaap/BluePrintDmaapClientService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 2091
+      },
+      "writtenOn": "2019-03-19T15:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9027e0a2_4947a8c3",
+      "range": {
+        "startLine": 54,
+        "startChar": 4,
+        "endLine": 54,
+        "endChar": 56
+      },
+      "revId": "94b53f258ff3c76404dbec35d361c1889d71627d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ca19d95_65cdd135",
         "filename": "ms/blueprintsprocessor/modules/commons/dmaap-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/dmaap/BluePrintDmaapLibPropertyService.kt",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2019-03-19T14:48:06Z",
       "side": 1,
       "message": "Should we avoid ?",
+      "range": {
+        "startLine": 64,
+        "startChar": 2,
+        "endLine": 65,
+        "endChar": 33
+      },
+      "revId": "94b53f258ff3c76404dbec35d361c1889d71627d",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e928e3ff_bb8b742a",
+        "filename": "ms/blueprintsprocessor/modules/commons/dmaap-lib/src/main/kotlin/org/onap/ccsdk/apps/blueprintsprocessor/dmaap/BluePrintDmaapLibPropertyService.kt",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 2091
+      },
+      "writtenOn": "2019-03-19T15:52:30Z",
+      "side": 1,
+      "message": "I want to use the event.properties file, as it is, without needing to explore the default content which is common for any connection type. So, using environment would just make a easy access of the file content for me.",
+      "parentUuid": "1ca19d95_65cdd135",
       "range": {
         "startLine": 64,
         "startChar": 2,
