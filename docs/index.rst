@@ -3,7 +3,7 @@
 .. Copyright (C) 2019 IBM.
 
 CCSDK APPS DOCUMENTATION REPOSITORY
-------------------------------------------------
+------------------------------------
 .. toctree::
    :maxdepth: 1
 
@@ -14,6 +14,9 @@ Introduction:
 Microservices:
 =============
 
+.. toctree::
+   :maxdepth: 1
+   
    microservices/controllerBlueprintStudioProcessor
    microservices/bluePrintsProcessor
    microservices/neng
