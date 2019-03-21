@@ -318,6 +318,15 @@
               }
             ]
           }
+        },
+        "outputs": {
+          "response-property": "executed",
+          "template-properties": {
+            "get_attribute": [
+              "resource-assignment",
+              "assignment-params"
+            ]
+          }
         }
       },
       "activate": {

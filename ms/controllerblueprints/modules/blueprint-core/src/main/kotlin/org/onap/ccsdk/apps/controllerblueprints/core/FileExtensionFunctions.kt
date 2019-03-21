@@ -78,6 +78,6 @@ fun normalizedPath(path: String, vararg more: String?): Path {
 }
 
 fun normalizedPathName(path: String, vararg more: String?): String {
-    return normalizedPath(path, *more).toUri().path
+    return normalizedPath(path, *more).toString()
 }
 

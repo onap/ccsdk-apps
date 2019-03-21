@@ -1,6 +1,6 @@
 /*
  * Copyright © 2017-2018 AT&T Intellectual Property.
- * Modifications Copyright © 2018 IBM.
+ * Modifications Copyright © 2018-2019 IBM.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,13 +25,13 @@ import org.junit.runner.RunWith
 import org.onap.ccsdk.apps.controllerblueprints.TestApplication
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintEnhancerService
 import org.onap.ccsdk.apps.controllerblueprints.core.interfaces.BluePrintValidatorService
+import org.onap.ccsdk.apps.controllerblueprints.core.normalizedPathName
 import org.onap.ccsdk.apps.controllerblueprints.service.load.ModelTypeLoadService
 import org.onap.ccsdk.apps.controllerblueprints.service.load.ResourceDictionaryLoadService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.TestPropertySource
 import org.springframework.test.context.junit4.SpringRunner
-import java.nio.file.Paths
 
 @RunWith(SpringRunner::class)
 @ContextConfiguration(classes = arrayOf(TestApplication::class))
@@ -84,7 +84,7 @@ class BluePrintEnhancerServiceImplTest {
 
     private fun testComponentInvokeEnhancementAndValidation(basePath: String, targetDirName: String) {
         runBlocking {
-            val targetPath = Paths.get("target", targetDirName).toUri().path
+            val targetPath = normalizedPathName("target", targetDirName)
 
             val bluePrintContext = bluePrintEnhancerService.enhance(basePath, targetPath)
             Assert.assertNotNull("failed to get blueprintContext ", bluePrintContext)
