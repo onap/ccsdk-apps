@@ -35,10 +35,7 @@
     <description>Micro-services</description>
 
     <modules>
-        <module>controllerblueprints</module>
-        <module>blueprintsprocessor</module>
         <module>neng</module>
         <module>vlantag-api</module>
-        <module>cds-sdc-listener</module>
     </modules>
 </project>

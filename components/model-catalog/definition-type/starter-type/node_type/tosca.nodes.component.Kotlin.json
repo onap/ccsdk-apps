@@ -1,5 +1,0 @@
-{
-  "description": "This is Kotlin Component",
-  "version": "1.0.0",
-  "derived_from": "tosca.nodes.Root"
-}

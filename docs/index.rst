@@ -17,8 +17,6 @@ Microservices:
 .. toctree::
    :maxdepth: 1
    
-   microservices/controllerBlueprintStudioProcessor
-   microservices/bluePrintsProcessor
    microservices/neng
    microservices/vlanTag
 

@@ -41,7 +41,6 @@
     </properties>
 
     <modules>
-        <module>components</module>
         <module>ms</module>
     </modules>
 
