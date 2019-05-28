@@ -23,7 +23,7 @@
 
     <groupId>org.onap.ccsdk.apps</groupId>
     <artifactId>ccsdk-apps-ms-neng</artifactId>
-    <version>0.4.3-SNAPSHOT</version>
+    <version>0.4.4-SNAPSHOT</version>
     <name>Naming Generation</name>
 
     <properties>
@@ -243,7 +243,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-1-starter-parent</artifactId>
-        <version>1.2.3</version>
+        <version>1.2.4-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
