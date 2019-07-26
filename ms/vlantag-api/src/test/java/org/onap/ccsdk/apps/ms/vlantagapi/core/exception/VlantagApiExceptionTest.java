@@ -26,5 +26,12 @@ class VlantagApiExceptionTest {
 	
 	}
 	
+	@Test
+	public void VlantagApiExceptionTestStringThrowableArgs() {
+		assertNotNull(new VlantagApiException(new Exception("JUnit Test")));
+	
+	}
+	
+	
 
 }
