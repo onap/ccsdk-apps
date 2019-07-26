@@ -31,7 +31,5 @@ class VlantagApiExceptionTest {
 		assertNotNull(new VlantagApiException(new Exception("JUnit Test")));
 	
 	}
-	
-	
 
 }
