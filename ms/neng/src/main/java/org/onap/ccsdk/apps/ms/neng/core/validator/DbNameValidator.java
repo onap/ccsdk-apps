@@ -38,6 +38,6 @@ public class DbNameValidator {
      */
     public boolean validate(String namingType, String name) throws Exception {
         GeneratedName genName = genNameRepo.findUnReleased(namingType, name);
-        return (genName == null) ? true : false;
+        return (genName == null);
     }
 }
