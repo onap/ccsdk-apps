@@ -1,0 +1,9 @@
+---
+distribution_type: 'container'
+container_release_tag: '0.6.3'
+project: 'ccsdk-apps'
+log_dir: 'ccsdk-apps-maven-docker-stage-elalto/11/'
+ref: fb16753a883e7201b1203a231e8a953580ec2584
+containers:
+    - name: 'ccsdk-apps-ms-neng'
+      version: '0.6.3-STAGING-20190919161046'
