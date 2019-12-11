@@ -28,3 +28,6 @@
 
 # To Remove Kotlin Script Generated Jars
 **/*cba-kts.jar
+
+# Generated dependency list
+direct-dependencies.txt
