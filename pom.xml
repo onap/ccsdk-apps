@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>odlparent-lite</artifactId>
-        <version>1.5.0</version>
+        <version>1.5.1-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
@@ -69,34 +69,72 @@
                 </property>
             </activation>
             <build>
-                    <plugins>
-                        <plugin>
-                            <groupId>com.blackducksoftware.integration</groupId>
-                            <artifactId>hub-maven-plugin</artifactId>
-                            <version>1.4.0</version>
-                            <inherited>false</inherited>
-                            <configuration>
-                                <hubProjectName>${project.name}</hubProjectName>
-                                <outputDirectory>${project.basedir}</outputDirectory>
-                            </configuration>
-                            <executions>
-                                <execution>
-                                    <id>create-bdio-file</id>
-                                    <phase>package</phase>
-                                    <goals>
-                                        <goal>createHubOutput</goal>
-                                    </goals>
-                                </execution>
-                            </executions>
-                        </plugin>
-                    </plugins>
-
-
-
+                <plugins>
+                    <plugin>
+                        <groupId>com.blackducksoftware.integration</groupId>
+                        <artifactId>hub-maven-plugin</artifactId>
+                        <version>1.4.0</version>
+                        <inherited>false</inherited>
+                        <configuration>
+                            <hubProjectName>${project.name}</hubProjectName>
+                            <outputDirectory>${project.basedir}</outputDirectory>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <id>create-bdio-file</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>createHubOutput</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
-
         </profile>
-
+        <profile>
+            <id>dependency-list</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.github.ferstl</groupId>
+                        <artifactId>depgraph-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>validate</phase>
+                                <inherited>false</inherited>
+                                <goals>
+                                    <goal>aggregate</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>build-helper-maven-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <id>attach-artifacts</id>
+                                <phase>package</phase>
+                                <inherited>false</inherited>
+                                <goals>
+                                    <goal>attach-artifact</goal>
+                                </goals>
+                                <configuration>
+                                    <artifacts>
+                                        <artifact>
+                                            <file>${dependency-list.file}</file>
+                                            <type>txt</type>
+                                            <classifier>dependencies</classifier>
+                                        </artifact>
+                                    </artifacts>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
     </profiles>
 
 </project>
