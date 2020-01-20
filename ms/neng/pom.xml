@@ -42,15 +42,6 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sdk.java.rest>6.2.0.11</sdk.java.rest>
-        <sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
-        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
-        <sonar.surefire.reportsPath>${basedir}/target/surefire-reports</sonar.surefire.reportsPath>
-        <sonar.failsafe.reportsPath>${basedir}/target/failsafe-reports</sonar.failsafe.reportsPath>
-        <jacoco.path>${basedir}/target/jacoco_report</jacoco.path>
-        <jacoco.itPath>${basedir}/target/jacoco_itReport</jacoco.itPath>
-        <sonar.jacoco.reportPath>${basedir}/target/jacoco-ut.exec</sonar.jacoco.reportPath>
-        <sonar.jacoco.itReportPath>${basedir}/target/jacoco-it.exec</sonar.jacoco.itReportPath>
-        <sonar.language>java</sonar.language>
         <serviceArtifactName>ms-networkelementnamegen</serviceArtifactName>
         <ccsdk.distribution.version>0.2.4</ccsdk.distribution.version>
         <docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
@@ -365,55 +356,6 @@
                         </goals>
                         <configuration>
                             <source>${basedir}/../../TagVersion.groovy</source>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.jacoco</groupId>
-                <artifactId>jacoco-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>pre-unit-test</id>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <destFile>${sonar.jacoco.reportPath}</destFile>
-                            <propertyName>surefireArgLine</propertyName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>post-unit-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${sonar.jacoco.reportPath}</dataFile>
-                            <outputDirectory>${jacoco.path}</outputDirectory>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>pre-integration-test</id>
-                        <phase>pre-integration-test</phase>
-                        <goals>
-                            <goal>prepare-agent</goal>
-                        </goals>
-                        <configuration>
-                            <destFile>${sonar.jacoco.itReportPath}</destFile>
-                            <propertyName>failsafeArgLine</propertyName>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>post-integration-test</id>
-                        <phase>post-integration-test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                        <configuration>
-                            <dataFile>${sonar.jacoco.itReportPath}/</dataFile>
-                            <outputDirectory>${jacoco.itPath}</outputDirectory>
                         </configuration>
                     </execution>
                 </executions>
