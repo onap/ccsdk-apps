@@ -153,9 +153,9 @@ public class NameGenerator {
         String namingType = (reqNamingType == null) ? reqResourceName : reqNamingType;
         String relaxedNamingType = relaxedNamingType(namingType);
         
-        if (!aaiValidator.validate(namingType, resourceValue)) {
-            throw new NengException("Name already exists in AAI");
-        }
+        //if (!aaiValidator.validate(namingType, resourceValue)) {
+            //throw new NengException("Name already exists in AAI");
+        //}
         GeneratedName generatedName  = null;
         if (relaxedNamingType != null) {
             generatedName = namePersister.findByExternalIdAndElementType(externalKey, relaxedNamingType);
@@ -311,11 +311,11 @@ public class NameGenerator {
             lastSeq.setName(name);
             valid = this.dbValidator.validate(namingType, name);
             if (valid) {
-                valid = this.aaiValidator.validate(namingType, name);
-                if (!valid) {
-                    storeGeneratedName("AAI-BACKPOPULATE", name, namingType, lastSeq);
-                    additionalErrorMsg = "AAI Name validation failed";
-                }
+                //valid = this.aaiValidator.validate(namingType, name);
+                //if (!valid) {
+                    //storeGeneratedName("AAI-BACKPOPULATE", name, namingType, lastSeq);
+                    //additionalErrorMsg = "AAI Name validation failed";
+                //}
             } else {
                 additionalErrorMsg = "DB Name validation failed";
             }

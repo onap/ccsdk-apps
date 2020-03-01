@@ -123,7 +123,7 @@ public class AaiServiceImpl {
             HttpClient client = HttpClientBuilder.create()
                 .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
                 .build();
-            this.restTemplate = restBld.requestFactory(new HttpComponentsClientHttpRequestFactory(client)).build();
+            //this.restTemplate = restBld.requestFactory(new HttpComponentsClientHttpRequestFactory(client)).build();
         }
         return this.restTemplate;
     }

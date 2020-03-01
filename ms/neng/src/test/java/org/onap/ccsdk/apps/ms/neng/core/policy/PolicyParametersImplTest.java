@@ -51,16 +51,16 @@ public class PolicyParametersImplTest {
 
     @Test
     public void policyParameterTest() throws Exception {
-        Mockito.when(serviceParameterRepository.findByName(RECIPE_SEPERATOR_PARAM)).thenReturn(sp);
-        Mockito.when(sp.getValue()).thenReturn("value");
+        Mockito.lenient().when(serviceParameterRepository.findByName(RECIPE_SEPERATOR_PARAM)).thenReturn(sp);
+        Mockito.lenient().when(sp.getValue()).thenReturn("value");
         assertEquals("value", policyParametersImpl.getRecipeSeparator());
 
-        Mockito.when(identifierMapRepository.findByPolicyFnName("name")).thenReturn(identifierMap);
-        Mockito.when(identifierMap.getJsFnName()).thenReturn("jsFnName");
+        Mockito.lenient().when(identifierMapRepository.findByPolicyFnName("name")).thenReturn(identifierMap);
+        Mockito.lenient().when(identifierMap.getJsFnName()).thenReturn("jsFnName");
         assertEquals("jsFnName", policyParametersImpl.mapFunction("name"));
 
-        Mockito.when(sp.getValue()).thenReturn("1");
-        Mockito.when(serviceParameterRepository.findByName(MAX_GEN_ATTEMPT_PARAM)).thenReturn(sp);
+        Mockito.lenient().when(sp.getValue()).thenReturn("1");
+        Mockito.lenient().when(serviceParameterRepository.findByName(MAX_GEN_ATTEMPT_PARAM)).thenReturn(sp);
         assertEquals(1, policyParametersImpl.getMaxGenAttempt());
     }
 }
