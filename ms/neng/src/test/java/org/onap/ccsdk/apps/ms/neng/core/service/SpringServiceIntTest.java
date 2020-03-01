@@ -41,6 +41,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
@@ -128,8 +129,8 @@ public class SpringServiceIntTest {
     public void testGenName_1() throws Exception {
         ResponseEntity<Object> resp = new ResponseEntity<Object>(
                         getConfigResponse("JQINSRIOV.Config_MS_SriovBigJson.1.xml"), HttpStatus.OK);
-        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(resp);
-        when(aaiServiceImpl.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
+        Mockito.lenient().when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(resp);
+        Mockito.lenient().when(aaiServiceImpl.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
         NameGenRequest request = nameGenRequest_1();
         NameGenResponse genresp = springService.genNetworkElementName(request);
         assertTrue("vnf-name".equals(genresp.getElements().get(0).get("resource-name")));
@@ -179,8 +180,8 @@ public class SpringServiceIntTest {
         NameGenRequest request = nameGenRequest_1();
         ResponseEntity<Object> resp = new ResponseEntity<Object>(
                         getConfigResponse("JQINSRIOV.Config_MS_SriovBigJson.1.xml"), HttpStatus.OK);
-        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(resp);
-        when(aaiServiceImpl.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
+        Mockito.lenient().when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(resp);
+        Mockito.lenient().when(aaiServiceImpl.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
         restServiceImpl.generateNetworkElementName(request);
     }
 
@@ -237,7 +238,7 @@ public class SpringServiceIntTest {
         extInt.setUrlSuffix("nodes/generic-vnfs?vnf-name=");
         
         extIntRepo.save(extInt);
-        ExternalInterface extIntDb = extIntRepo.findOne(100);
+        ExternalInterface extIntDb = extIntRepo.findById(100).get();
         
         assertNotNull(extIntDb);
         assertEquals("nodes/generic-vnfs?vnf-name=",extIntDb.getUrlSuffix());
@@ -261,7 +262,7 @@ public class SpringServiceIntTest {
         reqMap.put("resource-name", "vnf-name");
         reqMap.put("resource-value", "DG001ESP1");
         
-        when(aaiServiceImpl.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
+        Mockito.lenient().when(aaiServiceImpl.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
         
         List<Map<String,String>> elList = new ArrayList<>();
         elList.add(reqMap);

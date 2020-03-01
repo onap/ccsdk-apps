@@ -34,6 +34,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.FilePolicyReader;
@@ -78,7 +79,7 @@ public class NameGeneratorExcMissingDataTest {
         List<Map<String, String>> allElements = new ArrayList<>();
         allElements.add(requestElement);
 
-        when(policyFinder.findPolicy(policyName)).thenReturn(null);
+        Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(null);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
@@ -167,10 +168,10 @@ public class NameGeneratorExcMissingDataTest {
         allElements.add(requestElement);
 
         Map<String, Object> policy = new FilePolicyReader("bad_policy_missing_recipe.json").getPolicy();
-        when(policyFinder.findPolicy(policyName)).thenReturn(policy);
-        when(aaiValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), anyInt())).thenReturn(1L);
+        Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
+        Mockito.lenient().when(aaiValidator.validate(anyObject(), anyObject())).thenReturn(true);
+        Mockito.lenient().when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
+        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), anyInt())).thenReturn(1L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
@@ -196,7 +197,7 @@ public class NameGeneratorExcMissingDataTest {
         allElements.add(requestElement);
 
         Map<String, Object> policy = new FilePolicyReader("vnf_policy_seq.json").getPolicy();
-        when(policyFinder.findPolicy(policyName)).thenReturn(policy);
+        Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
@@ -222,7 +223,7 @@ public class NameGeneratorExcMissingDataTest {
         allElements.add(requestElement);
 
         Map<String, Object> policy = new FilePolicyReader("long_policy.json").getPolicy();
-        when(policyFinder.findPolicy(policyName)).thenReturn(policy);
+        Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
@@ -248,7 +249,7 @@ public class NameGeneratorExcMissingDataTest {
         allElements.add(requestElement);
 
         Map<String, Object> policy = new FilePolicyReader("long_policy.json").getPolicy();
-        when(policyFinder.findPolicy(policyName)).thenReturn(policy);
+        Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());
