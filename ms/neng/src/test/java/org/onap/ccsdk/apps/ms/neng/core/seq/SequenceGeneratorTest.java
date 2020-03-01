@@ -52,34 +52,34 @@ public class SequenceGeneratorTest {
     public void testGenerate() throws Exception {
         assertEquals(0, sg.generate("zSSRX1234", null, params, null, 1));
         
-        Mockito.when(params.getLastReleaseSeqNumTried()).thenReturn(null);
-        Mockito.when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn("4");
+        Mockito.lenient().when(params.getLastReleaseSeqNumTried()).thenReturn(null);
+        Mockito.lenient().when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn("4");
 
         assertEquals(0, sg.generate("zSSRX1234", null, params, null, 1));
 
-        Mockito.when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn("2");
-        Mockito.when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn(null);
-        Mockito.when(servParamRepo.findByName("initial_increment")).thenReturn(sp);
-        Mockito.when(sp.getValue()).thenReturn("1");
+        Mockito.lenient().when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn("2");
+        Mockito.lenient().when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn(null);
+        Mockito.lenient().when(servParamRepo.findByName("initial_increment")).thenReturn(sp);
+        Mockito.lenient().when(sp.getValue()).thenReturn("1");
 
         assertEquals(0, sg.generate("zSSRX1234", null, params, 1L, 2));
 
-        Mockito.when(genNameRepo.findNextReleasedSeq(0L, "zSSRX1234", null)).thenReturn(null);
+        Mockito.lenient().when(genNameRepo.findNextReleasedSeq(0L, "zSSRX1234", null)).thenReturn(null);
         assertEquals(0, sg.generate("zSSRX1234", null, params, null, 1));
     }
 
     @Test(expected = Exception.class)
     public void exceltionTest() throws Exception {
-        Mockito.when(genNameRepo.findNextReleasedSeq(1L, "zSSRX1234", null)).thenReturn(null);
-        Mockito.when(params.getLastReleaseSeqNumTried()).thenReturn(1L);
+        Mockito.lenient().when(genNameRepo.findNextReleasedSeq(1L, "zSSRX1234", null)).thenReturn(null);
+        Mockito.lenient().when(params.getLastReleaseSeqNumTried()).thenReturn(1L);
         sg.generate("zSSRX1234", null, params, null, 1);
     }
 
     @Test
     public void testAlreadyUsedSequesnce() throws Exception {
-        Mockito.when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn("1");
-        Mockito.when(sp.getValue()).thenReturn("4");
-        Mockito.when(params.getIncrement()).thenReturn(2L);
+        Mockito.lenient().when(genNameRepo.findMaxByPrefixAndSuffix("zSSRX1234", null)).thenReturn("1");
+        Mockito.lenient().when(sp.getValue()).thenReturn("4");
+        Mockito.lenient().when(params.getIncrement()).thenReturn(2L);
         assertEquals(0L, sg.generate("zSSRX1234", null, params, 2L, 0));
     }
 }
