@@ -19,6 +19,8 @@
 
 #==================================================================================
 # This script does a sanity test on the add-policy API of the micro-service.
+#
+# This supports the decision API format
 #==================================================================================
 
 . ./env.sh
@@ -27,9 +29,9 @@ TEMP_FILE=/tmp/add-policy.$$.$RANDOM
 EXTERNAL_KEY=${1:-123456789}
 
 printf '{ ' > $TEMP_FILE
-printf '"policyName": "vnf-policy-ts-2' >> $TEMP_FILE
+printf '"policyName": "vnf-policy-decision-api' >> $TEMP_FILE
 printf '", "policyValue" : "' >> $TEMP_FILE
-cat ./policy-vnf-ts-2.json | sed 's/\"/\\\"/g' | tr '\n' ' ' | tr '\r' ' ' >> $TEMP_FILE
+cat ./policy-decision-api.json | sed 's/\"/\\\"/g' | tr '\n' ' ' | tr '\r' ' ' >> $TEMP_FILE
 echo '"}' >> $TEMP_FILE
 
 echo "==================================================="
