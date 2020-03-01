@@ -34,6 +34,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.FilePolicyReader;
@@ -86,9 +87,9 @@ public class NameGeneratorDependencyEarlierTest {
      */
     @Before
     public void setupPolicyParams() throws Exception {
-        when(policyParams.mapFunction("substr")).thenReturn("substring");
-        when(policyParams.mapFunction("to_lower_case")).thenReturn("toLowerCase");
-        when(policyParams.mapFunction("to_upper_case")).thenReturn("toUpperCase");
+        Mockito.lenient().when(policyParams.mapFunction("substr")).thenReturn("substring");
+        Mockito.lenient().when(policyParams.mapFunction("to_lower_case")).thenReturn("toLowerCase");
+        Mockito.lenient().when(policyParams.mapFunction("to_upper_case")).thenReturn("toUpperCase");
     }
 
     @Test
@@ -101,10 +102,10 @@ public class NameGeneratorDependencyEarlierTest {
         allElements.add(requestElement2);
 
         Map<String, Object> policy = new FilePolicyReader("vnf_and_vm_policy.json").getPolicy();
-        when(policyFinder.findPolicy(policyName)).thenReturn(policy);
-        when(aaiValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), anyInt())).thenReturn(1L);
+        Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
+        Mockito.lenient().when(aaiValidator.validate(anyObject(), anyObject())).thenReturn(true);
+        Mockito.lenient().when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
+        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), anyInt())).thenReturn(1L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement1, allElements, earlierNames, policyCache, new ArrayList<>());

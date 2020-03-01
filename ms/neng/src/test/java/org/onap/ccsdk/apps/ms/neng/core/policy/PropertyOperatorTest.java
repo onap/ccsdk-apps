@@ -32,6 +32,7 @@ import java.util.Map;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.runners.MockitoJUnitRunner;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -84,7 +85,7 @@ public class PropertyOperatorTest {
 
     @Test
     public void applySubstr() throws Exception {
-        when(params.mapFunction("sub_str")).thenReturn("substring");
+        Mockito.lenient().when(params.mapFunction("sub_str")).thenReturn("substring");
         PropertyOperator op = new PropertyOperator();
 
         Map<String, String> props = new HashMap<>();
@@ -112,7 +113,7 @@ public class PropertyOperatorTest {
     public void testApply_non_mapped() throws Exception {
         String operation = "to_upper_case";
         PolicyParameters policyParams = mock(PolicyParameters.class);
-        when(policyParams.mapFunction("sub_str")).thenReturn("substring");
+        Mockito.lenient().when(policyParams.mapFunction("sub_str")).thenReturn("substring");
         PropertyOperator op = new PropertyOperator();
         String resp = op.apply("MyString", operation, policyParams);
         assertEquals("MYSTRING", resp);
