@@ -39,6 +39,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Matchers;
 import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.Spy;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
@@ -93,7 +94,7 @@ public class PolicyFinderServiceImplTest {
         Map<String, Object> configMap = buildPolicyResponse();
         Object resp = Arrays.asList(new Object[] {configMap});
         ResponseEntity<Object> respEn = new ResponseEntity<>(resp, HttpStatus.OK);
-        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(respEn);
+        Mockito.lenient().when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(respEn);
 
         policManProps.setUrl("http://policyManager.onap.org");
 
@@ -109,7 +110,7 @@ public class PolicyFinderServiceImplTest {
         Map<String, Object> configMap = buildPolicyResponse();
         Object resp = Arrays.asList(new Object[] {configMap});
         ResponseEntity<Object> respEn = new ResponseEntity<>(resp, HttpStatus.INTERNAL_SERVER_ERROR);
-        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(respEn);
+        Mockito.lenient().when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenReturn(respEn);
 
         policManProps.setUrl("http://policyManager.onap.org");
 
@@ -221,7 +222,7 @@ public class PolicyFinderServiceImplTest {
     @Test(expected = NengException.class)
     public void testmakeOutboundCall_500_statusExp() throws Exception {
         HttpClientErrorException exp = new HttpClientErrorException(HttpStatus.METHOD_NOT_ALLOWED, "{error}");
-        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenThrow(exp);
+        Mockito.lenient().when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenThrow(exp);
         policManProps.setUrl("http://policyManager.onap.org");
         GetConfigRequest request = new GetConfigRequest();
         request.setPolicyName("policy");
@@ -232,7 +233,7 @@ public class PolicyFinderServiceImplTest {
     @Test(expected = NengException.class)
     public void testmakeOutboundCall_500_statusExp_notFound() throws Exception {
         HttpClientErrorException exp = new HttpClientErrorException(HttpStatus.NOT_FOUND, "{error}");
-        when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenThrow(exp);
+        Mockito.lenient().when(restTemplate.exchange(Matchers.any(RequestEntity.class), Matchers.any(Class.class))).thenThrow(exp);
         policManProps.setUrl("http://policyManager.onap.org");
         GetConfigRequest request = new GetConfigRequest();
         request.setPolicyName("policy");

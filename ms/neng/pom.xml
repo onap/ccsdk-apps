@@ -31,8 +31,6 @@
         <icd.file>service.json</icd.file>
         <icd.package>org.onap.ccsdk.apps.ms.neng.service.rs</icd.package>
         <java.version>1.8</java.version>
-        <spring.version>4.3.17.RELEASE</spring.version>
-        <springboot.version>1.5.16.RELEASE</springboot.version>
         <docker.registry>nexus3.onap.org:10001</docker.registry>
         <build.number>local</build.number>
         <kube.namespace>TBD</kube.namespace>
@@ -141,7 +139,7 @@
                                 <goals>
                                     <goal>copy-resources</goal>
                                 </goals>
-                                <phase>package</phase>
+                                <phase>validate</phase>
                                 <configuration>
                                     <outputDirectory>${basedir}/target/docker-stage</outputDirectory>
                                     <resources>
@@ -233,7 +231,7 @@
 
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-1-starter-parent</artifactId>
+        <artifactId>spring-boot-starter-parent</artifactId>
         <version>1.5.2-SNAPSHOT</version>
         <relativePath/>
     </parent>
@@ -337,6 +335,17 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.elasticsearch</groupId>
+            <artifactId>elasticsearch</artifactId>
+            <version>5.6.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.searchbox</groupId>
+            <artifactId>jest</artifactId>
+            <version>5.3.3</version>
         </dependency>
     </dependencies>
 
