@@ -45,18 +45,12 @@ public class PolicyFinderServiceDbImpl extends PolicyFinderServiceImpl {
      * Finds the policy with the given name from the DB.
      */
     @Override
-    public GetConfigResponse getConfig(String policyName) throws Exception {
+    <T, R> GetConfigResponse makeOutboundCall( String policyName, T request, Class<R> response) throws Exception {
         ObjectMapper objectmapper = new ObjectMapper();
-        objectmapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
         PolicyDetails policyDetails = policyDetailsRepo.findPolicyResponseByName(policyName);
         if (policyDetails == null) {
             throw new Exception("Unable to find the policy " + policyName);
         }
-        List<Map<Object, Object>> respObj = objectmapper.readValue(policyDetails.getPolicyResponse(),
-                        new TypeReference<List<Map<Object, Object>>>() {});
-        transformConfigObject(objectmapper, respObj);
-        GetConfigResponse configResp = new GetConfigResponse();
-        configResp.setResponse(respObj);
-        return configResp;
+        return handleResponse( policyDetails.getPolicyResponse() );
     }
 }

@@ -71,13 +71,15 @@ public class PolicyFinderServiceImplTest {
 
     @Test
     public void testConfig() throws Exception {
-        doReturn(new GetConfigResponse()).when(policyFinder).makeOutboundCall(Matchers.any(), Matchers.any());
+        doReturn(new GetConfigResponse()).when(policyFinder).makeOutboundCall( 
+            Matchers.any(), Matchers.any(), Matchers.any());
         assertNotNull(policyFinder.getConfig("policy"));
     }
     
     @Test
     public void testFindPolicy() throws Exception {
-        doReturn(new GetConfigResponse()).when(policyFinder).makeOutboundCall(Matchers.any(), Matchers.any());
+        doReturn(new GetConfigResponse()).when(policyFinder).makeOutboundCall( 
+            Matchers.any(), Matchers.any(), Matchers.any());
         assertNull(policyFinder.findPolicy("policy"));
     }
 
@@ -100,7 +102,7 @@ public class PolicyFinderServiceImplTest {
 
         GetConfigRequest request = new GetConfigRequest();
         request.setPolicyName("policy");
-        GetConfigResponse configResp = policyFinder.makeOutboundCall(request, GetConfigResponse.class);
+        GetConfigResponse configResp = policyFinder.makeOutboundCall("",request, GetConfigResponse.class);
         assertNotNull(configResp);
     }
 
@@ -116,7 +118,7 @@ public class PolicyFinderServiceImplTest {
 
         GetConfigRequest request = new GetConfigRequest();
         request.setPolicyName("policy");
-        policyFinder.makeOutboundCall(request, GetConfigResponse.class);
+        policyFinder.makeOutboundCall("",request, GetConfigResponse.class);
     }
 
     @Test
@@ -226,7 +228,7 @@ public class PolicyFinderServiceImplTest {
         policManProps.setUrl("http://policyManager.onap.org");
         GetConfigRequest request = new GetConfigRequest();
         request.setPolicyName("policy");
-        policyFinder.makeOutboundCall(request, GetConfigResponse.class);
+        policyFinder.makeOutboundCall("", request, GetConfigResponse.class);
     }
     
     @SuppressWarnings("unchecked")
@@ -237,7 +239,7 @@ public class PolicyFinderServiceImplTest {
         policManProps.setUrl("http://policyManager.onap.org");
         GetConfigRequest request = new GetConfigRequest();
         request.setPolicyName("policy");
-        policyFinder.makeOutboundCall(request, GetConfigResponse.class);
+        policyFinder.makeOutboundCall("", request, GetConfigResponse.class);
     }
 
     @Test

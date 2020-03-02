@@ -32,6 +32,7 @@ public class PolicyManagerProps {
     String clientAuth;
     String basicAuth;
     String url;
+    String version;
     String environment;
     String ecompRequestId;
 
@@ -89,4 +90,16 @@ public class PolicyManagerProps {
     public void setEcompRequestId(String ecompRequestId) {
         this.ecompRequestId = ecompRequestId;
     }
+
+    /**
+     * Version of the policy manager -- '1' for the First version '2' for second version etc.
+     */
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
 }
