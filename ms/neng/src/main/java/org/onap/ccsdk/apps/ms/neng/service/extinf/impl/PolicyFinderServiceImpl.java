@@ -26,8 +26,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.net.URI;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.logging.Logger;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
@@ -39,6 +42,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyFinder;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.GetConfigRequest;
+import org.onap.ccsdk.apps.ms.neng.core.resource.model.GetConfigRequestV2;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.GetConfigResponse;
 import org.onap.ccsdk.apps.ms.neng.core.rs.interceptors.PolicyManagerAuthorizationInterceptor;
 import org.onap.ccsdk.apps.ms.neng.extinf.props.PolicyManagerProps;
@@ -82,34 +86,87 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         }
     }
 
-    GetConfigResponse getConfig(String policyName) throws Exception {
-        GetConfigRequest getConfigRequest = new GetConfigRequest();
-        getConfigRequest.setPolicyName(policyName);
-        return (makeOutboundCall(getConfigRequest, GetConfigResponse.class));
+    protected boolean shouldUsePolicyV2 () {
+        String version = policManProps.getVersion();
+        log.info("Policy Manager Version - " + version );
+
+        try {
+            int vnum = Integer.parseInt(version);
+            if ( vnum <= 1 ) {
+                return false;
+            }
+        } catch ( Exception e ) {
+            return true;
+        }
+       
+        return true;
     }
 
-    <T, R> GetConfigResponse makeOutboundCall(T request, Class<R> response) throws Exception {
+    GetConfigResponse getConfig(String policyName) throws Exception {
+
+        Object request;
+        if ( shouldUsePolicyV2() ) {
+           GetConfigRequestV2 req = new GetConfigRequestV2();
+
+           req.setOnapName("SDNC");
+           req.setOnapComponent("CCSDK");
+           req.setOnapInstance("CCSDK-ms-neng");
+           req.setRequestId( UUID.randomUUID().toString() );
+           req.setAction("naming");
+
+           Map<String,Object> resource = new HashMap<>();
+           resource.put("policy-id", policyName);
+           req.setResource(resource);
+
+           request = req;
+        } else {
+           GetConfigRequest getConfigRequest = new GetConfigRequest();
+
+           getConfigRequest.setPolicyName(policyName);
+
+           request = getConfigRequest;
+        }
+
+        ObjectMapper reqmapper = new ObjectMapper();
+        String reqStr = reqmapper.writeValueAsString(request);
+        log.info("Request  - " + reqStr);
+
+        return (makeOutboundCall( policyName, request, GetConfigResponse.class));
+    }
+
+    <T, R> GetConfigResponse makeOutboundCall( String policyName, T request, Class<R> response) throws Exception {
         log.info("Policy Manager  - " + policManProps.getUrl());
+
         RequestEntity<T> re = RequestEntity.post(new URI(policManProps.getUrl()))
                         .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).body(request);
         try {
             ResponseEntity<Object> resp = getRestTemplate().exchange(re, Object.class);
             if (HttpStatus.OK.equals(resp.getStatusCode())) {
                 ObjectMapper objectmapper = new ObjectMapper();
-                log.info(objectmapper.writeValueAsString(resp.getBody()));
-                //System.out.println(objectmapper.writeValueAsString(resp.getBody()));
-                List<Map<Object, Object>> respObj = objectmapper.readValue(
-                                objectmapper.writeValueAsString(resp.getBody()),
-                                                new TypeReference<List<Map<Object, Object>>>() {});
-                transformConfigObject(objectmapper, respObj);
-                GetConfigResponse getConfigResp = new GetConfigResponse();
-                getConfigResp.setResponse(respObj);
-                return getConfigResp;
+                String bodyStr = objectmapper.writeValueAsString(resp.getBody());
+                return handleResponse( bodyStr );
             }
         } catch (HttpStatusCodeException e) {
             handleError(e);
         }
-        throw new NengException("Error while retrieving policy from policy manager.");
+        throw new NengException("Error while retrieving policy " + policyName +" from policy manager.");
+    }
+
+    GetConfigResponse handleResponse ( String body ) throws Exception {
+        log.info(body);
+
+        ObjectMapper objectmapper = new ObjectMapper();
+        GetConfigResponse getConfigResp = new GetConfigResponse();
+        try {
+            Map<Object, Object> respObj = objectmapper.readValue( body, new TypeReference<Map<Object, Object>>() {});
+            List<Map<Object, Object>> respList = transformConfigObjectV2(objectmapper, respObj);
+            getConfigResp.setResponse(respList);
+        } catch ( Exception e ) {
+            List<Map<Object, Object>> respObj = objectmapper.readValue( body, new TypeReference<List<Map<Object, Object>>>() {});
+            transformConfigObject(objectmapper, respObj);
+            getConfigResp.setResponse(respObj);
+        }
+        return getConfigResp;
     }
 
     void handleError(HttpStatusCodeException e) throws Exception {
@@ -126,6 +183,36 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         }
         throw new NengException("Error while retrieving policy from policy manager.");
     }
+
+    /**
+     * Transforms the policy-V2 response in a form compatible with V1.
+     */
+    List<Map<Object,Object>>  transformConfigObjectV2(ObjectMapper objectmapper, Map<Object, Object> respObj) throws Exception {
+        List<Map<Object,Object>> policyList = new ArrayList<>();
+
+        Object policies = respObj.get("policies");
+        if (policies != null && policies instanceof Map<?, ?> ) {
+            Map<Object, Object> policiesMap = (Map<Object,Object>)policies;
+            if ( policiesMap.size() > 0 ) {
+                Object policy = policiesMap.entrySet().iterator().next().getValue();
+                if ( policy != null && policy instanceof Map<?, ?> ) {
+                    Map<Object, Object> thePolicyMap = (Map<Object,Object>)policy;
+                    Object properties = thePolicyMap.get("properties");
+                    if ( properties != null && properties instanceof Map<?, ?> ) {
+                        Map<Object, Object> propertiesMap = (Map<Object,Object>)properties;
+
+                        Map<Object,Object> top = new HashMap<>();
+                        Map<Object,Object> config = new HashMap<>();
+                        top.put("config", config );
+                        config.put("content", propertiesMap );
+                        policyList.add(top);
+                    } 
+                } 
+            } 
+        }
+        return policyList;
+    }
+
 
     /**
      * Transforms the 'config' element (which is received as a JSON string) to a map like a JSON object.

@@ -135,6 +135,7 @@ public class SpringServiceImpl implements SpringService {
             if (e instanceof NengException) {
                 throw e;
             } else {
+                e.printStackTrace();
                 log.warning(e.getMessage());
                 throw new Exception("Internal error occurred while processing the request");
             }
