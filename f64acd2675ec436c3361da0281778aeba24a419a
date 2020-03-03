@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01b8c292_351f6c71",
+        "filename": "ms/neng/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2020-03-03T13:22:55Z",
+      "side": 1,
+      "message": "Should be 5.2.3.RELEASE to be consistent with spring-boot-starter-parent version 2.2.4.RELEASE / ccsdk spring-boot-starter-parent version 1.5.2",
+      "range": {
+        "startLine": 34,
+        "startChar": 24,
+        "endLine": 34,
+        "endChar": 38
+      },
+      "revId": "f64acd2675ec436c3361da0281778aeba24a419a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e943201e_e8a3db2c",
+        "filename": "ms/neng/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2020-03-03T13:22:55Z",
+      "side": 1,
+      "message": "Should be 2.2.4.RELEASE to be consistent with CCSDK spring-boot-starter-parent version 1.5.2 (see note below re that version)",
+      "range": {
+        "startLine": 35,
+        "startChar": 27,
+        "endLine": 35,
+        "endChar": 41
+      },
+      "revId": "f64acd2675ec436c3361da0281778aeba24a419a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a2ebc73_78f75dee",
+        "filename": "ms/neng/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2020-03-03T13:22:55Z",
+      "side": 1,
+      "message": "Version 1.5.2 (for ONAP Frankfurt code freeze) will be released today . Please use that version instead.",
+      "range": {
+        "startLine": 237,
+        "startChar": 17,
+        "endLine": 237,
+        "endChar": 22
+      },
+      "revId": "f64acd2675ec436c3361da0281778aeba24a419a",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
