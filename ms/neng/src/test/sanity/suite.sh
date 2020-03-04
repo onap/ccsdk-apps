@@ -28,4 +28,6 @@ EXTERNAL_KEY=$(date +%s)$RANDOM
 ./get-policy.sh $EXTERNAL_KEY
 ./gen-name.sh Y $EXTERNAL_KEY
 ./release-name.sh Y $EXTERNAL_KEY
+./add-policy-decision-format.sh $EXTERNAL_KEY
+./gen-name-decision-format.sh Y $EXTERNAL_KEY
 
