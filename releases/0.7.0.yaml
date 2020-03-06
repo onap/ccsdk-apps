@@ -1,0 +1,5 @@
+---
+distribution_type: 'maven'
+version: '0.7.0'
+project: 'ccsdk-apps'
+log_dir: 'ccsdk-apps-maven-stage-master/300/'
