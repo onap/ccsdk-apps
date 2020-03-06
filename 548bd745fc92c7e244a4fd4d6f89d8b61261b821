@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "417120e3_db731d8b",
+        "filename": "releases/0.7.0-container.yaml",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2020-03-06T16:14:45Z",
+      "side": 1,
+      "message": "elato ?",
+      "revId": "548bd745fc92c7e244a4fd4d6f89d8b61261b821",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
