@@ -33,5 +33,5 @@ APP_ARGS=${APP_ARGS}" -Daai_auth="${AAI_AUTH}
 APP_ARGS=${APP_ARGS}" -cp /opt/etc/config"
 
 echo "APP_ARGS ="${APP_ARGS}
-java -Djava.security.egd=file:/dev/./urandom  ${APP_ARGS} -Xms1024m -Xmx1024m -jar /app.jar --spring.config.location=/opt/etc/config/ > /tmp/app.out 2> /tmp/app.err
+java -Djava.security.egd=file:/dev/./urandom  ${APP_ARGS} -Xms1024m -Xmx1024m -jar /app.jar --spring.config.location=/opt/etc/config/ >(tee -a /tmp/app.out) 2> >(tee -a /tmp/app.err >&2)
 
