@@ -1,5 +1,6 @@
 .. This work is licensed under a Creative Commons Attribution 4.0 International License.
 .. Copyright (C) 2019 IBM.
+.. _release_notes:
 
 Release Notes
 #############
