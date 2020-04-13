@@ -1,0 +1,10 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+1: Yuriy Malakov <Yuriy.Malakov@att.com>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Code-Review+1: Biju Thomas <bt2983@att.com>
+Code-Review+2: Kevin Smokowski <kevin.smokowski@att.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Mon, 13 Apr 2020 17:46:57 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/apps/+/105798
+Project: ccsdk/apps
+Branch: refs/heads/master
