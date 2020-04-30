@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Code-Review+2: Kevin Smokowski <kevin.smokowski@att.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Thu, 30 Apr 2020 17:27:50 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/apps/+/106761
+Project: ccsdk/apps
+Branch: refs/heads/frankfurt
