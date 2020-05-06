@@ -25,11 +25,11 @@
     <parent>
         <groupId>org.onap.ccsdk.apps</groupId>
         <artifactId>ccsdk-apps</artifactId>
-        <version>0.7.1-SNAPSHOT</version>
+        <version>0.7.2-SNAPSHOT</version>
     </parent>
 
     <artifactId>ccsdk-apps-ms</artifactId>
-    <version>0.7.1-SNAPSHOT</version>
+    <version>0.7.2-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>Micro-services Root</name>

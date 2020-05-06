@@ -4,7 +4,7 @@
 
     <groupId>org.onap.ccsdk.apps.ms.vlantagapi</groupId>
     <artifactId>vlantag-api</artifactId>
-    <version>0.7.1-SNAPSHOT</version>
+    <version>0.7.2-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Vlantag API</name>
@@ -30,7 +30,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.4</version>
+        <version>1.5.5-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
