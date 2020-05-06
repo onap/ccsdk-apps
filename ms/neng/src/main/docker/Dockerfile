@@ -31,6 +31,11 @@ VOLUME /opt/etc
 ADD opt/etc/ /opt/etc/
 #ADD /opt/aai/ /opt/aai/
 ADD startService.sh /startService.sh
+RUN addgroup -S ccsdk && adduser -S ccsdk -G ccsdk
+RUN chown ccsdk:ccsdk /startService.sh
+RUN chown -R ccsdk:ccsdk /opt
+RUN chmod go+w /tmp
 RUN chmod 700 /startService.sh
+USER ccsdk
 ENTRYPOINT bash /startService.sh
 EXPOSE 8080
