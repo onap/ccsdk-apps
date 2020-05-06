@@ -36,6 +36,10 @@ RUN chown ccsdk:ccsdk /startService.sh
 RUN chown -R ccsdk:ccsdk /opt
 RUN chmod go+w /tmp
 RUN chmod 700 /startService.sh
+<<<<<<< HEAD   (a31c87 Run naming service as non-root)
 USER ccsdk
 ENTRYPOINT sh /startService.sh
+=======
+ENTRYPOINT bash /startService.sh
+>>>>>>> CHANGE (55137e Use bash instead of Bourne shell)
 EXPOSE 8080
