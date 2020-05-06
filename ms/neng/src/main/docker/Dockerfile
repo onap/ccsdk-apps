@@ -37,5 +37,5 @@ RUN chown -R ccsdk:ccsdk /opt
 RUN chmod go+w /tmp
 RUN chmod 700 /startService.sh
 USER ccsdk
-ENTRYPOINT sh /startService.sh
+ENTRYPOINT bash /startService.sh
 EXPOSE 8080
