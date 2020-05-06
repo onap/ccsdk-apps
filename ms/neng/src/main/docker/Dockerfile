@@ -32,5 +32,5 @@ ADD opt/etc/ /opt/etc/
 #ADD /opt/aai/ /opt/aai/
 ADD startService.sh /startService.sh
 RUN chmod 700 /startService.sh
-ENTRYPOINT sh /startService.sh 
+ENTRYPOINT bash /startService.sh
 EXPOSE 8080
