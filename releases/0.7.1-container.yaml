@@ -1,0 +1,9 @@
+---
+distribution_type: 'container'
+container_release_tag: '0.7.1'
+project: 'ccsdk-apps'
+log_dir: 'ccsdk-apps-maven-docker-stage-frankfurt/65/'
+ref: 776c4819908805507ae9d7b5d3c89d3c829b08a4
+containers:
+    - name: 'ccsdk-apps-ms-neng'
+      version: '0.7.1-STAGING-20200506180311'
