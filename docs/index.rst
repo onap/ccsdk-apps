@@ -4,7 +4,7 @@
 .. _master_index:
 
 CCSDK APPS DOCUMENTATION REPOSITORY
-------------------------------------
+-----------------------------------
 .. toctree::
    :maxdepth: 1
 
@@ -13,7 +13,7 @@ Introduction:
    APPS repository which contains all micro services for CCSDK module. Also these are application that are intended to run outside of OpenDaylight container.Modular feature implementation that is reusable across all controllers.
 
 Microservices:
-=============
+==============
 
 .. toctree::
    :maxdepth: 1
@@ -27,12 +27,11 @@ Installation:
 
    To compile this code:
 
-   1. Make sure your local Maven settings file ($HOME/.m2/settings.xml) contains
-    references to the ONAP repositories and OpenDaylight repositories.
+   1. Make sure your local Maven settings file ($HOME/.m2/settings.xml) contains references to the ONAP repositories and OpenDaylight repositories.
 
    2. To compile all of CCSDK apps code
-    - git clone https://(LFID)@gerrit.onap.org/r/a/ccsdk/apps
-    - cd apps ; mvn clean install ; cd ..
+      - git clone https://(LFID)@gerrit.onap.org/r/a/ccsdk/apps
+      - cd apps ; mvn clean install ; cd ..
 
 
 Logging:
