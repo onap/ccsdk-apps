@@ -25,6 +25,7 @@
 **/*.log
 **/*py.class
 **/.DS_Store
+**/__pycache__
 
 # To Remove Kotlin Script Generated Jars
 **/*cba-kts.jar
