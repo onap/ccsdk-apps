@@ -1,0 +1,43 @@
+version: '2.1'
+
+services:
+  db:
+    image: mariadb:10.3
+    container_name: sliboot_db_container
+    ports:
+      - "13306:3306"
+    environment:
+      - MYSQL_ROOT_PASSWORD=openECOMP1.0
+      - MYSQL_ROOT_HOST=%
+    logging:       
+      driver:   "json-file"
+      options:  
+        max-size: "30m"
+        max-file: "5"
+  
+      
+  sliboot:
+    image: onap/ccsdk-sliboot-alpine-image:latest
+    depends_on:
+      - db
+    container_name: sliboot_sli_container
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+    links:
+      - db:dbhost
+    environment:
+      - MYSQL_DB_HOST=dbhost
+      - MYSQL_ROOT_PASSWORD=openECOMP1.0
+      - MYSQL_DB_USER=sli
+      - MYSQL_DB_PASSWD=abc123
+      - MYSQL_DB_DATABASE=sdnctl
+    logging:       
+      driver:   "json-file"
+      options:  
+        max-size: "30m"
+        max-file: "5"
+    extra_hosts:
+      aaf-onap-test.osaaf.org: 10.12.5.145
+
+
