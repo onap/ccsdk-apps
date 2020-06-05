@@ -1,0 +1,35 @@
+<service-logic
+    xmlns='http://www.onap.org/sdnc/svclogic'
+    xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.onap.org/sdnc/svclogic ./svclogic.xsd' module='DEMO' version='1'>
+    <method rpc='DEMO' mode='sync'>
+        <block>
+            <record plugin="org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder">
+                <parameter name="logger" value="message-log" />
+                <parameter name="level" value="error" />
+                <parameter name="field1" value="Slf4jRecorder must be working!" />
+            </record>
+            <execute plugin="org.onap.ccsdk.sli.core.slipluginutils.SliPluginUtils" method="generateUUID">
+                <parameter name="ctx-destination" value="requestID" />
+            </execute>
+            <execute plugin="org.onap.ccsdk.sli.core.slipluginutils.SliStringUtils" method="contains" emitsOutcome='true' >
+                <parameter name="source" value="TEAM" />
+                <parameter name="target" value="I" />
+            </execute>
+            <execute plugin="org.onap.ccsdk.sli.plugins.prop.PropertiesNode" method="readProperties" >
+                <parameter name="fileName" value="%SDNC_CONFIG_DIR%/aaf.properties" />
+                <parameter name="contextPrefix" value="tmp.props" />
+            </execute>
+            <execute plugin="org.onap.ccsdk.sli.plugins.restapicall.RestapiCallNode" method="sendRequest">
+                <parameter name="restapiUrl" value="http://127.0.0.1:8080/restconf/config/SLI-API:test-results/"/>
+                <parameter name="restapiUser" value="admin"/>
+                <parameter name="restapiPassword" value="test"/>
+                <parameter name="format" value="json" />
+                <parameter name="httpMethod" value="get" />
+                <parameter name="responsePrefix" value="restapi-result" />
+            </execute>
+            <return status='success'>
+                <parameter name='' value='' />
+            </return>
+        </block>
+    </method>
+</service-logic>
