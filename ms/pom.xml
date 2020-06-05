@@ -38,5 +38,6 @@
     <modules>
         <module>neng</module>
         <module>vlantag-api</module>
+        <module>sliboot</module>
     </modules>
 </project>
