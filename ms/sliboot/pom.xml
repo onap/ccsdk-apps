@@ -77,6 +77,11 @@
             <version>2.9.2</version>
         </dependency>
         <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>services</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>dblib-provider</artifactId>
             <version>${ccsdk.sli.core.version}</version>
