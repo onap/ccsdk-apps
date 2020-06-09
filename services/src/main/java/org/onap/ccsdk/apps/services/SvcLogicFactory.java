@@ -18,7 +18,7 @@
  * ============LICENSE_END=========================================================
  */
 
-package org.onap.ccsdk.apps.ms.sliboot.core;
+package org.onap.ccsdk.apps.services;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -44,8 +44,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Service;
 
 @Configuration
+@Service
 public class SvcLogicFactory {
   private static final Logger log = LoggerFactory.getLogger(SvcLogicFactory.class);
 
