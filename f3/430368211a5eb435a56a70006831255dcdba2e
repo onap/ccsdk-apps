@@ -1,0 +1,8 @@
+Verified+1: ONAP Jobbuilder <onap-jobbuilder@jenkins.onap.org>
+Code-Review+2: Dan Timoney <dtimoney@att.com>
+Code-Review+2: Kevin Smokowski <kevin.smokowski@att.com>
+Submitted-by: Dan Timoney <dtimoney@att.com>
+Submitted-at: Wed, 10 Jun 2020 12:15:57 +0000
+Reviewed-on: https://gerrit.onap.org/r/c/ccsdk/apps/+/108985
+Project: ccsdk/apps
+Branch: refs/heads/master
