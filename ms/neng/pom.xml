@@ -233,7 +233,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>1.5.7</version>
+        <version>1.5.10-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
