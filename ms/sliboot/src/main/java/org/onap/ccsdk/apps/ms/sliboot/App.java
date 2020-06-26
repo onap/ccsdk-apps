@@ -35,8 +35,7 @@ import org.onap.aaf.cadi.shiro.AAFRealm;
 
 @SpringBootApplication
 @EnableSwagger2
-@ComponentScan(basePackages = { "org.onap.ccsdk.apps.ms.sliboot.*" })
-
+@ComponentScan(basePackages = { "org.onap.ccsdk.apps.ms.sliboot.*", "org.onap.ccsdk.apps.services" })
 public class App {
 
   private static final Logger log = LoggerFactory.getLogger(App.class);

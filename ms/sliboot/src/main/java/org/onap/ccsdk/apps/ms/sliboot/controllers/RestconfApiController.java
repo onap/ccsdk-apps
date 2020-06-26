@@ -29,6 +29,9 @@ import org.onap.ccsdk.apps.ms.sliboot.swagger.OperationalApi;
 import org.onap.ccsdk.apps.ms.sliboot.swagger.OperationsApi;
 import org.onap.ccsdk.apps.ms.sliboot.data.TestResultsOperationalRepository;
 import org.onap.ccsdk.apps.ms.sliboot.swagger.model.*;
+import org.onap.ccsdk.apps.services.RestApplicationException;
+import org.onap.ccsdk.apps.services.RestException;
+import org.onap.ccsdk.apps.services.RestProtocolException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.base.SvcLogicServiceBase;
@@ -42,6 +45,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -49,7 +53,7 @@ import java.util.*;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-20T12:50:11.207-05:00")
 
-@Controller
+@RestController
 @ComponentScan(basePackages = {"org.onap.ccsdk.apps.ms.sliboot.*", "org.onap.ccsdk.apps.services"})
 @EntityScan("org.onap.ccsdk.apps.ms.sliboot.*")
 public class RestconfApiController implements ConfigApi, OperationalApi, OperationsApi {
@@ -273,7 +277,7 @@ public class RestconfApiController implements ConfigApi, OperationalApi, Operati
 	}
 
 	@Override
-	public ResponseEntity<SliApiTestResults> configSLIAPItestResultsGet() {
+	public ResponseEntity<SliApiTestResults> configSLIAPItestResultsGet() throws RestException {
 
 		if(getObjectMapper().isPresent() && getAcceptHeader().isPresent()) {
 		} else {
@@ -281,6 +285,10 @@ public class RestconfApiController implements ConfigApi, OperationalApi, Operati
 		}
 
 		SliApiTestResults results = new SliApiTestResults();
+
+		if (testResultsConfigRepository.count() == 0) {
+			throw new RestApplicationException("data-missing", "Request could not be completed because the relevant data model content does not exist", 404);
+		}
 
 		testResultsConfigRepository.findAll().forEach(testResult -> {
 			SliApiTestresultsTestResult item = null;

@@ -28,10 +28,9 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@EnableWebMvc
 @Configuration
 @EnableJpaRepositories("org.onap.ccsdk.apps.ms.sliboot.*")
-@ComponentScan(basePackages = {"org.onap.ccsdk.apps.ms.sliboot.*"})
+@ComponentScan(basePackages = {"org.onap.ccsdk.apps.ms.sliboot.*", "org.onap.ccsdk.apps.services"})
 @EntityScan("org.onap.ccsdk.apps.ms.sliboot.*")
 @EnableTransactionManagement
 public class WebConfig implements WebMvcConfigurer {
