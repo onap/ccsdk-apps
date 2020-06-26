@@ -123,13 +123,14 @@ public class RestconfApiControllerTest {
   public void testTestResultAdd() throws Exception {
     String url = "/config/SLI-API:test-results/";
 
-    MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.get(url).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
-
-    assertEquals(200, mvcResult.getResponse().getStatus());
-
     // Delete any existing content before testing insert
-    mvcResult = mvc.perform(MockMvcRequestBuilders.delete(url).contentType(MediaType.APPLICATION_JSON)).andReturn();
+    MvcResult mvcResult = mvc.perform(MockMvcRequestBuilders.delete(url).contentType(MediaType.APPLICATION_JSON)).andReturn();
     assertEquals(200, mvcResult.getResponse().getStatus());
+
+    mvcResult = mvc.perform(MockMvcRequestBuilders.get(url).contentType(MediaType.APPLICATION_JSON_VALUE)).andReturn();
+
+    assertEquals(404, mvcResult.getResponse().getStatus());
+    log.info("Empty test-results returns error - {}", mvcResult.getResponse().getContentAsString());
 
     String jsonString = "{\n" +
             "  \"test-result\" : [\n" +
@@ -145,6 +146,7 @@ public class RestconfApiControllerTest {
 
     mvcResult = mvc.perform(MockMvcRequestBuilders.get(url).contentType(MediaType.APPLICATION_JSON)).andReturn();
     assertEquals(200, mvcResult.getResponse().getStatus());
+
 
     ObjectMapper objectMapper = new ObjectMapper();
     SliApiTestResults testResults = objectMapper.readValue(mvcResult.getResponse().getContentAsString(), SliApiTestResults.class);

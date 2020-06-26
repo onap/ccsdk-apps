@@ -2,13 +2,16 @@ version: '2.1'
 
 services:
   db:
-    image: mariadb:10.3
+    image: mariadb:10.5
     container_name: sliboot_db_container
     ports:
       - "13306:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=openECOMP1.0
       - MYSQL_ROOT_HOST=%
+      - MYSQL_USER=sli
+      - MYSQL_PASSWORD=abc123
+      - MYSQL_DATABASE=sdnctl
     logging:       
       driver:   "json-file"
       options:  
@@ -28,7 +31,6 @@ services:
       - db:dbhost
     environment:
       - MYSQL_DB_HOST=dbhost
-      - MYSQL_ROOT_PASSWORD=openECOMP1.0
       - MYSQL_DB_USER=sli
       - MYSQL_DB_PASSWD=abc123
       - MYSQL_DB_DATABASE=sdnctl
