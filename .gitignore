@@ -1,5 +1,7 @@
 .classpath
 .settings/
+.vscode
+.factorypath
 
 # Target dirs in all projects
 **/target-ide/*
