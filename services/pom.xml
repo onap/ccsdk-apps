@@ -112,6 +112,11 @@
             <version>${ccsdk.sli.core.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.onap.ccsdk.sli.adaptors</groupId>
+            <artifactId>sql-resource-provider</artifactId>
+            <version>${ccsdk.sli.adaptors.version}</version>
+        </dependency>
+        <dependency>
             <groupId>org.onap.ccsdk.sli.plugins</groupId>
             <artifactId>restapi-call-node-provider</artifactId>
             <version>${ccsdk.sli.plugins.version}</version>

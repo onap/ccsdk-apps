@@ -24,10 +24,13 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
+
+import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
 import org.onap.ccsdk.sli.core.sli.ConfigurationException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.ccsdk.sli.core.sli.SvcLogicLoader;
 import org.onap.ccsdk.sli.core.sli.SvcLogicRecorder;
+import org.onap.ccsdk.sli.core.sli.SvcLogicResource;
 import org.onap.ccsdk.sli.core.sli.SvcLogicStore;
 import org.onap.ccsdk.sli.core.sli.SvcLogicStoreFactory;
 import org.onap.ccsdk.sli.core.sli.provider.base.HashMapResolver;
@@ -56,6 +59,9 @@ public class SvcLogicFactory {
 
   @Autowired
   List<SvcLogicJavaPlugin> plugins;
+
+  @Autowired
+  List<SvcLogicResource> svcLogicResources;
 
   @Bean
   public SvcLogicStore getStore() throws Exception {
@@ -120,6 +126,10 @@ public class SvcLogicFactory {
       resolver.addSvcLogicSvcLogicJavaPlugin(plugin.getClass().getName(), plugin);
 
     }
+    for (SvcLogicResource svcLogicResource : svcLogicResources) {
+      resolver.addSvcLogicResource(svcLogicResource.getClass().getName(), svcLogicResource);
+    }
+
     return new SvcLogicServiceImplBase(getStore(), resolver);
   }
 
@@ -147,5 +157,11 @@ public class SvcLogicFactory {
   public PropertiesNode propertiesNode() {
       return new PropertiesNode();
   }
+
+  @Bean
+  public SqlResource sqlResource() {
+    return new SqlResource();
+  }
+  
 
 }
