@@ -2,6 +2,7 @@
 .settings/
 .vscode
 .factorypath
+.project
 
 # Target dirs in all projects
 **/target-ide/*
