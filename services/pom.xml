@@ -107,8 +107,28 @@
         </dependency>
         <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
+            <artifactId>utils-provider</artifactId>
+            <version>${ccsdk.sli.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sliPluginUtils-provider</artifactId>
             <version>${ccsdk.sli.core.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.adaptors</groupId>
+            <artifactId>mdsal-resource-provider</artifactId>
+            <version>${ccsdk.sli.adaptors.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.adaptors.messagerouter</groupId>
+            <artifactId>publisher.provider</artifactId>
+            <version>${ccsdk.sli.adaptors.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.adaptors</groupId>
+            <artifactId>netbox-client-provider</artifactId>
+            <version>${ccsdk.sli.adaptors.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.ccsdk.sli.adaptors</groupId>

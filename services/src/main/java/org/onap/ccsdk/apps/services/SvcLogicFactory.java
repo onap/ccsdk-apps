@@ -25,7 +25,19 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+import org.onap.ccsdk.sli.adaptors.messagerouter.publisher.api.PublisherApi;
+import org.onap.ccsdk.sli.adaptors.messagerouter.publisher.provider.impl.PublisherApiImpl;
+import org.onap.ccsdk.sli.adaptors.netbox.api.NetboxClient;
+import org.onap.ccsdk.sli.adaptors.netbox.impl.NetboxClientImpl;
+import org.onap.ccsdk.sli.adaptors.netbox.impl.NetboxHttpClient;
+import org.onap.ccsdk.sli.adaptors.netbox.property.NetboxProperties;
+import org.onap.ccsdk.sli.adaptors.resource.mdsal.ConfigResource;
+import org.onap.ccsdk.sli.adaptors.resource.mdsal.MdsalResourcePropertiesProviderImpl;
+import org.onap.ccsdk.sli.adaptors.resource.mdsal.OperationalResource;
 import org.onap.ccsdk.sli.adaptors.resource.sql.SqlResource;
+import org.onap.ccsdk.sli.core.dblib.DBLIBResourceProvider;
+import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
+import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.ConfigurationException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.ccsdk.sli.core.sli.SvcLogicLoader;
@@ -138,6 +150,8 @@ public class SvcLogicFactory {
     return new Slf4jRecorder();
   }
 
+  // Beans from sli/core
+
   @Bean
   public SliPluginUtils sliPluginUtil() {
     return new SliPluginUtils();
@@ -147,6 +161,36 @@ public class SvcLogicFactory {
   public SliStringUtils sliStringUtils() {
     return new SliStringUtils();
   }
+
+  // Beans from sli/adaptors
+  
+  @Bean
+  public ConfigResource configResource() {
+    return new ConfigResource(new MdsalResourcePropertiesProviderImpl());
+  }
+
+  @Bean
+  public OperationalResource operationalResource() {
+    return new OperationalResource(new MdsalResourcePropertiesProviderImpl());
+  }
+
+  @Bean 
+  public PublisherApi publisherApi() {
+    return new PublisherApiImpl();
+  }
+  
+  
+  @Bean 
+  public NetboxClient netboxClient() {
+    return new NetboxClientImpl();
+  }
+  
+  
+  @Bean
+  public SqlResource sqlResource() {
+    return new SqlResource();
+  }
+
   
   @Bean
   public RestapiCallNode restapiCallNode() {
@@ -158,10 +202,6 @@ public class SvcLogicFactory {
       return new PropertiesNode();
   }
 
-  @Bean
-  public SqlResource sqlResource() {
-    return new SqlResource();
-  }
   
 
 }
