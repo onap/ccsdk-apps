@@ -40,19 +40,7 @@ do
 done
 echo -e "\nDatabase ready"
 
-# Create tablespace and user account
 
-#mysql -h ${MYSQL_DB_HOST} -u root -p${MYSQL_ROOT_PASSWORD} mysql <<-END
-#CREATE DATABASE ${MYSQL_DB_DATABASE} IF NOT EXISTS;
-#CREATE USER '${MYSQL_DB_USER}'@'localhost' IDENTIFIED BY '${MYSQL_DB_PASSWD}';
-#CREATE USER '${MYSQL_DB_USER}'@'%' IDENTIFIED BY '${MYSQL_DB_PASSWD}';
-#GRANT ALL PRIVILEGES ON ${MYSQL_DB_DATABASE}.* TO '${MYSQL_DB_USER}'@'localhost' WITH GRANT OPTION;
-#GRANT ALL PRIVILEGES ON ${MYSQL_DB_DATABASE}.* TO '${MYSQL_DB_USER}'@'%' WITH GRANT OPTION;
-#commit;
-#END
-
-# Initialize schema
-# mysql -h ${MYSQL_DB_HOST} -u ${MYSQL_DB_USER} -p${MYSQL_DB_PASSWD} ${MYSQL_DB_DATABASE} < ${CCSDK_HOME}/config/schema.sql
 
 
 echo -e "\nCerts ready"

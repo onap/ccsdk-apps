@@ -12,11 +12,11 @@ import static org.junit.Assert.*;
 
 public class AppTest {
 
-    App app;
+    SlibootApp app;
 
     @Before
     public void setUp() throws Exception {
-        app = new App();
+        app = new SlibootApp();
         System.setProperty("serviceLogicProperties", "src/test/resources/svclogic.properties");
     }
 

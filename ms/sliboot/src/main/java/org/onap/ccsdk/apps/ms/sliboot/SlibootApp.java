@@ -24,7 +24,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.apache.shiro.realm.Realm;
 import org.apache.shiro.realm.text.PropertiesRealm;
@@ -33,15 +37,17 @@ import org.apache.shiro.spring.web.config.ShiroFilterChainDefinition;
 import org.springframework.context.annotation.Bean;
 import org.onap.aaf.cadi.shiro.AAFRealm;
 
-@SpringBootApplication
+@SpringBootApplication(scanBasePackages={ "org.onap.ccsdk.apps.ms.sliboot.*", "org.onap.ccsdk.apps.services" })
+@EnableJpaRepositories("org.onap.ccsdk.apps.ms.sliboot.*")
+@EntityScan("org.onap.ccsdk.apps.ms.sliboot.*")
+@EnableTransactionManagement
 @EnableSwagger2
-@ComponentScan(basePackages = { "org.onap.ccsdk.apps.ms.sliboot.*", "org.onap.ccsdk.apps.services" })
-public class App {
+public class SlibootApp {
 
-  private static final Logger log = LoggerFactory.getLogger(App.class);
+  private static final Logger log = LoggerFactory.getLogger(SlibootApp.class);
 
   public static void main(String[] args) throws Exception {
-    SpringApplication.run(App.class, args);
+    SpringApplication.run(SlibootApp.class, args);
   }
 
   @Bean

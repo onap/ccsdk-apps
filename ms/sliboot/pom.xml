@@ -17,15 +17,16 @@
     <name>ccsdk-apps :: sliboot :: ${project.artifactId}</name>
 
     <properties>
-        <start-class>org.onap.ccsdk.apps.ms.sliboot.App</start-class>
+        <start-class>org.onap.ccsdk.apps.ms.sliboot.SlibootApp</start-class>
         <shiro.version>1.5.0</shiro.version>
         <aaf-shiro-bundle.version>2.1.13</aaf-shiro-bundle.version>
         <base.image.name>onap/ccsdk-alpine-image</base.image.name>
+        <base.image.version>1.1-STAGING-latest</base.image.version>
         <image.name>onap/ccsdk-sliboot-alpine-image</image.name>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
-        <ccsdk.sliboot.jar>${project.artifactId}-${project.version}.jar</ccsdk.sliboot.jar>
+        <ccsdk.sliboot.jar>${project.artifactId}-${project.version}-exec.jar</ccsdk.sliboot.jar>
         <docker.push.phase>deploy</docker.push.phase>
         <docker.verbose>true</docker.verbose>
     </properties>
@@ -225,6 +226,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <classifier>exec</classifier>
+                </configuration>
                 <executions>
                     <execution>
                         <goals>

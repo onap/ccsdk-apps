@@ -1,6 +1,6 @@
 # Prepare stage for multistage image build
 ## START OF STAGE0 ##
-FROM @base.image.name@:@project.docker.latestfulltag.version@ AS stage0
+FROM @base.image.name@:@base.image.version@ AS stage0
 
 ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 ENV LOG_PATH /var/log/onap/ccsdk
@@ -12,7 +12,7 @@ COPY opt /opt
 ## END OF STAGE0 ##
 
 
-FROM @base.image.name@:@project.docker.latestfulltag.version@
+FROM @base.image.name@:@base.image.version@
 
 MAINTAINER CCSDK Team (onap-ccsdk@lists.onap.org)
 
