@@ -117,6 +117,11 @@
         </dependency>
         <dependency>
             <groupId>org.onap.ccsdk.sli.adaptors</groupId>
+            <artifactId>aai-service-provider</artifactId>
+            <version>${ccsdk.sli.adaptors.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.adaptors</groupId>
             <artifactId>mdsal-resource-provider</artifactId>
             <version>${ccsdk.sli.adaptors.version}</version>
         </dependency>

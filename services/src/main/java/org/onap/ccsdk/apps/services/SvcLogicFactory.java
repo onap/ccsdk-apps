@@ -25,6 +25,8 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Properties;
 
+import org.onap.ccsdk.sli.adaptors.aai.AAIService;
+import org.onap.ccsdk.sli.adaptors.aai.AAIServiceProvider;
 import org.onap.ccsdk.sli.adaptors.messagerouter.publisher.api.PublisherApi;
 import org.onap.ccsdk.sli.adaptors.messagerouter.publisher.provider.impl.PublisherApiImpl;
 import org.onap.ccsdk.sli.adaptors.netbox.api.NetboxClient;
@@ -163,6 +165,10 @@ public class SvcLogicFactory {
   }
 
   // Beans from sli/adaptors
+
+  @Bean AAIService aaiService() {
+    return new AAIService(new AAIServiceProvider());
+  }
   
   @Bean
   public ConfigResource configResource() {
