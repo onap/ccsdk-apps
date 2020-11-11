@@ -140,7 +140,7 @@
                                 <goals>
                                     <goal>copy-resources</goal>
                                 </goals>
-                                <phase>validate</phase>
+                                <phase>package</phase>
                                 <configuration>
                                     <outputDirectory>${basedir}/target/docker-stage</outputDirectory>
                                     <resources>
@@ -180,7 +180,7 @@
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>0.16.5</version>
+                        <version>0.28.0</version>
                         <inherited>false</inherited>
                         <configuration>
                             <images>
