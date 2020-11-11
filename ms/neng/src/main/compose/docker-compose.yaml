@@ -1,11 +1,13 @@
+version: '2.1'
 
-nengdb:
-     image: mariadb
+services:
+  nengdb:
+     image: mariadb:10.5
      container_name: nengdb
      ports:
        - "${NENG_DB_PORT}:3306"
-     volumes:
-       - /var/lib/nengdb:/var/lib/mysql
+     #volumes:
+     #  - /var/lib/nengdb:/var/lib/mysql
      restart: always
      environment:
        MYSQL_ROOT_PASSWORD: "${NENG_DB_ROOT}"
@@ -13,17 +15,19 @@ nengdb:
        MYSQL_USER: "${NENG_DB_USER}"
        MYSQL_PASSWORD: "${NENG_DB_PASS}"
 
-neng:
-     #depends_on:
-       #- nengdb
-     image: onap/ccsdk-apps-ms-neng
+  neng:
+     depends_on :
+       - nengdb
+     image: onap/ccsdk-apps-ms-neng:latest
      container_name: neng
      ports:
        - "${NENG_SERV_PORT}:8080"
      restart: always
+     links:
+       - nengdb:mariadb-galera 
      environment:
        SPRING_PROFILE: "${SPRING_PROFILE}"
-       NENG_DB_URL: "${NENG_DB_URL}"
+       NENG_DB_URL: "jdbc:mysql://mariadb-galera:3306/neng"
        NENG_DB_USER: "${NENG_DB_USER}"
        NENG_DB_PASS: "${NENG_DB_PASS}"
 
