@@ -29,6 +29,7 @@
         <ccsdk.sliboot.jar>${project.artifactId}-${project.version}-exec.jar</ccsdk.sliboot.jar>
         <docker.push.phase>deploy</docker.push.phase>
         <docker.verbose>true</docker.verbose>
+        <docker.autoCreateCustomNetworks>true</docker.autoCreateCustomNetworks>
     </properties>
 
     <dependencies>
@@ -192,6 +193,41 @@
                             </artifactItems>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <phase>prepare-package</phase>
+                        <configuration>
+                            <excludeTransitive>true</excludeTransitive>
+                            <outputDirectory>${project.build.directory}/docker-stage/opt/onap/ccsdk/lib</outputDirectory>
+                            <overWriteReleases>false</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <useRepositoryLayout>false</useRepositoryLayout>
+                            <addParentPoms>false</addParentPoms>
+                            <copyPom>false</copyPom>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>unpack dgs</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk</outputDirectory>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.onap.ccsdk.distribution</groupId>
+                                    <artifactId>platform-logic-installer</artifactId>
+                                    <version>${project.version}</version>
+                                    <type>zip</type>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
             <plugin>
@@ -238,6 +274,126 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
+                <configuration>
+                    <forkMode>always</forkMode>
+                    <environmentVariables>
+                        <SDNC_CONFIG_DIR>${basedir}/src/test/resources</SDNC_CONFIG_DIR>
+                        <SVCLOGIC_PROPERTIES>${basedir}/src/test/resources/svclogic.properties</SVCLOGIC_PROPERTIES>
+                    </environmentVariables>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-failsafe-plugin</artifactId>
+                <executions>
+                  <execution>
+                    <goals>
+                      <goal>integration-test</goal>
+                      <goal>verify</goal>
+                    </goals>
+                  </execution>
+                </executions>
+                <configuration>
+                  <skipITs>true</skipITs>
+                </configuration>
+              </plugin>
+              <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.6</version>
+                <executions>
+                    <execution>
+                        <id>copy-dockerfile</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals><!-- here the phase you need -->
+                        <phase>initialize</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/docker-stage</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/docker</directory>
+                                    <includes>
+                                        <include>Dockerfile</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-config</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals><!-- here the phase you need -->
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk/config</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>*.properties</include>
+                                        <include>*.props</include>
+                                        <include>*.sql</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>*.keyfile</include>
+                                        <include>*.jks</include>
+                                        <include>*.p12</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-script</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals><!-- here the phase you need -->
+                        <phase>generate-resources</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk/bin</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>*.sh</include>
+                                    </includes>
+                                    <filtering>true</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>copy-jar</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals><!-- here the phase you need -->
+                        <phase>package</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk/lib</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>${basedir}/target</directory>
+                                    <includes>
+                                        <include>${ccsdk.sliboot.jar}</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
 
         </plugins>
     </build>
@@ -249,140 +405,22 @@
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
-                        <artifactId>maven-dependency-plugin</artifactId>
-                        <version>2.10</version>
-
+                        <artifactId>maven-failsafe-plugin</artifactId>
                         <executions>
-                            <execution>
-                                <id>copy-dependencies</id>
-                                <goals>
-                                    <goal>copy-dependencies</goal>
-                                </goals>
-                                <phase>prepare-package</phase>
-                                <configuration>
-                                    <excludeTransitive>true</excludeTransitive>
-                                    <outputDirectory>${project.build.directory}/docker-stage/opt/onap/ccsdk/lib</outputDirectory>
-                                    <overWriteReleases>false</overWriteReleases>
-                                    <overWriteSnapshots>true</overWriteSnapshots>
-                                    <overWriteIfNewer>true</overWriteIfNewer>
-                                    <useRepositoryLayout>false</useRepositoryLayout>
-                                    <addParentPoms>false</addParentPoms>
-                                    <copyPom>false</copyPom>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>unpack dgs</id>
-                                <phase>generate-sources</phase>
-                                <goals>
-                                    <goal>unpack</goal>
-                                </goals>
-                                <configuration>
-                                    <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk</outputDirectory>
-                                    <artifactItems>
-                                        <artifactItem>
-                                            <groupId>org.onap.ccsdk.distribution</groupId>
-                                            <artifactId>platform-logic-installer</artifactId>
-                                            <version>${project.version}</version>
-                                            <type>zip</type>
-                                        </artifactItem>
-                                    </artifactItems>
-                                </configuration>
-                            </execution>
+                          <execution>
+                            <goals>
+                              <goal>integration-test</goal>
+                              <goal>verify</goal>
+                            </goals>
+                          </execution>
                         </executions>
-                    </plugin>
-                    <plugin>
-                        <artifactId>maven-resources-plugin</artifactId>
-                        <version>2.6</version>
-                        <executions>
-                            <execution>
-                                <id>copy-dockerfile</id>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals><!-- here the phase you need -->
-                                <phase>initialize</phase>
-                                <configuration>
-                                    <outputDirectory>${basedir}/target/docker-stage</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/docker</directory>
-                                            <includes>
-                                                <include>Dockerfile</include>
-                                            </includes>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-config</id>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals><!-- here the phase you need -->
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk/config</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources</directory>
-                                            <includes>
-                                                <include>*.properties</include>
-                                                <include>*.props</include>
-                                                <include>*.sql</include>
-                                            </includes>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                        <resource>
-                                            <directory>src/main/resources</directory>
-                                            <includes>
-                                                <include>*.keyfile</include>
-                                                <include>*.jks</include>
-                                                <include>*.p12</include>
-                                            </includes>
-                                            <filtering>false</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-script</id>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals><!-- here the phase you need -->
-                                <phase>generate-resources</phase>
-                                <configuration>
-                                    <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk/bin</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>src/main/resources</directory>
-                                            <includes>
-                                                <include>*.sh</include>
-                                            </includes>
-                                            <filtering>true</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                            <execution>
-                                <id>copy-jar</id>
-                                <goals>
-                                    <goal>copy-resources</goal>
-                                </goals><!-- here the phase you need -->
-                                <phase>package</phase>
-                                <configuration>
-                                    <outputDirectory>${basedir}/target/docker-stage/opt/onap/ccsdk/lib</outputDirectory>
-                                    <resources>
-                                        <resource>
-                                            <directory>${basedir}/target</directory>
-                                            <includes>
-                                                <include>${ccsdk.sliboot.jar}</include>
-                                            </includes>
-                                            <filtering>false</filtering>
-                                        </resource>
-                                    </resources>
-                                </configuration>
-                            </execution>
-                        </executions>
-                    </plugin>
+                        <configuration>
+                          <skipITs>false</skipITs>
+                          <environmentVariables>
+                            <SLIBOOT_PORT>${sliboot.port}</SLIBOOT_PORT>
+                          </environmentVariables>
+                        </configuration>
+                      </plugin>
                     <plugin>
                         <groupId>io.fabric8</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
@@ -413,7 +451,78 @@
                                     <goal>build</goal>
                                 </goals>
                             </execution>
-
+        
+                            <execution>
+                                <id>start-it-instance</id>
+                                <phase>pre-integration-test</phase>
+                                <goals>
+                                    <goal>start</goal>
+                                </goals>
+                                <configuration>
+                                    <images>
+                                        <image>
+                                            <name>mariadb:10.5</name>
+                                            <alias>slibootdb</alias>
+                                            <run>
+                                                <env>
+                                                    <MYSQL_ROOT_PASSWORD>itsASecret</MYSQL_ROOT_PASSWORD>
+                                                    <MYSQL_USER>sli</MYSQL_USER>
+                                                    <MYSQL_PASSWORD>abc123</MYSQL_PASSWORD>
+                                                    <MYSQL_DATABASE>sdnctl</MYSQL_DATABASE>
+                                                </env>
+                                                <network>
+                                                    <mode>custom</mode>
+                                                    <name>onap</name>
+                                                    <alias>dbhost</alias>
+                                                </network>
+                                                <ports>
+                                                    <port>slibootdb.port:3306</port>
+                                                </ports>
+                                                <log>
+                                                    <enabled>true</enabled>
+                                                </log>
+                                            </run>
+                                        </image>
+                                        <image>
+                                            <name>${image.name}:${project.docker.latesttagtimestamp.version}</name>
+                                            <alias>sliboot-container</alias>
+                                            <run>
+                                                <env>
+                                                    <MYSQL_USER>sli</MYSQL_USER>
+                                                    <MYSQL_PASSWORD>abc123</MYSQL_PASSWORD>
+                                                    <MYSQL_DATABASE>sdnctl</MYSQL_DATABASE>
+                                                    <SDNC_CONFIG_DIR>/opt/onap/ccsdk/config</SDNC_CONFIG_DIR>
+                                                </env>
+                                                <dependsOn>
+                                                    <container>slibootdb</container>
+                                                </dependsOn>
+                                                <network>
+                                                    <mode>custom</mode>
+                                                    <name>onap</name>
+                                                    <alias>sliboot</alias>
+                                                </network>
+                                                <ports>
+                                                    <port>sliboot.port:8080</port>
+                                                </ports>
+                                                <wait>
+                                                    <log>Started SlibootApp</log>
+                                                    <time>120000</time>
+                                                </wait>
+                                                <log>
+                                                    <enabled>true</enabled>
+                                                </log>
+                                            </run>
+                                        </image>
+                                    </images>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>stop-it-instance</id>
+                                <phase>post-integration-test</phase>
+                                <goals>
+                                    <goal>stop</goal>
+                                </goals>
+                            </execution>
                             <execution>
                                 <id>push-images</id>
                                 <phase>${docker.push.phase}</phase>
@@ -424,6 +533,7 @@
                             </execution>
                         </executions>
                     </plugin>
+
                 </plugins>
             </build>
         </profile>
