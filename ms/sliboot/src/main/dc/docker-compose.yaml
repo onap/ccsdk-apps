@@ -34,6 +34,7 @@ services:
       - MYSQL_DB_USER=sli
       - MYSQL_DB_PASSWD=abc123
       - MYSQL_DB_DATABASE=sdnctl
+      - SDNC_CONFIG_DIR=/opt/onap/ccsdk/config
     logging:       
       driver:   "json-file"
       options:  
