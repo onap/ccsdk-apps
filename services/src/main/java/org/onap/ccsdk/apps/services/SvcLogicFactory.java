@@ -54,6 +54,7 @@ import org.onap.ccsdk.sli.core.sli.provider.base.SvcLogicServiceImplBase;
 import org.onap.ccsdk.sli.core.sli.recording.Slf4jRecorder;
 import org.onap.ccsdk.sli.core.slipluginutils.SliPluginUtils;
 import org.onap.ccsdk.sli.core.slipluginutils.SliStringUtils;
+import org.onap.ccsdk.sli.core.utils.common.EnvProperties;
 import org.onap.ccsdk.sli.plugins.prop.PropertiesNode;
 import org.onap.ccsdk.sli.plugins.restapicall.RestapiCallNode;
 import org.slf4j.Logger;
@@ -98,7 +99,7 @@ public class SvcLogicFactory {
         }
         System.out.println(propPath);
         try (FileInputStream fileInputStream = new FileInputStream(propPath)) {
-          props = new Properties();
+          props = new EnvProperties();
           props.load(fileInputStream);
         } catch (final IOException e) {
           log.error("Failed to load properties for file: {}", propPath,
