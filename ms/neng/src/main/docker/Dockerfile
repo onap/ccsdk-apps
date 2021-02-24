@@ -20,7 +20,8 @@
 # Docker setup for the micro-service
 #================================================================================
 #FROM onap/ccsdk-ubuntu-image:0.3.0-SNAPSHOT
-FROM anapsix/alpine-java:8_jdk
+FROM @base.image.name@:@base.image.version@
+USER root
 
 RUN apk add --no-cache curl
 

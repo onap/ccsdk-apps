@@ -1,8 +1,8 @@
 # Prepare stage for multistage image build
 ## START OF STAGE0 ##
 FROM @base.image.name@:@base.image.version@ AS stage0
+USER root
 
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 ENV LOG_PATH /var/log/onap/ccsdk
 
 
@@ -13,17 +13,19 @@ COPY opt /opt
 
 
 FROM @base.image.name@:@base.image.version@
+USER root
 
 MAINTAINER CCSDK Team (onap-ccsdk@lists.onap.org)
 
 ENV PROJECT_VERSION @project.version@
-ENV JAVA_HOME /usr/lib/jvm/java-1.8-openjdk
 ENV CCSDK_HOME /opt/onap/ccsdk
 ENV CCSDK_CONFIG_DIR /opt/onap/ccsdk/config
 ENV SLIBOOT_JAR @ccsdk.sliboot.jar@
 ENV SVCLOGIC_PROPERTIES /opt/onap/ccsdk/config/svclogic.properties
 ENV SVCLOGIC_DIR /opt/onap/ccsdk/svclogic/graphs
 ENV LOG_PATH /var/log/onap/ccsdk
+ENV JAVA_HOME @java.home@
+ENV JAVA_SECURITY_DIR @java.security.dir@
 
 # Install sudo and IP utilities
 RUN apk update && apk --no-cache add sudo iputils openssl
@@ -42,7 +44,7 @@ RUN chmod +x ${CCSDK_HOME}/bin/*.sh
 
 # Install ssl and java certificates
 COPY $CCSDK_CONFIG_DIR/truststoreONAPall.jks $JAVA_SECURITY_DIR
-RUN keytool -importkeystore -srckeystore $JAVA_SECURITY_DIR/truststoreONAPall.jks -srcstorepass changeit -destkeystore $JAVA_SECURITY_DIR/cacerts  -deststorepass changeit
+RUN if [ -f $JAVA_SECURITY_DIR}/cacerts ] ; then keytool -importkeystore -srckeystore $SDNC_STORE_DIR/truststoreONAPall.jks -srcstorepass changeit -destkeystore $JAVA_SECURITY_DIR/cacerts  -deststorepass changeit -noprompt ; fi
 
 
 USER sli
