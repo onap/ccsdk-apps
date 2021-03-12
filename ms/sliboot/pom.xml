@@ -133,6 +133,12 @@
         </dependency>
         <dependency>
             <groupId>org.onap.ccsdk.sli.core</groupId>
+            <artifactId>sliapi-model-swagger</artifactId>
+            <version>${ccsdk.sli.core.version}</version>
+            <type>yaml</type>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.ccsdk.sli.core</groupId>
             <artifactId>sliPluginUtils-provider</artifactId>
             <version>${ccsdk.sli.core.version}</version>
         </dependency>
@@ -181,19 +187,13 @@
                         <id>get-sliapi-yaml</id>
                         <phase>initialize</phase>
                         <goals>
-                            <goal>copy</goal>
+                            <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <artifactItems>
-                                <artifactItem>
-                                    <groupId>org.onap.ccsdk.sli.core</groupId>
-                                    <artifactId>sliapi-model-swagger</artifactId>
-                                    <version>${ccsdk.sli.core.version}</version>
-                                    <type>yaml</type>
-                                    <outputDirectory>${project.build.directory}/yaml</outputDirectory>
-                                    <destFileName>sliapi.yaml</destFileName>
-                                </artifactItem>
-                            </artifactItems>
+                            <outputDirectory>${project.build.directory}/yaml</outputDirectory>
+                            <useRepositoryLayout>false</useRepositoryLayout>
+                            <includeTypes>yaml</includeTypes>
+                            <stripVersion>true</stripVersion>
                         </configuration>
                     </execution>
                     <execution>
@@ -204,6 +204,7 @@
                         <phase>prepare-package</phase>
                         <configuration>
                             <excludeTransitive>true</excludeTransitive>
+                            <excludeTypes>yaml</excludeTypes>
                             <outputDirectory>${project.build.directory}/docker-stage/opt/onap/ccsdk/lib</outputDirectory>
                             <overWriteReleases>false</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
@@ -245,7 +246,7 @@
                         </goals>
                         <configuration>
                             <output>target/generated-sources</output>
-                            <inputSpec>${project.build.directory}/yaml/sliapi.yaml</inputSpec>
+                            <inputSpec>${project.build.directory}/yaml/sliapi-model-swagger.yaml</inputSpec>
                             <language>spring</language>
                             <apiPackage>org.onap.ccsdk.apps.ms.sliboot.swagger</apiPackage>
                             <modelPackage>org.onap.ccsdk.apps.ms.sliboot.swagger.model</modelPackage>
