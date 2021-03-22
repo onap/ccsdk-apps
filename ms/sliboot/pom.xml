@@ -105,6 +105,40 @@
             <version>${aaf.cadi.version}</version>
             <scope>runtime</scope>
         </dependency>
+        <!-- Needed by logging-analytics payload logging filter -->
+        <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
+            <version>3.4.4</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.aaf.authz</groupId>
+            <artifactId>aaf-cadi-client</artifactId>
+            <version>${aaf.cadi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.aaf.authz</groupId>
+            <artifactId>aaf-cadi-core</artifactId>
+            <version>${aaf.cadi.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.aaf.authz</groupId>
+            <artifactId>aaf-auth-client</artifactId>
+            <version>${aaf.cadi.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.aaf.authz</groupId>
+            <artifactId>aaf-misc-env</artifactId>
+            <version>${aaf.cadi.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.onap.aaf.authz</groupId>
+            <artifactId>aaf-misc-rosetta</artifactId>
+            <version>${aaf.cadi.version}</version>
+            <scope>runtime</scope>
+        </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>services</artifactId>
