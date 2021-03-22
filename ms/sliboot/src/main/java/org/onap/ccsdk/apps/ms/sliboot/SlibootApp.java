@@ -50,8 +50,6 @@ public class SlibootApp {
     SpringApplication.run(SlibootApp.class, args);
   }
 
-
-
   @Bean
   @ConditionalOnProperty("cadi.properties.path")
 	@Order(1)
