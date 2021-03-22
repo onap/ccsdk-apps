@@ -26,7 +26,7 @@ USER root
 RUN apk add --no-cache curl
 
 VOLUME /tmp
-ADD NetworkElementNameGen.jar app.jar
+ADD NetworkElementNameGen.jar /app.jar
 VOLUME /opt/etc
 #VOLUME /opt/aai
 ADD opt/etc/ /opt/etc/
@@ -35,6 +35,7 @@ ADD startService.sh /startService.sh
 RUN addgroup -S ccsdk && adduser -S ccsdk -G ccsdk
 RUN chown ccsdk:ccsdk /startService.sh
 RUN chown -R ccsdk:ccsdk /opt
+RUN chown ccsdk:ccsdk /app.jar
 RUN chmod go+w /tmp
 RUN chmod 700 /startService.sh
 USER ccsdk
