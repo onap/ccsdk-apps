@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "06147662_a5e08451",
+        "filename": "ms/sliboot/pom.xml",
+        "patchSetId": 2
+      },
+      "lineNbr": 469,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2021-06-17T21:17:53Z",
+      "side": 1,
+      "message": "Dan, stage build for master never had success due to missing property.\nRefer: https://jenkins.onap.org/job/ccsdk-apps-maven-docker-stage-master/",
+      "revId": "5760afc1b54f1ff9559ec9839696406945cc6262",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
