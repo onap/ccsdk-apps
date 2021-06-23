@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.ComponentScan;
@@ -49,7 +50,10 @@ public class SlibootApp {
     SpringApplication.run(SlibootApp.class, args);
   }
 
+
+
   @Bean
+  @ConditionalOnProperty("cadi.properties.path")
 	@Order(1)
 	public FilterRegistrationBean<CadiFilter> cadiFilter() {
 		CadiFilter filter = new CadiFilter();
