@@ -35,6 +35,7 @@ import org.onap.ccsdk.apps.ms.neng.core.service.SpringService;
 import org.onap.ccsdk.apps.ms.neng.persistence.entity.PolicyDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.CannotCreateTransactionException;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
@@ -42,11 +43,15 @@ import org.springframework.web.bind.annotation.RequestBody;
  */
 @Component
 public class RestServiceImpl implements RestService {
-    private static Logger log = Logger.getLogger(RestServiceImpl.class.getName());
-    private static final String INTERNAL_ERROR_MSG = "Internal error occured while processing the request.";
+
+    private static final Logger log = Logger.getLogger(RestServiceImpl.class.getName());
+    private static final String INTERNAL_ERROR_MSG = "Internal error occurred while processing the request: ";
+    private static final String JDBC_CONNECTION_ERROR_MSG = "Error during JDBC transaction creation: ";
     private static final String ERROR="error";
     private static final String ERROR_500="err-0500";
-    
+    private static final int MAX_RETRY = 5;
+    private int retry = 0;
+
     @Autowired SpringService service;
 
     /**
@@ -65,18 +70,18 @@ public class RestServiceImpl implements RestService {
     @Override
     public Response generateNetworkElementName(@RequestBody @Valid NameGenRequest request) {
         log.info("Received request: " + request.toString());
-        Map<String, Object> response = new HashMap<>();
         try {
             NameGenResponse resp = service.generateOrUpdateName(request);
             return buildResponse(resp);
         } catch (NengException e) {
             log.warning(e.getMessage());
-            response.put(ERROR, buildErrorResponse("NELGEN-0003", e.getMessage()));
-            return buildErrorResponse(response);
+            return handleException("NELGEN-0003", e.getMessage());
+        } catch (CannotCreateTransactionException e) {
+            log.warning(e.getMessage());
+            return handleJDBCConnectionException(request, e);
         } catch (Exception e) {
             log.warning(e.getMessage());
-            response.put(ERROR, buildErrorResponse(ERROR_500, INTERNAL_ERROR_MSG));
-            return buildErrorResponse(response);
+            return handleException(ERROR_500, INTERNAL_ERROR_MSG);
         }
     }
 
@@ -129,15 +134,37 @@ public class RestServiceImpl implements RestService {
         }
     }
 
-    Response buildResponse(Object response) {
+    private Response handleException(String statusCode, String statusMessage) {
+        Map<String, Object> response = new HashMap<>();
+        response.put(ERROR, buildErrorResponse(statusCode, statusMessage));
+
+        return buildErrorResponse(response);
+    }
+
+    private Response handleJDBCConnectionException(NameGenRequest request, CannotCreateTransactionException e) {
+        retry += 1;
+        if (retry <= MAX_RETRY) {
+            log.info("Try to generate network element name again! Attempt: " + retry);
+            Response response = generateNetworkElementName(request);
+            if (response.getStatus() != 200) {
+                retry = 0;
+            }
+            return response;
+        } else {
+            retry = 0;
+            return handleException(ERROR_500, JDBC_CONNECTION_ERROR_MSG + e.getMessage());
+        }
+    }
+
+    private Response buildResponse(Object response) {
         return Response.ok().entity(response).build();
     }
 
-    Response buildErrorResponse(Map<String, Object> response) {
+    private Response buildErrorResponse(Map<String, Object> response) {
         return Response.status(500).entity(response).build();
     }
 
-    Map<String,Object> buildErrorResponse(String errorCode, String message) {
+    private Map<String,Object> buildErrorResponse(String errorCode, String message) {
         Map<String,Object> error = new HashMap<>();
         error.put("errorId", errorCode);
         error.put("message", message);
