@@ -51,6 +51,54 @@ public class ContentTypeFilter implements Filter {
                 String curHeaderName = headerNameEnum.nextElement();
                 if ("Content-Type".equalsIgnoreCase(curHeaderName)) {
                     hasContentType = true;
+                    contentType = super.getContentType();
+                    if ("application/yang-data+json".equalsIgnoreCase(contentType)) {
+                        contentType = "application/json";
+                    } else if ("application/yang-data+xml".equalsIgnoreCase(contentType)) {
+                        contentType = "application/xml";
+                    } else if (contentType.startsWith("text/plain")) {
+                        // Use Accept header, if present, to determine content type.
+                        boolean acceptsXml = false;
+                        boolean acceptsJson = false;
+                        for (Enumeration<String> e = getHeaders("Accept") ; e.hasMoreElements() ;) {
+                            String curAcceptValue = e.nextElement();
+                            if ("application/json".equalsIgnoreCase(curAcceptValue)) {
+                                acceptsJson = true;
+                            } else if ("application/yang-data+json".equalsIgnoreCase(curAcceptValue)) {
+                                acceptsJson = true;
+                            } else if ("application/xml".equalsIgnoreCase(curAcceptValue)) {
+                                acceptsXml = true;
+                            } else if ("application/yang-data+xml".equalsIgnoreCase(curAcceptValue)) {
+                                acceptsXml = true;
+                            }
+                        }
+                        if (acceptsJson) {
+                            contentType = "application/json";
+                        } else if (acceptsXml) {
+                            contentType = "application/xml";
+                        } else {
+                            // If Accept does not specify XML or JSON (could be Accept is missing), use default content type
+                            contentType = defaultContentType;
+                        }
+                    }
+                } else if ("Accept".equalsIgnoreCase(curHeaderName)) {
+                    acceptList = new LinkedList<String>();
+                    for (Enumeration<String> e = getHeaders("Accept") ; e.hasMoreElements() ;) {
+                        String acceptValue = e.nextElement();
+                        if ("application/yang-data+json".equalsIgnoreCase(acceptValue)) {
+                            if (!acceptList.contains("application/json")) {
+                                acceptList.add("application/json");
+                            }
+                        } else if ("application/yang-data+xml".equalsIgnoreCase(acceptValue)) {
+                            if (!acceptList.contains("application/xml")) {
+                                acceptList.add("application/xml");
+                            }
+                        } else {
+                            if (!acceptList.contains(acceptValue)) {
+                                acceptList.add(acceptValue);
+                            }
+                        }
+                    }
                 }
                 headerNames.add(curHeaderName);
             }
