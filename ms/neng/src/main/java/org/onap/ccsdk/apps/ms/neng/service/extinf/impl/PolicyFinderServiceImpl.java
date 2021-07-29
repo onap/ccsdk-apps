@@ -46,6 +46,7 @@ import org.onap.ccsdk.apps.ms.neng.core.resource.model.GetConfigRequestV2;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.GetConfigResponse;
 import org.onap.ccsdk.apps.ms.neng.core.rs.interceptors.PolicyManagerAuthorizationInterceptor;
 import org.onap.ccsdk.apps.ms.neng.extinf.props.PolicyManagerProps;
+import org.onap.ccsdk.sli.core.utils.common.AcceptIpAddressHostNameVerifier;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.client.RestTemplateBuilder;
@@ -233,7 +234,7 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
         SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
                         .loadTrustMaterial(null, acceptingTrustStrategy).build();
-        HostnameVerifier verifier = (String arg0, SSLSession arg1) -> true;
+        HostnameVerifier verifier = new AcceptIpAddressHostNameVerifier();
         SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, verifier);
         CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();

@@ -29,6 +29,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
@@ -51,7 +52,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		List<UserDetails> userDetails = new ArrayList<>();
 		
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		// Explicitly set bcrypt password encoder rather than using default
+		PasswordEncoder encoder = new BCryptPasswordEncoder();
     	final User.UserBuilder userBuilder = User.builder().passwordEncoder(encoder::encode);
 
 		String authString = environment.getProperty("application.authToken");
