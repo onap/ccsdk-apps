@@ -41,7 +41,7 @@ import org.onap.aaf.cadi.filter.CadiFilter;
 @EnableJpaRepositories("org.onap.ccsdk.apps.ms.sliboot.*")
 @EntityScan("org.onap.ccsdk.apps.ms.sliboot.*")
 @EnableTransactionManagement
-@EnableSwagger2
+// @EnableSwagger2
 public class SlibootApp {
 
   private static final Logger log = LoggerFactory.getLogger(SlibootApp.class);

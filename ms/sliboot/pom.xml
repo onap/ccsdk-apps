@@ -4,7 +4,7 @@
 
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
+        <artifactId>spring-boot-25-starter-parent</artifactId>
         <version>2.2.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
@@ -68,13 +68,8 @@
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
-            <version>2.9.2</version>
-        </dependency>
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger-ui</artifactId>
-            <version>2.9.2</version>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox.version}</version>
         </dependency>
         <dependency>
             <groupId>org.onap.aaf.authz</groupId>
@@ -97,6 +92,12 @@
             <artifactId>aaf-misc-env</artifactId>
             <version>${aaf.cadi.version}</version>
             <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>log4j</groupId>
+                    <artifactId>log4j</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.onap.aaf.authz</groupId>
@@ -514,6 +515,7 @@
                                                     <MYSQL_USER>sli</MYSQL_USER>
                                                     <MYSQL_PASSWORD>abc123</MYSQL_PASSWORD>
                                                     <MYSQL_DATABASE>sdnctl</MYSQL_DATABASE>
+                                                    <MYSQL_HOST>dbhost</MYSQL_HOST>
                                                     <SDNC_CONFIG_DIR>/opt/onap/ccsdk/config</SDNC_CONFIG_DIR>
                                                 </env>
                                                 <dependsOn>
