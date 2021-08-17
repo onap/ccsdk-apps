@@ -31,14 +31,14 @@
         <swagger.directory>${basedir}/target/classes/META-INF/resources/swagger</swagger.directory>
         <icd.file>service.json</icd.file>
         <icd.package>org.onap.ccsdk.apps.ms.neng.service.rs</icd.package>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <docker.registry>nexus3.onap.org:10001</docker.registry>
         <build.number>local</build.number>
         <kube.namespace>TBD</kube.namespace>
         <service.account>TBD</service.account>
         <namespace>org.onap.ccsdk.apps.ms.neng</namespace>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sdk.java.rest>6.2.0.11</sdk.java.rest>
         <serviceArtifactName>ms-networkelementnamegen</serviceArtifactName>
