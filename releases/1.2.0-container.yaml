@@ -1,0 +1,11 @@
+---
+distribution_type: 'container'
+container_release_tag: '1.2.0'
+project: 'ccsdk-apps'
+log_dir: 'ccsdk-apps-maven-docker-stage-master/821/'
+ref: 24213753cc0b87dc44935629a19220e49de6c7e4
+containers:
+    - name: 'ccsdk-apps-ms-neng'
+      version: '1.2.0-STAGING-20210916135313'
+    - name: 'ccsdk-sliboot-alpine-image'
+      version: '1.2.0-STAGING-20210916135313'
