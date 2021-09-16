@@ -23,7 +23,7 @@
 
     <groupId>org.onap.ccsdk.apps</groupId>
     <artifactId>ccsdk-apps-ms-neng</artifactId>
-    <version>1.2.0-SNAPSHOT</version>
+    <version>1.2.1-SNAPSHOT</version>
     <name>Naming Generation</name>
 
     <properties>
