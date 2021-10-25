@@ -141,7 +141,7 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         RequestEntity<T> re = RequestEntity.post(new URI(policManProps.getUrl()))
                         .accept(MediaType.APPLICATION_JSON).contentType(MediaType.APPLICATION_JSON).body(request);
         try {
-            ResponseEntity<Object> resp = getRestTemplate().exchange(re, Object.class);
+            ResponseEntity<Object> resp = getRestTemplate(policManProps.getDisableHostVerification()).exchange(re, Object.class);
             if (HttpStatus.OK.equals(resp.getStatusCode())) {
                 ObjectMapper objectmapper = new ObjectMapper();
                 String bodyStr = objectmapper.writeValueAsString(resp.getBody());
@@ -227,14 +227,14 @@ public class PolicyFinderServiceImpl implements PolicyFinder {
         }
     }
 
-    RestTemplate getRestTemplate() throws Exception {
+    RestTemplate getRestTemplate(Boolean disableHostVerification) throws Exception {
         if (restTemplate != null) {
             return restTemplate;
         }
         TrustStrategy acceptingTrustStrategy = (X509Certificate[] chain, String authType) -> true;
         SSLContext sslContext = org.apache.http.ssl.SSLContexts.custom()
                         .loadTrustMaterial(null, acceptingTrustStrategy).build();
-        HostnameVerifier verifier = new AcceptIpAddressHostNameVerifier();
+        HostnameVerifier verifier = new AcceptIpAddressHostNameVerifier(disableHostVerification);
         SSLConnectionSocketFactory csf = new SSLConnectionSocketFactory(sslContext, verifier);
         CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(csf).build();
         HttpComponentsClientHttpRequestFactory requestFactory = new HttpComponentsClientHttpRequestFactory();

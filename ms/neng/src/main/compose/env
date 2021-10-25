@@ -1,0 +1,18 @@
+export NENG_DB_PORT=13306
+export NENG_DB_USER=neng
+export NENG_DB_ROOT=itsASecret
+export NENG_DB_PASSWORD=neng1234
+export NENG_DB_PASS=neng1234
+export NENG_SERV_PORT=16606
+export POL_CLIENT_AUTH="cHl0aG9uOnRlc3Q="
+export POL_BASIC_AUTH_USER=healthcheck
+export POL_BASIC_AUTH_PASSWORD="zb!XztG34"
+export POL_URL="https://policy-xacml-pdp:6969/policy/pdpx/v1/decision"
+export POL_ENV=TEST
+export POL_REQ_ID=xx
+export AAI_CERT_PASS=changeit
+export AAI_CERT_PATH=/opt/etc/config/aai_keystore
+export AAI_URI=https://aai:8443/aai/v14/
+export AAI_AUTH="QUFJOkFBSQ=="
+
+
