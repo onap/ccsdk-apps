@@ -30,4 +30,17 @@ services:
        NENG_DB_URL: "jdbc:mysql://mariadb-galera:3306/neng"
        NENG_DB_USER: "${NENG_DB_USER}"
        NENG_DB_PASS: "${NENG_DB_PASS}"
+       POL_CLIENT_AUTH: "${POL_CLIENT_AUTH}"
+       POL_BASIC_AUTH_USER: "${POL_BASIC_AUTH_USER}"
+       POL_BASIC_AUTH_PASSWORD: "${POL_BASIC_AUTH_PASSWORD}"
+       POL_URL: "${POL_URL}"
+       POL_ENV: "${POL_ENV}"
+       POL_REQ_ID: "${POL_REQ_ID}"
+       AAI_CERT_PASS: "${AAI_CERT_PASS}"
+       AAI_CERT_PATH: "${AAI_CERT_PATH}"
+       AAI_URI: "${AAI_URI}"
+       AAI_AUTH: "${AAI_AUTH}"
+       DISABLE_HOST_VERIFICATION: "${DISABLE_HOST_VERIFICATION:-false}"
+
+
 

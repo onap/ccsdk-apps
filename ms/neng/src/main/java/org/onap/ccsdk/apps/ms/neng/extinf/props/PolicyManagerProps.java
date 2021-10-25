@@ -35,6 +35,7 @@ public class PolicyManagerProps {
     String version;
     String environment;
     String ecompRequestId;
+    Boolean disableHostVerification = Boolean.FALSE;
 
     /**
      * Property passed to policy manager in the ClientAuth header.
@@ -53,6 +54,7 @@ public class PolicyManagerProps {
     public String getBasicAuth() {
         return basicAuth;
     }
+
 
     public void setBasicAuth(String basicAuth) {
         this.basicAuth = basicAuth;
@@ -102,4 +104,14 @@ public class PolicyManagerProps {
         this.version = version;
     }
 
+    /**
+     * Disable host name verification
+     */
+    public Boolean getDisableHostVerification() {
+        return disableHostVerification;
+    }
+
+    public void setDisableHostVerification(Boolean disableHostVerification) {
+        this.disableHostVerification = disableHostVerification;
+    }
 }

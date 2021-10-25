@@ -130,7 +130,7 @@ public class PolicyFinderServiceImplTest {
 
         assertNotNull(service.getPolicyMgrRestTempBuilder());
         assertNotNull(service.getAuthInt());
-        assertNotNull(service.getRestTemplate());
+        assertNotNull(service.getRestTemplate(Boolean.FALSE));
     }
 
     @Test
