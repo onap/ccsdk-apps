@@ -30,11 +30,13 @@ services:
     links:
       - db:dbhost
     environment:
-      - MYSQL_HOST=dbhost
+      - MYSQL_DB_HOST=dbhost
+      - MYSQL_DB_USER=${MYSQL_USER}
+      - MYSQL_DB_PASSWD=${MYSQL_PASSWORD}
+      - MYSQL_DB_DATABASE=${MYSQL_DATABASE}
       - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - SDNC_CONFIG_DIR=/opt/onap/ccsdk/config
     logging:       
       driver:   "json-file"

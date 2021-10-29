@@ -20,8 +20,11 @@
 
 package org.onap.ccsdk.apps.services;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.List;
 import java.util.Properties;
 
@@ -41,6 +44,8 @@ import org.onap.ccsdk.sli.core.dblib.DBLIBResourceProvider;
 import org.onap.ccsdk.sli.core.dblib.DBResourceManager;
 import org.onap.ccsdk.sli.core.dblib.DbLibService;
 import org.onap.ccsdk.sli.core.sli.ConfigurationException;
+import org.onap.ccsdk.sli.core.sli.SvcLogicAdaptor;
+import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicJavaPlugin;
 import org.onap.ccsdk.sli.core.sli.SvcLogicLoader;
 import org.onap.ccsdk.sli.core.sli.SvcLogicRecorder;
@@ -67,147 +72,149 @@ import org.springframework.stereotype.Service;
 @Configuration
 @Service
 public class SvcLogicFactory {
-  private static final Logger log = LoggerFactory.getLogger(SvcLogicFactory.class);
+    private static final Logger log = LoggerFactory.getLogger(SvcLogicFactory.class);
+    private static final String SDNC_CONFIG_DIR = "SDNC_CONFIG_DIR";
+    private static final String CONTRAIL_PROPERTIES = "contrail-adaptor.properties";
 
-  @Autowired
-  List<SvcLogicRecorder> recorders;
+    @Autowired
+    List<SvcLogicRecorder> recorders;
 
-  @Autowired
-  List<SvcLogicJavaPlugin> plugins;
+    @Autowired
+    List<SvcLogicJavaPlugin> plugins;
 
-  @Autowired
-  List<SvcLogicResource> svcLogicResources;
-
-  @Bean
-  public SvcLogicStore getStore() throws Exception {
-    SvcLogicPropertiesProvider propProvider = new SvcLogicPropertiesProvider() {
-
-      @Override
-      public Properties getProperties() {
-        Properties props = new Properties();
+    @Autowired
+    List<SvcLogicResource> svcLogicResources;
 
 
-        String propPath = System.getProperty("serviceLogicProperties", "");
+    @Bean
+    public SvcLogicStore getStore() throws Exception {
+        SvcLogicPropertiesProvider propProvider = new SvcLogicPropertiesProvider() {
 
-        if ("".equals(propPath)) {
-          propPath = System.getenv("SVCLOGIC_PROPERTIES");
+            @Override
+            public Properties getProperties() {
+                Properties props = new Properties();
+
+                String propPath = System.getProperty("serviceLogicProperties", "");
+
+                if ("".equals(propPath)) {
+                    propPath = System.getenv("SVCLOGIC_PROPERTIES");
+                }
+
+                if ((propPath == null) || propPath.length() == 0) {
+                    propPath = "src/main/resources/svclogic.properties";
+                }
+                System.out.println(propPath);
+                try (FileInputStream fileInputStream = new FileInputStream(propPath)) {
+                    props = new EnvProperties();
+                    props.load(fileInputStream);
+                } catch (final IOException e) {
+                    log.error("Failed to load properties for file: {}", propPath,
+                            new ConfigurationException("Failed to load properties for file: " + propPath, e));
+                }
+                return props;
+            }
+        };
+        SvcLogicStore store = SvcLogicStoreFactory.getSvcLogicStore(propProvider.getProperties());
+        return store;
+    }
+
+    @Bean
+    public SvcLogicLoader createLoader() throws Exception {
+        String serviceLogicDirectory = System.getProperty("serviceLogicDirectory");
+        if (serviceLogicDirectory == null) {
+            serviceLogicDirectory = "src/main/resources";
         }
 
+        System.out.println("serviceLogicDirectory is " + serviceLogicDirectory);
+        SvcLogicLoader loader = new SvcLogicLoader(serviceLogicDirectory, getStore());
 
-        if ((propPath == null) || propPath.length() == 0) {
-          propPath = "src/main/resources/svclogic.properties";
+        try {
+            loader.loadAndActivate();
+        } catch (IOException e) {
+            log.error("Cannot load directed graphs", e);
         }
-        System.out.println(propPath);
-        try (FileInputStream fileInputStream = new FileInputStream(propPath)) {
-          props = new EnvProperties();
-          props.load(fileInputStream);
-        } catch (final IOException e) {
-          log.error("Failed to load properties for file: {}", propPath,
-              new ConfigurationException("Failed to load properties for file: " + propPath, e));
+        return loader;
+    }
+
+    @Bean
+    public SvcLogicServiceBase createService() throws Exception {
+        HashMapResolver resolver = new HashMapResolver();
+        for (SvcLogicRecorder recorder : recorders) {
+            log.info("Registering SvcLogicRecorder {}", recorder.getClass().getName());
+            resolver.addSvcLogicRecorder(recorder.getClass().getName(), recorder);
+
         }
-        return props;
-      }
-    };
-    SvcLogicStore store = SvcLogicStoreFactory.getSvcLogicStore(propProvider.getProperties());
-    return store;
-  }
 
-  @Bean
-  public SvcLogicLoader createLoader() throws Exception {
-    String serviceLogicDirectory = System.getProperty("serviceLogicDirectory");
-    if (serviceLogicDirectory == null) {
-      serviceLogicDirectory = "src/main/resources";
+        for (SvcLogicJavaPlugin plugin : plugins) {
+            log.info("Registering SvcLogicJavaPlugin {}", plugin.getClass().getName());
+            resolver.addSvcLogicSvcLogicJavaPlugin(plugin.getClass().getName(), plugin);
+
+        }
+        for (SvcLogicResource svcLogicResource : svcLogicResources) {
+            log.info("Registering SvcLogicResource {}", svcLogicResource.getClass().getName());
+            resolver.addSvcLogicResource(svcLogicResource.getClass().getName(), svcLogicResource);
+        }
+
+        return new SvcLogicServiceImplBase(getStore(), resolver);
     }
 
-    System.out.println("serviceLogicDirectory is " + serviceLogicDirectory);
-    SvcLogicLoader loader = new SvcLogicLoader(serviceLogicDirectory, getStore());
-
-    try {
-      loader.loadAndActivate();
-    } catch (IOException e) {
-      log.error("Cannot load directed graphs", e);
-    }
-    return loader;
-  }
-
-  @Bean
-  public SvcLogicServiceBase createService() throws Exception {
-    HashMapResolver resolver = new HashMapResolver();
-    for (SvcLogicRecorder recorder : recorders) {
-      resolver.addSvcLogicRecorder(recorder.getClass().getName(), recorder);
-
-    }
-    for (SvcLogicJavaPlugin plugin : plugins) {
-      resolver.addSvcLogicSvcLogicJavaPlugin(plugin.getClass().getName(), plugin);
-
-    }
-    for (SvcLogicResource svcLogicResource : svcLogicResources) {
-      resolver.addSvcLogicResource(svcLogicResource.getClass().getName(), svcLogicResource);
+    @Bean
+    public Slf4jRecorder slf4jRecorderNode() {
+        return new Slf4jRecorder();
     }
 
-    return new SvcLogicServiceImplBase(getStore(), resolver);
-  }
+    // Beans from sli/core
 
-  @Bean
-  public Slf4jRecorder slf4jRecorderNode() {
-    return new Slf4jRecorder();
-  }
+    @Bean
+    public SliPluginUtils sliPluginUtil() {
+        return new SliPluginUtils();
+    }
 
-  // Beans from sli/core
+    @Bean
+    public SliStringUtils sliStringUtils() {
+        return new SliStringUtils();
+    }
 
-  @Bean
-  public SliPluginUtils sliPluginUtil() {
-    return new SliPluginUtils();
-  }
+    // Beans from sli/adaptors
 
-  @Bean
-  public SliStringUtils sliStringUtils() {
-    return new SliStringUtils();
-  }
+    @Bean
+    AAIService aaiService() {
+        return new AAIService(new AAIServiceProvider());
+    }
 
-  // Beans from sli/adaptors
+    @Bean
+    public ConfigResource configResource() {
+        return new ConfigResource(new MdsalResourcePropertiesProviderImpl());
+    }
 
-  @Bean AAIService aaiService() {
-    return new AAIService(new AAIServiceProvider());
-  }
-  
-  @Bean
-  public ConfigResource configResource() {
-    return new ConfigResource(new MdsalResourcePropertiesProviderImpl());
-  }
+    @Bean
+    public OperationalResource operationalResource() {
+        return new OperationalResource(new MdsalResourcePropertiesProviderImpl());
+    }
 
-  @Bean
-  public OperationalResource operationalResource() {
-    return new OperationalResource(new MdsalResourcePropertiesProviderImpl());
-  }
+    @Bean
+    public PublisherApi publisherApi() {
+        return new PublisherApiImpl();
+    }
 
-  @Bean 
-  public PublisherApi publisherApi() {
-    return new PublisherApiImpl();
-  }
-  
-  
-  @Bean 
-  public NetboxClient netboxClient() {
-    return new NetboxClientImpl();
-  }
-  
-  
-  @Bean
-  public SqlResource sqlResource() {
-    return new SqlResource();
-  }
+    @Bean
+    public NetboxClient netboxClient() {
+        return new NetboxClientImpl();
+    }
 
-  
-  @Bean
-  public RestapiCallNode restapiCallNode() {
-      return new RestapiCallNode();
-  }
-  
-  @Bean
-  public PropertiesNode propertiesNode() {
-      return new PropertiesNode();
-  }
+    @Bean
+    public SqlResource sqlResource() {
+        return new SqlResource();
+    }
 
+    @Bean
+    public RestapiCallNode restapiCallNode() {
+        return new RestapiCallNode();
+    }
+
+    @Bean
+    public PropertiesNode propertiesNode() {
+        return new PropertiesNode();
+    }
 
 }

@@ -62,7 +62,7 @@ public class ContentTypeFilter implements Filter {
                         contentType = "application/json";
                     } else if ("application/yang-data+xml".equalsIgnoreCase(contentType)) {
                         contentType = "application/xml";
-                    } else if (contentType.startsWith("text/plain")) {
+                    } else if (contentType.startsWith("text/plain") || contentType.startsWith("*/*")) {
                         // Use Accept header, if present, to determine content type.
                         boolean acceptsXml = false;
                         boolean acceptsJson = false;
