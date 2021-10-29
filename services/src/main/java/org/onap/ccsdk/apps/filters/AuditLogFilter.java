@@ -7,7 +7,6 @@ import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
-@Component
 public class AuditLogFilter extends AuditLogServletFilter {
     private static final String MDC_HTTP_METHOD_KEY = "HttpMethod";
 
