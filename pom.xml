@@ -4,8 +4,8 @@
 
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
-        <artifactId>odlparent-lite</artifactId>
-        <version>2.3.0</version>
+        <artifactId>spring-boot-25-starter-parent</artifactId>
+        <version>2.3.2</version>
         <relativePath/>
     </parent>
 
@@ -20,6 +20,17 @@
     <organization>
         <name>ONAP</name>
     </organization>
+
+    <modules>
+        <module>services</module>
+        <module>ms</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:ssh://git@${onap.git.host}/apps.git</connection>
+        <developerConnection>scm:git:ssh://${onap.git.host}:${onap.git.port}/${onap.git.project}/apps.git</developerConnection>
+        <url>${onap.git.protocol}://${onap.git.host}/projects/${onap.git.project}/repos/apps/browse</url>
+    </scm>
 
     <properties>
         <!--Don't set any language to let sonar enable multi-language support-->
@@ -40,11 +51,6 @@
         <jacoco.version>0.8.3</jacoco.version>
     </properties>
 
-    <modules>
-        <module>services</module>
-        <module>ms</module>
-    </modules>
-
     <build>
         <plugins>
             <plugin>
@@ -54,12 +60,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <scm>
-        <connection>scm:git:ssh://git@${onap.git.host}/apps.git</connection>
-        <developerConnection>scm:git:ssh://${onap.git.host}:${onap.git.port}/${onap.git.project}/apps.git</developerConnection>
-        <url>${onap.git.protocol}://${onap.git.host}/projects/${onap.git.project}/repos/apps/browse</url>
-    </scm>
 
     <profiles>
         <profile>
@@ -137,5 +137,4 @@
             </build>
         </profile>
     </profiles>
-
 </project>
