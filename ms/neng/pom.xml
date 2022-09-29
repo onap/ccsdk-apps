@@ -18,6 +18,7 @@
  * limitations under the License.
  * ============LICENSE_END=========================================================
   -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -54,18 +55,19 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sdk.java.rest>6.2.0.11</sdk.java.rest>
         <serviceArtifactName>ms-networkelementnamegen</serviceArtifactName>
-        <ccsdk.distribution.version>1.2.2</ccsdk.distribution.version>
+        <ccsdk.distribution.version>1.4.1</ccsdk.distribution.version>
         <docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
         <docker.push.phase>deploy</docker.push.phase>
         <docker.verbose>true</docker.verbose>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <base.image.name>onap/ccsdk-alpine-j11-image</base.image.name>
-        <base.image.version>1.2.2</base.image.version>
+        <base.image.version>1.4.1</base.image.version>
         <image.name>onap/ccsdk-apps-ms-neng</image.name>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>    
-		<ccsdk.project.version>${project.version}</ccsdk.project.version>
-		<ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
+	<ccsdk.project.version>${project.version}</ccsdk.project.version>
+	<ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
+
     </properties>
 
     <dependencies>
@@ -125,10 +127,6 @@
             <artifactId>mariadb-java-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.h2database</groupId>
-            <artifactId>h2</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
@@ -183,8 +181,18 @@
             <version>${ccsdk.sli.version}</version>
         </dependency>
         <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>${gson.version}</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

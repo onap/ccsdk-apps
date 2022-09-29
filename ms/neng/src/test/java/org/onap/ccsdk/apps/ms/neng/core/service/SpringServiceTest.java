@@ -30,10 +30,10 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.HelloWorld;
@@ -192,7 +192,7 @@ public class SpringServiceTest {
         List<GeneratedName> generatedNameList = new ArrayList<>();
         generatedNameList.add(gn);
         Mockito.lenient().when(namePersister.findByExternalIdAndElementType(req.get("external-key"), "VNF")).thenReturn(gn);
-        Mockito.lenient().when(aaiNameValidator.validate(Matchers.anyString(), Matchers.anyString())).thenReturn(true);
+        Mockito.lenient().when(aaiNameValidator.validate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(true);
         Assert.assertNotNull(springserviceImpl.updateNetworkElementName(request));
         Mockito.verify(namePersister, Mockito.times(1)).persist(gn);
     }

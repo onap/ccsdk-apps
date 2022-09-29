@@ -21,7 +21,7 @@
 package org.onap.ccsdk.apps.ms.neng.core.gen;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -35,7 +35,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.FilePolicyReader;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicyFinder;
@@ -92,16 +92,16 @@ public class NameGeneratorSequenceMultiTest {
         Map<String, Object> policy = new FilePolicyReader("vnf_policy_seq.json").getPolicy();
         Mockito.lenient().when(policyParams.getMaxGenAttempt()).thenReturn(100);
         Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
-        Mockito.lenient().when(aaiValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), eq("abcde001ve1"))).thenReturn(false);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), eq("abcde002ve1"))).thenReturn(false);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), eq("abcde003ve1"))).thenReturn(false);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), eq("abcde004ve1"))).thenReturn(true);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(1))).thenReturn(1L);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(2))).thenReturn(2L);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(3))).thenReturn(3L);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(4))).thenReturn(4L);
+        Mockito.lenient().when(aaiValidator.validate(any(), any())).thenReturn(true);
+        Mockito.lenient().when(dbValidator.validate(any(), any())).thenReturn(true);
+        Mockito.lenient().when(dbValidator.validate(any(), eq("abcde001ve1"))).thenReturn(false);
+        Mockito.lenient().when(dbValidator.validate(any(), eq("abcde002ve1"))).thenReturn(false);
+        Mockito.lenient().when(dbValidator.validate(any(), eq("abcde003ve1"))).thenReturn(false);
+        Mockito.lenient().when(dbValidator.validate(any(), eq("abcde004ve1"))).thenReturn(true);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(1))).thenReturn(1L);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(2))).thenReturn(2L);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(3))).thenReturn(3L);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(4))).thenReturn(4L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement, allElements, earlierNames, policyCache, new ArrayList<>());

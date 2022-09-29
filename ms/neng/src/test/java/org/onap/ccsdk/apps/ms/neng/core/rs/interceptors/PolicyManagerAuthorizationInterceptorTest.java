@@ -32,7 +32,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Spy;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.GetConfigRequest;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.GetConfigResponse;
 import org.onap.ccsdk.apps.ms.neng.extinf.props.PolicyManagerProps;

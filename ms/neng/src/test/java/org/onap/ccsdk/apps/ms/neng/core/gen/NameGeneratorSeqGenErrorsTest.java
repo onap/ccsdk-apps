@@ -22,7 +22,7 @@ package org.onap.ccsdk.apps.ms.neng.core.gen;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
@@ -38,7 +38,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.FilePolicyReader;
@@ -108,13 +108,13 @@ public class NameGeneratorSeqGenErrorsTest {
         Mockito.lenient().when(policyParams.getMaxGenAttempt()).thenReturn(100);
         Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
 
-        Mockito.lenient().when(aaiValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        Mockito.lenient().when(aaiValidator.validate(eq("VNF"), anyObject())).thenReturn(true);
+        Mockito.lenient().when(aaiValidator.validate(any(), any())).thenReturn(true);
+        Mockito.lenient().when(aaiValidator.validate(eq("VNF"), any())).thenReturn(true);
         Mockito.lenient().when(aaiValidator.validate(eq("VNF"), eq("abcde001ve1"))).thenReturn(false);
 
-        Mockito.lenient().when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(1))).thenReturn(1L);
-        Mockito.lenient().when(sequenceGenerator.generate(eq("abcde"), anyObject(), anyObject(), anyObject(), eq(2))).thenReturn(2L);
+        Mockito.lenient().when(dbValidator.validate(any(), any())).thenReturn(true);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(1))).thenReturn(1L);
+        Mockito.lenient().when(sequenceGenerator.generate(eq("abcde"), any(), any(), any(), eq(2))).thenReturn(2L);
 
         final List<Object> savedNames = new ArrayList<>();
         doAnswer(new Answer<Void>() {
@@ -123,7 +123,7 @@ public class NameGeneratorSeqGenErrorsTest {
                 savedNames.add(invocation.getArguments()[0]);
                 return null;
             }
-        }).when(namePresister).persist(anyObject());
+        }).when(namePresister).persist(any());
 
         NameGenerator gen2 = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());
@@ -180,10 +180,10 @@ public class NameGeneratorSeqGenErrorsTest {
         Map<String, Object> policy = new FilePolicyReader("vnf_and_vm_policy.json").getPolicy();
         Mockito.lenient().when(policyParams.getMaxGenAttempt()).thenReturn(3);
         Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), anyObject())).thenReturn(false);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(1))).thenReturn(1L);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(2))).thenReturn(2L);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), eq(3))).thenReturn(3L);
+        Mockito.lenient().when(dbValidator.validate(any(), any())).thenReturn(false);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(1))).thenReturn(1L);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(2))).thenReturn(2L);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), eq(3))).thenReturn(3L);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());
@@ -210,7 +210,7 @@ public class NameGeneratorSeqGenErrorsTest {
         Map<String, Object> policy = new FilePolicyReader("vnf_policy_no_seq.json").getPolicy();
         Mockito.lenient().when(policyParams.getMaxGenAttempt()).thenReturn(3);
         Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), anyObject())).thenReturn(false);
+        Mockito.lenient().when(dbValidator.validate(any(), any())).thenReturn(false);
 
         NameGenerator gen = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());

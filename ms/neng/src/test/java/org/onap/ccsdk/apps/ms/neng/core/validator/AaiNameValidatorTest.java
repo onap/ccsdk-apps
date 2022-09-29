@@ -26,10 +26,10 @@ import static org.mockito.Mockito.when;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.onap.ccsdk.apps.ms.neng.persistence.repository.ExternalInterfaceRespository;
 import org.onap.ccsdk.apps.ms.neng.service.extinf.impl.AaiServiceImpl;
 
@@ -46,7 +46,7 @@ public class AaiNameValidatorTest {
     
     @Test
     public void testValidate() throws Exception {
-        Mockito.lenient().when(dbStuff.getUriByNameType(Matchers.anyString())).thenReturn(null);
+        Mockito.lenient().when(dbStuff.getUriByNameType(ArgumentMatchers.anyString())).thenReturn(null);
         assertTrue(nameValidator.validate("VNF", "xyz112uyv"));
     }
 }

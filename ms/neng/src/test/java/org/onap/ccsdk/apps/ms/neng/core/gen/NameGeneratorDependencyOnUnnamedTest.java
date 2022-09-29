@@ -21,8 +21,8 @@
 package org.onap.ccsdk.apps.ms.neng.core.gen;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.anyObject;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -37,7 +37,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.mockito.stubbing.Answer;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;
 import org.onap.ccsdk.apps.ms.neng.core.policy.FilePolicyReader;
@@ -94,9 +94,9 @@ public class NameGeneratorDependencyOnUnnamedTest {
 
         Map<String, Object> policy = new FilePolicyReader("vnf_and_vm_policy.json").getPolicy();
         Mockito.lenient().when(policyFinder.findPolicy(policyName)).thenReturn(policy);
-        Mockito.lenient().when(aaiValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        Mockito.lenient().when(dbValidator.validate(anyObject(), anyObject())).thenReturn(true);
-        Mockito.lenient().when(sequenceGenerator.generate(anyObject(), anyObject(), anyObject(), anyObject(), anyInt())).thenReturn(1L);
+        Mockito.lenient().when(aaiValidator.validate(any(), any())).thenReturn(true);
+        Mockito.lenient().when(dbValidator.validate(any(), any())).thenReturn(true);
+        Mockito.lenient().when(sequenceGenerator.generate(any(), any(), any(), any(), anyInt())).thenReturn(1L);
 
         final List<Object> savedNames = new ArrayList<>();
         doAnswer(new Answer<Void>() {
@@ -105,7 +105,7 @@ public class NameGeneratorDependencyOnUnnamedTest {
                 savedNames.add(invocation.getArguments()[0]);
                 return null;
             }
-        }).when(namePresister).persist(anyObject());
+        }).when(namePresister).persist(any());
 
         NameGenerator gen2 = new NameGenerator(policyFinder, policyParams, sequenceGenerator, dbValidator, aaiValidator,
                         namePresister, requestElement2, allElements, earlierNames, policyCache, new ArrayList<>());

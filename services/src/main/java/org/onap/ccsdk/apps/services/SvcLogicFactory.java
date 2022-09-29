@@ -76,6 +76,9 @@ public class SvcLogicFactory {
     private static final String SDNC_CONFIG_DIR = "SDNC_CONFIG_DIR";
     private static final String CONTRAIL_PROPERTIES = "contrail-adaptor.properties";
 
+ /*    
+  * In Springboot 2.6, these autowired lists become a circular dependency with the RestconfApiController.
+  * For now, comment these out and instead just explicitly add wiring for the sli classes
     @Autowired
     List<SvcLogicRecorder> recorders;
 
@@ -84,6 +87,10 @@ public class SvcLogicFactory {
 
     @Autowired
     List<SvcLogicResource> svcLogicResources;
+
+ */
+
+ 
 
 
     @Bean
@@ -139,24 +146,68 @@ public class SvcLogicFactory {
     @Bean
     public SvcLogicServiceBase createService() throws Exception {
         HashMapResolver resolver = new HashMapResolver();
-        for (SvcLogicRecorder recorder : recorders) {
-            log.info("Registering SvcLogicRecorder {}", recorder.getClass().getName());
-            resolver.addSvcLogicRecorder(recorder.getClass().getName(), recorder);
 
-        }
+        /**
+         * See comment above re: autowired lists. Need to explicitly register
+         * SLI features to avoid circular dependency issue in springboot 2.6
+         * 
+         * for (SvcLogicRecorder recorder : recorders) {
+         * log.info("Registering SvcLogicRecorder {}", recorder.getClass().getName());
+         * resolver.addSvcLogicRecorder(recorder.getClass().getName(), recorder);
+         * 
+         * }
+         * 
+         * for (SvcLogicJavaPlugin plugin : plugins) {
+         * log.info("Registering SvcLogicJavaPlugin {}", plugin.getClass().getName());
+         * resolver.addSvcLogicSvcLogicJavaPlugin(plugin.getClass().getName(), plugin);
+         * 
+         * }
+         * for (SvcLogicResource svcLogicResource : svcLogicResources) {
+         * log.info("Registering SvcLogicResource {}",
+         * svcLogicResource.getClass().getName());
+         * resolver.addSvcLogicResource(svcLogicResource.getClass().getName(),
+         * svcLogicResource);
+         * }
+         */
 
-        for (SvcLogicJavaPlugin plugin : plugins) {
-            log.info("Registering SvcLogicJavaPlugin {}", plugin.getClass().getName());
-            resolver.addSvcLogicSvcLogicJavaPlugin(plugin.getClass().getName(), plugin);
+        Slf4jRecorder slf4jRecorder = slf4jRecorderNode();
 
-        }
-        for (SvcLogicResource svcLogicResource : svcLogicResources) {
-            log.info("Registering SvcLogicResource {}", svcLogicResource.getClass().getName());
-            resolver.addSvcLogicResource(svcLogicResource.getClass().getName(), svcLogicResource);
-        }
+        SliPluginUtils sliPluginUtils = sliPluginUtil();
+
+        SliStringUtils sliStringUtils = sliStringUtils();
+
+        AAIService aaiService = aaiService();
+
+        ConfigResource configResource = configResource();
+
+        OperationalResource operationalResource = operationalResource();
+
+        NetboxClient netboxClient = netboxClient();
+
+        SqlResource sqlResource = sqlResource();
+
+        RestapiCallNode restapiCallNode = restapiCallNode();
+
+        PropertiesNode propertiesNode = propertiesNode();
+        // Register recorder (there is only one)
+        resolver.addSvcLogicRecorder(Slf4jRecorder.class.getName(), new Slf4jRecorder());
+
+        // Register plugins
+        resolver.addSvcLogicSvcLogicJavaPlugin(sliPluginUtils.getClass().getName(), sliPluginUtils);
+        resolver.addSvcLogicSvcLogicJavaPlugin(sliStringUtils.getClass().getName(), sliStringUtils);
+        resolver.addSvcLogicSvcLogicJavaPlugin(restapiCallNode.getClass().getName(), restapiCallNode);
+        resolver.addSvcLogicSvcLogicJavaPlugin(propertiesNode.getClass().getName(), propertiesNode);
+        resolver.addSvcLogicSvcLogicJavaPlugin(netboxClient.getClass().getName(), netboxClient);
+
+        // Register resources
+        resolver.addSvcLogicResource(aaiService.getClass().getName(), aaiService);
+        resolver.addSvcLogicResource(configResource.getClass().getName(), configResource);
+        resolver.addSvcLogicResource(operationalResource.getClass().getName(), operationalResource);
+        resolver.addSvcLogicResource(sqlResource.getClass().getName(), sqlResource);
 
         return new SvcLogicServiceImplBase(getStore(), resolver);
     }
+    
 
     @Bean
     public Slf4jRecorder slf4jRecorderNode() {
