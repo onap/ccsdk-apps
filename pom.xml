@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-26-starter-parent</artifactId>
-        <version>2.4.3-SNAPSHOT</version>
+        <version>2.4.4</version>
         <relativePath/>
     </parent>
 
@@ -50,7 +50,6 @@
         <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
         <jacoco.version>0.8.3</jacoco.version>
         <gson.version>2.9.0</gson.version>
-        <ccsdk.sli.version>1.5.0-SNAPSHOT</ccsdk.sli.version>
     </properties>
 
     <build>
