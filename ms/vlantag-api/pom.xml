@@ -19,7 +19,7 @@
     <properties>
         <swagger.directory>${basedir}/target/main/resources/META-INF/resources/swagger-ui/dist</swagger.directory>
         <swagger.annotations.version>1.5.8</swagger.annotations.version>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <springboot.version>2.0.4.RELEASE</springboot.version>
         <mariadb.connector.version>2.1.1</mariadb.connector.version>
         <docker.registry>TBD:5100</docker.registry>
@@ -33,7 +33,7 @@
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
 
         <base.image.name>onap/ccsdk-alpine-j11-image</base.image.name>
-        <base.image.version>1.1.1</base.image.version>
+        <base.image.version>1.5-STAGING-latest</base.image.version>
     </properties>
 
     <dependencies>
@@ -104,9 +104,9 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.codehaus.groovy.maven</groupId>
-                <artifactId>gmaven-plugin</artifactId>
-                <version>1.0</version>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <version>2.1.1</version>
                 <executions>
                     <execution>
                         <phase>validate</phase>
