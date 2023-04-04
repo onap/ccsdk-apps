@@ -22,7 +22,7 @@
         <base.image.version>1.5-STAGING-latest</base.image.version>
         <image.name>onap/ccsdk-sliboot-alpine-image</image.name>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <ccsdk.distribution.version>1.5.0-SNAPSHOT</ccsdk.distribution.version>
+        <ccsdk.distribution.version>1.5.1</ccsdk.distribution.version>
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <ccsdk.sliboot.jar>${project.artifactId}-${project.version}-exec.jar</ccsdk.sliboot.jar>
