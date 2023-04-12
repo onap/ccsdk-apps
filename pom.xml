@@ -48,7 +48,7 @@
         That issue has been fixed in 0.8.3 , so we override the default ONAP
         version here to pick up that fix -->
         <sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-        <jacoco.version>0.8.3</jacoco.version>
+        <jacoco.version>0.8.8</jacoco.version>
         <gson.version>2.9.0</gson.version>
     </properties>
 
