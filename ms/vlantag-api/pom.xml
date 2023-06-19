@@ -19,8 +19,8 @@
     <properties>
         <swagger.directory>${basedir}/target/main/resources/META-INF/resources/swagger-ui/dist</swagger.directory>
         <swagger.annotations.version>1.5.8</swagger.annotations.version>
-        <java.version>17</java.version>
-        <springboot.version>2.0.4.RELEASE</springboot.version>
+        <java.version>11</java.version>
+        <springboot.version>3.0.3</springboot.version>
         <mariadb.connector.version>2.1.1</mariadb.connector.version>
         <docker.registry>TBD:5100</docker.registry>
         <serviceArtifactName>vlantagapi</serviceArtifactName>
@@ -59,6 +59,16 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>org.apache.httpcomponents</groupId>
+            <artifactId>httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
         </dependency>
 
         <dependency>

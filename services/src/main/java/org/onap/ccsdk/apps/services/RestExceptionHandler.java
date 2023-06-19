@@ -7,6 +7,7 @@ import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.http.converter.HttpMessageNotWritableException;
@@ -29,89 +30,90 @@ import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 @Order(Ordered.HIGHEST_PRECEDENCE)
 @RestControllerAdvice
 public class RestExceptionHandler extends ResponseEntityExceptionHandler {
 
+
     @Override
-    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpRequestMethodNotSupported(HttpRequestMethodNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
       return createResponseEntity(new RestProtocolError("bad-method", "Method not supported", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMediaTypeNotSupported(HttpMediaTypeNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("bad-media-type", "Media type not supported", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMediaTypeNotAcceptable(HttpMediaTypeNotAcceptableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("bad-media-type", "Media type not acceptable", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingPathVariable(MissingPathVariableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestApplicationError("missing-path", "Missing path variable", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingServletRequestParameter(MissingServletRequestParameterException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("missing-param", "Missing servlet request parameter", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleServletRequestBindingException(ServletRequestBindingException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestApplicationError("request-binding", "Servlet binding exception", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleConversionNotSupported(ConversionNotSupportedException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestApplicationError("conversion", "Conversion not supported", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("type-mismatch", "Type mismatch", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("bad-message", "HTTP message not readable", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleHttpMessageNotWritable(HttpMessageNotWritableException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("bad-message", "HTTP message not writable", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("bad-message", "Method argument not valid", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleMissingServletRequestPart(MissingServletRequestPartException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestProtocolError("bad-message", "Missing servlet request part", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestApplicationError("binding-error", "Missing servlet request part", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestApplicationError("binding-error", "No handler found", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+    protected ResponseEntity<Object> handleAsyncRequestTimeoutException(AsyncRequestTimeoutException ex, HttpHeaders headers, HttpStatusCode status, WebRequest webRequest) {
         return createResponseEntity(new RestApplicationError("timeout", "Async request timeout", ex), status);
     }
 
     @Override
-    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatus status, WebRequest request) {
+    protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
         return createResponseEntity(new RestApplicationError("internal-error", "Internal error", ex), status);
     }
 
@@ -121,10 +123,10 @@ public class RestExceptionHandler extends ResponseEntityExceptionHandler {
         if (request != null) {
             error.setErrorPath(request.getServletPath());
         }
-        return createResponseEntity(error,HttpStatus.valueOf(ex.getStatus()));
+        return createResponseEntity(error,HttpStatusCode.valueOf(ex.getStatus()));
     }
 
-    private ResponseEntity<Object> createResponseEntity(RestError restError, HttpStatus status) {
+    private ResponseEntity<Object> createResponseEntity(RestError restError, HttpStatusCode status) {
 
         return new ResponseEntity<>(new RestErrors(restError), status);
     }

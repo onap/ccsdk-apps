@@ -30,7 +30,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 import java.util.regex.Pattern;
-import javax.transaction.Transactional;
+import jakarta.transaction.Transactional;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.gen.NameGenerator;
 import org.onap.ccsdk.apps.ms.neng.core.persistence.NamePersister;

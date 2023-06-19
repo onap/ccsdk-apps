@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 

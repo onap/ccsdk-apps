@@ -101,7 +101,7 @@ public class AaiServiceImpl {
                 throw new NengException("Error while validating name with A&AI");
             }
         } catch (HttpClientErrorException e) {
-            log.warning(e.getStatusCode().name() + " -- " + e.getResponseBodyAsString());
+            log.warning(e.getStatusCode() + " -- " + e.getResponseBodyAsString());
             if (HttpStatus.NOT_FOUND.equals(e.getStatusCode())) {
                 return buildResponse(false);
             }

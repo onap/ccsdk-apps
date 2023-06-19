@@ -21,11 +21,11 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,6 +33,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.SecurityFilterChain;
 
 /**
  * ApplicationSecurityConfig.java Purpose: Configures and validates
@@ -42,14 +43,14 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * @version 1.0
  */
 @Configuration
-public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
+public class ApplicationSecurityConfig {
 	private Logger logger = LoggerFactory.getLogger(ApplicationSecurityConfig.class);
 	 
 	@Autowired
 	private Environment environment;
 
-	@Override
-	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	@Bean
+	public InMemoryUserDetailsManager userDetailsService() {
 		List<UserDetails> userDetails = new ArrayList<>();
 		
 		// Explicitly set bcrypt password encoder rather than using default
@@ -74,7 +75,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
 		}
 		
 		logger.info("-------------------------------{}",userDetails);
-		auth.userDetailsService(inMemoryUserDetailsManager(userDetails));
+		return new InMemoryUserDetailsManager(userDetails);
 	}
 	
     
@@ -82,13 +83,15 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter{
         return new InMemoryUserDetailsManager(userDetails);
     }
 
-	@Override
-	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().anyRequest().fullyAuthenticated();
-	    http.httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+	@Bean
+	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		http.authorizeHttpRequests().anyRequest().fullyAuthenticated();
+		http.httpBasic().and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.csrf().disable();
+
+		return http.build();
 	}
-	
+
     private static String[] decode(String encoded) {
         final byte[] decodedBytes 
                 = Base64.getDecoder().decode(encoded.getBytes());

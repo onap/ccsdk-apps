@@ -35,7 +35,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 import org.springframework.context.annotation.Bean;
 
-import org.onap.aaf.cadi.filter.CadiFilter;
+import org.onap.ccsdk.apps.cadi.filter.CadiFilter;
 
 @SpringBootApplication(scanBasePackages={ "org.onap.ccsdk.apps.ms.sliboot.*", "org.onap.ccsdk.apps.services" })
 @EnableJpaRepositories("org.onap.ccsdk.apps.ms.sliboot.*")
