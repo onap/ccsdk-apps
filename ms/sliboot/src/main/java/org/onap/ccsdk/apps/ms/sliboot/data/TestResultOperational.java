@@ -1,6 +1,6 @@
 package org.onap.ccsdk.apps.ms.sliboot.data;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 @Entity(name="TEST_RESULT_OPERATIONAL")
 @Table(name="TEST_RESULT_OPERATIONAL")

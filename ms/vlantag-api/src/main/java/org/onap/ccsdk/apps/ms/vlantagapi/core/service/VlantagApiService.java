@@ -15,7 +15,7 @@
  ******************************************************************************/
 package org.onap.ccsdk.apps.ms.vlantagapi.core.service;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;

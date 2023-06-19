@@ -5,7 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-import org.onap.aaf.cadi.filter.CadiFilter;
+import org.onap.ccsdk.apps.cadi.filter.CadiFilter;
 import org.onap.ccsdk.sli.core.utils.common.EnvProperties;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

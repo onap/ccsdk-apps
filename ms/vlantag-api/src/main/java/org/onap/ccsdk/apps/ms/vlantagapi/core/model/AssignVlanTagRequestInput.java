@@ -15,7 +15,7 @@
  ******************************************************************************/
 package org.onap.ccsdk.apps.ms.vlantagapi.core.model;
 
-import javax.validation.Valid;
+import jakarta.validation.Valid;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 

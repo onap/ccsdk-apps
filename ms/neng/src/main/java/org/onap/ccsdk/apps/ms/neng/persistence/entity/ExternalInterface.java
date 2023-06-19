@@ -22,10 +22,10 @@ package org.onap.ccsdk.apps.ms.neng.persistence.entity;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 /**
  * Entity representing the parameters and configuration of an external system/sub-system/application interface

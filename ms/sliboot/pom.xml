@@ -17,12 +17,11 @@
 
     <properties>
         <start-class>org.onap.ccsdk.apps.ms.sliboot.SlibootApp</start-class>
-        <aaf.cadi.version>2.1.21</aaf.cadi.version>
         <base.image.name>onap/ccsdk-alpine-j17-image</base.image.name>
-        <base.image.version>1.5-STAGING-latest</base.image.version>
+        <base.image.version>1.6-STAGING-latest</base.image.version>
         <image.name>onap/ccsdk-sliboot-alpine-image</image.name>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <ccsdk.distribution.version>1.5.1</ccsdk.distribution.version>
+        <ccsdk.distribution.version>1.6.0-SNAPSHOT</ccsdk.distribution.version>
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <ccsdk.sliboot.jar>${project.artifactId}-${project.version}-exec.jar</ccsdk.sliboot.jar>
@@ -41,16 +40,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-logging</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-log4j2</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -64,6 +53,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.antlr</groupId>
+                    <artifactId>antlr4-runtime</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>io.springfox</groupId>
@@ -71,72 +66,15 @@
             <version>${springfox.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-cadi-client</artifactId>
-            <version>${aaf.cadi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-cadi-core</artifactId>
-            <version>${aaf.cadi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-auth-client</artifactId>
-            <version>${aaf.cadi.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-misc-env</artifactId>
-            <version>${aaf.cadi.version}</version>
-            <scope>runtime</scope>
-            <exclusions>
-                <exclusion>
-                    <groupId>log4j</groupId>
-                    <artifactId>log4j</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-misc-rosetta</artifactId>
-            <version>${aaf.cadi.version}</version>
-            <scope>runtime</scope>
+            <groupId>org.onap.ccsdk.apps</groupId>
+            <artifactId>ccsdk-apps-cadi-core</artifactId>
+            <version>${project.version}</version>
         </dependency>
         <!-- Needed by logging-analytics payload logging filter -->
         <dependency>
             <groupId>org.apache.cxf</groupId>
             <artifactId>cxf-spring-boot-starter-jaxrs</artifactId>
-            <version>3.4.4</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-cadi-client</artifactId>
-            <version>${aaf.cadi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-cadi-core</artifactId>
-            <version>${aaf.cadi.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-auth-client</artifactId>
-            <version>${aaf.cadi.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-misc-env</artifactId>
-            <version>${aaf.cadi.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.onap.aaf.authz</groupId>
-            <artifactId>aaf-misc-rosetta</artifactId>
-            <version>${aaf.cadi.version}</version>
-            <scope>runtime</scope>
+            <version>4.0.2</version>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
@@ -195,6 +133,23 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derbytools</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4-runtime</artifactId>
+            <version>${antlr4.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.antlr</groupId>
+            <artifactId>antlr4</artifactId>
+            <version>${antlr4.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
             <groupId>org.mariadb.jdbc</groupId>
             <artifactId>mariadb-java-client</artifactId>
         </dependency>
@@ -212,6 +167,7 @@
             <groupId>org.glassfish.jersey.inject</groupId>
             <artifactId>jersey-hk2</artifactId>
         </dependency>
+
     </dependencies>
 
     <build>
@@ -292,7 +248,7 @@
             <plugin>
                 <groupId>io.swagger</groupId>
                 <artifactId>swagger-codegen-maven-plugin</artifactId>
-                <version>2.3.1</version>
+                <version>2.4.32</version>
                 <executions>
                     <execution>
                         <phase>generate-sources</phase>
@@ -312,8 +268,10 @@
                             <withXml>true</withXml>
                             <templateDirectory>${project.basedir}/src/main/templates</templateDirectory>
                             <configOptions>
-                                <java8>true</java8>
-                                <springBootVersion>2.2.4-RELEASE</springBootVersion>
+                                <java11>true</java11>
+                                <springBootVersion>3.0.3</springBootVersion>
+                                <jakarta>true</jakarta>
+                                <dateLibrary>java11</dateLibrary>
                             </configOptions>
                         </configuration>
                     </execution>
