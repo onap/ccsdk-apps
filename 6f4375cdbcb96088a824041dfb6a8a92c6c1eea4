@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9af31abe_28d318c1",
+        "filename": "cadi/pom.xml",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 865
+      },
+      "writtenOn": "2023-06-22T20:29:23Z",
+      "side": 1,
+      "message": "will be this specific to ccsdk apps only ? if not can aaf project itself be revived",
+      "revId": "6f4375cdbcb96088a824041dfb6a8a92c6c1eea4",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a",
+      "unresolved": true
+    }
+  ]
+}
