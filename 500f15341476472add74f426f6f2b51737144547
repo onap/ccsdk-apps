@@ -1,5 +1,23 @@
 {
-  "comments": [],
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "86c0c8e3_948d1e8e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 481
+      },
+      "writtenOn": "2023-11-07T21:48:58Z",
+      "side": 1,
+      "message": "jjb-delpoy ccsdk-apps-maven-docker-stage-kohn",
+      "revId": "500f15341476472add74f426f6f2b51737144547",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ],
   "submitRequirementResults": [
     {
       "submitRequirement": {
