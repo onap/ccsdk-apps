@@ -33,7 +33,7 @@
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
 
         <base.image.name>onap/ccsdk-alpine-j11-image</base.image.name>
-        <base.image.version>1.5-STAGING-latest</base.image.version>
+        <base.image.version>1.5.2</base.image.version>
     </properties>
 
     <dependencies>
