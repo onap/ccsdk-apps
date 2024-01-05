@@ -54,13 +54,13 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <sdk.java.rest>6.2.0.11</sdk.java.rest>
         <serviceArtifactName>ms-networkelementnamegen</serviceArtifactName>
-        <ccsdk.distribution.version>1.5.0-SNAPSHOT</ccsdk.distribution.version>
+        <ccsdk.distribution.version>1.5.2</ccsdk.distribution.version>
         <docker.buildArg.https_proxy>${https_proxy}</docker.buildArg.https_proxy>
         <docker.push.phase>deploy</docker.push.phase>
         <docker.verbose>true</docker.verbose>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <base.image.name>onap/ccsdk-alpine-j11-image</base.image.name>
-        <base.image.version>1.5-STAGING-latest</base.image.version>
+        <base.image.version>1.5.2</base.image.version>
         <image.name>onap/ccsdk-apps-ms-neng</image.name>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>    
