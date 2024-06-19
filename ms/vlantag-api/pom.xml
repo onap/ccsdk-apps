@@ -5,12 +5,12 @@
     <parent>
         <groupId>org.onap.ccsdk.apps</groupId>
         <artifactId>ccsdk-apps-ms</artifactId>
-        <version>1.6.0-SNAPSHOT</version>
+        <version>1.7.0-SNAPSHOT</version>
     </parent>
 
     <groupId>org.onap.ccsdk.apps.ms.vlantagapi</groupId>
     <artifactId>vlantag-api</artifactId>
-    <version>1.6.0-SNAPSHOT</version>
+    <version>1.7.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>Vlantag API</name>
@@ -33,7 +33,7 @@
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
 
         <base.image.name>onap/ccsdk-alpine-j11-image</base.image.name>
-        <base.image.version>1.5-STAGING-latest</base.image.version>
+        <base.image.version>1.5.2</base.image.version>
     </properties>
 
     <dependencies>
