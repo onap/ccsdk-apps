@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da914306_f19bd5b7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 4931
+      },
+      "writtenOn": "2024-06-21T06:57:41Z",
+      "side": 1,
+      "message": "The tox.ini change is missing.\nSee https://gerrit.onap.org/r/gitweb?p\u003dsdnc/oam.git;a\u003dcommitdiff;h\u003d77eac465e8bf46b40dee82f00db9af902947c4c2",
+      "revId": "bec3cfabf66b5c01431a359f74288012ba490c08",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    }
+  ]
+}
