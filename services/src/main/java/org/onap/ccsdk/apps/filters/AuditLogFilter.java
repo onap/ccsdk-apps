@@ -1,8 +1,7 @@
 package org.onap.ccsdk.apps.filters
 ;
 
-import javax.servlet.http.HttpServletRequest;
-import org.onap.logging.filter.base.AuditLogServletFilter;
+import jakarta.servlet.http.HttpServletRequest;
 import org.onap.logging.ref.slf4j.ONAPLogConstants;
 import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
