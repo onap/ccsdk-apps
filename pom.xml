@@ -53,7 +53,8 @@
         <gson.version>2.9.0</gson.version>
 	    <springfox.version>3.0.0</springfox.version>
         <aaf.cadi.version>2.1.21</aaf.cadi.version>
-        <ccsdk.sli.core.version>1.7.1</ccsdk.sli.core.version>
+        <ccsdk.sli.version>1.9.0-SNAPSHOT</ccsdk.sli.version>
+        <ccsdk.sli.core.version>${ccsdk.sli.version}</ccsdk.sli.core.version>
         <maven.compiler.source>1.11</maven.compiler.source>
         <maven.compiler.target>1.11</maven.compiler.target>
     </properties>
