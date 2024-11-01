@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.onap.ccsdk.parent</groupId>
         <artifactId>spring-boot-30-starter-parent</artifactId>
-        <version>2.8.0</version>
+        <version>3.0.0</version>
         <relativePath/>
     </parent>
 
     <groupId>org.onap.ccsdk.apps</groupId>
     <artifactId>ccsdk-apps</artifactId>
-    <version>1.8.0-SNAPSHOT</version>
+    <version>2.0.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
     <name>ccsdk-apps</name>
@@ -53,8 +53,6 @@
         <gson.version>2.9.0</gson.version>
 	    <springfox.version>3.0.0</springfox.version>
         <aaf.cadi.version>2.1.21</aaf.cadi.version>
-        <ccsdk.sli.version>1.9.0-SNAPSHOT</ccsdk.sli.version>
-        <ccsdk.sli.core.version>${ccsdk.sli.version}</ccsdk.sli.core.version>
         <maven.compiler.source>1.11</maven.compiler.source>
         <maven.compiler.target>1.11</maven.compiler.target>
     </properties>
