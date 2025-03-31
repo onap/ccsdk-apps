@@ -64,7 +64,7 @@
         <base.image.version>1.5.2</base.image.version>
         <image.name>onap/ccsdk-apps-ms-neng</image.name>
         <timestamp>${maven.build.timestamp}</timestamp>
-        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>    
+        <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
 	<ccsdk.project.version>${project.version}</ccsdk.project.version>
 	<ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
 
@@ -107,6 +107,18 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-tracing-bridge-otel</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-exporter-zipkin</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.apache.httpcomponents.client5</groupId>
             <artifactId>httpclient5</artifactId>
         </dependency>
@@ -139,10 +151,6 @@
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-beans</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -376,6 +384,7 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
+                <version>3.5.0</version>
             </plugin>
 
             <plugin>
