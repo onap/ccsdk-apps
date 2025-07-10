@@ -20,13 +20,14 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 
 /**
  * POJO representing policy manager get-config response.
  */
 public class GetConfigResponse implements Serializable {
-    private static final long serialVersionUID = -8039686696076337053L;
+    @Serial private static final long serialVersionUID = -8039686696076337053L;
     private Object response;
 
     public Object getResponse() {

@@ -338,8 +338,7 @@ public class NameGenerator {
         StringBuffer buf = new StringBuffer();
         for (String recName : recipe) {
             Object val = recipeValues.get(recName);
-            if (val instanceof PolicySequence) {
-                PolicySequence poly = (PolicySequence) val;
+            if (val instanceof PolicySequence poly) {
                 buf.append(poly.getValue());
             } else {
                 buf.append(val.toString());
@@ -366,8 +365,7 @@ public class NameGenerator {
                     throws Exception {
         for (String item : recipe) {
             Object val = recipeValues.get(item);
-            if (val instanceof PolicySequence) {
-                PolicySequence seq = (PolicySequence) val;
+            if (val instanceof PolicySequence seq) {
                 if (scope.equals(seq.getScope())) {
                     SeqGenData seqVal = generateSequenceValue(seq, policyName, namingType, recipeValues, item, 
                                     lastSeq, attemptCount, recipe);

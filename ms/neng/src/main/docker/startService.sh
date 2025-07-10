@@ -18,7 +18,7 @@
 #============LICENSE_END=========================================================
 
 touch /app.jar
-APP_ARGS=-Dspring.profiles.active=${SPRING_PROFILE}
+APP_ARGS=-Dspring.profiles.active=foo
 APP_ARGS=${APP_ARGS} -Dneng_db_user=${NENG_DB_USER} -Dneng_db_pass=${NENG_DB_PASS}
 APP_ARGS=${APP_ARGS} -Dneng_db_url=${NENG_DB_URL}
 APP_ARGS=${APP_ARGS} -Dpol_client_auth=${POL_CLIENT_AUTH}

@@ -20,7 +20,7 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.gen;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.onap.ccsdk.apps.ms.neng.core.policy.PolicySequence;
 
 /**
@@ -37,7 +37,7 @@ public class SequenceFormatter {
             return StringUtils.leftPad(val, (int) seqPoly.getLength(), '0');
         } else {
             String format = "%0" + seqPoly.getLength() + "d";
-            String strVal = String.format(format, seqVal);
+            String strVal = format.formatted(seqVal);
             return strVal;
         }
     }

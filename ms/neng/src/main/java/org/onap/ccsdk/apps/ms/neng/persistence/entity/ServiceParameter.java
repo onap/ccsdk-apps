@@ -19,7 +19,7 @@
  */
 
 package org.onap.ccsdk.apps.ms.neng.persistence.entity;
-
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import jakarta.persistence.Column;
@@ -34,7 +34,7 @@ import jakarta.persistence.Table;
 @Table(name = "SERVICE_PARAMETER")
 public class ServiceParameter implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+    @Serial private static final long serialVersionUID = 1L;
 
     Integer serviceParameterId;
     String name;

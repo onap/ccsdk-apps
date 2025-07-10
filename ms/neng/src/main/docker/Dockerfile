@@ -6,9 +6,9 @@
 #  Licensed under the Apache License, Version 2.0 (the "License");
 #  you may not use this file except in compliance with the License.
 #  You may obtain a copy of the License at
-#  
+#
 #       http://www.apache.org/licenses/LICENSE-2.0
-#  
+#
 #  Unless required by applicable law or agreed to in writing, software
 #  distributed under the License is distributed on an "AS IS" BASIS,
 #  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,7 +20,7 @@
 # Docker setup for the micro-service
 #================================================================================
 #FROM onap/ccsdk-ubuntu-image:0.3.0-SNAPSHOT
-FROM @base.image.name@:@base.image.version@
+FROM eclipse-temurin:17-jre-alpine
 USER root
 
 RUN apk add --no-cache curl
@@ -39,5 +39,5 @@ RUN chown ccsdk:ccsdk /app.jar
 RUN chmod go+w /tmp
 RUN chmod 700 /startService.sh
 USER ccsdk
-ENTRYPOINT bash /startService.sh
+ENTRYPOINT sh /startService.sh
 EXPOSE 8080

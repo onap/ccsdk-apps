@@ -20,6 +20,7 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.Map;
 
@@ -27,7 +28,7 @@ import java.util.Map;
  * POJO representing policy manager get-config request.
  */
 public class GetConfigRequest implements Serializable {
-    private static final long serialVersionUID = -8039686696076337053L;
+    @Serial private static final long serialVersionUID = -8039686696076337053L;
 
     private Map<String, Object> configAttributes;
     private String configName;
