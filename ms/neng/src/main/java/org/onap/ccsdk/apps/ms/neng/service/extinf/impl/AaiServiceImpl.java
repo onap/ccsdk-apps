@@ -23,11 +23,19 @@
 package org.onap.ccsdk.apps.ms.neng.service.extinf.impl;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import lombok.SneakyThrows;
+
 import java.net.URI;
 import java.util.logging.Logger;
-import org.apache.http.client.HttpClient;
-import org.apache.http.conn.ssl.NoopHostnameVerifier;
-import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.hc.client5.http.classic.HttpClient;
+import org.apache.hc.client5.http.impl.classic.HttpClientBuilder;
+import org.apache.hc.client5.http.impl.classic.HttpClients;
+import org.apache.hc.client5.http.impl.io.PoolingHttpClientConnectionManagerBuilder;
+import org.apache.hc.client5.http.ssl.NoopHostnameVerifier;
+import org.apache.hc.client5.http.ssl.SSLConnectionSocketFactoryBuilder;
+import org.apache.hc.client5.http.ssl.TrustAllStrategy;
+import org.apache.hc.core5.ssl.SSLContextBuilder;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.AaiResponse;
 import org.onap.ccsdk.apps.ms.neng.core.rs.interceptors.AaiAuthorizationInterceptor;
@@ -115,15 +123,22 @@ public class AaiServiceImpl {
         return aaiResp;
     }
 
+    @SneakyThrows
     RestTemplate getRestTemplate() {
         if (this.restTemplate == null) {
             System.setProperty("javax.net.ssl.trustStore", aaiProps.getCert());
             System.setProperty("javax.net.ssl.trustStorePassword", aaiProps.getCertPassword());
             RestTemplateBuilder restBld = aaiRestTempBuilder.additionalInterceptors(authInt);
-            HttpClient client = HttpClientBuilder.create()
-                .setSSLHostnameVerifier(NoopHostnameVerifier.INSTANCE)
-                .build();
-            //this.restTemplate = restBld.requestFactory(new HttpComponentsClientHttpRequestFactory(client)).build();
+            HttpClient client = HttpClients.custom()
+                .setConnectionManager(PoolingHttpClientConnectionManagerBuilder.create()
+                    .setSSLSocketFactory(SSLConnectionSocketFactoryBuilder.create()
+                        .setSslContext(SSLContextBuilder.create()
+                                .loadTrustMaterial(TrustAllStrategy.INSTANCE)
+                                .build())
+                        .setHostnameVerifier(NoopHostnameVerifier.INSTANCE)
+                        .build())
+                .build())
+            .build();
         }
         return this.restTemplate;
     }

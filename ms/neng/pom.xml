@@ -44,7 +44,7 @@
         <swagger.directory>${basedir}/target/classes/META-INF/resources/swagger</swagger.directory>
         <icd.file>service.json</icd.file>
         <icd.package>org.onap.ccsdk.apps.ms.neng.service.rs</icd.package>
-        <java.version>11</java.version>
+        <java.version>17</java.version>
         <docker.registry>nexus3.onap.org:10001</docker.registry>
         <build.number>local</build.number>
         <kube.namespace>TBD</kube.namespace>
@@ -65,15 +65,16 @@
         <image.name>onap/ccsdk-apps-ms-neng</image.name>
         <timestamp>${maven.build.timestamp}</timestamp>
         <maven.build.timestamp.format>yyyyMMddHHmmss</maven.build.timestamp.format>
-	<ccsdk.project.version>${project.version}</ccsdk.project.version>
-	<ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
+        <ccsdk.project.version>${project.version}</ccsdk.project.version>
+        <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
 
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>io.swagger</groupId>
-            <artifactId>swagger-core</artifactId>
+            <groupId>io.swagger.core.v3</groupId>
+            <artifactId>swagger-core-jakarta</artifactId>
+            <version>2.2.34</version>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -107,10 +108,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
             <groupId>io.micrometer</groupId>
             <artifactId>micrometer-tracing-bridge-otel</artifactId>
         </dependency>
@@ -123,16 +120,17 @@
             <artifactId>httpclient5</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
         </dependency>
         <dependency>
-            <groupId>commons-lang</groupId>
-            <artifactId>commons-lang</artifactId>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
         </dependency>
         <dependency>
             <groupId>org.liquibase</groupId>
             <artifactId>liquibase-core</artifactId>
+            <version>4.17.2</version>
         </dependency>
         <dependency>
             <groupId>org.mariadb.jdbc</groupId>
@@ -194,8 +192,18 @@
             <version>${gson.version}</version>
         </dependency>
         <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
+        </dependency>
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>

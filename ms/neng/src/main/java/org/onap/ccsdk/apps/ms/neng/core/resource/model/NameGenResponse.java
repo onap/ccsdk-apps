@@ -22,6 +22,7 @@
 
 package org.onap.ccsdk.apps.ms.neng.core.resource.model;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
@@ -30,7 +31,7 @@ import java.util.Map;
  * POJO representing the response back to the client.
  */
 public class NameGenResponse implements Serializable {
-    private static final long serialVersionUID = -8039686696076337053L;
+    @Serial private static final long serialVersionUID = -8039686696076337053L;
     private List<Map<String, String>> elements;
 
     public List<Map<String, String>> getElements() {

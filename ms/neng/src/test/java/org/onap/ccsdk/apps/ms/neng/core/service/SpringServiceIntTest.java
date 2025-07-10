@@ -7,9 +7,9 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *      http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.ws.rs.core.Response;
+import jakarta.ws.rs.core.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -211,7 +211,7 @@ public class SpringServiceIntTest {
         policy.put("policyName", "JQINSRIOV.Config_MS_SriovBigJson.1.xml");
         policy.put("policyValue", "some policy");
         restServiceImpl.addPolicyToDb(policy);
-        
+
         Response policyResponse = restServiceImpl.getPolicyResponse("JQINSRIOV.Config_MS_SriovBigJson.1.xml");
         assertNotNull(policyResponse);
     }
@@ -225,7 +225,7 @@ public class SpringServiceIntTest {
         doThrow(new NengException("")).when(springService).addPolicy(policy);
         restServiceImpl.addPolicyToDb(policy);
     }
-    
+
     @Test
     public void testExternalInterfaceRepo() throws Exception {
         ExternalInterface extInt = new ExternalInterface();
@@ -236,10 +236,10 @@ public class SpringServiceIntTest {
         extInt.setParam("VNF");
         extInt.setSystem("AAI");
         extInt.setUrlSuffix("nodes/generic-vnfs?vnf-name=");
-        
+
         extIntRepo.save(extInt);
         ExternalInterface extIntDb = extIntRepo.findById(100).get();
-        
+
         assertNotNull(extIntDb);
         assertEquals("nodes/generic-vnfs?vnf-name=",extIntDb.getUrlSuffix());
     }
@@ -255,25 +255,25 @@ public class SpringServiceIntTest {
         gn.setSuffix("ESP");
         gn.setCreatedBy("test");
         gn.setCreatedTime(new Timestamp(System.currentTimeMillis()));
-        
+
         namePersister.persist(gn);
         Map<String, String> reqMap = new HashMap<String, String>();
         reqMap.put("external-key","VQA-UN81");
         reqMap.put("resource-name", "vnf-name");
         reqMap.put("resource-value", "DG001ESP1");
-        
+
         Mockito.lenient().when(aaiServiceImpl.validate(ArgumentMatchers.anyString(), ArgumentMatchers.anyString())).thenReturn(true);
-        
+
         List<Map<String,String>> elList = new ArrayList<>();
         elList.add(reqMap);
         NameGenRequest request = new NameGenRequest();
         request.setElements(elList);
         restServiceImpl.generateNetworkElementName(request);
-        
+
         List<GeneratedName> newGn = repository.findByExternalId("VQA-UN81");
         assertTrue(newGn != null);
         assertTrue(newGn.size() == 1);
         assertEquals("DG001ESP1", newGn.get(0).getName());
     }
-    
+
 }
