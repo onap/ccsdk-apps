@@ -1,0 +1,233 @@
+---
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2025 The Linux Foundation
+
+name: '🔑 Generate PQCA CBOM'
+
+on:
+  workflow_dispatch:
+    inputs:
+      GERRIT_CHANGE_NUMBER:
+        description: 'Gerrit change number'
+        required: false
+        type: string
+      GERRIT_PATCHSET_NUMBER:
+        description: 'Gerrit patchset number'
+        required: false
+        type: string
+      GERRIT_REFSPEC:
+        description: 'Gerrit refspec'
+        required: false
+        type: string
+  push:
+    branches:
+      - master
+
+permissions: {}
+
+concurrency:
+  group: "gerrit-merge-cbom-${{ github.workflow }}-${{ github.event.inputs.GERRIT_CHANGE_ID || github.run_id }}"
+  cancel-in-progress: true
+
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      # Harden the runner used by this workflow
+      # yamllint disable-line rule:line-length
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911  # v2.13.0
+        with:
+          egress-policy: audit
+
+      - name: Notify job start
+        # yamllint disable-line rule:line-length
+        uses: lfit/gerrit-review-action@9627b9a144f2a2cad70707ddfae87c87dce60729 # v0.8
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: clear
+      - name: Allow replication
+        run: sleep 10s
+
+  cbom-create:
+    name: 'Generate PQCA CBOM'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    timeout-minutes: 45 # Set this timeout value as needed
+    steps:
+      # Harden the runner used by this workflow
+      # yamllint disable-line rule:line-length
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911  # v2.13.0
+        with:
+          egress-policy: audit
+
+      - name: Load secret from 1Password
+        uses: 1password/load-secrets-action@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
+        with:
+          export-env: true
+        env:
+          OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
+          NEXUS_PASSWORD: op://elnqtgip7eqavqvgodjbiiaqd4/ccsdk-apps/password
+
+      - name: 'Output SHA1 sum of password'
+        env:
+          NEXUS_PASSWORD: $NEXUS_PASSWORD
+        run: |
+          # Output SHA1 sum of password
+          VALUE_SHA1=$(echo -n "$NEXUS_PASSWORD" | sha1sum | awk '{print $1}')
+          echo "SHA1 sum of NEXUS_PASSWORD is: $VALUE_SHA1"
+
+      # yamllint disable-line rule:line-length
+      - uses: lfit/checkout-gerrit-change-action@54d751e8bd167bc91f7d665dabe33fae87aaaa63 # v0.9
+        with:
+          gerrit-refspec: ${{ inputs.GERRIT_REFSPEC }}
+          gerrit-url: ${{ vars.GERRIT_URL }}
+          delay: "0s"
+
+      - name: 'Setup JDK'
+        # yamllint disable-line rule:line-length
+        uses: actions/setup-java@7a6d8a8234af8eb26422e24e3006232cccaa061b # v4.6.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 'Setup Maven'
+        # yamllint disable-line rule:line-length
+        uses: s4u/setup-maven-action@4f7fb9d9675e899ca81c6161dadbba0189a4ebb1 # v1.18.0
+        with:
+          java-version: '17'
+          maven-version: '3.8.2'
+
+      - name: Create Maven global settings.xml
+        env:
+          NEXUS_PASSWORD: $NEXUS_PASSWORD
+        run: |
+          cat > global-settings.xml << 'EOF'
+          <settings>
+            <servers>
+              <server>
+                <id>ecomp-releases</id>
+                <username>cps</username>
+                <password>${NEXUS_PASSWORD}</password>
+              </server>
+              <server>
+                <id>ecomp-snapshots</id>
+                <username>cps</username>
+                <password>${NEXUS_PASSWORD}</password>
+              </server>
+              <server>
+                <id>onap-releases</id>
+                <username>cps</username>
+                <password>${NEXUS_PASSWORD}</password>
+              </server>
+              <server>
+                <id>onap-snapshots</id>
+                <username>cps</username>
+                <password>${NEXUS_PASSWORD}</password>
+              </server>
+              <server>
+                <id>nexus3.onap.org:10003</id>
+                <username>cps</username>
+                <password>${NEXUS_PASSWORD}</password>
+              </server>
+            </servers>
+            <mirrors>
+              <mirror>
+                <id>onap-public</id>
+                <mirrorOf>*</mirrorOf>
+                <url>https://nexus.onap.org/content/groups/public/</url>
+              </mirror>
+            </mirrors>
+            <profiles>
+              <profile>
+                <id>onap-nexus</id>
+                <repositories>
+                  <repository>
+                    <id>onap-public</id>
+                    <url>https://nexus.onap.org/content/groups/public/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                  </repository>
+                </repositories>
+                <pluginRepositories>
+                  <pluginRepository>
+                    <id>onap-public</id>
+                    <url>https://nexus.onap.org/content/groups/public/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                  </pluginRepository>
+                </pluginRepositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>onap-nexus</activeProfile>
+            </activeProfiles>
+          </settings>
+          EOF
+
+      - name: 'Build with Maven'
+        # When scanning Java code, the build should be completed beforehand
+        run: |
+          echo "Maven build starting with global settings"
+          cat global-settings.xml
+          mvn -B clean package -DskipTests \
+            --global-settings global-settings.xml \
+            -Ddocker.push.registry=nexus3.onap.org:10003 \
+            -Ddocker.pull.registry=nexus3.onap.org:10003 \
+            -DaltDeploymentRepository=staging::default::file:"${GITHUB_WORKSPACE}"/m2repo \
+            -Dmaven.repo.local=/tmp/r \
+            -Dorg.ops4j.pax.url.mvn.localRepository=/tmp/r \
+            -Djib.skip=true \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXUS_PASSWORD: $NEXUS_PASSWORD
+
+      - name: 'Create CBOM'
+        # yamllint disable-line rule:line-length
+        uses: PQCA/cbomkit-action@a13ffe2a31c50dcc222ecc49d79897f5acff6d14 # v2.1.0
+        id: cbom
+        env:
+          CBOMKIT_LANGUAGES: java, python # or java or python
+
+      - name: 'Commit changes to new branch'
+        # Allows persisting the CBOMs after job completion and
+        # sharing them with another job in the same workflow.
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: 'CBOM'
+          path: ${{ steps.cbom.outputs.pattern }}
+          if-no-files-found: warn
+
+  report-status:
+    if: ${{ always() }}
+    needs: [notify, cbom-create]
+    runs-on: ubuntu-latest
+    steps:
+      # Harden the runner used by this workflow
+      # yamllint disable-line rule:line-length
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911  # v2.13.0
+        with:
+          egress-policy: audit
+
+      - name: Get workflow conclusion
+        uses: technote-space/workflow-conclusion-action@v3
+
+      - name: Report workflow conclusion
+        # yamllint disable-line rule:line-length
+        uses: lfit/gerrit-review-action@9627b9a144f2a2cad70707ddfae87c87dce60729 # v0.8
+        with:
+          host: ${{ vars.GERRIT_SERVER }}
+          username: ${{ vars.GERRIT_SSH_USER }}
+          key: ${{ secrets.GERRIT_SSH_PRIVKEY }}
+          known_hosts: ${{ vars.GERRIT_KNOWN_HOSTS }}
+          gerrit-change-number: ${{ inputs.GERRIT_CHANGE_NUMBER }}
+          gerrit-patchset-number: ${{ inputs.GERRIT_PATCHSET_NUMBER }}
+          vote-type: ${{ env.WORKFLOW_CONCLUSION }}
