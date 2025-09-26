@@ -1,0 +1,150 @@
+---
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2025 The Linux Foundation
+
+name: '🔑 Generate PQCA CBOM'
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+
+permissions: {}
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  cbom-scan:
+    name: 'Generate PQCA CBOM'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    timeout-minutes: 45 # Set this timeout value as needed
+    steps:
+
+      # Harden the runner used by this workflow
+      # yamllint disable-line rule:line-length
+      - uses: step-security/harden-runner@ec9f2d5744a09debf3a187a3f4f675c53b671911  # v2.13.0
+        with:
+          egress-policy: audit
+
+      - name: 'Checkout repository'
+        # yamllint disable-line rule:line-length
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
+
+      - name: 'Setup JDK'
+        # yamllint disable-line rule:line-length
+        uses: actions/setup-java@7a6d8a8234af8eb26422e24e3006232cccaa061b # v4.6.0
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: 'Setup Maven'
+        # yamllint disable-line rule:line-length
+        uses: s4u/setup-maven-action@4f7fb9d9675e899ca81c6161dadbba0189a4ebb1 # v1.18.0
+        with:
+          java-version: '17'
+          maven-version: '3.8.2'
+
+      - name: Create Maven global settings.xml
+        run: |
+          cat > global-settings.xml << 'EOF'
+          <settings>
+            <servers>
+              <server>
+                <id>ecomp-releases</id>
+                <username>cps</username>
+                <password>${{ secrets.NEXUS_PASSWORD }}</password>
+              </server>
+              <server>
+                <id>ecomp-snapshots</id>
+                <username>cps</username>
+                <password>${{ secrets.NEXUS_PASSWORD }}</password>
+              </server>
+              <server>
+                <id>onap-releases</id>
+                <username>cps</username>
+                <password>${{ secrets.NEXUS_PASSWORD }}</password>
+              </server>
+              <server>
+                <id>onap-snapshots</id>
+                <username>cps</username>
+                <password>${{ secrets.NEXUS_PASSWORD }}</password>
+              </server>
+              <server>
+                <id>nexus3.onap.org:10003</id>
+                <username>cps</username>
+                <password>${{ secrets.NEXUS_PASSWORD }}</password>
+              </server>
+            </servers>
+            <mirrors>
+              <mirror>
+                <id>onap-public</id>
+                <mirrorOf>*</mirrorOf>
+                <url>https://nexus.onap.org/content/groups/public/</url>
+              </mirror>
+            </mirrors>
+            <profiles>
+              <profile>
+                <id>onap-nexus</id>
+                <repositories>
+                  <repository>
+                    <id>onap-public</id>
+                    <url>https://nexus.onap.org/content/groups/public/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                  </repository>
+                </repositories>
+                <pluginRepositories>
+                  <pluginRepository>
+                    <id>onap-public</id>
+                    <url>https://nexus.onap.org/content/groups/public/</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                  </pluginRepository>
+                </pluginRepositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>onap-nexus</activeProfile>
+            </activeProfiles>
+          </settings>
+          EOF
+
+      - name: 'Build with Maven'
+        # When scanning Java code, the build should be completed beforehand
+        run: |
+          echo "Maven build starting with global settings"
+          cat global-settings.xml
+          mvn -B clean package -DskipTests \
+            --global-settings global-settings.xml \
+            -Ddocker.push.registry=nexus3.onap.org:10003 \
+            -Ddocker.pull.registry=nexus3.onap.org:10003 \
+            -DaltDeploymentRepository=staging::default::file:"${GITHUB_WORKSPACE}"/m2repo \
+            -Dmaven.repo.local=/tmp/r \
+            -Dorg.ops4j.pax.url.mvn.localRepository=/tmp/r \
+            -Djib.skip=true \
+            -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          NEXUS_PASSWORD: ${{ secrets.NEXUS_PASSWORD }}
+
+      - name: 'Create CBOM'
+        # yamllint disable-line rule:line-length
+        uses: PQCA/cbomkit-action@a13ffe2a31c50dcc222ecc49d79897f5acff6d14 # v2.1.0
+        id: cbom
+        env:
+          CBOMKIT_LANGUAGES: java, python # or java or python
+
+      - name: 'Commit changes to new branch'
+        # Allows persisting the CBOMs after job completion and
+        # sharing them with another job in the same workflow.
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: 'CBOM'
+          path: ${{ steps.cbom.outputs.pattern }}
+          if-no-files-found: warn
