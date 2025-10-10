@@ -33,7 +33,7 @@ export MYSQL_DB_HOST=${MYSQL_DB_HOST:-dbhost}
 # Wait for database
 #
 echo "Waiting for database"
-until mysqladmin ping -h ${MYSQL_DB_HOST} --silent
+until mysql -h ${MYSQL_DB_HOST} -u root -p${MYSQL_ROOT_PASSWORD} mysql &> /dev/null
 do
   printf "."
   sleep 1

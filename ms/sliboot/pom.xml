@@ -17,11 +17,11 @@
 
     <properties>
         <start-class>org.onap.ccsdk.apps.ms.sliboot.SlibootApp</start-class>
-        <base.image.name>onap/ccsdk-alpine-j17-image</base.image.name>
-        <base.image.version>1.6.2</base.image.version>
+        <base.image.name>onap/ccsdk-alpine-j21-image</base.image.name>
+        <base.image.version>2.2-STAGING-latest</base.image.version>
         <image.name>onap/ccsdk-sliboot-alpine-image</image.name>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <ccsdk.distribution.version>1.6.2</ccsdk.distribution.version>
+        <ccsdk.distribution.version>2.2.0-SNAPSHOT</ccsdk.distribution.version>
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <ccsdk.sliboot.jar>${project.artifactId}-${project.version}-exec.jar</ccsdk.sliboot.jar>
@@ -294,7 +294,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>2.19.1</version>
                 <configuration>
                     <environmentVariables>
                         <SDNC_CONFIG_DIR>${basedir}/src/test/resources</SDNC_CONFIG_DIR>
@@ -507,6 +506,7 @@
                                                     <MYSQL_USER>sli</MYSQL_USER>
                                                     <MYSQL_PASSWORD>abc123</MYSQL_PASSWORD>
                                                     <MYSQL_DATABASE>sdnctl</MYSQL_DATABASE>
+                                                    <MYSQL_ROOT_PASSWORD>itsASecret</MYSQL_ROOT_PASSWORD>
                                                     <MYSQL_HOST>dbhost</MYSQL_HOST>
                                                     <SDNC_CONFIG_DIR>/opt/onap/ccsdk/config</SDNC_CONFIG_DIR>
                                                 </env>
