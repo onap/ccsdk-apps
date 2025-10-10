@@ -17,11 +17,11 @@
 
     <properties>
         <start-class>org.onap.ccsdk.apps.ms.sliboot.SlibootApp</start-class>
-        <base.image.name>onap/ccsdk-alpine-j17-image</base.image.name>
-        <base.image.version>1.6.2</base.image.version>
+        <base.image.name>onap/ccsdk-alpine-j21-image</base.image.name>
+        <base.image.version>2.2-STAGING-latest</base.image.version>
         <image.name>onap/ccsdk-sliboot-alpine-image</image.name>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <ccsdk.distribution.version>1.6.2</ccsdk.distribution.version>
+        <ccsdk.distribution.version>2.2.0-SNAPSHOT</ccsdk.distribution.version>
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <ccsdk.sliboot.jar>${project.artifactId}-${project.version}-exec.jar</ccsdk.sliboot.jar>
