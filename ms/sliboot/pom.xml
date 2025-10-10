@@ -17,7 +17,7 @@
 
     <properties>
         <start-class>org.onap.ccsdk.apps.ms.sliboot.SlibootApp</start-class>
-        <base.image.name>onap/ccsdk-alpine-j17-image</base.image.name>
+        <base.image.name>onap/ccsdk-alpine-j21-image</base.image.name>
         <base.image.version>1.6.2</base.image.version>
         <image.name>onap/ccsdk-sliboot-alpine-image</image.name>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
