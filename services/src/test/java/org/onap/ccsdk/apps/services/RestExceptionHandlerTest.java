@@ -1,7 +1,9 @@
 package org.onap.ccsdk.apps.services;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import static org.junit.Assert.assertTrue;
+
+import java.util.Arrays;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -29,10 +31,8 @@ import org.springframework.web.context.request.async.AsyncRequestTimeoutExceptio
 import org.springframework.web.multipart.support.MissingServletRequestPartException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 
-import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 
 
@@ -100,11 +100,6 @@ public class RestExceptionHandlerTest {
         }
 
         @Override
-        public ResponseEntity<Object> handleBindException(BindException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
-            return super.handleBindException(ex, headers, status, request);
-        }
-
-        @Override
         public ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatusCode status, WebRequest request) {
             return super.handleNoHandlerFoundException(ex, headers, status, request);
         }
@@ -129,10 +124,7 @@ public class RestExceptionHandlerTest {
 
     @Test
     public void handleHttpRequestMethodNotSupported() throws JsonProcessingException {
-        String[] supportedMethods = {"GET", "POST", "PUT", "DELETE"};
-
-
-        ResponseEntity<Object> respEntity = handler.handleHttpRequestMethodNotSupported(new HttpRequestMethodNotSupportedException("PATCH", supportedMethods),
+        ResponseEntity<Object> respEntity = handler.handleHttpRequestMethodNotSupported(new HttpRequestMethodNotSupportedException("PATCH", Arrays.asList("GET", "POST", "PUT", "DELETE")),
                 null, HttpStatus.METHOD_NOT_ALLOWED, null);
 
         assertTrue(respEntity.hasBody());
@@ -286,19 +278,6 @@ public class RestExceptionHandlerTest {
     @Test
     public void handleMissingServletRequestPart() throws JsonProcessingException {
         ResponseEntity<Object> respEntity = handler.handleMissingServletRequestPart(new MissingServletRequestPartException("test"),
-                null, HttpStatus.INTERNAL_SERVER_ERROR, null);
-
-        assertTrue(respEntity.hasBody());
-        assertTrue(respEntity.getBody() instanceof RestErrors);
-
-        RestErrors restErrors = (RestErrors) respEntity.getBody();
-        ObjectMapper objectMapper = new ObjectMapper();
-        log.info("response : {}", objectMapper.writeValueAsString(restErrors));
-    }
-
-    @Test
-    public void handleBindException() throws JsonProcessingException {
-        ResponseEntity<Object> respEntity = handler.handleBindException(new BindException("target", "objectName"),
                 null, HttpStatus.INTERNAL_SERVER_ERROR, null);
 
         assertTrue(respEntity.hasBody());
