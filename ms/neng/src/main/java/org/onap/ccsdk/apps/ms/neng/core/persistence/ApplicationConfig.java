@@ -28,7 +28,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.stream.StreamSupport;
+
 import javax.sql.DataSource;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
@@ -48,8 +52,6 @@ import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 
 /**
@@ -67,14 +69,18 @@ public class ApplicationConfig {
 
     @SuppressWarnings("rawtypes")
     void debugProperties() {
-        Properties props = new Properties();
-        MutablePropertySources propSrcs = ((AbstractEnvironment)this.environment).getPropertySources();
-        StreamSupport.stream(propSrcs.spliterator(), false)
-                .filter(ps -> ps instanceof EnumerablePropertySource)
-                .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
-                .flatMap(Arrays::<String>stream)
-                .forEach(propName -> props.setProperty(propName, this.environment.getProperty(propName)));
-        logger.info("Properties: " + props);
+        try {
+            Properties props = new Properties();
+            MutablePropertySources propSrcs = ((AbstractEnvironment)this.environment).getPropertySources();
+            StreamSupport.stream(propSrcs.spliterator(), false)
+                    .filter(ps -> ps instanceof EnumerablePropertySource)
+                    .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
+                    .flatMap(Arrays::<String>stream)
+                    .forEach(propName -> props.setProperty(propName, this.environment.getProperty(propName)));
+            logger.info("Properties: " + props);
+        } catch (Exception e) {
+            logger.error("Caught exception in ApplicationConfig.debugProperties", e);
+        }
     }
     
     /**
