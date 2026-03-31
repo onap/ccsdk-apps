@@ -20,23 +20,24 @@
 
 package org.onap.ccsdk.apps.ms.sliboot.controllers;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Properties;
+
+import org.onap.ccsdk.apps.ms.sliboot.data.TestResultConfig;
+import org.onap.ccsdk.apps.ms.sliboot.data.TestResultsConfigRepository;
+import org.onap.ccsdk.apps.ms.sliboot.data.TestResultsOperationalRepository;
 import org.onap.ccsdk.apps.ms.sliboot.swagger.ConfigApi;
 import org.onap.ccsdk.apps.ms.sliboot.swagger.OperationalApi;
 import org.onap.ccsdk.apps.ms.sliboot.swagger.OperationsApi;
-import org.onap.ccsdk.apps.ms.sliboot.data.TestResultsOperationalRepository;
 import org.onap.ccsdk.apps.ms.sliboot.swagger.model.*;
 import org.onap.ccsdk.apps.services.RestApplicationException;
 import org.onap.ccsdk.apps.services.RestException;
-import org.onap.ccsdk.apps.services.RestProtocolException;
 import org.onap.ccsdk.sli.core.sli.SvcLogicContext;
 import org.onap.ccsdk.sli.core.sli.SvcLogicException;
 import org.onap.ccsdk.sli.core.sli.provider.base.SvcLogicServiceBase;
-import org.onap.ccsdk.apps.ms.sliboot.data.TestResultConfig;
-import org.onap.ccsdk.apps.ms.sliboot.data.TestResultsConfigRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,12 +45,15 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
-import java.util.*;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2020-02-20T12:50:11.207-05:00")
 
@@ -179,6 +183,32 @@ public class RestconfApiController implements ConfigApi, OperationalApi, Operati
 		JsonObject passthroughObj = jsonInput.get("input").getAsJsonObject();
 
 		ctxIn.mergeJson("input", passthroughObj.toString());
+
+		// Add sli parameters
+		List<SliApiParameterSetting> sliParameters = executeGraphInput.getInput().getSliParameter();
+
+		if (sliParameters != null) {
+			for (SliApiParameterSetting sliParm : sliParameters) {
+				String parmValue = "";
+
+				Boolean boolval = sliParm.isBooleanValue();
+
+				if (boolval != null) {
+					parmValue = boolval.toString();
+				} else {
+					Integer intval = sliParm.getIntValue();
+					if (intval != null) {
+						parmValue = intval.toString();
+					} else {
+						parmValue = sliParm.getStringValue();
+						if (parmValue == null) {
+							parmValue = "";
+						}
+					}
+				}
+				ctxIn.setAttribute(sliParm.getParameterName(), parmValue);
+			}
+		}
 
 		try {
 			// Any of these can throw a nullpointer exception

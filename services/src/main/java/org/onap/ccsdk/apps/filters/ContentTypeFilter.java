@@ -3,9 +3,12 @@ package org.onap.ccsdk.apps.filters;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
+import org.springframework.stereotype.Component;
 
 import jakarta.servlet.Filter;
 import jakarta.servlet.FilterChain;
@@ -15,12 +18,6 @@ import jakarta.servlet.ServletRequest;
 import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletRequestWrapper;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
-import org.springframework.stereotype.Component;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
@@ -90,7 +87,7 @@ public class ContentTypeFilter implements Filter {
                     }
                 } else if ("Accept".equalsIgnoreCase(curHeaderName)) {
                     acceptList = new LinkedList<String>();
-                    for (Enumeration<String> e = getHeaders("Accept") ; e.hasMoreElements() ;) {
+                    for (Enumeration<String> e = super.getHeaders("Accept") ; e.hasMoreElements() ;) {
                         String acceptValue = e.nextElement();
                         if ("application/yang-data+json".equalsIgnoreCase(acceptValue)) {
                             if (!acceptList.contains("application/json")) {
@@ -109,6 +106,15 @@ public class ContentTypeFilter implements Filter {
                 }
                 headerNames.add(curHeaderName);
             }
+          
+            if (acceptList == null) {
+                acceptList = new LinkedList<String>();
+            }
+
+            if (!acceptList.contains(contentType)) {
+                acceptList.add(contentType);
+            }
+
             if (!hasContentType) {
                 headerNames.add("Content-Type");
             }
