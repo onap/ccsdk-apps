@@ -1,0 +1,34 @@
+---
+# SPDX-License-Identifier: Apache-2.0
+# SPDX-FileCopyrightText: 2026 The Linux Foundation
+
+# This workflow uses actions that are not certified by GitHub. They are provided
+# by a third-party and are governed by separate terms of service, privacy
+# policy, and support documentation.
+
+name: 🔐 Security Scans
+on:
+  workflow_dispatch:
+  # For Branch-Protection check. Only the default branch is supported. See
+  # https://github.com/ossf/scorecard/blob/main/docs/checks.md#branch-protection
+  branch_protection_rule:
+  # To guarantee Maintained check is occasionally updated. See
+  # https://github.com/ossf/scorecard/blob/main/docs/checks.md#maintained
+  schedule:
+    - cron: "0 0 * * 6"
+  push:
+    branches: ["main", "master"]
+    paths:
+      - "**"
+      - "!.github/**"
+
+# Declare default permissions as none.
+permissions: {}
+
+jobs:
+  call-sonatype-lifecycle:
+    name: "Sonatype Lifecycle (CLM -> Nexus IQ)"
+    # yamllint disable-line rule:line-length
+    uses: lfit/releng-reusable-workflows/.github/workflows/reuse-sonatype-lifecycle.yaml@37bbdea5cca2f21e502f7ff580306c78307d1d41 # v0.3.1
+    secrets:
+      NEXUS_IQ_PASSWORD: ${{ secrets.NEXUS_IQ_PASSWORD }}
