@@ -66,13 +66,13 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
+      - uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176  # v2.17.0
         with:
           egress-policy: audit
 
       - name: Notify job start
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/gerrit-review-action@6d2e00dfd3173cd9a36d11350c8fba44731c7b4e # v0.10.0
+        uses: lfreleng-actions/gerrit-review-action@b26a98041c59f9a877048c320313ab13bcc19aae # v1.0.1
         with:
           host: ${{ vars.GERRIT_SERVER }}
           username: ${{ vars.GERRIT_SSH_USER }}
@@ -96,7 +96,7 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
+      - uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176  # v2.17.0
         with:
           egress-policy: audit
 
@@ -197,7 +197,7 @@ jobs:
 
       - name: Load secret from 1Password
         if: steps.check-pom-xml.outputs.exists == 'true'
-        uses: 1password/load-secrets-action@13f58eec611f8e5db52ec16247f58c508398f3e6 # v3.0.0
+        uses: 1password/load-secrets-action@92467eb28f72e8255933372f1e0707c567ce2259 # v4.0.0
         with:
           export-env: true
         env:
@@ -300,7 +300,7 @@ jobs:
         if: steps.check-pom-xml.outputs.exists == 'true'
         continue-on-error: true
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/maven-build-action@5be56aed8bed4f0bf9d699f2817eaef37c94ac02 # v0.2.0
+        uses: lfreleng-actions/maven-build-action@3e8765bbc2685951fb7c2be03964304179106b70 # v0.2.1
         with:
           java-version: |
             17
@@ -320,7 +320,7 @@ jobs:
       - name: 'Create CBOM'
         if: steps.check-pom-xml.outputs.exists == 'true' || steps.find-python.outputs.has-python == 'true'
         # yamllint disable-line rule:line-length
-        uses: PQCA/cbomkit-action@fe04ae510fe80fcfa7d145859fcba8e5dbd0b649 # v2.1.2
+        uses: PQCA/cbomkit-action@7a967459c9d63b56869ca03fae7a2056eceefb8d # v2.2.0
         id: cbom
         env:
           CBOMKIT_LANGUAGES: java, python # or java or python
@@ -328,7 +328,7 @@ jobs:
       - name: 'Commit changes to new branch'
         # Allows persisting the CBOMs after job completion and
         # sharing them with another job in the same workflow.
-        uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4 # v5.0.0
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: 'CBOM'
           path: ${{ steps.cbom.outputs.pattern }}
@@ -341,16 +341,16 @@ jobs:
     steps:
       # Harden the runner used by this workflow
       # yamllint disable-line rule:line-length
-      - uses: step-security/harden-runner@df199fb7be9f65074067a9eb93f12bb4c5547cf2  # v2.13.3
+      - uses: step-security/harden-runner@f808768d1510423e83855289c910610ca9b43176  # v2.17.0
         with:
           egress-policy: audit
 
       - name: Get workflow conclusion
-        uses: im-open/workflow-conclusion@e4f7c4980600fbe0818173e30931d3550801b992 # v2.2.3
+        uses: im-open/workflow-conclusion@fce18569e28a9f2ed1feca1e6d4251e6a7365fdc # v2.2.4
 
       - name: Report workflow conclusion
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/gerrit-review-action@6d2e00dfd3173cd9a36d11350c8fba44731c7b4e # v0.10.0
+        uses: lfreleng-actions/gerrit-review-action@b26a98041c59f9a877048c320313ab13bcc19aae # v1.0.1
         with:
           host: ${{ vars.GERRIT_SERVER }}
           username: ${{ vars.GERRIT_SSH_USER }}
