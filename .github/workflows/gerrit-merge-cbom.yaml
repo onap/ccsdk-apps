@@ -100,10 +100,27 @@ jobs:
         with:
           egress-policy: audit
 
-      # yamllint disable-line rule:line-length
-      - uses: lfreleng-actions/checkout-gerrit-change-action@54d751e8bd167bc91f7d665dabe33fae87aaaa63 # v0.9
+      # Allow time for Gerrit-to-GitHub mirror replication on push
+      - name: 'Wait for mirror replication'
+        if: github.event_name == 'push'
+        run: sleep 10s
+
+      # Standard checkout for push events or manual runs without Gerrit
+      - name: 'Checkout repository'
+        # yamllint disable-line rule:line-length
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED == true)
+        # yamllint disable-line rule:line-length
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      # Gerrit-aware checkout for workflow_dispatch with Gerrit context
+      - name: 'Checkout Gerrit change'
+        # yamllint disable-line rule:line-length
+        if: github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED != true
+        # yamllint disable-line rule:line-length
+        uses: lfreleng-actions/checkout-gerrit-change-action@8523d768952d9690702b4696a8310d2a84b1be39 # v1.0.1
         with:
           gerrit-refspec: ${{ inputs.GERRIT_REFSPEC }}
+          gerrit-project: ${{ inputs.GERRIT_PROJECT }}
           gerrit-url: ${{ vars.GERRIT_URL }}
           delay: "0s"
 
