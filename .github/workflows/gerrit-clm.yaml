@@ -77,8 +77,7 @@ on:
         description: "Organisation and project name in Nexus IQ"
         required: false
         type: string
-        # yamllint disable-line rule:line-length
-        default: ${{ github.repository_owner }}-${{ github.event.repository.name }}
+        default: ""
       scan_targets:
         description: "Location of file(s) or folder(s) to scan"
         required: false
@@ -308,7 +307,7 @@ jobs:
           java_distribution: ${{ inputs.java_distribution }}
           java_version: ${{ inputs.java_version }}
           iq_cli_version: ${{ inputs.iq_cli_version }}
-          application_id: ${{ inputs.application_id }}
+          application_id: ${{ inputs.application_id || format('{0}-{1}', github.repository_owner, github.event.repository.name) }}
           scan_targets: ${{ inputs.scan_targets }}
           debug: ${{ inputs.debug }}
 
