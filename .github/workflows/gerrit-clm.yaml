@@ -149,7 +149,7 @@ jobs:
       # Standard checkout for push events or manual runs without Gerrit
       - name: 'Checkout repository'
         # yamllint disable-line rule:line-length
-        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED == true)
+        if: github.event_name == 'schedule' || github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED == true)
         # yamllint disable-line rule:line-length
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
 
@@ -310,6 +310,7 @@ jobs:
           application_id: ${{ inputs.application_id || format('{0}-{1}', github.repository_owner, github.event.repository.name) }}
           scan_targets: ${{ inputs.scan_targets }}
           debug: ${{ inputs.debug }}
+          no_checkout: true
 
   report-status:
     if: ${{ always() && github.event_name == 'workflow_dispatch' && inputs.GERRIT_DISABLED != true }}
