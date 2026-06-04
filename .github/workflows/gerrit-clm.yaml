@@ -88,13 +88,15 @@ on:
         required: false
         type: boolean
         default: false
-    secrets:
-      NEXUS_PASSWORD:
-        description: "Nexus v2 (e.g. nexus.onap.org) token"
-        required: true
-      NEXUS_IQ_PASSWORD:
-        description: "Nexus IQ (e.g. nexus-iq.wl.linuxfoundation.org) token"
-        required: true
+
+# Fallback mechanism for non-manual triggers (like push and schedule)
+env:
+  JAVA_DISTRIBUTION: ${{ inputs.java_distribution || 'temurin' }}
+  JAVA_VERSION: ${{ inputs.java_version || '21' }}
+  IQ_CLI_VERSION: ${{ inputs.iq_cli_version || '2.4.2-01' }}
+  APPLICATION_ID: ${{ inputs.application_id || format('{0}-{1}', github.repository_owner, github.event.repository.name) }}
+  SCAN_TARGETS: ${{ inputs.scan_targets || '.' }}
+  DEBUG: ${{ inputs.debug || false }}
 
 permissions: {}
 
@@ -192,22 +194,22 @@ jobs:
           export-env: true
         env:
           OP_SERVICE_ACCOUNT_TOKEN: ${{ secrets.OP_SERVICE_ACCOUNT_TOKEN }}
-          NEXUS_PASSWORD: "op://elnqtgip7eqavqvgodjbiiaqd4/${{ steps.extract-project.outputs.project-name }}/password"
+          NEXUS_V2_PASSWORD: "op://elnqtgip7eqavqvgodjbiiaqd4/${{ steps.extract-project.outputs.project-name }}/password"
 
       - name: 'Output SHA1 sum of password'
         if: steps.check-pom-xml.outputs.exists == 'true'
         env:
-          NEXUS_PASSWORD: ${{ env.NEXUS_PASSWORD }}
+          NEXUS_V2_PASSWORD: ${{ env.NEXUS_V2_PASSWORD }}
         run: |
           # Output SHA1 sum of password
-          VALUE_SHA1=$(printf '%s' "$NEXUS_PASSWORD" | shasum -a 1 | awk '{print $1}')
-          echo "SHA1 sum of NEXUS_PASSWORD is: $VALUE_SHA1"
+          VALUE_SHA1=$(printf '%s' "$NEXUS_V2_PASSWORD" | shasum -a 1 | awk '{print $1}')
+          echo "SHA1 sum of NEXUS_V2_PASSWORD is: $VALUE_SHA1"
 
       - name: 'Generate Maven global settings content'
         id: create-settings
         if: steps.check-pom-xml.outputs.exists == 'true'
         env:
-          NEXUS_PASSWORD: ${{ env.NEXUS_PASSWORD }}
+          NEXUS_V2_PASSWORD: ${{ env.NEXUS_V2_PASSWORD }}
           PROJECT_NAME: ${{ steps.extract-project.outputs.project-name }}
         run: |
           # Generate settings content for maven-build-action
@@ -219,27 +221,27 @@ jobs:
               <server>
                 <id>ecomp-releases</id>
                 <username>${PROJECT_NAME}</username>
-                <password>${NEXUS_PASSWORD}</password>
+                <password>${NEXUS_V2_PASSWORD}</password>
               </server>
               <server>
                 <id>ecomp-snapshots</id>
                 <username>${PROJECT_NAME}</username>
-                <password>${NEXUS_PASSWORD}</password>
+                <password>${NEXUS_V2_PASSWORD}</password>
               </server>
               <server>
                 <id>onap-releases</id>
                 <username>${PROJECT_NAME}</username>
-                <password>${NEXUS_PASSWORD}</password>
+                <password>${NEXUS_V2_PASSWORD}</password>
               </server>
               <server>
                 <id>onap-snapshots</id>
                 <username>${PROJECT_NAME}</username>
-                <password>${NEXUS_PASSWORD}</password>
+                <password>${NEXUS_V2_PASSWORD}</password>
               </server>
               <server>
                 <id>nexus3.onap.org:10003</id>
                 <username>${PROJECT_NAME}</username>
-                <password>${NEXUS_PASSWORD}</password>
+                <password>${NEXUS_V2_PASSWORD}</password>
               </server>
             </servers>
             <mirrors>
@@ -284,8 +286,8 @@ jobs:
         # yamllint disable-line rule:line-length
         uses: lfreleng-actions/maven-build-action@3e8765bbc2685951fb7c2be03964304179106b70 # v0.2.1
         with:
-          java-version: ${{ inputs.java_version }}
-          distribution: ${{ inputs.java_distribution }}
+          java-version: ${{ env.JAVA_VERSION }}
+          distribution: ${{ env.JAVA_DISTRIBUTION }}
           mvn-version: '3.9.5'
           mvn-phases: 'clean package'
           mvn-params: '-DskipTests -Djib.skip=true --fail-at-end'
@@ -304,12 +306,12 @@ jobs:
           nexus_iq_server: ${{ vars.NEXUS_IQ_SERVER }}
           nexus_iq_username: ${{ vars.NEXUS_IQ_USERNAME }}
           nexus_iq_password: ${{ secrets.NEXUS_IQ_PASSWORD }}
-          java_distribution: ${{ inputs.java_distribution }}
-          java_version: ${{ inputs.java_version }}
-          iq_cli_version: ${{ inputs.iq_cli_version }}
-          application_id: ${{ inputs.application_id || format('{0}-{1}', github.repository_owner, github.event.repository.name) }}
-          scan_targets: ${{ inputs.scan_targets }}
-          debug: ${{ inputs.debug }}
+          java_distribution: ${{ env.JAVA_DISTRIBUTION }}
+          java_version: ${{ env.JAVA_VERSION }}
+          iq_cli_version: ${{ env.IQ_CLI_VERSION }}
+          application_id: ${{ env.APPLICATION_ID }}
+          scan_targets: ${{ env.SCAN_TARGETS }}
+          debug: ${{ env.DEBUG }}
           no_checkout: true
 
   report-status:
