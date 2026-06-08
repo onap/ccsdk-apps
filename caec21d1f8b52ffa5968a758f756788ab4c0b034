@@ -84,6 +84,23 @@
       "message": "run-clm",
       "revId": "caec21d1f8b52ffa5968a758f756788ab4c0b034",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "02eb6c45_5b1d2961",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2026-06-08T14:14:24Z",
+      "side": 1,
+      "message": "I am not comfortable accepting a major version upgrade from a bot.  This needs to be locally tested to verify that the application comes up clean.\n\nWhen I have time, I\u0027ll try it locally and if it works, I\u0027ll approve and merge. However, until another committer or I verify this locally and certifies that it works, this should not be merged",
+      "revId": "caec21d1f8b52ffa5968a758f756788ab4c0b034",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
