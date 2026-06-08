@@ -101,6 +101,23 @@
       "message": "I am not comfortable accepting a major version upgrade from a bot.  This needs to be locally tested to verify that the application comes up clean.\n\nWhen I have time, I\u0027ll try it locally and if it works, I\u0027ll approve and merge. However, until another committer or I verify this locally and certifies that it works, this should not be merged",
       "revId": "caec21d1f8b52ffa5968a758f756788ab4c0b034",
       "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f17394d_30b90989",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 87
+      },
+      "writtenOn": "2026-06-08T18:31:10Z",
+      "side": 1,
+      "message": "Tested locally and verified this does not break anything that is not already broken.  Container compiles okay, but does not come up because of a conflict in Java version (neng compiles for java 11, but uses springboot 3.5.6 which requires at least java 17)",
+      "revId": "caec21d1f8b52ffa5968a758f756788ab4c0b034",
+      "serverId": "14b4e41f-c4e3-4fb9-9955-6a9b5656895a"
     }
   ]
 }
