@@ -18,10 +18,9 @@
     <properties>
         <start-class>org.onap.ccsdk.apps.ms.sliboot.SlibootApp</start-class>
         <base.image.name>onap/ccsdk-alpine-j21-image</base.image.name>
-        <base.image.version>2.2.0</base.image.version>
+        <base.image.version>${ccsdk.image.version}</base.image.version>
         <image.name>onap/ccsdk-sliboot-alpine-image</image.name>
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
-        <ccsdk.distribution.version>2.2.0</ccsdk.distribution.version>
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
         <maven.build.timestamp.format>yyyyMMdd'T'HHmmss'Z'</maven.build.timestamp.format>
         <ccsdk.sliboot.jar>${project.artifactId}-${project.version}-exec.jar</ccsdk.sliboot.jar>
@@ -156,6 +155,13 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- junit-vintage-engine lets the JUnit Platform (used by surefire 3.x)
+             discover and run JUnit 4 (@Test / @RunWith) tests -->
+        <dependency>
+            <groupId>org.junit.vintage</groupId>
+            <artifactId>junit-vintage-engine</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -407,6 +413,26 @@
                             </resources>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>copy-certificates</id>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <phase>validate</phase>
+                        <configuration>
+                            <outputDirectory>${basedir}/target/docker-stage</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>src/main/resources</directory>
+                                    <includes>
+                                        <include>*.pem</include>
+                                        <include>*.md</include>
+                                    </includes>
+                                    <filtering>false</filtering>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
                 </executions>
             </plugin>
 
@@ -446,6 +472,11 @@
                                 <image>
                                     <name>${image.name}</name>
                                     <build>
+                                        <buildx>
+                                            <platforms>
+                                                <platform>${docker.platforms}</platform>
+                                            </platforms>
+                                        </buildx>
                                         <cleanup>try</cleanup>
                                         <noCache>true</noCache>
                                         <contextDir>${basedir}/target/docker-stage</contextDir>

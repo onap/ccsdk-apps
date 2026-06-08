@@ -23,6 +23,18 @@
 FROM @base.image.name@:@base.image.version@
 USER root
 
+
+ARG HTTP_PROXY=${HTTP_PROXY}
+# Install additional tools
+RUN apk add --no-cache openssl ca-certificates
+
+# Copy any certs
+COPY *.md *.pem /etc/ssl/certs/
+
+# Install certs
+RUN update-ca-certificates
+
+# Install curl for health check
 RUN apk add --no-cache curl
 
 VOLUME /tmp

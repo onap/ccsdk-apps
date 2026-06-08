@@ -25,8 +25,8 @@ package org.onap.ccsdk.apps.ms.neng.core.service.rs;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
-import javax.validation.Valid;
-import javax.ws.rs.core.Response;
+import jakarta.validation.Valid;
+import jakarta.ws.rs.core.Response;
 import org.onap.ccsdk.apps.ms.neng.core.exceptions.NengException;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.HelloWorld;
 import org.onap.ccsdk.apps.ms.neng.core.resource.model.NameGenRequest;
@@ -36,12 +36,14 @@ import org.onap.ccsdk.apps.ms.neng.persistence.entity.PolicyDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.CannotCreateTransactionException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * Implementation of the REST-style interface/API to this micro-service.
  */
 @Component
+@Validated
 public class RestServiceImpl implements RestService {
 
     private static final Logger log = Logger.getLogger(RestServiceImpl.class.getName());
