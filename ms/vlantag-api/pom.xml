@@ -19,8 +19,9 @@
     <properties>
         <swagger.directory>${basedir}/target/main/resources/META-INF/resources/swagger-ui/dist</swagger.directory>
         <swagger.annotations.version>1.5.8</swagger.annotations.version>
-        <java.version>11</java.version>
-        <springboot.version>3.0.3</springboot.version>
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <mariadb.connector.version>2.1.1</mariadb.connector.version>
         <docker.registry>TBD:5100</docker.registry>
         <serviceArtifactName>vlantagapi</serviceArtifactName>
@@ -32,9 +33,61 @@
         <ccsdk.project.version>${project.version}</ccsdk.project.version>
         <ccsdk.build.timestamp>${maven.build.timestamp}</ccsdk.build.timestamp>
 
-        <base.image.name>onap/ccsdk-alpine-j11-image</base.image.name>
-        <base.image.version>1.5.2</base.image.version>
+        <base.image.name>onap/ccsdk-alpine-j21-image</base.image.name>
+        <base.image.version>${ccsdk.image.version}</base.image.version>
     </properties>
+
+    <!-- Override Jersey versions: CCSDK parent BOM hardcodes 2.46 (javax namespace),
+         but Spring Boot 3.x + Jakarta EE requires Jersey 3.x (jakarta namespace). -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-server</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-common</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.core</groupId>
+                <artifactId>jersey-client</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet-core</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.containers</groupId>
+                <artifactId>jersey-container-servlet</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-bean-validation</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.inject</groupId>
+                <artifactId>jersey-hk2</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.ext</groupId>
+                <artifactId>jersey-entity-filtering</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+            <dependency>
+                <groupId>org.glassfish.jersey.media</groupId>
+                <artifactId>jersey-media-json-jackson</artifactId>
+                <version>3.1.11</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <dependencies>
         <dependency>
@@ -67,8 +120,8 @@
             <artifactId>httpclient</artifactId>
         </dependency>
         <dependency>
-            <groupId>javax.ws.rs</groupId>
-            <artifactId>javax.ws.rs-api</artifactId>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
         </dependency>
 
         <dependency>
@@ -85,6 +138,27 @@
                 <exclusion>
                     <groupId>org.slf4j</groupId>
                     <artifactId>slf4j-simple</artifactId>
+                </exclusion>
+                <!-- Exclude Jersey 2.x / old JAX-RS artifacts that conflict with Jakarta EE namespace -->
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-server</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-common</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.glassfish.jersey.core</groupId>
+                    <artifactId>jersey-client</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>com.sun.jersey</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.ws.rs</groupId>
+                    <artifactId>javax.ws.rs-api</artifactId>
                 </exclusion>
             </exclusions>
         </dependency>
@@ -209,7 +283,6 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${springboot.version}</version>
                 <executions>
                     <execution>
                         <goals>

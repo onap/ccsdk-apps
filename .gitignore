@@ -34,3 +34,6 @@
 
 # Generated dependency list
 direct-dependencies.txt
+
+# Ignore certificates
+**/*.pem

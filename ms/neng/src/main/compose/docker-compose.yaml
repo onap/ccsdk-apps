@@ -1,5 +1,3 @@
-version: '2.1'
-
 services:
   nengdb:
      image: mariadb:latest
@@ -10,24 +8,31 @@ services:
      #  - /var/lib/nengdb:/var/lib/mysql
      restart: always
      environment:
-       MYSQL_ROOT_PASSWORD: "${NENG_DB_ROOT}"
-       MYSQL_DATABASE: neng
-       MYSQL_USER: "${NENG_DB_USER}"
-       MYSQL_PASSWORD: "${NENG_DB_PASS}"
+       MARIADB_ROOT_PASSWORD: "${NENG_DB_ROOT}"
+       MARIADB_DATABASE: neng
+       MARIADB_USER: "${NENG_DB_USER}"
+       MARIADB_PASSWORD: "${NENG_DB_PASS}"
+     healthcheck:
+        test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+        interval: 5s
+        timeout: 5s
+        retries: 5
+        start_period: 10s
 
   neng:
-     depends_on :
-       - nengdb
+     depends_on:
+       nengdb:
+          condition: service_healthy
      image: onap/ccsdk-apps-ms-neng:latest
      container_name: neng
      ports:
        - "${NENG_SERV_PORT}:8080"
-     restart: always
+     restart: no
      links:
        - nengdb:mariadb-galera 
      environment:
        SPRING_PROFILE: "${SPRING_PROFILE}"
-       NENG_DB_URL: "jdbc:mysql://mariadb-galera:3306/neng"
+       NENG_DB_URL: "jdbc:mariadb://mariadb-galera:3306/neng"
        NENG_DB_USER: "${NENG_DB_USER}"
        NENG_DB_PASS: "${NENG_DB_PASS}"
        POL_CLIENT_AUTH: "${POL_CLIENT_AUTH}"

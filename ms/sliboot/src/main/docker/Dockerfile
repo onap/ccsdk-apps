@@ -27,6 +27,16 @@ ENV LOG_PATH /var/log/onap/ccsdk
 ENV JAVA_HOME @java.home@
 ENV JAVA_SECURITY_DIR @java.security.dir@
 
+ARG HTTP_PROXY=${HTTP_PROXY}
+# Install additional tools
+RUN apk add --no-cache openssl ca-certificates
+
+# Copy any certs
+COPY *.md *.pem /etc/ssl/certs/
+
+# Install certs
+RUN update-ca-certificates
+
 # Install sudo and IP utilities
 RUN apk update && apk --no-cache add sudo iputils openssl
 
