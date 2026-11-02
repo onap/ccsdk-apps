@@ -155,7 +155,7 @@ jobs:
       - name: 'Check for pom.xml'
         id: check-pom-xml
         # yamllint disable-line rule:line-length
-        uses: lfreleng-actions/path-check-action@fae378ddc06f437c39464ca02d6d9c362ca89d3c # v0.2.2
+        uses: lfreleng-actions/path-check-action@fb77045699ead7bb7014186ae23e4935ce277a21 # v0.2.3
         with:
           path: 'pom.xml'
 
