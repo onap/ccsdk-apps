@@ -6,6 +6,7 @@
  * ================================================================================
  * *================================================================================
  * Modifications Copyright (C) 2018 IBM.
+ * Modifications Copyright (C) 2026 Deutsche Telekom AG.
  * ================================================================================
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,6 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.regex.Pattern;
 import java.util.stream.StreamSupport;
 
 import javax.sql.DataSource;
@@ -67,17 +69,30 @@ public class ApplicationConfig {
     private Environment environment;
     private Logger logger = LoggerFactory.getLogger(ApplicationConfig.class);
 
+    static final String MASK = "***";
+    private static final Pattern CREDENTIAL_KEY =
+            Pattern.compile("auth|password|passwd|secret|token|credential", Pattern.CASE_INSENSITIVE);
+
+    static String maskIfCredential(String propName, String value) {
+        return CREDENTIAL_KEY.matcher(propName).find() ? MASK : value;
+    }
+
     @SuppressWarnings("rawtypes")
+    Properties collectProperties() {
+        Properties props = new Properties();
+        MutablePropertySources propSrcs = ((AbstractEnvironment)this.environment).getPropertySources();
+        StreamSupport.stream(propSrcs.spliterator(), false)
+                .filter(ps -> ps instanceof EnumerablePropertySource)
+                .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
+                .flatMap(Arrays::<String>stream)
+                .forEach(propName -> props.setProperty(propName,
+                        maskIfCredential(propName, this.environment.getProperty(propName))));
+        return props;
+    }
+
     void debugProperties() {
         try {
-            Properties props = new Properties();
-            MutablePropertySources propSrcs = ((AbstractEnvironment)this.environment).getPropertySources();
-            StreamSupport.stream(propSrcs.spliterator(), false)
-                    .filter(ps -> ps instanceof EnumerablePropertySource)
-                    .map(ps -> ((EnumerablePropertySource) ps).getPropertyNames())
-                    .flatMap(Arrays::<String>stream)
-                    .forEach(propName -> props.setProperty(propName, this.environment.getProperty(propName)));
-            logger.info("Properties: " + props);
+            logger.info("Properties: " + collectProperties());
         } catch (Exception e) {
             logger.error("Caught exception in ApplicationConfig.debugProperties", e);
         }
